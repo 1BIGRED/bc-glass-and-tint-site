@@ -1,0 +1,8 @@
+{#- Document start, up to and including the charset meta. frame[slug].js_class adds the
+    "js" class script that the lazy-image fade needs. -#}
+{%- set fr = frame[slug] or {} -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% if fr.js_class %}<script>document.documentElement.className+=" js";</script>
+{% endif %}<meta charset="UTF-8">

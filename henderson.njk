@@ -1,0 +1,114 @@
+---
+# City page. All wording is in _data/pages/henderson.json; markup lives here.
+# JSON-LD: henderson.11tydata.js (the FAQPage is built from the same faq.items shown below).
+permalink: henderson.html
+slug: henderson
+page_key: henderson
+og_image: images/residential-before-after-patio.jpg
+og_image_width: 1600
+og_image_height: 1200
+---
+{%- from "macros.njk" import reviewCard -%}
+{%- set pg = pages.henderson -%}
+{%- set sh = pages.shared -%}
+{% include "head/top.njk" %}
+
+{% include "head/meta.njk" %}
+{% set ld = schema_ld %}{% include "jsonld.njk" %}
+
+{% include "css/main.njk" %}
+{% include "css/page.njk" %}{% include "a11y-block.njk" %}
+{% include "css/tail.njk" %}
+{% include "head/clarity.njk" %}
+</head>
+<body>
+{% include "skip-link.njk" %}
+{% include "sprite.njk" %}
+{% include "util.njk" %}
+{% include "header.njk" %}
+<main id="main" tabindex="-1">
+
+<!-- UNIQUE:START henderson -->
+<section class="phero">
+<p class="crumb"><a href="/">{{ sh.crumb.home | safe }}</a> / <a href="/#areas">{{ pg.hero.crumb_parent | safe }}</a> / {{ pg.hero.crumb | safe }}</p>
+<h1>{{ pg.hero.heading | safe }}</h1>
+<p>{{ pg.hero.intro | fill | safe }}</p>
+<div class="pbtns"><a class="qbtn" href="tel:{{ site.phone.tel | safe }}">{{ sh.buttons.call | safe }} {{ site.phone.display | safe }}</a><a class="qbtn" style="background:transparent;color:#fff;border:1.5px solid #6f7885" href="#quote">{{ sh.buttons.free_quote | safe }}</a></div>
+</section>
+<!-- UNIQUE:END henderson -->
+
+<div class="band"><div class="wrap">{% for b in pg.band %}<span><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> {{ b | safe }}</span>{% endfor %}</div></div>
+
+<!-- UNIQUE:START henderson -->
+<section><div class="wrap"><div class="content">
+<div>
+<h2>{{ pg.content.heading | safe }}</h2>
+<ul>
+{% for li in pg.content.bullets %}<li>{{ li | fill | safe }}</li>
+{% endfor %}</ul>
+</div>
+<div class="pic"><picture><source srcset="images/residential-before-after-patio.webp" type="image/webp"><img src="images/residential-before-after-patio.jpg" loading="lazy" alt="{{ pg.content.image_alt | safe }}" width="1600" height="1200"></picture></div>
+</div></div></section>
+
+<section class="soft"><div class="wrap">
+<h2>{{ pg.facts.heading | safe }}</h2>
+<p class="sub">{{ pg.facts.sub | safe }}</p>
+<dl class="factlist">
+{% for f in pg.facts.items %}<div><dt>{{ f.term | safe }}</dt><dd>{{ f.detail | safe }}<span class="src">{{ f.source | safe }}</span></dd></div>
+{% endfor %}</dl>
+</div></section>
+
+<section><div class="wrap">
+<h2>{{ pg.areas.heading | safe }}</h2>
+{% for g in pg.areas.groups %}<h3>{{ g.heading | safe }}</h3>
+<p>{{ g.text | safe }}</p>
+{% endfor %}<p>{{ pg.areas.closing | safe }}</p>
+</div></section>
+
+<section class="soft"><div class="wrap">
+<h2>{{ pg.getting_here.heading | safe }}</h2>
+<p class="sub">{{ pg.getting_here.sub | safe }}</p>
+<div class="minigrid">
+{% for c in pg.getting_here.cards %}{% if c.fact == "address" %}{% set ct = site.address.street %}{% set cs = site.address.city + ", " + site.address.region + " " + site.address.postal_code %}{% elif c.fact == "hours" %}{% set ct = site.hours.display %}{% set cs = c.text %}{% else %}{% set ct = c.title %}{% set cs = c.text %}{% endif %}<div class="minicard"><svg class="ic" aria-hidden="true"><use href="#{{ c.icon | safe }}"/></svg><div><b>{{ ct | safe }}</b><span>{{ cs | safe }}</span></div></div>
+{% endfor %}</div>
+</div></section>
+
+<section><div class="wrap">
+<h2>{{ pg.faq.heading | safe }}</h2>
+<div class="faq2">
+{% for item in pg.faq.items %}<div class="item"><h3 class="q">{{ item.question | safe }}</h3><p class="a">{{ item.answer | safe }}</p></div>
+{% endfor %}</div>
+</div></section>
+
+<section class="soft"><div class="wrap">
+<h2>{{ pg.reviews.heading | safe }}</h2>
+<div class="revgrid">
+{% for r in pg.reviews.items %}{{ reviewCard(r, frame[slug].yelp_badge, sh.reviews) }}
+{% endfor %}</div>
+<p class="sub" style="margin-top:22px">{{ pg.reviews.summary | fill | safe }}</p>
+</div></section>
+
+<section><div class="wrap">
+<h2>{{ pg.more.heading | safe }}</h2>
+<p class="sub">{{ pg.more.sub | safe }}</p>
+<div class="otherlinks">
+{% for l in pg.more.links %}<a href="{{ l.href | safe }}">{{ l.label | safe }}</a>
+{% endfor %}</div>
+</div></section>
+<!-- UNIQUE:END henderson -->
+
+{% include "quote.njk" %}
+{% include "sticky-call.njk" %}
+</main>
+{% include "footer.njk" %}
+{% include "js/burger.njk" %}
+{% include "js/emailbtn.njk" %}
+{% include "js/quote-submit.njk" %}
+{% include "js/anim.njk" %}
+{% include "js/source-vin.njk" %}
+{% include "js/gtag-events.njk" %}
+{% include "cookie-bar.njk" %}
+{% include "js/cookie.njk" %}
+{% include "js/svc-validate.njk" %}
+</body>
+</html>

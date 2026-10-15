@@ -1,0 +1,9 @@
+{#- Shared macros. Import with: {% from "macros.njk" import reviewCard %}
+
+    reviewCard(r, yelpStyle, w): one review card.
+      r          { platform: "google" | "yelp", quote, name }  (quote without the quote marks)
+      yelpStyle  frame[slug].yelp_badge: "inline" (red inline styles) or "class" (class="vbadge yelp")
+      w          pages.shared.reviews (badge labels, star label) -#}
+{% macro reviewCard(r, yelpStyle, w) -%}
+<div class="rev">{% if r.platform == "yelp" %}{% if yelpStyle == "class" %}<div class="vbadge yelp"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg> {{ w.yelp_badge | safe }}</div>{% else %}<div class="vbadge" style="color:#b3261e;background:#fdeceb;border:1px solid #f5c6c2"><svg class="ic" aria-hidden="true" style="color:#b3261e;fill:#b3261e;stroke:#b3261e"><use href="#i-star"/></svg> {{ w.yelp_badge | safe }}</div>{% endif %}{% else %}<div class="vbadge"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> {{ w.google_badge | safe }}</div>{% endif %}<div class="st" role="img" aria-label="{{ w.stars_label | safe }}"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></div><div class="qt">"{{ r.quote | safe }}"</div><div class="by">{{ r.name | safe }}</div></div>
+{%- endmacro %}

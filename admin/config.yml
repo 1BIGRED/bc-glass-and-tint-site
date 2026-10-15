@@ -1,0 +1,2556 @@
+# BC Glass & Tint: content editor configuration (Sveltia CMS).
+# Maps the visual editor onto the site's content files. The shop office edits
+# friendly fields here; the CMS commits the changes straight back to
+# _data/site.json and the per-page files under _data/pages/, and Netlify
+# rebuilds the live site from that commit.
+#
+# Repo: this site lives on Chase's own GitHub, 1BIGRED/bc-glass-and-tint-site.
+# Login is GitHub OAuth through Netlify's built-in OAuth client, a GitHub
+# OAuth app registered on 1BIGRED and installed in the shop's own Netlify
+# under Project configuration > Security > OAuth. There is no base_url on
+# purpose; leaving it out is what tells Sveltia to sign in through Netlify
+# instead of a separate auth server.
+#
+# Every save here is a commit to the main branch, and Netlify rebuilds the
+# live site from that commit automatically. While the repo stays private,
+# only one GitHub account can commit to it on Netlify's free plan, so only
+# one person edits at a time for now. See SVELTIA-SWITCH-CHECKLIST.md in
+# 09 - Website for the plan to open that up later.
+#
+# _data/frame.json is NOT in this file, on purpose. It holds per-page layout
+# switches (which header style, which CSS blocks, which icon set load) that
+# keep each page's HTML structure correct. It is a studio-only file; editing
+# it through the CMS could break a page's layout, so the office never sees
+# it here and never needs to.
+
+backend:
+  name: github
+  repo: 1BIGRED/bc-glass-and-tint-site
+  branch: main
+
+site_url: https://bcglassandtint.com
+display_url: https://bcglassandtint.com
+publish_mode: simple
+
+# Where an uploaded photo is stored.
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  # ================================================================
+  # Business info and review counts (one editable document).
+  # ================================================================
+  - name: business
+    label: "Business Info & Review Counts"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: site
+        label: "Business Info & Review Counts"
+        file: "_data/site.json"
+        description: "The facts that print on every page: name, phone, address, hours, social links and review counts. A change here changes every page at once."
+        fields:
+          - { label: "Business name", name: name, widget: string }
+          - { label: "Business name (page source form)", name: name_html, widget: string, hint: "The same name written the way it has to appear in the page's HTML, with &amp; for the ampersand. Keep it matching Business name above, just with &amp; instead of &." }
+          - { label: "Other accepted name", name: alternate_name, widget: string, hint: "A second accepted spelling of the business name, read by search engines." }
+          - { label: "Website address", name: url, widget: string, hint: "Technical. Ask the studio before changing." }
+          - { label: "Website origin", name: origin, widget: string, hint: "Technical. Ask the studio before changing." }
+          - { label: "Logo address", name: logo, widget: string, hint: "Technical. Ask the studio before changing." }
+          - { label: "Year founded", name: founding_year, widget: string }
+          - { label: "Business description for search engines", name: description, widget: text, hint: "Shown to search engines, not usually seen by customers. Changes every page and the Google listing data. Check with the studio first. May contain a token like {google_count} or {google_rating}; these are filled in automatically from the Review counts and ratings fields below, leave them exactly as they are." }
+          - label: "Phone"
+            name: phone
+            widget: object
+            hint: "Changes every page and the Google listing data. Check with the studio first."
+            fields:
+              - { label: "As printed", name: display, widget: string }
+              - { label: "Dialing form (tel: link)", name: tel, widget: string, hint: "Technical format for click-to-call links: a plus sign, the country code, then the digits with no spaces or dashes." }
+              - { label: "Search engine form", name: schema, widget: string, hint: "Technical format read by search engines." }
+          - { label: "Public email", name: email, widget: string, hint: "Changes every page and the Google listing data. Check with the studio first." }
+          - label: "Address"
+            name: address
+            widget: object
+            hint: "Changes every page and the Google listing data. Check with the studio first."
+            fields:
+              - { label: "Street", name: street, widget: string }
+              - { label: "City", name: city, widget: string }
+              - { label: "State", name: region, widget: string }
+              - { label: "ZIP code", name: postal_code, widget: string }
+              - { label: "Country", name: country, widget: string }
+              - { label: "One line, as printed", name: display, widget: string }
+          - label: "Map position"
+            name: geo
+            widget: object
+            hint: "Changes every page and the Google listing data. Check with the studio first."
+            fields:
+              - { label: "Latitude", name: latitude, widget: string }
+              - { label: "Longitude", name: longitude, widget: string }
+          - label: "Hours"
+            name: hours
+            widget: object
+            hint: "Changes every page and the Google listing data. Check with the studio first."
+            fields:
+              - { label: "As printed", name: display, widget: string }
+              - { label: "Search engine form", name: schema, widget: string, hint: "Technical format, for example Tu-Sa 09:00-17:00. Ask the studio before changing." }
+              - label: "Open days"
+                name: days
+                widget: list
+                label_singular: "Day"
+                summary: "{{fields.value}}"
+                field: { label: "Day", name: value, widget: string }
+              - { label: "Opens", name: opens, widget: string, hint: "24-hour time, for example 09:00." }
+              - { label: "Closes", name: closes, widget: string, hint: "24-hour time, for example 17:00." }
+          - { label: "Google Maps link", name: maps_url, widget: string, hint: "Changes every page and the Google listing data. Check with the studio first." }
+          - { label: "Payment accepted", name: payment_accepted, widget: string, hint: "Plain text list read by search engines, for example Cash, Credit Card, Debit Card." }
+          - label: "Areas served (search engines)"
+            name: area_served
+            widget: list
+            label_singular: "Area"
+            summary: "{{fields.name}}"
+            hint: "Not shown on the page. Read by search engines. Ask the studio before changing."
+            fields:
+              - { label: "Kind", name: type, widget: string, hint: "Technical: City, Place or AdministrativeArea. Ask the studio before changing." }
+              - { label: "Name", name: name, widget: string }
+              - { label: "State", name: region, widget: string, required: false }
+          - label: "Photos for search engines"
+            name: schema_images
+            widget: list
+            label_singular: "Photo address"
+            summary: "{{fields.value}}"
+            hint: "Technical image addresses read by search engines. Ask the studio before changing."
+            field: { label: "Photo address", name: value, widget: string }
+          - label: "Social links"
+            name: social
+            widget: object
+            fields:
+              - { label: "Instagram", name: instagram, widget: string, hint: "Only @bc.glassandtint. Never the old @bcglassandtint handle." }
+              - { label: "Facebook", name: facebook, widget: string }
+              - { label: "Yelp", name: yelp, widget: string }
+              - { label: "Tint Wiz", name: tintwiz, widget: string }
+              - { label: "Nextdoor", name: nextdoor, widget: string }
+              - { label: "TintFinder", name: tintfinder, widget: string }
+          - label: "Profiles listed for search engines"
+            name: same_as
+            widget: list
+            label_singular: "Profile address"
+            summary: "{{fields.value}}"
+            hint: "Every profile address search engines are told belongs to this business. The Instagram entry must stay @bc.glassandtint. Never the old @bcglassandtint handle. Ask the studio before changing or reordering these."
+            field: { label: "Profile address", name: value, widget: string }
+          - label: "Review counts and ratings"
+            name: reviews
+            widget: object
+            hint: "Re-read the live Google, Yelp and Tint Wiz listings before changing any number here. Every page fills these in automatically."
+            fields:
+              - { label: "Google rating", name: google_rating, widget: string, hint: "Re-read the live Google listing before changing this. It prints on every page." }
+              - { label: "Google review count", name: google_count, widget: string, hint: "Re-read the live Google listing before changing this. It prints on every page." }
+              - { label: "Yelp rating", name: yelp_rating, widget: string, hint: "Re-read the live Yelp listing before changing this. It prints on every page." }
+              - { label: "Yelp review count", name: yelp_count, widget: string, hint: "Re-read the live Yelp listing before changing this. It prints on every page." }
+              - { label: "Tint Wiz rating", name: tintwiz_rating, widget: string, hint: "Re-read the live Tint Wiz listing before changing this. It prints on every page." }
+              - { label: "Tint Wiz review count", name: tintwiz_count, widget: string, hint: "Re-read the live Tint Wiz listing before changing this. It prints on every page." }
+          - { label: "Google Analytics id", name: ga4_id, widget: string, hint: "Do not change." }
+          - { label: "Microsoft Clarity id", name: clarity_id, widget: string, hint: "Do not change." }
+          - { label: "Google site verification token", name: google_site_verification, widget: string, hint: "Do not change." }
+
+  # ================================================================
+  # Shared wording: header, footer, quote form, cookie banner.
+  # Printed on every page. Edit it once here.
+  # ================================================================
+  - name: shared
+    label: "Shared Wording (Header, Footer, Quote Form & Cookie Banner)"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: shared
+        label: "Header, Footer, Quote Form & Cookie Banner"
+        file: "_data/pages/shared.json"
+        description: "Wording repeated on every page. Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are; they control how the text displays."
+        fields:
+          - { label: "Skip-to-content link (screen readers only)", name: skip_link, widget: string, hint: "Not seen by most visitors. Leave as is unless asked to change it." }
+          - label: "Contact bar"
+            name: util
+            widget: object
+            fields:
+              - { label: "Label (screen readers only)", name: label, widget: string }
+              - { label: "Text Us button", name: text_us, widget: string }
+              - { label: "Email button", name: email, widget: string }
+              - { label: "Email tooltip", name: email_tip, widget: string }
+          - label: "Top navigation menu"
+            name: nav
+            widget: object
+            fields:
+              - { label: "Services link", name: services, widget: string }
+              - { label: "Reviews link", name: reviews, widget: string }
+              - { label: "About link", name: about, widget: string }
+              - { label: "FAQ link", name: faq, widget: string }
+              - { label: "Free Quote button", name: free_quote, widget: string }
+              - { label: "New Homes link", name: new_homes, widget: string }
+              - { label: "Call Now button", name: call_now, widget: string }
+              - { label: "Call button (short)", name: call, widget: string }
+              - { label: "Mobile menu button (screen readers only)", name: menu_label, widget: string }
+              - { label: "Main navigation label (screen readers only)", name: nav_label, widget: string }
+          - label: "Breadcrumb words"
+            name: crumb
+            widget: object
+            fields:
+              - { label: "Home", name: home, widget: string }
+              - { label: "Services", name: services, widget: string }
+          - label: "Buttons"
+            name: buttons
+            widget: object
+            fields:
+              - { label: "Call", name: call, widget: string }
+              - { label: "Get a Free Quote", name: free_quote, widget: string }
+          - label: "Mobile sticky bar"
+            name: sticky
+            widget: object
+            fields:
+              - { label: "Text Us", name: text_us, widget: string }
+              - { label: "Call", name: call, widget: string }
+          - label: "Review badges"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Google badge text", name: google_badge, widget: string }
+              - { label: "Yelp badge text", name: yelp_badge, widget: string }
+              - { label: "Stars label (screen readers only)", name: stars_label, widget: string }
+              - { label: "Read more reviews link", name: more_link, widget: string }
+          - label: "Also Serving banner (service pages)"
+            name: service_also
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph, before the Q&A link", name: sub_intro, widget: string }
+              - { label: "Q&A link text", name: sub_link, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Paragraph, after the Q&A link", name: sub_outro, widget: string, hint: "Usually just a period." }
+          - label: "Quote form (every page)"
+            name: quote
+            widget: object
+            hint: "This is the one quote form shared by every page. Every page keeps the same field set on purpose; do not add or remove a field here without telling the studio."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph, before the phone number", name: sub_intro, widget: string }
+              - { label: "Paragraph, after the phone number", name: sub_outro, widget: string, hint: "Usually just a period." }
+              - { label: "Honeypot label (spam trap, screen readers only)", name: honeypot_label, widget: string, hint: "Not seen by real visitors. Leave as is." }
+              - { label: "Name field placeholder", name: name_placeholder, widget: string }
+              - { label: "Name field label", name: name_label, widget: string }
+              - { label: "Phone field placeholder", name: phone_placeholder, widget: string }
+              - { label: "Phone field label", name: phone_label, widget: string }
+              - { label: "Email field placeholder", name: email_placeholder, widget: string }
+              - { label: "Email field label", name: email_label, widget: string }
+              - { label: "Services checklist legend", name: services_legend, widget: string }
+              - { label: "Services checklist hint", name: services_hint, widget: string }
+              - { label: "Services checklist error message", name: services_error, widget: string }
+              - label: "Services checklist options"
+                name: services
+                widget: list
+                label_singular: "Service"
+                summary: "{{fields.value}}"
+                hint: "These exact names are used elsewhere on the site (service page Preselect values and the homepage service cards). If you reword one here, check with the studio, since the same wording may need updating in those other places too."
+                field: { label: "Service", name: value, widget: string }
+              - { label: "VIN field placeholder", name: vin_placeholder, widget: string }
+              - { label: "VIN field label", name: vin_label, widget: string }
+              - { label: "VIN field note", name: vin_note, widget: text }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+              - { label: "Details field label", name: details_label, widget: string }
+              - { label: "Consent text, before the Privacy Policy link", name: consent_intro, widget: text }
+              - { label: "Privacy Policy link text", name: consent_link, widget: string }
+              - { label: "Consent text, after the Privacy Policy link", name: consent_outro, widget: string, hint: "Usually just a period." }
+              - { label: "Send button", name: send, widget: string }
+              - { label: "Thank-you heading", name: thanks_heading, widget: string }
+              - { label: "Thank-you text", name: thanks_text, widget: text }
+          - label: "Footer"
+            name: footer
+            widget: object
+            fields:
+              - { label: "About text", name: about_text, widget: text }
+              - { label: "Services heading", name: services_heading, widget: string }
+              - label: "Services links"
+                name: services_links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+              - { label: "Areas heading", name: areas_heading, widget: string }
+              - label: "Areas links"
+                name: areas_links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+              - { label: "Contact heading", name: contact_heading, widget: string }
+              - { label: "Copyright year", name: copyright_year, widget: string, hint: "Update each January." }
+              - { label: "Rights line", name: rights, widget: string }
+              - { label: "Privacy Policy link text", name: privacy_link, widget: string }
+              - { label: "Cookie choices link text", name: cookie_link, widget: string }
+          - label: "Cookie / analytics banner"
+            name: cookie_bar
+            widget: object
+            fields:
+              - { label: "Label (screen readers only)", name: label, widget: string }
+              - { label: "Text, before the Privacy Policy link", name: text, widget: text }
+              - { label: "Privacy Policy link text", name: privacy_link, widget: string }
+              - { label: "Text, after the Privacy Policy link", name: text_outro, widget: string, hint: "Usually just a period." }
+              - { label: "Accept button", name: accept, widget: string }
+              - { label: "Decline button", name: decline, widget: string }
+
+  # ================================================================
+  # Homepage
+  # ================================================================
+  - name: homepage
+    label: "Homepage"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: home
+        label: "Homepage"
+        file: "_data/pages/home.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <span>, and tokens like {google_count}. Keep them exactly as they are; the tokens are filled in automatically from Business Info & Review Counts."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "The blue link in Google results." }
+              - { label: "Description", name: description, widget: text, hint: "The grey text under the link in Google." }
+              - { label: "Hero photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Badge text", name: badge, widget: string }
+              - { label: "Logo description (for screen readers)", name: logo_alt, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Service line", name: svc_line, widget: string }
+              - { label: "Area line", name: area_line, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Text button label", name: text_label, widget: string }
+              - label: "Stat boxes"
+                name: stats
+                widget: list
+                label_singular: "Stat"
+                summary: "{{fields.n}} {{fields.l}}"
+                hint: "May contain a token such as {google_rating} or {google_count}. These are filled in automatically from Business Info & Review Counts; leave them exactly as they are."
+                fields:
+                  - { label: "Number or symbol", name: n, widget: string }
+                  - { label: "Label", name: l, widget: string }
+          - label: "Five Stars on Every Platform section"
+            name: ratings
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Platform cards"
+                name: cards
+                widget: list
+                label_singular: "Card"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Platform code", name: key, widget: string, hint: "Technical: google, yelp or tintwiz. Ask the studio before changing." }
+                  - { label: "Platform display name", name: name, widget: string }
+              - { label: "Note under the cards", name: note, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Our Services section"
+            name: services
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - { label: "Get a Quote button", name: quote_btn, widget: string }
+              - { label: "Learn More button", name: learn_btn, widget: string }
+              - label: "Service cards"
+                name: items
+                widget: list
+                label_singular: "Service card"
+                summary: "{{fields.title}}"
+                hint: "For the Windshield Repair & Replacement card: windshield replacement is done by a partner shop. Never write that we do replacement labor ourselves; chip repair and tint are done here."
+                fields:
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+                  - label: "Photo"
+                    name: image
+                    widget: object
+                    fields:
+                      - { label: "Photo description (for screen readers)", name: alt, widget: string }
+                      - { label: "Photo file", name: src, widget: string, hint: "Technical, ask your developer before changing." }
+                      - { label: "Photo width in pixels", name: width, widget: number, hint: "Technical, ask your developer before changing." }
+                      - { label: "Photo height in pixels", name: height, widget: number, hint: "Technical, ask your developer before changing." }
+                  - label: "Extra slideshow photos"
+                    name: extra_slides
+                    widget: list
+                    required: false
+                    label_singular: "Photo"
+                    summary: "{{fields.alt}}"
+                    fields:
+                      - { label: "Photo description (for screen readers)", name: alt, widget: string }
+                      - { label: "Photo file", name: src, widget: string, hint: "Technical, ask your developer before changing." }
+                      - { label: "Photo width in pixels", name: width, widget: number, hint: "Technical, ask your developer before changing." }
+                      - { label: "Photo height in pixels", name: height, widget: number, hint: "Technical, ask your developer before changing." }
+                  - { label: "Description", name: desc, widget: text }
+                  - label: "Bullet points"
+                    name: bullets
+                    widget: list
+                    label_singular: "Bullet"
+                    summary: "{{fields.value}}"
+                    field: { label: "Bullet", name: value, widget: string }
+                  - { label: "Service name (quote form)", name: svc, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording), or the Get a Quote button on this card will not preselect the right service." }
+                  - { label: "Learn More link description (for screen readers)", name: learn_aria, widget: string }
+          - label: "New Construction banner"
+            name: new_construction
+            widget: object
+            fields:
+              - { label: "Badge", name: badge, widget: string }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Text", name: text, widget: text, hint: "Keep the <strong> tags around the neighborhood names as they are." }
+              - { label: "Button text", name: cta, widget: string, hint: "Keep the &amp; entity as it is." }
+          - label: "Why Choose Us section"
+            name: why
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> and &amp; entities as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reason cards"
+                name: items
+                widget: list
+                label_singular: "Reason"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+          - label: "What Customers Say section"
+            name: reviews
+            widget: object
+            hint: "May contain tokens such as {google_rating} or {yelp_rating}. Leave them exactly as they are."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - { label: "Read more on Google link", name: more_google, widget: string }
+              - { label: "Read more on Yelp link", name: more_yelp, widget: string }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Areas We Serve section"
+            name: areas
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Boulder City chip"
+                name: chip_city
+                widget: object
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+              - label: "Henderson chip"
+                name: chip_henderson
+                widget: object
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+              - label: "Las Vegas chip"
+                name: chip_las_vegas
+                widget: object
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+              - label: "Plain area chips (no link)"
+                name: chips_plain
+                widget: list
+                label_singular: "Area"
+                summary: "{{fields.value}}"
+                field: { label: "Area", name: value, widget: string }
+              - label: "Notes under the chips"
+                name: notes
+                widget: list
+                label_singular: "Note"
+                summary: "{{fields.link_text}}"
+                fields:
+                  - { label: "Text, before the link", name: text, widget: string }
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Link text", name: link_text, widget: string }
+          - label: "Frequently Asked Questions section"
+            name: faq
+            widget: object
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string }
+                  - { label: "Answer", name: answer, widget: text }
+              - { label: "View all questions link", name: more_link, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+              - { label: "Details field label", name: details_label, widget: string }
+              - { label: "Paragraph (full version)", name: sub_full, widget: text }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service catalog"
+                name: offer_catalog
+                widget: object
+                fields:
+                  - { label: "Catalog name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+                  - label: "Catalog items"
+                    name: items
+                    widget: list
+                    label_singular: "Item"
+                    summary: "{{fields.name}}"
+                    fields:
+                      - { label: "Name", name: name, widget: string }
+                      - { label: "Page path", name: path, widget: string, hint: "Technical. Ask the studio before changing." }
+                      - { label: "Id suffix", name: id_suffix, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
+
+  # ================================================================
+  # Service pages
+  # ================================================================
+  - name: service_pages
+    label: "Service Pages"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: auto_tint
+        label: "Auto / Vehicle Tint Page"
+        file: "_data/pages/auto_tint.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Service details"
+            name: content
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+              - { label: "Footnote", name: footnote, widget: text, hint: "Keep the <a> link tag as it is." }
+          - label: "Customer reviews section"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Related service links"
+            name: also
+            widget: object
+            fields:
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string, hint: "Keep the &amp; entity as it is." }
+                  - { label: "Keep on the same line as the item above", name: same_line, widget: boolean, required: false }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: blinds
+        label: "Blinds & Window Treatments Page"
+        file: "_data/pages/blinds.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are. Blinds get their own story about light, privacy and fit; never frame them relative to window film."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Service details"
+            name: content
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - { label: "Note", name: note, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+          - label: "Extra sections"
+            name: extra
+            widget: object
+            fields:
+              - label: "Find the Right Window Treatment section"
+                name: shades
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+                  - { label: "Paragraph", name: sub, widget: text }
+                  - label: "Treatment cards"
+                    name: cards
+                    widget: list
+                    label_singular: "Card"
+                    summary: "{{fields.title}}"
+                    fields:
+                      - { label: "Photo description (for screen readers)", name: alt, widget: string }
+                      - { label: "Photo file", name: src, widget: string, hint: "Technical, ask your developer before changing." }
+                      - { label: "Photo width in pixels", name: width, widget: string, hint: "Technical, ask your developer before changing." }
+                      - { label: "Photo height in pixels", name: height, widget: string, hint: "Technical, ask your developer before changing." }
+                      - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+                      - { label: "Text", name: text, widget: text }
+              - label: "How It Works section"
+                name: steps
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+                  - { label: "Paragraph", name: sub, widget: text }
+                  - label: "Steps"
+                    name: items
+                    widget: list
+                    label_singular: "Step"
+                    summary: "{{fields.title}}"
+                    fields:
+                      - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                      - { label: "Title", name: title, widget: string }
+                      - { label: "Text", name: text, widget: text }
+          - label: "Customer reviews section"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Related service links"
+            name: also
+            widget: object
+            fields:
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: boat_rv_tint
+        label: "Boat & RV Tint Page"
+        file: "_data/pages/boat_rv_tint.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Boat and RV tint is an honest service mention, never a growth story."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entities as they are." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - { label: "Quote button text", name: quote_btn, widget: string }
+          - label: "Why Lake Mead Boats and RVs Need It section"
+            name: need
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Points"
+                name: items
+                widget: list
+                label_singular: "Point"
+                summary: "{{fields.term}}"
+                fields:
+                  - { label: "Statement", name: term, widget: text }
+                  - { label: "Detail", name: detail, widget: text }
+          - label: "Why a Boat or RV Is Different section"
+            name: diffjob
+            widget: object
+            fields:
+              - label: "Text blocks"
+                name: blocks
+                widget: list
+                label_singular: "Block"
+                summary: "{{fields.heading}}"
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - label: "Paragraphs"
+                    name: paragraphs
+                    widget: list
+                    label_singular: "Paragraph"
+                    field: { label: "Paragraph", name: value, widget: text }
+          - label: "Is There a Tint Law section"
+            name: law
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text, hint: "Keep the <a> link tag as it is." }
+          - label: "Getting Ready for the Season section"
+            name: season
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - { label: "Phone line prefix", name: cta_prefix, widget: string }
+          - label: "Related pages section"
+            name: also
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+              - { label: "Details field label", name: details_label, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: ceramic_coating
+        label: "Ceramic Coating Page"
+        file: "_data/pages/ceramic_coating.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. State no ceramic coating warranty at all; the shop gives none."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Service details"
+            name: content
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+          - label: "Customer reviews section"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Related service links"
+            name: also
+            widget: object
+            fields:
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string, hint: "Keep the &amp; entity as it is." }
+                  - { label: "Keep on the same line as the item above", name: same_line, widget: boolean, required: false }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: chip_repair
+        label: "Windshield Chip Repair Page"
+        file: "_data/pages/chip_repair.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. Chip repair is done in house; windshield replacement is done by a partner shop."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Service details"
+            name: content
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+          - label: "Customer reviews section"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Related service links"
+            name: also
+            widget: object
+            fields:
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string, hint: "Keep the &amp; entity as it is." }
+                  - { label: "Keep on the same line as the item above", name: same_line, widget: boolean, required: false }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: clear_bra
+        label: "Clear Bra / Paint Protection Page"
+        file: "_data/pages/clear_bra.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Service details"
+            name: content
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+          - label: "Customer reviews section"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Related service links"
+            name: also
+            widget: object
+            fields:
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+                  - { label: "Keep on the same line as the item above", name: same_line, widget: boolean, required: false }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: commercial_film
+        label: "Commercial Window Film Page"
+        file: "_data/pages/commercial_film.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Service details"
+            name: content
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+          - label: "Customer reviews section"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Related service links"
+            name: also
+            widget: object
+            fields:
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+              - { label: "Page name (advanced, search engines)", name: webpage_name, widget: string, hint: "Technical. Ask the studio before changing." }
+
+      - name: headlight_taillight
+        label: "Headlights & Taillights Page"
+        file: "_data/pages/headlight_taillight.json"
+        description: "Wording may contain small HTML codes or tags, such as <b> or <a>. Keep them exactly as they are. Smoked lamps are legal-depth smoke, never blacked out, murdered out or limo dark, and never carry a lamp percentage."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - { label: "Quote button text", name: quote_btn, widget: string }
+          - label: "Main photo"
+            name: photo
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: alt, widget: string }
+          - label: "Headlight Restoration section"
+            name: restoration
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+              - { label: "Closing paragraph", name: outro, widget: text }
+              - { label: "Button text", name: cta, widget: string }
+          - label: "Headlight and Taillight Protection Film section"
+            name: protection
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+              - { label: "Closing paragraph", name: outro, widget: text, hint: "Keep the <a> link tag as it is." }
+          - label: "Smoked and Tinted Lights section"
+            name: smoked
+            widget: object
+            hint: "Smoked lamps are legal-depth smoke only, never blacked out, murdered out or limo dark, and never carry a lamp percentage."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Paragraphs"
+                name: paragraphs
+                widget: list
+                label_singular: "Paragraph"
+                field: { label: "Paragraph", name: value, widget: text }
+              - { label: "Button text", name: cta, widget: string }
+          - label: "What Nevada Actually Requires section"
+            name: requires
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - { label: "Tail lamps rule", name: tail_lamps, widget: text, hint: "Keep the <b> tags as they are. Quoted from statute; do not reword the legal citation." }
+              - { label: "Lamp colors rule", name: lamp_colors, widget: text, hint: "Keep the <b> tags as they are. Quoted from statute; do not reword the legal citation." }
+              - { label: "Closing paragraph", name: closing, widget: text, hint: "Keep the <a> link tag as it is." }
+          - label: "Related pages section"
+            name: also
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string, hint: "Keep the &amp; entity as it is." }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+              - label: "Service dropdown order"
+                name: order
+                widget: list
+                label_singular: "Service"
+                summary: "{{fields.value}}"
+                hint: "Each entry must match a service name in the Quote Form Options list exactly (Shared Wording). Ask the studio before reordering."
+                field: { label: "Service", name: value, widget: string }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+              - { label: "Details field label", name: details_label, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: home_tint
+        label: "Home / Residential Tint Page"
+        file: "_data/pages/home_tint.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Intro paragraph", name: intro, widget: text, hint: "Keep the <a> link tag as it is." }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Service details"
+            name: content
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+          - label: "Customer reviews section"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Related service links"
+            name: also
+            widget: object
+            fields:
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: windshield
+        label: "Windshield Replacement Page"
+        file: "_data/pages/windshield.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop. Never write that we do replacement labor ourselves; chip repair is done here in our own shop."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Chip-or-crack note", name: note, widget: text, hint: "Keep the <a> link tag as it is." }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Chip-vs-replacement chooser"
+                name: chooser
+                widget: object
+                fields:
+                  - { label: "Prompt", name: prompt, widget: string }
+                  - label: "Buttons"
+                    name: buttons
+                    widget: list
+                    label_singular: "Button"
+                    summary: "{{fields.label}}"
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Service details"
+            name: content
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+              - { label: "Footnote", name: footnote, widget: text, hint: "Keep the <a> link tag as it is." }
+          - label: "Customer reviews section"
+            name: reviews
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+          - label: "Related service links"
+            name: also
+            widget: object
+            fields:
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+                  - { label: "Keep on the same line as the item above", name: same_line, widget: boolean, required: false }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+  # ================================================================
+  # Town pages
+  # ================================================================
+  - name: town_pages
+    label: "Town Pages"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: henderson
+        label: "Henderson Page"
+        file: "_data/pages/henderson.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop. May contain tokens such as {google_count}; leave them exactly as they are."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb parent label", name: crumb_parent, widget: string }
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "What Henderson Customers Come to Us For section"
+            name: content
+            widget: object
+            hint: "Chip repair is done in our own shop; full windshield replacement is subcontracted to a glass specialist. Never write that we do replacement labor ourselves."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Why Henderson Homeowners Tint section"
+            name: facts
+            widget: object
+            hint: "Each fact must keep its own cited source. Never invent, estimate or back-fill a number."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Facts"
+                name: items
+                widget: list
+                label_singular: "Fact"
+                summary: "{{fields.term}}"
+                fields:
+                  - { label: "Statement", name: term, widget: text }
+                  - { label: "Detail", name: detail, widget: text }
+                  - { label: "Source citation", name: source, widget: string }
+          - label: "Areas of Henderson We Work In section"
+            name: areas
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Groups"
+                name: groups
+                widget: list
+                label_singular: "Group"
+                summary: "{{fields.heading}}"
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "Closing line", name: closing, widget: string }
+          - label: "Getting to Our Shop from Henderson section"
+            name: getting_here
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Cards"
+                name: cards
+                widget: list
+                label_singular: "Card"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Automatic fact", name: fact, widget: string, required: false, hint: "Technical: address or hours. Tells the template to pull that fact from Business Info automatically. Ask the studio before changing." }
+                  - { label: "Title", name: title, widget: string, required: false }
+                  - { label: "Text", name: text, widget: string, required: false }
+          - label: "Henderson Questions section"
+            name: faq
+            widget: object
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string }
+                  - { label: "Answer", name: answer, widget: text, hint: "Keep any <a> link tags as they are." }
+          - label: "What Our Customers Say section"
+            name: reviews
+            widget: object
+            hint: "May contain tokens such as {google_count}; leave them exactly as they are. Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+              - { label: "Summary line", name: summary, widget: string }
+          - label: "More for Henderson section"
+            name: more
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Paragraph", name: sub, widget: text, hint: "Keep the <a> link tag as it is." }
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service records"
+                name: services
+                widget: list
+                label_singular: "Service record"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Anchor id", name: anchor, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - { label: "Page path", name: path, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Area served", name: area_served, widget: string }
+
+      - name: las_vegas
+        label: "Las Vegas Page"
+        file: "_data/pages/las_vegas.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop. May contain tokens such as {google_count}; leave them exactly as they are."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb parent label", name: crumb_parent, widget: string }
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Chip Today, Crack by August section"
+            name: content
+            widget: object
+            hint: "Chip repair is done in our own shop; full windshield replacement is subcontracted to a glass specialist. Never write that we do replacement labor ourselves."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Paragraphs"
+                name: paragraphs
+                widget: list
+                label_singular: "Paragraph"
+                field: { label: "Paragraph", name: value, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Why the Drive Is Worth It section"
+            name: facts
+            widget: object
+            hint: "Each fact must keep its own cited source. Never invent, estimate or back-fill a number."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Facts"
+                name: items
+                widget: list
+                label_singular: "Fact"
+                summary: "{{fields.term}}"
+                fields:
+                  - { label: "Statement", name: term, widget: text }
+                  - { label: "Detail", name: detail, widget: text }
+                  - { label: "Source citation", name: source, widget: string }
+          - label: "Where Our Customers Drive In From section"
+            name: drivein
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Text", name: text, widget: text }
+          - label: "Getting to Our Shop from Las Vegas section"
+            name: getting_here
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Cards"
+                name: cards
+                widget: list
+                label_singular: "Card"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: string }
+          - label: "What Our Customers Say section"
+            name: reviews
+            widget: object
+            hint: "May contain tokens such as {google_count}; leave them exactly as they are. Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+              - { label: "Summary line", name: summary, widget: string }
+          - label: "Las Vegas Questions section"
+            name: faq
+            widget: object
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string }
+                  - { label: "Answer", name: answer, widget: text }
+          - label: "More for Las Vegas section"
+            name: more
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Paragraph", name: sub, widget: text, hint: "Keep the <a> link tag as it is." }
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - label: "Service records"
+                name: services
+                widget: list
+                label_singular: "Service record"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Anchor id", name: anchor, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Service type", name: service_type, widget: string }
+                  - { label: "Service name", name: name, widget: string }
+                  - { label: "Page path", name: path, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Area served", name: area_served, widget: string }
+
+  # ================================================================
+  # Other pages
+  # ================================================================
+  - name: other_pages
+    label: "Other Pages"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: about
+        label: "About Page"
+        file: "_data/pages/about.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are. May contain tokens such as {google_count}; leave them exactly as they are. Justin and Chase stay nameless and faceless on every public surface."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text, hint: "May contain tokens such as {google_count} or {google_rating}; leave them exactly as they are." }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tag and its style attribute as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Our Story section"
+            name: story
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - label: "Paragraphs"
+                name: paragraphs
+                widget: list
+                label_singular: "Paragraph"
+                hint: "May contain tokens such as {google_count} or {google_rating}; leave them exactly as they are."
+                field: { label: "Paragraph", name: value, widget: text }
+          - label: "What We Stand For section"
+            name: values
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+              - { label: "Photo caption", name: caption, widget: string }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Value cards"
+                name: items
+                widget: list
+                label_singular: "Card"
+                summary: "{{fields.heading}}"
+                hint: "A card's heading or text may contain a token such as {google_rating} or {google_count}; leave those exactly as they are."
+                fields:
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+                  - { label: "Text", name: text, widget: text }
+          - label: "Find the Shop section"
+            name: find
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - { label: "Map title (screen readers only)", name: map_title, widget: string }
+          - label: "Follow BC Glass & Tint section"
+            name: follow
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> and &amp; entities as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+
+      - name: hoa_window_film
+        label: "Window Film & HOA Page"
+        file: "_data/pages/hoa_window_film.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. This page is not legal advice; keep statute citations as written."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - { label: "Quote button text", name: quote_btn, widget: string }
+          - label: "What the Statute Says section"
+            name: statute
+            widget: object
+            hint: "Each item must keep its own statute citation. Do not reword a legal citation."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Provisions"
+                name: items
+                widget: list
+                label_singular: "Provision"
+                summary: "{{fields.term}}"
+                fields:
+                  - { label: "Statement", name: term, widget: text }
+                  - { label: "Detail", name: detail, widget: text }
+                  - { label: "Source citation", name: source, widget: string }
+              - { label: "Footer note", name: footer_note, widget: text, hint: "Keep the <a> link tag as it is." }
+          - label: "What This Means section"
+            name: meaning
+            widget: object
+            fields:
+              - label: "Text blocks"
+                name: blocks
+                widget: list
+                label_singular: "Block"
+                summary: "{{fields.heading}}"
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - label: "Paragraphs"
+                    name: paragraphs
+                    widget: list
+                    label_singular: "Paragraph"
+                    field: { label: "Paragraph", name: value, widget: text }
+          - label: "HOA and Window Film Questions section"
+            name: faq
+            widget: object
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here. Keep statute citations as written."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string }
+                  - { label: "Answer", name: answer, widget: text }
+          - label: "Related pages section"
+            name: also
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+
+      - name: nevada_tint_law
+        label: "Nevada Tint Law Page"
+        file: "_data/pages/nevada_tint_law.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Tint-law copy states only the five verified NRS 484D.440 provisions, cited; never go beyond what the statute says."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - { label: "Quote button text", name: quote_btn, widget: string }
+          - label: "What the Statute Says section"
+            name: statute
+            widget: object
+            hint: "Each item must keep its own statute citation. Do not reword or go beyond the cited statute text."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Provisions"
+                name: items
+                widget: list
+                label_singular: "Provision"
+                summary: "{{fields.term}}"
+                fields:
+                  - { label: "Statement", name: term, widget: text }
+                  - { label: "Detail", name: detail, widget: text }
+                  - { label: "Source citation", name: source, widget: string }
+              - { label: "Footer note", name: footer_note, widget: text, hint: "Keep the <a> link tag as it is." }
+          - label: "What This Means section"
+            name: meaning
+            widget: object
+            fields:
+              - label: "Text blocks"
+                name: blocks
+                widget: list
+                label_singular: "Block"
+                summary: "{{fields.heading}}"
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - label: "Paragraphs"
+                    name: paragraphs
+                    widget: list
+                    label_singular: "Paragraph"
+                    field: { label: "Paragraph", name: value, widget: text }
+          - label: "Tint Law Questions section"
+            name: faq
+            widget: object
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here. Keep statute citations as written."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string }
+                  - { label: "Answer", name: answer, widget: text }
+          - label: "Related pages section"
+            name: also
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - label: "Links"
+                name: links
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Label", name: label, widget: string, hint: "Keep the &amp; entity as it is." }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Preselected service", name: preselect, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording)." }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+
+      - name: new_construction
+        label: "New Construction Page"
+        file: "_data/pages/new_construction.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <strong>. Keep them exactly as they are. May contain tokens such as {google_rating}; leave them exactly as they are. Never frame Boulder City as growing; speak to the reader's own house."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Trust strip labels"
+            name: ptrust
+            widget: object
+            fields:
+              - { label: "On Google label", name: google_label, widget: string }
+              - { label: "Reviews label", name: reviews_label, widget: string }
+              - { label: "Family-owned since label", name: family_label, widget: string }
+              - { label: "Lifetime film warranty label", name: warranty_label, widget: string }
+          - label: "Scrolling trust badges"
+            name: band
+            widget: list
+            label_singular: "Badge"
+            summary: "{{fields.value}}"
+            field: { label: "Badge", name: value, widget: string }
+          - label: "Protect a New Home section"
+            name: section_film
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+          - label: "Bare New Windows section"
+            name: section_blinds
+            widget: object
+            fields:
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - label: "Bullet points"
+                name: bullets
+                widget: list
+                label_singular: "Bullet"
+                summary: "{{fields.value}}"
+                field: { label: "Bullet", name: value, widget: string }
+          - label: "Time It Right section"
+            name: steps
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Steps"
+                name: items
+                widget: list
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+          - label: "Everything a New Homeowner Needs section"
+            name: needs
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Cards"
+                name: cards
+                widget: list
+                label_singular: "Card"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+                  - { label: "Text", name: text, widget: string }
+          - label: "Serving Boulder City New Builds section"
+            name: communities
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Communities"
+                name: items
+                widget: list
+                label_singular: "Community"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Name", name: name, widget: string }
+                  - { label: "Builder", name: builder, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "Closing line", name: closing, widget: text }
+          - label: "Why New Owners Choose Us section"
+            name: why
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reason cards"
+                name: items
+                widget: list
+                label_singular: "Reason"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+          - label: "What Homeowners Say section"
+            name: reviews
+            widget: object
+            hint: "May contain tokens such as {google_rating} or {yelp_rating}; leave them exactly as they are. Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+              - { label: "Read more link", name: more_link, widget: string }
+          - label: "New Construction Questions section"
+            name: faq
+            widget: object
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Text, before the phone number", name: sub_lead, widget: string }
+              - { label: "Text, after the phone number", name: sub_tail, widget: string, hint: "Usually just a period." }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string }
+                  - { label: "Answer", name: answer, widget: text }
+              - { label: "View all questions link", name: more_label, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - label: "Service dropdown order"
+                name: order
+                widget: list
+                label_singular: "Service"
+                summary: "{{fields.value}}"
+                hint: "Each entry must match a service name in the Quote Form Options list exactly (Shared Wording). Ask the studio before reordering."
+                field: { label: "Service", name: value, widget: string }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+              - { label: "Details field label", name: details_label, widget: string }
+              - { label: "Paragraph, before the phone number", name: sub_intro, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Breadcrumb name", name: breadcrumb_name, widget: string, hint: "Technical. Ask the studio before changing." }
+              - label: "Service record"
+                name: service
+                widget: object
+                fields:
+                  - { label: "Service name", name: name, widget: string }
+                  - { label: "Service type", name: service_type, widget: string }
+                  - label: "Areas served"
+                    name: area_served
+                    widget: list
+                    label_singular: "Area"
+                    summary: "{{fields.value}}"
+                    field: { label: "Area", name: value, widget: string }
+
+      - name: privacy_policy
+        label: "Privacy Policy Page"
+        file: "_data/pages/privacy_policy.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp;, <a>, <br>, <strong> or <code>. Keep them exactly as they are; they control how the text displays and links work. This is a legal policy page: check with the studio before changing any sentence, not just the obvious ones."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+          - label: "Updated line"
+            name: updated
+            widget: object
+            fields:
+              - { label: "Effective date line", name: effective, widget: string, hint: "Update this whenever the policy changes." }
+              - { label: "Previous version note", name: previous_note, widget: string }
+          - { label: "Intro paragraph", name: intro, widget: text, hint: "Keep the &amp; entity and quotation marks as they are." }
+          - label: "Policy sections"
+            name: sections
+            widget: list
+            label_singular: "Section"
+            summary: "{{fields.heading}}"
+            hint: "Each section is a heading plus one or more blocks. A block is either a paragraph or a bulleted list; leave Block type exactly as p or ul and fill in only the matching field below it."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Blocks"
+                name: blocks
+                widget: list
+                label_singular: "Block"
+                summary: "{{fields.type}}"
+                fields:
+                  - { label: "Block type (p or ul, do not change)", name: type, widget: string, hint: "Technical: p for a paragraph (fill in Paragraph text below) or ul for a bulleted list (fill in List items below). Ask the studio before changing this." }
+                  - { label: "Paragraph text", name: text, widget: text, required: false, hint: "Only for a p block. Keep any HTML tags or codes, such as &amp;, <a>, <br>, <strong> or <code>, exactly as they are." }
+                  - label: "List items"
+                    name: items
+                    widget: list
+                    label_singular: "Item"
+                    required: false
+                    hint: "Only for a ul block. Keep any HTML tags or codes, such as <strong>, exactly as they are."
+                    field: { label: "Item", name: value, widget: text }
+
+      - name: qa
+        label: "FAQ (Questions & Answers) Page"
+        file: "_data/pages/qa.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp;, <ul>, <li> or <b>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text, hint: "Keep the & character as it is." }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string, hint: "Keep the &amp; entity as it is." }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Intro text, before the phone number", name: intro_lead, widget: string }
+              - { label: "Intro text, after the phone number", name: intro_tail, widget: string, hint: "Usually just a period." }
+          - label: "Question groups"
+            name: faq_main
+            widget: list
+            label_singular: "Group"
+            summary: "{{fields.heading}}"
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here. For the Windshield & Glass group: windshield replacement is done by a partner shop, never write that we do replacement labor ourselves."
+            fields:
+              - { label: "Group id (technical, leave as is)", name: id, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Leave a blank line after this group", name: trailing_blank, widget: boolean, hint: "Technical layout switch. Ask the studio before changing." }
+              - { label: "This is the last group", name: last, widget: boolean, hint: "Technical layout switch. Ask the studio before changing." }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string, hint: "Keep the &amp; entity as it is." }
+                  - { label: "Answer", name: answer, widget: text, hint: "Keep any <ul>, <li>, <b> tags as they are." }
+                  - { label: "Show this one tighter (compact)", name: compact, widget: boolean, required: false, hint: "Technical layout switch. Ask the studio before changing." }
+          - label: "Headlights & Taillights group"
+            name: faq_more
+            widget: object
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here."
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string }
+                  - { label: "Answer", name: answer, widget: text }
+                  - { label: "Show this one tighter (compact)", name: compact, widget: boolean, required: false, hint: "Technical layout switch. Ask the studio before changing." }
+          - label: "Still have a question banner"
+            name: cta
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Text", name: text, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+
+      - name: reviews
+        label: "Reviews Page"
+        file: "_data/pages/reviews.json"
+        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. May contain tokens such as {google_count}, {google_rating}, {yelp_count}, {yelp_rating}, {tintwiz_count} and {tintwiz_rating}; these are filled in automatically from Business Info & Review Counts, leave them exactly as they are. The homepage review strip carries no structured data and never sums platforms; the same rule applies here."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Paragraph", name: sub, widget: text }
+          - label: "Five Stars on Every Platform section"
+            name: ratings
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
+              - { label: "Paragraph", name: sub, widget: text }
+              - { label: "Note under the cards", name: note, widget: text }
+              - label: "Google card"
+                name: google
+                widget: object
+                fields:
+                  - { label: "Score", name: score, widget: string }
+                  - { label: "Count", name: count, widget: string }
+                  - { label: "Button text", name: cta, widget: string }
+              - label: "Yelp card"
+                name: yelp
+                widget: object
+                fields:
+                  - { label: "Score", name: score, widget: string }
+                  - { label: "Count", name: count, widget: string }
+                  - { label: "Button text", name: cta, widget: string }
+              - label: "Tint Wiz card"
+                name: tintwiz
+                widget: object
+                fields:
+                  - { label: "Score", name: score, widget: string }
+                  - { label: "Count", name: count, widget: string }
+                  - { label: "Button text", name: cta, widget: string }
+          - label: "Google reviews block"
+            name: google_block
+            widget: object
+            hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+            fields:
+              - { label: "Count label", name: count_label, widget: string }
+              - { label: "Score", name: score, widget: string }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+              - { label: "Read all reviews link", name: all_link, widget: string }
+          - label: "Yelp reviews block"
+            name: yelp_block
+            widget: object
+            hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
+            fields:
+              - { label: "Count label", name: count_label, widget: string }
+              - { label: "Score", name: score, widget: string }
+              - label: "Reviews"
+                name: items
+                widget: list
+                label_singular: "Review"
+                summary: "{{fields.name}}"
+                fields:
+                  - { label: "Quote", name: quote, widget: text }
+                  - { label: "Reviewer name", name: name, widget: string }
+              - { label: "Read our Yelp reviews link", name: link_text, widget: string }
+              - { label: "Read our Tint Wiz reviews link", name: tintwiz_link_text, widget: string }
+          - label: "Quote form (this page)"
+            name: quote
+            widget: object
+            fields:
+              - { label: "Internal source label", name: source, widget: string, hint: "Internal label that tells the office which page a lead came from. Do not change." }
+              - { label: "Details field placeholder", name: details_placeholder, widget: string }
+          - label: "Search engine details (advanced)"
+            name: schema
+            widget: object
+            hint: "Not shown on the page. Read by Google. Ask the studio before changing."
+            fields:
+              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }

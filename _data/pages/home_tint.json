@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "title": "Home Window Tinting, Boulder City &amp; Henderson NV | BC Glass",
+    "description": "Residential window film for Boulder City and Henderson homes. Mobile installation, computer-cut ceramic film, lifetime warranty. Call 702-550-8840.",
+    "image_alt": "Before and after ceramic window film on a patio window, Boulder City NV"
+  },
+  "hero": {
+    "crumb": "Home / Residential Tint",
+    "heading": "Home &amp; Residential Window Tinting in Boulder City, NV",
+    "intro": "The west-facing room that turns into an oven by mid-afternoon. The couch cushion that faded a shade lighter than the rest. The habit of keeping the blinds shut on a bright day just to keep the room usable. Residential window film solves exactly this, blocking up to 99 percent of UV rays so floors, art and furniture stop taking the damage, installed on site at your Boulder City, Henderson or Las Vegas home. Just moved into a <a href=\"/new-construction\" style=\"color:var(--gold);font-weight:700\">new Boulder City community</a>? We tint new homes before move-in day."
+  },
+  "band": [
+    "XPEL &amp; ASWF Film",
+    "Computer-Cut Film",
+    "Lifetime Film Warranty",
+    "Installed On Site",
+    "Free Quotes"
+  ],
+  "content": {
+    "image_alt": "Home &amp; Residential Window Tinting in Boulder City, NV",
+    "heading": "Home / Residential Tint",
+    "intro": "Lower your cooling bills, stop your furniture and floors from fading, and cut glare, all without losing your view or natural light.",
+    "bullets": [
+      "Cuts cooling costs in Nevada summers",
+      "Protects furniture, flooring and art",
+      "Reduces glare on TVs and screens",
+      "Adds privacy while keeping the light",
+      "Mobile service available"
+    ]
+  },
+  "reviews": {
+    "heading": "What <span>Home Tint</span> Customers Say",
+    "sub": "Real reviews from Boulder City homeowners.",
+    "items": [
+      {
+        "platform": "google",
+        "quote": "They have tinted and installed window coverings for my home, and every one of my cars has been tinted by them. I drive 40 minutes each way because I trust this amazing family-owned shop.",
+        "name": "Maureen Springer"
+      },
+      {
+        "platform": "google",
+        "quote": "Outstanding job. Tinted my home windows. Very professional and very informative. Would recommend to everyone.",
+        "name": "Gregory Hill"
+      },
+      {
+        "platform": "google",
+        "quote": "They tinted my wife's Equinox and it looks amazing. We have them scheduled to come tint the windows in our house to help with energy costs as well.",
+        "name": "Sean Rush"
+      }
+    ]
+  },
+  "also": {
+    "links": [
+      {
+        "href": "/auto-tint",
+        "icon": "i-car",
+        "label": "Auto / Vehicle Tint"
+      },
+      {
+        "href": "/commercial-film",
+        "icon": "i-building",
+        "label": "Commercial Window Film"
+      },
+      {
+        "href": "/windshield",
+        "icon": "i-windshield",
+        "label": "Windshield Replacement"
+      },
+      {
+        "href": "/chip-repair",
+        "icon": "i-chip",
+        "label": "Windshield Chip Repair"
+      },
+      {
+        "href": "/clear-bra",
+        "icon": "i-shield",
+        "label": "Clear Bra / Paint Protection"
+      },
+      {
+        "href": "/ceramic-coating",
+        "icon": "i-spark",
+        "label": "Ceramic Coating"
+      },
+      {
+        "href": "/blinds",
+        "icon": "i-blinds",
+        "label": "Blinds &amp; Window Treatments"
+      },
+      {
+        "href": "/henderson",
+        "icon": "i-pin",
+        "label": "Home tint for Henderson"
+      },
+      {
+        "href": "/las-vegas",
+        "icon": "i-pin",
+        "label": "Home tint for Las Vegas"
+      }
+    ]
+  },
+  "quote": {
+    "source": "Home / Residential Tint",
+    "preselect": "Home / Residential Tint",
+    "details_placeholder": "Rooms or windows (optional) - no medical, insurance or license numbers"
+  },
+  "schema": {
+    "date_modified": "2026-08-27",
+    "service": {
+      "service_type": "Residential Window Tinting",
+      "name": "Residential Window Tinting in Boulder City, NV",
+      "area_served": [
+        "Boulder City",
+        "Henderson",
+        "Las Vegas"
+      ]
+    }
+  }
+}

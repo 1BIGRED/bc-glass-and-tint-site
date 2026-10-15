@@ -1,0 +1,23 @@
+{#- Top contact strip. frame[slug].util: "standard"; "no-copy" (privacy-policy: plain email
+    link, no copy-to-clipboard tooltip); "index" (home page, one item per line). -#}
+{%- set fmt = (frame[slug] or {}).util or "standard" -%}
+{%- set w = pages.shared.util -%}
+{%- set a_addr %}<a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> {{ site.address.display | safe }}</a>{% endset -%}
+{%- set a_hours %}<span><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg> {{ site.hours.display | safe }}</span>{% endset -%}
+{%- set a_tel %}<a href="tel:{{ site.phone.tel | safe }}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> {{ site.phone.display | safe }}</a>{% endset -%}
+{%- set a_sms %}<a href="sms:{{ site.phone.tel | safe }}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> {{ w.text_us | safe }}</a>{% endset -%}
+{%- if fmt == "no-copy" -%}
+{%- set a_mail %}<a href="mailto:{{ site.email | safe }}"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg> {{ w.email | safe }}</a>{% endset -%}
+{%- else -%}
+{%- set a_mail %}<a id="emailbtn" data-tip="{{ w.email_tip | safe }}" href="mailto:{{ site.email | safe }}"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg> {{ w.email | safe }}</a>{% endset -%}
+{%- endif -%}
+{%- if fmt == "index" -%}
+<div class="util" role="complementary" aria-label="{{ w.label | safe }}">
+  {{ a_addr | safe }}
+  {{ a_hours | safe }}
+  {{ a_tel | safe }}
+  {{ a_sms | safe }}{{ a_mail | safe }}
+</div>
+{%- else -%}
+<div class="util" role="complementary" aria-label="{{ w.label | safe }}">{{ a_addr | safe }}{{ a_hours | safe }}{{ a_tel | safe }}{{ a_sms | safe }}{{ a_mail | safe }}</div>
+{%- endif -%}

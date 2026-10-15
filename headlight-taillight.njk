@@ -1,0 +1,98 @@
+---
+# Slim informational/service page. All wording is in _data/pages/headlight_taillight.json;
+# markup lives here. JSON-LD: headlight-taillight.11tydata.js. This page has a custom quote
+# form order (see fixtures.json / quote.order) and the sticky call bar sits AFTER the quote
+# section (see ARCHITECTURE/INVENTORY "slim" family gotcha).
+permalink: headlight-taillight.html
+slug: headlight-taillight
+page_key: headlight_taillight
+og_image: images/headlight.jpg
+---
+{%- set pg = pages.headlight_taillight -%}
+{%- set sh = pages.shared -%}
+{% include "head/top.njk" %}
+
+{% include "head/meta.njk" %}
+{% set ld = schema_ld %}{% include "jsonld.njk" %}
+
+{% include "css/main.njk" %}
+{% include "css/slim-extra.njk" %}
+{% include "css/page.njk" %}{% include "a11y-block.njk" %}
+{% include "css/tail.njk" %}
+{% include "head/clarity.njk" %}
+</head>
+<body>
+{% include "skip-link.njk" %}
+{% include "sprite.njk" %}
+{% include "util.njk" %}
+{% include "header.njk" %}
+<main id="main" tabindex="-1">
+
+<!-- UNIQUE:START headlight-taillight -->
+<div class="phero"><p class="crumb"><a href="/">{{ sh.crumb.home | safe }}</a> / <a href="/#services">{{ sh.crumb.services | safe }}</a> / {{ pg.hero.crumb | safe }}</p><h1>{{ pg.hero.heading | safe }}</h1>
+  <p>{{ pg.hero.intro | safe }}</p>
+  <div class="pbtns"><a class="qbtn" href="tel:{{ site.phone.tel | safe }}">{{ sh.buttons.call | safe }} {{ site.phone.display | safe }}</a><a class="qbtn" style="background:transparent;color:#fff;border:1.5px solid #6f7885" href="#quote">{{ pg.hero.quote_btn | safe }}</a></div>
+</div>
+
+
+<section><div class="wrap"><div class="hlpic"><img src="images/headlight.webp" width="900" height="600" alt="{{ pg.photo.alt | safe }}"></div></div></section>
+
+<section><div class="wrap">
+  <h2>{{ pg.restoration.heading | safe }}</h2>
+  <p class="sub">{{ pg.restoration.sub | safe }}</p>
+  <p>{{ pg.restoration.intro | safe }}</p>
+  <ul>
+{% for li in pg.restoration.bullets %}    <li>{{ li | safe }}</li>
+{% endfor %}  </ul>
+  <p>{{ pg.restoration.outro | safe }}</p>
+  <a class="qbtn" href="#quote" style="margin-top:10px">{{ pg.restoration.cta | safe }}</a>
+</div></section>
+
+<section class="soft"><div class="wrap">
+  <h2>{{ pg.protection.heading | safe }}</h2>
+  <p class="sub">{{ pg.protection.sub | safe }}</p>
+  <p>{{ pg.protection.intro | safe }}</p>
+  <ul>
+{% for li in pg.protection.bullets %}    <li>{{ li | safe }}</li>
+{% endfor %}  </ul>
+  <p>{{ pg.protection.outro | safe }}</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>{{ pg.smoked.heading | safe }}</h2>
+  <p class="sub">{{ pg.smoked.sub | safe }}</p>
+{% for p in pg.smoked.paragraphs %}  <p>{{ p | safe }}</p>
+{% endfor %}  <a class="qbtn" href="#quote" style="margin-top:10px">{{ pg.smoked.cta | safe }}</a>
+</div></section>
+
+<section class="soft"><div class="wrap">
+  <h2>{{ pg.requires.heading | safe }}</h2>
+  <p class="sub">{{ pg.requires.sub | safe }}</p>
+  <p>{{ pg.requires.tail_lamps | safe }}</p>
+  <p>{{ pg.requires.lamp_colors | safe }}</p>
+  <p>{{ pg.requires.closing | safe }}</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>{{ pg.also.heading | safe }}</h2>
+  <div class="otherlinks">
+{% for l in pg.also.links %}    <a href="{{ l.href | safe }}"><svg class="ic" aria-hidden="true"><use href="#{{ l.icon | safe }}"/></svg> {{ l.label | safe }}</a>
+{% endfor %}  </div>
+</div></section>
+{% include "quote.njk" %}
+<!-- UNIQUE:END headlight-taillight -->
+
+{% include "sticky-call.njk" %}
+</main>
+{% include "footer.njk" %}
+{% include "js/burger.njk" %}
+{% include "js/emailbtn.njk" %}
+{% include "js/quote-submit.njk" %}
+{% include "js/anim.njk" %}
+{% include "js/source-vin.njk" %}
+{% include "js/gtag-events.njk" %}
+{% include "cookie-bar.njk" %}
+{% include "js/cookie.njk" %}
+{% include "js/svc-validate.njk" %}
+</body>
+</html>

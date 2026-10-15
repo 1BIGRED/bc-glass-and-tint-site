@@ -1,0 +1,55 @@
+{#- Site header: brand, main nav, call button, burger and mobile nav.
+    frame[slug].header: format "flat" (one line), "qa" (qa.html line breaks) or "index"
+    (home page, indented); home_links "on-page" makes Services and the brand jump within the
+    home page; quote_href; new_homes_token (the CSS colour token on "New Homes");
+    mob_new_homes_styled (privacy-policy styles the mobile "New Homes" link too). -#}
+{%- set h = (frame[slug] or {}).header or {} -%}
+{%- set n = pages.shared.nav -%}
+{%- set onpage = h.home_links == "on-page" -%}
+{%- set brand_href = "#top" if onpage else "/" -%}
+{%- set svc_href = "#services" if onpage else "/#services" -%}
+{%- set quote_href = h.quote_href or "#quote" -%}
+{%- set nh_style %} style="color:var(--{{ h.new_homes_token or "goldsm" }});font-weight:800"{% endset -%}
+{%- set brand %}<a class="brand" href="{{ brand_href }}"><b>BC</b> <span>Glass &amp; Tint</span></a>{% endset -%}
+{%- set l_svc %}<a href="{{ svc_href }}">{{ n.services | safe }}</a>{% endset -%}
+{%- set l_rev %}<a href="/reviews">{{ n.reviews | safe }}</a>{% endset -%}
+{%- set l_about %}<a href="/about">{{ n.about | safe }}</a>{% endset -%}
+{%- set l_faq %}<a href="/qa">{{ n.faq | safe }}</a>{% endset -%}
+{%- set l_quote %}<a href="{{ quote_href }}">{{ n.free_quote | safe }}</a>{% endset -%}
+{%- set l_nh %}<a href="/new-construction"{{ nh_style | safe }}>{{ n.new_homes | safe }}</a>{% endset -%}
+{%- set l_call %}<a class="callbtn" href="tel:{{ site.phone.tel | safe }}"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> {{ n.call_now | safe }}</a>{% endset -%}
+{%- set burger %}<button class="burger" id="burger" aria-label="{{ n.menu_label | safe }}" aria-expanded="false" aria-controls="mobnav"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>{% endset -%}
+{%- set mob_nh %}<a href="/new-construction"{% if h.mob_new_homes_styled %}{{ nh_style | safe }}{% endif %}>{{ n.new_homes | safe }}</a>{% endset -%}
+{%- set mob_links %}{{ l_svc | safe }}{{ l_rev | safe }}{{ l_about | safe }}{{ l_faq | safe }}{{ l_quote | safe }}{{ mob_nh | safe }}<a href="tel:{{ site.phone.tel | safe }}">{{ n.call | safe }} {{ site.phone.display | safe }}</a>{% endset -%}
+{%- set main_links %}{{ l_svc | safe }}{{ l_rev | safe }}{{ l_about | safe }}{{ l_faq | safe }}{{ l_quote | safe }}{{ l_nh | safe }}{{ l_call | safe }}{% endset -%}
+{%- if h.format == "index" -%}
+<header>
+  <div class="hrow">
+    {{ brand | safe }}
+    <nav class="main">
+      {{ l_svc | safe }}
+      {{ l_rev | safe }}
+      {{ l_about | safe }}
+      {{ l_faq | safe }}
+      {{ l_quote | safe }}
+      
+      {{ l_nh | safe }}
+      {{ l_call | safe }}
+    </nav>
+    {{ burger | safe }}
+  </div>
+  <nav class="mobnav" id="mobnav" aria-label="{{ n.nav_label | safe }}">
+    {{ mob_links | safe }}
+  </nav>
+</header>
+{%- elif h.format == "qa" -%}
+<header><div class="hrow">
+  {{ brand | safe }}
+  <nav class="main">{{ main_links | safe }}</nav>
+  {{ burger | safe }}
+</div>
+<nav class="mobnav" id="mobnav" aria-label="{{ n.nav_label | safe }}">{{ mob_links | safe }}</nav>
+</header>
+{%- else -%}
+<header><div class="hrow">{{ brand | safe }}<nav class="main">{{ main_links | safe }}</nav>{{ burger | safe }}</div><nav class="mobnav" id="mobnav" aria-label="{{ n.nav_label | safe }}">{{ mob_links | safe }}</nav></header>
+{%- endif -%}

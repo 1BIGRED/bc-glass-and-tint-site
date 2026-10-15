@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "title": "Windshield Replacement in Boulder City NV | BC Glass &amp; Tint",
+    "description": "Cracked windshield? OEM-spec glass ordered to your VIN, usually here within a week. We help with the insurance claim. Boulder City, Henderson, Las Vegas.",
+    "image_alt": "Windshield replacement service at BC Glass and Tint in Boulder City, NV"
+  },
+  "hero": {
+    "crumb": "Windshield Replacement",
+    "heading": "Windshield Replacement in Boulder City, NV",
+    "note": "Chip or small crack? That is a different, smaller job. <a href=\"/chip-repair\">See windshield chip repair</a>.",
+    "intro": "Every windshield we replace starts with a part ordered to your vehicle's VIN, so the curve, the tint band along the top edge and the sensor mounts all match what the manufacturer built. Chip repair we do here, in our own shop. Full replacements we subcontract to a glass specialist, and we handle everything around it: the glass is ordered to your VIN, the work is booked, and we help you file the insurance claim. One call, one point of contact. We serve Boulder City, Henderson and Las Vegas drivers alike. One thing to know before you call: we do not keep windshields in stock. Your glass is ordered in for your specific vehicle, so the appointment is booked for after it arrives, not for the day you ring us. That is usually within a week.",
+    "chooser": {
+      "prompt": "Not sure which one you need?",
+      "buttons": [
+        {
+          "label": "A chip or small crack",
+          "href": "/chip-repair"
+        },
+        {
+          "label": "Damage too large to repair safely",
+          "href": "#replacement"
+        }
+      ]
+    }
+  },
+  "band": [
+    "XPEL &amp; ASWF Film",
+    "Computer-Cut Film",
+    "Lifetime Film Warranty",
+    "Glass Ordered to Your VIN",
+    "Free Quotes"
+  ],
+  "content": {
+    "image_alt": "Windshield Replacement in Boulder City, NV",
+    "heading": "Windshield Replacement",
+    "intro": "When a crack is too large to repair safely, we offer affordable full windshield replacement with OEM-spec glass ordered in to match your vehicle.",
+    "bullets": [
+      "Chip and small crack repair in house, full replacements subcontracted",
+      "OEM-spec glass ordered to your VIN",
+      "Glass is not stocked, so the job is booked for after it arrives, usually within a week",
+      "The replacement itself is finished on the day of your appointment",
+      "Insurance claim assistance",
+      "Restores the windshield structural role"
+    ],
+    "footnote": "Wondering about the tint strip across the top of your new windshield? <a href=\"/nevada-tint-law\" style=\"color:var(--goldsm);font-weight:700\">See Nevada window tint law, explained</a>."
+  },
+  "reviews": {
+    "heading": "What <span>Windshield</span> Customers Say",
+    "sub": "Real reviews from BC Glass and Tint customers.",
+    "items": [
+      {
+        "platform": "google",
+        "quote": "We had our windshield replaced. Customer service was great and they had the best price! And they vacuumed my car! A+++ Highly recommend!",
+        "name": "Andrea Whitmeyer"
+      },
+      {
+        "platform": "yelp",
+        "quote": "Got me in fast and did great work replacing my windshield. Couldn't have been better, and couldn't beat the price.",
+        "name": "Francis S."
+      },
+      {
+        "platform": "google",
+        "quote": "We went to them to get our windshield fixed. They had a great price and got us in as soon as we asked. We'll be recommending them to everyone!",
+        "name": "Dakota Gleason"
+      }
+    ]
+  },
+  "also": {
+    "links": [
+      {
+        "href": "/auto-tint",
+        "icon": "i-car",
+        "label": "Auto / Vehicle Tint"
+      },
+      {
+        "href": "/home-tint",
+        "icon": "i-house",
+        "label": "Home / Residential Tint"
+      },
+      {
+        "href": "/commercial-film",
+        "icon": "i-building",
+        "label": "Commercial Window Film"
+      },
+      {
+        "href": "/chip-repair",
+        "icon": "i-chip",
+        "label": "Windshield Chip Repair"
+      },
+      {
+        "href": "/clear-bra",
+        "icon": "i-shield",
+        "label": "Clear Bra / Paint Protection"
+      },
+      {
+        "href": "/ceramic-coating",
+        "icon": "i-spark",
+        "label": "Ceramic Coating"
+      },
+      {
+        "href": "/headlight-taillight",
+        "icon": "i-shield",
+        "label": "Headlight Restoration",
+        "same_line": true
+      },
+      {
+        "href": "/blinds",
+        "icon": "i-blinds",
+        "label": "Blinds &amp; Window Treatments"
+      },
+      {
+        "href": "/henderson",
+        "icon": "i-pin",
+        "label": "Windshield replacement serving Henderson"
+      },
+      {
+        "href": "/las-vegas",
+        "icon": "i-pin",
+        "label": "Windshield replacement serving Las Vegas"
+      }
+    ]
+  },
+  "quote": {
+    "source": "Windshield Replacement",
+    "preselect": "Windshield Replacement"
+  },
+  "schema": {
+    "date_modified": "2026-08-27",
+    "service": {
+      "service_type": "Windshield Replacement",
+      "name": "Windshield Replacement in Boulder City, NV",
+      "area_served": [
+        "Boulder City",
+        "Henderson",
+        "Las Vegas"
+      ]
+    }
+  }
+}

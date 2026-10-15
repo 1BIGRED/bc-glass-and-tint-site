@@ -1,0 +1,126 @@
+{
+  "skip_link": "Skip to main content",
+  "util": {
+    "label": "Contact and hours",
+    "text_us": "Text Us",
+    "email": "Email",
+    "email_tip": "Copy our email address"
+  },
+  "nav": {
+    "services": "Services",
+    "reviews": "Reviews",
+    "about": "About",
+    "faq": "FAQ",
+    "free_quote": "Free Quote",
+    "new_homes": "New Homes",
+    "call_now": "Call Now",
+    "call": "Call",
+    "menu_label": "Menu",
+    "nav_label": "Main"
+  },
+  "crumb": {
+    "home": "Home",
+    "services": "Services"
+  },
+  "buttons": {
+    "call": "Call",
+    "free_quote": "Get a Free Quote"
+  },
+  "sticky": {
+    "text_us": "Text Us",
+    "call": "Call"
+  },
+  "reviews": {
+    "google_badge": "Google Verified Review",
+    "yelp_badge": "Yelp Review",
+    "stars_label": "Rated 5 out of 5 stars",
+    "more_link": "Read more reviews"
+  },
+  "service_also": {
+    "heading": "Also <span>Serving</span>",
+    "sub_intro": "Explore our other services and areas, or see the full ",
+    "sub_link": "Q&amp;A",
+    "sub_outro": "."
+  },
+  "quote": {
+    "heading": "Get a Free <span>Quote</span>",
+    "sub_intro": "Send this and we will call you back within one business day, or call now at ",
+    "sub_outro": ".",
+    "honeypot_label": "Leave this empty",
+    "name_placeholder": "Full name",
+    "name_label": "Full name",
+    "phone_placeholder": "Phone number",
+    "phone_label": "Phone number",
+    "email_placeholder": "Email (optional)",
+    "email_label": "Email address",
+    "services_legend": "What do you need?",
+    "services_hint": "Required: select all that apply",
+    "services_error": "Please pick at least one service so we know what you need.",
+    "services": [
+      "Auto / Vehicle Tint",
+      "Home / Residential Tint",
+      "Commercial Window Film",
+      "Windshield Replacement",
+      "Windshield Chip Repair",
+      "Clear Bra / PPF",
+      "Headlight Restoration",
+      "Headlight / Taillight Film",
+      "Smoked / Tinted Lights",
+      "Ceramic Coating",
+      "Boat / RV Tint",
+      "Blinds / Window Treatments"
+    ],
+    "vin_placeholder": "VIN (optional)",
+    "vin_label": "Vehicle identification number, optional",
+    "vin_note": "Optional. Your VIN helps us order the right glass the first time. We will usually double check it with you over the phone anyway.",
+    "details_placeholder": "Vehicle or details (optional) - no medical, insurance or license numbers",
+    "details_label": "Vehicle or project details",
+    "consent_intro": "By submitting this form, you agree that BC Glass and Tint may contact you about your request by phone, text, or email. Reply STOP to any text to stop receiving them. See our ",
+    "consent_link": "Privacy Policy",
+    "consent_outro": ".",
+    "send": "Send Request",
+    "thanks_heading": "Thanks, we got your request!",
+    "thanks_text": "We will call you back within one business day. Need it sooner? Call or text us now."
+  },
+  "footer": {
+    "about_text": "Family-owned window tinting, glass and blinds serving Southern Nevada since 1994.",
+    "services_heading": "Services",
+    "services_links": [
+      { "href": "/auto-tint", "label": "Auto Tint" },
+      { "href": "/home-tint", "label": "Home Tint" },
+      { "href": "/commercial-film", "label": "Commercial Film" },
+      { "href": "/windshield", "label": "Windshield Replacement" },
+      { "href": "/chip-repair", "label": "Chip Repair" },
+      { "href": "/clear-bra", "label": "Clear Bra" },
+      { "href": "/ceramic-coating", "label": "Ceramic Coating" },
+      { "href": "/blinds", "label": "Blinds" },
+      { "href": "/boat-rv-tint", "label": "Boat and RV Tint" },
+      { "href": "/headlight-taillight", "label": "Headlights" }
+    ],
+    "areas_heading": "Areas We Serve",
+    "areas_links": [
+      { "href": "/", "label": "Boulder City" },
+      { "href": "/henderson", "label": "Henderson" },
+      { "href": "/las-vegas", "label": "Las Vegas" },
+      { "href": "/new-construction", "label": "New Construction" },
+      { "href": "/nevada-tint-law", "label": "Nevada Tint Law" },
+      { "href": "/hoa-window-film", "label": "Window Film and HOAs" },
+      { "href": "/reviews", "label": "Reviews" },
+      { "href": "/about", "label": "About" },
+      { "href": "/qa", "label": "FAQ" }
+    ],
+    "contact_heading": "Contact",
+    "copyright_year": "2026",
+    "rights": "All rights reserved.",
+    "privacy_link": "Privacy Policy",
+    "cookie_link": "Cookie choices"
+  },
+  "cookie_bar": {
+    "label": "Analytics notice",
+    "text": "We use Google Analytics and Microsoft Clarity to see which pages people read, how they move through them, and whether they tap to call. No advertising, and we do not sell anything. ",
+    "privacy_link": "Privacy Policy",
+    "text_outro": ".",
+    "accept": "Accept",
+    "decline": "Decline"
+  }
+}

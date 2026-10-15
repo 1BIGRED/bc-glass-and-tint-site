@@ -1,0 +1,10 @@
+// Structured data for blinds.html, built from the page's wording file and site.json.
+// Node order (Breadcrumb, Service, Business, WebSite, WebPage) comes from schema_order in the
+// front matter of blinds.njk. See lib/schema.js servicePageGraph.
+const S = require("./lib/schema");
+
+module.exports = {
+  eleventyComputed: {
+    schema_ld: (data) => S.servicePageGraph(data.site, data.slug, data.pages[data.page_key], data.schema_order)
+  }
+};

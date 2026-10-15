@@ -1,0 +1,95 @@
+{#- Page-section stylesheet (hero, content, gallery, reviews grid) shared by the family pages.
+    Its output ends with a newline and the managed a11y block follows directly:
+    {% include 'css/page.njk' %}{% include 'a11y-block.njk' %} on one line. Switched by frame[slug].css_page. -#}
+{%- set c = frame[slug].css_page or {} -%}
+<style>
+{% if c.full %}.phero{position:relative;background:var(--dark);color:#fff;text-align:center;padding:46px 18px}
+.phero .crumb{font-size:12.5px;color:#9aa0a7;margin-bottom:10px}.phero .crumb a{color:var(--gold)}
+.phero h1{font-size:30px;font-weight:800;max-width:760px;margin:0 auto 8px;line-height:1.2}
+.phero p{font-size:15px;color:#c9ccd1;max-width:600px;margin:0 auto 20px}
+.pbtns{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+.content{display:grid;grid-template-columns:1fr;gap:26px;align-items:center}
+{% endif %}{% if c.city %}.content .pic img,.content .pic .ph{width:100%;height:auto;border-radius:14px;aspect-ratio:3/2;object-fit:cover}
+{% endif %}{% if not c.factlist %}.content .pic img,.content .pic .ph{width:100%;border-radius:14px;aspect-ratio:3/2;object-fit:cover}
+{% endif %}{% if c.full %}.content .ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#8a8f96;background:linear-gradient(135deg,#2a2d33,#1c1f24)}
+.content .ph .ic{width:32px;height:32px;color:var(--gold)}
+.content h2{text-align:left;font-size:23px}.content p{color:var(--mut);font-size:14.5px}
+.content ul{list-style:none;margin-top:14px}
+.content li{font-size:14px;color:#3c424a;padding-left:24px;position:relative;margin-bottom:7px}
+.content li::before{content:"";position:absolute;left:0;top:6px;width:11px;height:7px;border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg)}
+.gsec{margin-top:34px}.gsec h3{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:800;margin-bottom:14px}.gsec h3 .ic{width:24px;height:24px;color:var(--gold)}
+.gg{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.gg .cell{aspect-ratio:4/3;border-radius:11px;overflow:hidden;background:#23262b}.gg .cell img{width:100%;height:100%;object-fit:cover}
+.gg .ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:100%;color:#8a8f96}.gg .ph .ic{width:26px;height:26px;color:var(--gold)}.gg .ph span{font-size:12.5px}
+.minigrid{display:grid;grid-template-columns:1fr;gap:13px}
+.minicard{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.minicard .ic{width:26px;height:26px;color:var(--gold);flex-shrink:0}.minicard b{font-size:15px}.minicard span{display:block;font-size:12.5px;color:var(--mut)}
+{% endif %}{% if c.shadecard %}.shadecard{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.shadecard img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
+.shadecard .sbody{padding:14px 16px}.shadecard b{font-size:15px}.shadecard span{display:block;font-size:12.5px;color:var(--mut);margin-top:4px}
+{% endif %}{% if c.full %}.values{display:grid;grid-template-columns:1fr;gap:18px;max-width:680px;margin:0 auto}.values .item{display:flex;gap:14px;align-items:flex-start}.values .ic{width:30px;height:30px;color:var(--gold);flex-shrink:0;margin-top:2px}
+.revgrid{display:grid;grid-template-columns:1fr;gap:14px;max-width:980px;margin:0 auto}
+.rev{background:#fff;border:1px solid var(--line);border-radius:13px;padding:20px}
+.rev .vbadge{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:#2f7d52;background:#eaf6ef;border:1px solid #cfe9da;padding:3px 9px;border-radius:99px;margin-bottom:9px}.rev .vbadge .ic{width:13px;height:13px;color:#2f7d52;stroke-width:2.4}
+.rev .st{display:inline-flex;gap:2px;color:var(--rev);margin-bottom:8px}.rev .st .ic{width:16px;height:16px;fill:var(--rev);stroke:var(--rev)}
+.rev .qt{font-size:14.5px;margin-bottom:7px;color:#2a2e34}.rev .by{font-size:12.5px;color:var(--mut);font-weight:700}
+.otherlinks{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.otherlinks a{background:#fff;border:1px solid var(--line);color:#2a2e34;font-size:13px;font-weight:700;padding:9px 15px;border-radius:99px;display:inline-flex;align-items:center;gap:6px}.otherlinks a .ic{width:14px;height:14px;color:var(--gold)}
+{% endif %}{% if c.factlist %}.factlist{max-width:780px;margin:0 auto;border-top:1px solid var(--line)}
+.factlist>div{border-bottom:1px solid var(--line);padding:13px 2px}
+.factlist dt{font-weight:700;font-size:15.5px;color:var(--ink)}
+.factlist dd{font-size:14px;color:var(--mut);margin-top:3px}
+.factlist .src{display:block;font-size:12.5px;color:var(--mut);margin-top:5px}
+{% endif %}{% if c.main_ul %}main ul{list-style:none;margin-top:14px;margin-bottom:4px}main li{font-size:15px;color:#3c424a;padding-left:24px;position:relative;margin-bottom:7px}main li::before{content:"";position:absolute;left:0;top:8px;width:11px;height:7px;border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg)}.hlpic{max-width:760px;margin:0 auto}.hlpic img{width:100%;height:auto;border-radius:14px;display:block;aspect-ratio:3/2;object-fit:cover}
+{% endif %}{% if c.full %}@media(min-width:761px){.content{grid-template-columns:1fr 1fr}.gg{grid-template-columns:repeat(4,1fr)}.minigrid{grid-template-columns:repeat(2,1fr)}.values{grid-template-columns:1fr 1fr}.revgrid{grid-template-columns:repeat(3,1fr)}}
+{% endif %}{% if c.revstrip %}.revstrip{background:#fff;padding:34px 0 30px;border-bottom:1px solid var(--line)}
+.revstrip .rhead{text-align:center;margin-bottom:20px}
+.revstrip .rhead h2{font-size:26px;font-weight:800;margin-bottom:6px}
+.revstrip .rhead h2 span{color:var(--gold)}
+.revstrip .rhead p{color:var(--mut);font-size:15px;margin:0}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:900px;margin:0 auto}
+.rcd{border:1px solid var(--line);border-radius:14px;padding:20px 16px 18px;text-align:center;background:#fff;position:relative;overflow:hidden;transition:box-shadow .2s,transform .2s;display:block;color:inherit}
+.rcd:hover,.rcd:focus-visible{box-shadow:0 6px 20px rgba(0,0,0,.09);transform:translateY(-2px)}
+.rcd .bar{position:absolute;top:0;left:0;right:0;height:4px}
+.rcd .pname{font-size:15px;font-weight:800;letter-spacing:.2px;margin-bottom:9px}
+.rcd .rstars{display:flex;justify-content:center;gap:2px;margin-bottom:7px}
+.rcd .rstars svg{width:19px;height:19px;fill:#9a7413;stroke:none}
+.rcd .score{font-size:31px;font-weight:800;line-height:1.05}
+.rcd .cnt{font-size:13.5px;color:var(--mut);margin-top:2px}
+.rcd .go{font-size:12.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;margin-top:11px;color:var(--mut)}
+.rcd:hover .go{color:var(--ink)}
+.g-bar{background:#5f6368}.y-bar{background:#D71616}.t-bar{background:#6D5CAE}
+.g-name{color:#3c4043}.y-name{color:#D71616}.t-name{color:#6D5CAE}
+.rcd .score{margin-top:2px}
+/* .rnote is used on this page but was only styled on the homepage, scoped to .revstrip, so the disclosure line under the platform cards rendered unstyled. */
+.rnote{text-align:center;font-size:13.5px;color:var(--mut);margin:18px auto 0;max-width:640px}
+{% endif %}{% if c.factlist or c.revstrip %}
+{% endif %}{% if c.city %}/* Yelp badge colour, present on the other review pages but missing here, so the Yelp badge rendered in the default grey instead of Yelp red. */
+.rev .vbadge.yelp{color:#b3261e;background:#fdeceb;border-color:#f5c6c2}
+.rev .vbadge.yelp .ic{color:#b3261e;fill:#b3261e;stroke:#b3261e}
+{% endif %}{% if c.abpic %}.abpic{max-width:720px;margin:26px auto 6px}.abpic img{width:100%;height:auto;display:block;border-radius:14px;aspect-ratio:3/2;object-fit:cover}.abcap{font-size:14px;color:var(--mut);text-align:center;margin-top:10px;font-style:italic}.mapwrap{max-width:820px;margin:16px auto 0;border-radius:14px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9}.mapwrap iframe{width:100%;height:100%;border:0;display:block}
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if not c.main_ul %}
+{% endif %}{% if c.trail_blank %}
+{% endif %}

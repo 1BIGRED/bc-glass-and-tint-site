@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>BC Glass &amp; Tint: Content Editor</title>
+</head>
+<body>
+<!--
+  Visual content editor (Sveltia CMS). The shop logs in here to change wording,
+  review counts and photos without touching code. It saves straight back to the
+  site's content files (_data/site.json and the per-page files under
+  _data/pages/), and Netlify rebuilds the site from the repo.
+
+  Login is not connected yet. It works once the GitHub repo
+  (1BIGRED/bc-glass-and-tint-site) is linked to the shop's own Netlify and the
+  GitHub OAuth app is registered there. config.yml has no base_url on purpose;
+  leaving it out is what makes the editor sign in through Netlify.
+-->
+<script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+---
+# About page. All wording is in _data/pages/about.json; markup lives here.
+# JSON-LD: about.11tydata.js (business, website, webpage nodes only; no breadcrumb or FAQ here).
+permalink: about.html
+slug: about
+page_key: about
+og_image: images/hero.jpg
+---
+{%- set pg = pages.about -%}
+{%- set sh = pages.shared -%}
+{% include "head/top.njk" %}
+
+{% include "head/meta.njk" %}
+{% set ld = schema_ld %}{% include "jsonld.njk" %}
+
+{% include "css/main.njk" %}
+{% include "css/page.njk" %}{% include "a11y-block.njk" %}
+{% include "css/tail.njk" %}
+{% include "head/clarity.njk" %}
+</head>
+<body>
+{% include "skip-link.njk" %}
+{% include "sprite.njk" %}
+{% include "util.njk" %}
+{% include "header.njk" %}
+<main id="main" tabindex="-1">
+<section class="phero"><h1>{{ pg.hero.heading | safe }}</h1><p>{{ pg.hero.sub | safe }}</p><div class="pbtns"><a class="qbtn" href="tel:{{ site.phone.tel | safe }}">{{ sh.buttons.call | safe }} {{ site.phone.display | safe }}</a><a class="qbtn" style="background:transparent;color:#fff;border:1.5px solid #6f7885" href="#quote">{{ sh.buttons.free_quote | safe }}</a></div></section>
+<div class="band"><div class="wrap">{% for b in pg.band %}<span><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> {{ b | safe }}</span>{% endfor %}</div></div>
+<section><div class="wrap" style="max-width:760px"><h2 style="text-align:center">{{ pg.story.heading | safe }}</h2><p style="color:var(--mut);font-size:15px;margin-bottom:8px">{{ pg.story.paragraphs[0] | fill | safe }}</p><p style="color:var(--mut);font-size:15px">{{ pg.story.paragraphs[1] | fill | safe }}</p></div></section>
+<section class="soft"><div class="wrap"><div class="abpic">
+  <img src="images/residential-before-after-patio.webp" width="1600" height="1200" loading="lazy" alt="{{ pg.values.image_alt | safe }}">
+  <p class="abcap">{{ pg.values.caption | safe }}</p>
+</div><h2>{{ pg.values.heading | safe }}</h2><p class="sub">{{ pg.values.sub | safe }}</p><div class="values">{% for v in pg.values.items %}<div class="item"><svg class="ic" aria-hidden="true"><use href="#{{ v.icon | safe }}"/></svg><div><h3>{{ v.heading | fill | safe }}</h3><p style="color:var(--mut);font-size:13.5px">{{ v.text | safe }}</p></div></div>{% endfor %}</div></div></section>
+<section><div class="wrap" style="max-width:760px;text-align:center"><h2 style="text-align:center">{{ pg.find.heading | safe }}</h2>
+<p class="sub" style="text-align:center">{{ pg.find.sub | safe }}</p>
+<div class="mapwrap">
+  <iframe title="{{ pg.find.map_title | safe }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3229.125768716298!2d-114.85933912364771!3d35.968350514147495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c92b72b46cc5db%3A0xbdb7c36540900252!2sBC%20Glass%20%26%20Tint!5e0!3m2!1sen!2sus!4v1787777120579!5m2!1sen!2sus"></iframe>
+</div>
+<p class="sub" style="text-align:center;margin-top:12px"><a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener" style="color:var(--goldsm);font-weight:800">Get directions</a></p><h2>{{ pg.follow.heading | safe }}</h2><p class="sub">{{ pg.follow.sub | safe }}</p>
+<div class="otherlinks" style="justify-content:center">
+<a href="{{ site.social.facebook | safe }}" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-fb"/></svg> Facebook</a>
+<a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg> Google Reviews</a>
+<a href="{{ site.social.yelp | safe }}" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg> Yelp</a>
+<a href="{{ site.social.tintwiz | safe }}" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg> Tint Wiz</a>
+</div></div></section>
+{% include "quote.njk" %}
+{% include "sticky-call.njk" %}
+</main>
+{% include "footer.njk" %}
+{% include "js/burger.njk" %}
+{% include "js/emailbtn.njk" %}
+{% include "js/quote-submit.njk" %}
+{% include "js/anim.njk" %}
+{% include "js/source-vin.njk" %}
+{% include "js/gtag-events.njk" %}
+{% include "cookie-bar.njk" %}
+{% include "js/cookie.njk" %}
+{% include "js/svc-validate.njk" %}
+</body>
+</html>

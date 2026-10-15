@@ -1,0 +1,24 @@
+---
+# Service page. All wording is in _data/pages/blinds.json; this file only holds the
+# page's structure. Layout: _includes/layouts/service.njk. JSON-LD: blinds.11tydata.js.
+# blinds is the one service page with extra body sections (shade types, how it works),
+# printed by the layout right after the content section via {{ content | safe }}.
+layout: layouts/service.njk
+permalink: blinds.html
+slug: blinds
+page_key: blinds
+og_image: images/blinds.jpg
+content_image: images/blinds.webp
+content_image_width: 1000
+content_image_height: 667
+content_icon: i-blinds
+reviews_soft: true
+schema_order: service-first
+---
+{%- set pg = pages.blinds -%}
+<section class="soft"><div class="wrap"><h2 style="text-align:center">{{ pg.extra.shades.heading | safe }}</h2><p class="sub">{{ pg.extra.shades.sub | safe }}</p><div class="minigrid">
+{% for c in pg.extra.shades.cards %}<div class="shadecard"><img class="lazyimg" loading="lazy" alt="{{ c.alt | safe }}" src="{{ c.src | safe }}" width="{{ c.width | safe }}" height="{{ c.height | safe }}"><div class="sbody"><b>{{ c.title | safe }}</b><span>{{ c.text | safe }}</span></div></div>
+{% endfor %}</div></div></section>
+<section><div class="wrap"><h2 style="text-align:center">{{ pg.extra.steps.heading | safe }}</h2><p class="sub">{{ pg.extra.steps.sub | safe }}</p><div class="minigrid">
+{% for s in pg.extra.steps.items %}<div class="minicard"><svg class="ic" aria-hidden="true"><use href="#{{ s.icon | safe }}"/></svg><div><b>{{ s.title | safe }}</b><span>{{ s.text | safe }}</span></div></div>
+{% endfor %}</div></div></section>

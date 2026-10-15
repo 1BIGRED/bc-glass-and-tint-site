@@ -1,0 +1,13 @@
+{
+  "name": "bc-glass-and-tint-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BC Glass & Tint: Eleventy site edited with Sveltia CMS.",
+  "scripts": {
+    "build": "eleventy",
+    "dev": "eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

@@ -1,0 +1,2 @@
+{%- set ck = pages.shared.cookie_bar -%}
+<div class="ckbar" id="ckbar" role="region" aria-live="polite" tabindex="-1" aria-label="{{ ck.label | safe }}"><p>{{ ck.text | safe }}<a href="/privacy-policy">{{ ck.privacy_link | safe }}</a>{{ ck.text_outro | safe }}</p><div class="ckbtns"><button type="button" class="ck-yes" id="ckYes">{{ ck.accept | safe }}</button><button type="button" class="ck-no" id="ckNo">{{ ck.decline | safe }}</button></div></div>

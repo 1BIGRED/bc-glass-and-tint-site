@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "title": "Headlight Restoration &amp; Tinting, Boulder City NV | BC Glass",
+    "description": "Cloudy headlight restoration, headlight and taillight protection film, and light tinting at our Boulder City shop. Family owned since 1994.",
+    "image_alt": "Headlight restoration at BC Glass and Tint in Boulder City, NV"
+  },
+  "hero": {
+    "crumb": "Headlights &amp; Taillights",
+    "heading": "Headlight Restoration, Protection and Tinting in Boulder City, NV",
+    "intro": "Cloudy, yellowed headlights make a good car look tired, and they cut down how much light actually reaches the road. We restore them back to clear at our Boulder City shop, and we also apply protection film and tint to headlights and taillights. Same shop, same family, since 1994. If you are in Boulder City, Henderson or Las Vegas and your lights have gone hazy, this is a quick job that changes how the whole front of the car reads.",
+    "quote_btn": "Get a Free Quote"
+  },
+  "photo": {
+    "alt": "Headlight lens masked with tape and machine polished during a headlight restoration"
+  },
+  "restoration": {
+    "heading": "Headlight <span>Restoration</span>",
+    "sub": "The cheapest thing you can do that makes a car look years newer.",
+    "intro": "Headlight lenses are plastic, not glass. Nevada sun breaks down the factory coating on that plastic, and once it goes the lens turns cloudy, yellow and rough. It is not dirt, so washing does nothing. Restoration removes the damaged surface layer and re-seals it, which brings the lens back to clear.",
+    "bullets": [
+      "Clears yellowing, hazing and oxidation",
+      "Puts more of your headlight output back on the road at night",
+      "Makes an older vehicle look considerably newer from the front",
+      "Costs a fraction of replacing the housings",
+      "Most vehicles done same day"
+    ],
+    "outro": "If your lights look fine in the daytime but you have noticed the road is darker than it used to be, cloudy lenses are usually the reason.",
+    "cta": "Get a Free Quote"
+  },
+  "protection": {
+    "heading": "Headlight and Taillight <span>Protection Film</span>",
+    "sub": "Clear film, same idea as a clear bra for your paint.",
+    "intro": "The reason headlights haze in the first place is that nothing is protecting the plastic. Protection film is a clear urethane layer applied over the lens that takes the sun, the rock chips and the sand instead of the lens taking them. It is the same family of film as the clear bra we install on paint.",
+    "bullets": [
+      "Clear and barely noticeable once applied",
+      "Absorbs rock chips and road debris on the highway",
+      "Shields the lens from the UV that causes yellowing",
+      "Available for headlights, taillights or both",
+      "Computer-cut to your vehicle"
+    ],
+    "outro": "The best time to do this is right after a restoration, or on a new vehicle before the sun has had a chance to start on it. See our <a href=\"/clear-bra\" style=\"color:var(--goldsm);font-weight:700\">clear bra and paint protection</a> page for the same film on your paint."
+  },
+  "smoked": {
+    "heading": "Smoked and <span>Tinted Lights</span>",
+    "sub": "A customization service, and there are some things worth understanding first.",
+    "paragraphs": [
+      "We tint headlights and taillights, often called smoking them, for a darker and more finished look front and back. It is a film applied over the lens and it comes in different depths, so you choose how subtle or how aggressive you want it.",
+      "Here is the part worth knowing before you pick a shade. How dark you can go is not a fixed number, it depends on your specific housings and how much light they put out to begin with. A depth that looks great and still works fine on one vehicle can be too much on another with dimmer factory lamps. That is why we do this per vehicle instead of quoting a percentage off a chart.",
+      "Bring it by and we will look at your actual lights with you, show you the options, and land on the look you want while your lights keep doing their job. See the section below for exactly what Nevada asks of your tail lamps."
+    ],
+    "cta": "Ask Us About Your Vehicle"
+  },
+  "requires": {
+    "heading": "What Nevada Actually <span>Requires</span>",
+    "sub": "Two provisions worth knowing, quoted from the statute rather than from a forum.",
+    "tail_lamps": "<b>Tail lamps.</b> NRS 484D.115 requires a tail lamp to emit a red light plainly visible from a distance of 500 feet to the rear.",
+    "lamp_colors": "<b>Lamp colors.</b> NRS 484D.145 requires rear lamps, reflectors and marker lamps near the rear to display or reflect red, and front marker lamps to display amber. A stop light may be red, amber or yellow.",
+    "closing": "Nevada sets those as performance requirements about what your lights do, not as a percentage number for how dark a film may be. That is why we talk about it per vehicle instead of quoting a figure. For the separate rules covering window tint, see our <a href=\"/nevada-tint-law\" style=\"color:var(--goldsm);font-weight:700\">Nevada window tint law</a> page."
+  },
+  "also": {
+    "heading": "Related <span>Pages</span>",
+    "links": [
+      { "href": "/clear-bra", "icon": "i-shield", "label": "Clear Bra / Paint Protection" },
+      { "href": "/auto-tint", "icon": "i-car", "label": "Auto / Vehicle Tint" },
+      { "href": "/ceramic-coating", "icon": "i-spark", "label": "Ceramic Coating" },
+      { "href": "/windshield", "icon": "i-windshield", "label": "Windshield Replacement" },
+      { "href": "/chip-repair", "icon": "i-chip", "label": "Rock Chip Repair" },
+      { "href": "/nevada-tint-law", "icon": "i-check", "label": "Nevada Tint Law" },
+      { "href": "/qa", "icon": "i-plus", "label": "Full Q&amp;A" }
+    ]
+  },
+  "quote": {
+    "source": "Headlight / Taillight",
+    "preselect": "Headlight / Taillight Film",
+    "order": [
+      "Headlight / Taillight Film",
+      "Headlight Restoration",
+      "Smoked / Tinted Lights",
+      "Boat / RV Tint",
+      "Auto / Vehicle Tint",
+      "Home / Residential Tint",
+      "Commercial Window Film",
+      "Windshield Replacement",
+      "Windshield Chip Repair",
+      "Clear Bra / PPF",
+      "Ceramic Coating",
+      "Blinds / Window Treatments"
+    ],
+    "details_placeholder": "Vehicle year, make and model (optional) - no medical, insurance or license numbers",
+    "details_label": "Vehicle year, make and model"
+  },
+  "schema": {
+    "date_modified": "2026-08-27",
+    "service": {
+      "service_type": "Headlight Restoration",
+      "name": "Headlight Restoration, Protection Film and Light Tinting",
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
+    }
+  }
+}

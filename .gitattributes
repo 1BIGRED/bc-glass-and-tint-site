@@ -1,0 +1,10 @@
+# Every text file is stored and checked out with LF line endings.
+* text=auto eol=lf
+
+# Binary files: never touched.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff2 binary

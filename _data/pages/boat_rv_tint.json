@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "Boat &amp; RV Window Tint Near Lake Mead | BC Glass &amp; Tint",
+    "description": "Ceramic window tint for boats and RVs, installed at our Boulder City shop near Lake Mead. Family owned since 1994, lifetime film warranty.",
+    "image_alt": "BC Glass and Tint branded box truck"
+  },
+  "hero": {
+    "crumb": "Boat &amp; RV Tint",
+    "heading": "Boat and RV Window Tint Near Lake Mead",
+    "intro": "A boat or an RV needs a different kind of window film work than a car. We tint curved windshields, cabin windows and side glass on boats, and cab, entry and slide-out windows on RVs, all done at our shop in Boulder City near Lake Mead. We are the Boulder City shop, in Boulder City, since 1994, not a valley company driving out to meet you. If you keep a boat at Lake Mead, trailer one in for the season, or live in Boulder City with an RV in the driveway, this is a job we do every season, not a side offering.",
+    "quote_btn": "Get a Free Boat or RV Quote"
+  },
+  "need": {
+    "heading": "Why Lake Mead <span>Boats and RVs</span> Need It",
+    "sub": "What the lake does to glass, and to whatever is sitting behind it.",
+    "items": [
+      {
+        "term": "Glare comes up off the water as well as down from the sky.",
+        "detail": "A boat windshield takes the sun twice, direct and reflected, which is why unfilmed cabin glass is so hard to see through in the middle of the day."
+      },
+      {
+        "term": "A closed cabin or a parked RV bakes all day with nobody there to crack a window.",
+        "detail": "Heat and UV are what fade upholstery, crack dashboards and chalk out interior trim over a few Nevada seasons."
+      }
+    ]
+  },
+  "diffjob": {
+    "blocks": [
+      {
+        "heading": "Why a Boat or RV Is a Different Job Than a Car",
+        "paragraphs": [
+          "Boat glass is often curved and set into a gasket in the hull or cabin, at angles a straight strip of automotive film was never cut for. RVs bring their own mix of flat cab glass, small awning windows, and sometimes a full wall of side glass. On the water, glare comes up off the lake as much as it comes down from the sun, and the inside of a boat cabin or a parked RV can bake all day with nobody there to crack a window. Ceramic film cuts glare and blocks UV on all of that glass, whether the vehicle sits at a marina or gets trailered home every weekend."
+        ]
+      },
+      {
+        "heading": "Who This Page Is For",
+        "paragraphs": [
+          "This is written for people who keep a boat at Lake Mead or trailer one in for the season, and for Boulder City residents with an RV parked at home. It is not written for someone passing through on the highway looking for a drive-by service. We are the Boulder City shop, close to the lake, for people who are actually here, at the water or in town, not for through traffic."
+        ]
+      }
+    ]
+  },
+  "law": {
+    "heading": "Is There a Tint Law <span>for Boats and RVs?</span>",
+    "sub": "Nevada's window tint statute, NRS 484D.440, is written for motor vehicles on the road. It does not address watercraft, and we are not going to stretch a car and truck law to cover a boat. Whether an RV counts as a motor vehicle under that statute is a question we want a straight answer to before we put it in writing, so for now, ask us about legal shade options for your vehicle. See our <a href=\"/nevada-tint-law\" style=\"color:var(--goldsm);font-weight:700\">Nevada window tint law, explained</a> page for what the statute actually covers."
+  },
+  "season": {
+    "heading": "Getting Ready for the <span>Season</span>",
+    "sub": "A lot of the boat and RV film work we do happens before the season gets going at Lake Mead, when people are getting a boat or a rig ready after it has sat for a while. If that is where you are, reach out and we will talk through what your boat or RV needs before you launch.",
+    "cta_prefix": "Reach Us at "
+  },
+  "also": {
+    "heading": "Related <span>Pages</span>",
+    "links": [
+      { "href": "/auto-tint", "icon": "i-car", "label": "Auto / Vehicle Tint" },
+      { "href": "/ceramic-coating", "icon": "i-spark", "label": "Ceramic Coating" },
+      { "href": "/clear-bra", "icon": "i-shield", "label": "Clear Bra / Paint Protection" },
+      { "href": "/henderson", "icon": "i-pin", "label": "Window Tinting in Henderson" },
+      { "href": "/las-vegas", "icon": "i-pin", "label": "Auto Glass and Tint for the Las Vegas Valley" },
+      { "href": "/qa", "icon": "i-check", "label": "Full FAQ" }
+    ]
+  },
+  "quote": {
+    "source": "Boat / RV Tint",
+    "preselect": "Boat / RV Tint",
+    "details_placeholder": "Boat or RV details (optional) - no medical, insurance or license numbers",
+    "details_label": "Boat or RV details"
+  },
+  "schema": {
+    "date_modified": "2026-08-27",
+    "service": {
+      "service_type": "Boat and RV Window Tint",
+      "name": "Boat and RV Window Tint Near Lake Mead",
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
+    }
+  }
+}

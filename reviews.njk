@@ -1,0 +1,80 @@
+---
+# Reviews page. All wording is in _data/pages/reviews.json; markup lives here.
+# JSON-LD: reviews.11tydata.js (business, website, webpage nodes only). No quote-form "more"
+# links section on this page; it ends with the review blocks straight into the quote form.
+permalink: reviews.html
+slug: reviews
+page_key: reviews
+og_image: images/hero.jpg
+---
+{%- from "macros.njk" import reviewCard -%}
+{%- set pg = pages.reviews -%}
+{%- set sh = pages.shared -%}
+{% include "head/top.njk" %}
+
+{% include "head/meta.njk" %}
+{% set ld = schema_ld %}{% include "jsonld.njk" %}
+
+{% include "css/main.njk" %}
+{% include "css/page.njk" %}{% include "a11y-block.njk" %}
+{% include "css/tail.njk" %}
+{% include "head/clarity.njk" %}
+</head>
+<body>
+{% include "skip-link.njk" %}
+{% include "sprite.njk" %}
+{% include "util.njk" %}
+{% include "header.njk" %}
+<main id="main" tabindex="-1">
+<section class="phero"><h1>What Our Customers <span style="color:var(--gold)">Say</span></h1><p>{{ pg.hero.sub | fill | safe }}</p><div class="pbtns"><a class="qbtn" href="tel:{{ site.phone.tel | safe }}">{{ sh.buttons.call | safe }} {{ site.phone.display | safe }}</a><a class="qbtn" style="background:transparent;color:#fff;border:1.5px solid #6f7885" href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">Leave us a Google review</a></div></section>
+<section class="revstrip" id="ratings" aria-labelledby="ratings-h">
+  <div class="wrap">
+    <div class="rhead">
+      <h2 id="ratings-h">{{ pg.ratings.heading | safe }}</h2>
+      <p>{{ pg.ratings.sub | safe }}</p>
+    </div>
+    <div class="rgrid">
+      <a class="rcd" href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">
+        <span class="bar g-bar"></span>
+        <div class="pname g-name">Google</div>
+        <div class="rstars"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+        <div class="score">{{ pg.ratings.google.score | fill | safe }}</div>
+        <div class="cnt">{{ pg.ratings.google.count | fill | safe }}</div>
+        <div class="go">{{ pg.ratings.google.cta | safe }}</div>
+      </a>
+      <a class="rcd" href="{{ site.social.yelp | safe }}" target="_blank" rel="noopener">
+        <span class="bar y-bar"></span>
+        <div class="pname y-name">Yelp</div>
+        <div class="rstars"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+        <div class="score">{{ pg.ratings.yelp.score | fill | safe }}</div>
+        <div class="cnt">{{ pg.ratings.yelp.count | fill | safe }}</div>
+        <div class="go">{{ pg.ratings.yelp.cta | safe }}</div>
+      </a>
+      <a class="rcd" href="{{ site.social.tintwiz | safe }}" target="_blank" rel="noopener">
+        <span class="bar t-bar"></span>
+        <div class="pname t-name">Tint Wiz</div>
+        <div class="rstars"><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg><svg aria-hidden="true"><use href="#i-star"/></svg></div>
+        <div class="score">{{ pg.ratings.tintwiz.score | fill | safe }}</div>
+        <div class="cnt">{{ pg.ratings.tintwiz.count | fill | safe }}</div>
+        <div class="go">{{ pg.ratings.tintwiz.cta | safe }}</div>
+      </a>
+    </div>
+    <p class="rnote">{{ pg.ratings.note | safe }}</p>
+  </div>
+</section>
+<section><div class="wrap"><div class="yelphead" style="margin-top:0"><span class="ybadge" style="background:#1a73e8">Google</span> <strong>{{ pg.google_block.score | fill | safe }}</strong> on Google <span class="ycount">{{ pg.google_block.count_label | fill | safe }}</span></div><div class="revgrid">{% for r in pg.google_block.items %}{{ reviewCard({ platform: "google", quote: r.quote, name: r.name }, frame[slug].yelp_badge, sh.reviews) }}{% endfor %}</div><div style="text-align:center;margin-top:26px"><a href="{{ site.maps_url | safe }}" style="color:var(--goldsm);font-weight:800" target="_blank" rel="noopener">{{ pg.google_block.all_link | fill | safe }}</a></div><div class="yelpblock"><div class="yelphead"><span class="ybadge">Yelp</span> <strong>{{ pg.yelp_block.score | fill | safe }}</strong> on Yelp <span class="ycount">{{ pg.yelp_block.count_label | fill | safe }}</span></div><div class="revgrid">{% for r in pg.yelp_block.items %}{{ reviewCard({ platform: "yelp", quote: r.quote, name: r.name }, frame[slug].yelp_badge, sh.reviews) }}{% endfor %}</div><div style="text-align:center;margin-top:26px"><a href="{{ site.social.yelp | safe }}" style="color:var(--goldsm);font-weight:800" target="_blank" rel="noopener">{{ pg.yelp_block.link_text | safe }}</a> <span aria-hidden="true" style="color:#6c737d;margin:0 9px">&middot;</span> <a href="{{ site.social.tintwiz | safe }}" style="color:var(--goldsm);font-weight:800" target="_blank" rel="noopener">{{ pg.yelp_block.tintwiz_link_text | safe }}</a></div></div></div></section>{% include "quote.njk" %}
+{% include "sticky-call.njk" %}
+</main>
+{% include "footer.njk" %}
+{% include "js/burger.njk" %}
+{% include "js/emailbtn.njk" %}
+{% include "js/quote-submit.njk" %}
+<script>(function(){var grids=[].slice.call(document.querySelectorAll('.revgrid'));if(grids.length<2)return;var all=[];grids.forEach(function(g){all=all.concat([].slice.call(g.querySelectorAll('.rev')));});for(var a=all.length-1;a>0;a--){var b=Math.floor(Math.random()*(a+1)),t=all[a];all[a]=all[b];all[b]=t;}all.forEach(function(c){grids[0].appendChild(c);});for(var i=1;i<grids.length;i++)grids[i].style.display='none';[].slice.call(document.querySelectorAll('.yelphead')).forEach(function(h){h.style.display='none';});})();</script>
+{% include "js/anim.njk" %}
+{% include "js/source-vin.njk" %}
+{% include "js/gtag-events.njk" %}
+{% include "cookie-bar.njk" %}
+{% include "js/cookie.njk" %}
+{% include "js/svc-validate.njk" %}
+</body>
+</html>

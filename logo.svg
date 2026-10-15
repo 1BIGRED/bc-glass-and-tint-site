@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 150">
+<g transform="translate(15,12) scale(5)"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L4.5 9.7l5.9-.8z" fill="#2f4a7a" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"/></g>
+<text x="75" y="95" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="44" font-weight="900" font-style="italic" fill="#c9a23f" stroke="#ffffff" stroke-width="1">BC</text>
+<path d="M150 120 q170 24 430 -6 q-180 30 -430 18 z" fill="#c9a23f"/>
+<text x="152" y="82" font-family="Arial,Helvetica,sans-serif" font-size="54" font-weight="900" font-style="italic" fill="#ffffff" stroke="#0e1116" stroke-width="1.4" letter-spacing="1">GLASS &amp; TINT</text>
+<text x="335" y="116" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="19" fill="#ffffff">Satisfaction Guaranteed</text>
+</svg>

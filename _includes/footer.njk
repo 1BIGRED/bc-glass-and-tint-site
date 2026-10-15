@@ -1,0 +1,21 @@
+{#- Site footer. frame[slug].footer: format "flat" (one line) or "index" (home page, indented);
+    copy_entity prints the copyright sign as &copy; (four slim pages) instead of the raw sign. -#}
+{%- set ft = (frame[slug] or {}).footer or {} -%}
+{%- set w = pages.shared.footer -%}
+{%- set c1 %}<div><h3>{{ site.name_html | safe }}</h3><p>{{ w.about_text | safe }}</p></div>{% endset -%}
+{%- set c2 %}<div><h3>{{ w.services_heading | safe }}</h3><p>{% for l in w.services_links %}{% if not loop.first %} &middot; {% endif %}<a href="{{ l.href | safe }}">{{ l.label | safe }}</a>{% endfor %}</p></div>{% endset -%}
+{%- set c3 %}<div><h3>{{ w.areas_heading | safe }}</h3><p>{% for l in w.areas_links %}{% if not loop.first %} &middot; {% endif %}<a href="{{ l.href | safe }}">{{ l.label | safe }}</a>{% endfor %}</p></div>{% endset -%}
+{%- set c4 %}<div><h3>{{ w.contact_heading | safe }}</h3><p>{{ site.address.display | safe }}<br><a href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display | safe }}</a><br><a href="mailto:{{ site.email | safe }}">{{ site.email | safe }}</a><br>{{ site.hours.display | safe }}</p></div>{% endset -%}
+{%- set copy %}{% if ft.copy_entity %}&copy;{% else %}©{% endif %} {{ w.copyright_year | safe }} {{ site.name_html | safe }}. {{ w.rights | safe }} &middot; <a href="/privacy-policy">{{ w.privacy_link | safe }}</a> &middot; <a href="#" id="ckreopen">{{ w.cookie_link | safe }}</a>{% endset -%}
+{%- if ft.format == "index" -%}
+<footer>
+  <div class="fcols">
+    {{ c1 | safe }}
+    {{ c2 | safe }}{{ c3 | safe }}
+    {{ c4 | safe }}
+  </div>
+  {{ copy | safe }}
+</footer>
+{%- else -%}
+<footer><div class="fcols">{{ c1 | safe }}{{ c2 | safe }}{{ c3 | safe }}{{ c4 | safe }}</div>{{ copy | safe }}</footer>
+{%- endif -%}

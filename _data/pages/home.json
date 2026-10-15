@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "title": "Window Tinting Boulder City NV | BC Glass &amp; Tint Since 1994",
+    "description": "Family-owned window tinting and auto glass in Boulder City, NV since 1994. Auto, home & commercial tint, windshields and more. Call 702-550-8840.",
+    "image_alt": "BC Glass and Tint branded box truck in the Boulder City parade"
+  },
+  "hero": {
+    "badge": "FAMILY-OWNED SINCE 1994 · BOULDER CITY, NV",
+    "logo_alt": "BC Glass &amp; Tint logo",
+    "heading": "Window Tinting, Auto Glass &amp; Blinds in Boulder City, NV",
+    "svc_line": "Blinds · Auto · Residential · Commercial · Windshield",
+    "area_line": "Serving Henderson, Las Vegas &amp; all of Southern Nevada",
+    "text_label": "Text",
+    "stats": [
+      { "n": "30+", "l": "YEARS IN BUSINESS" },
+      { "n": "{google_rating}★", "l": "{google_count} GOOGLE REVIEWS" },
+      { "n": "3", "l": "FIVE-STAR PLATFORMS" },
+      { "n": "Lifetime", "l": "FILM WARRANTY" }
+    ]
+  },
+  "ratings": {
+    "heading": "Five Stars on <span>Every Platform</span>",
+    "sub": "Three places customers can review us. All three say the same thing. Counts as of August 2026.",
+    "cards": [
+      { "key": "google", "name": "Google" },
+      { "key": "yelp", "name": "Yelp" },
+      { "key": "tintwiz", "name": "Tint Wiz" }
+    ],
+    "note": "Every rating above is counted and hosted by that platform, not by us. Click any card to read the reviews at the source."
+  },
+  "band": [
+    "XPEL &amp; ASWF Film",
+    "Computer-Cut Film",
+    "Lifetime Film Warranty",
+    "Most Tint Work Same Day",
+    "Free Quotes"
+  ],
+  "services": {
+    "heading": "Our <span>Services</span>",
+    "sub": "Computer-cut precision and a lifetime manufacturer's warranty on every window film.",
+    "quote_btn": "Get a Quote",
+    "learn_btn": "Learn More",
+    "items": [
+      {
+        "icon": "i-blinds",
+        "href": "/blinds",
+        "title": "Blinds &amp; Window Treatments",
+        "image": { "alt": "Window blinds and shades installation Boulder City NV", "src": "images/blinds.webp", "width": 1000, "height": 667 },
+        "desc": "Expertly installed blinds and soft window treatments for homes and businesses across Clark County.",
+        "bullets": ["Cellular shades for insulation", "Roller, cellular and Roman shades", "Motorized options available", "Professional install, and we fix what is not right"],
+        "svc": "Blinds / Window Treatments",
+        "learn_aria": "Learn more about blinds and window treatments"
+      },
+      {
+        "icon": "i-car",
+        "href": "/auto-tint",
+        "title": "Auto / Vehicle Tint",
+        "image": { "alt": "Auto window tinting in Boulder City NV", "src": "images/auto.webp", "width": 1000, "height": 652 },
+        "extra_slides": [
+          { "alt": "Window tint on a Ford Raptor truck", "src": "images/auto-2.webp", "width": 1000, "height": 805 },
+          { "alt": "Window tint on a Dodge Charger", "src": "images/auto-3.webp", "width": 1000, "height": 795 },
+          { "alt": "Window tint on a Rivian electric truck", "src": "images/auto-4.webp", "width": 1000, "height": 719 },
+          { "alt": "Window tint on a Jeep Grand Cherokee", "src": "images/auto-5.webp", "width": 1000, "height": 449 },
+          { "alt": "Window tint on a Toyota Tacoma truck", "src": "images/auto-6.webp", "width": 1000, "height": 680 }
+        ],
+        "desc": "Keep your car cooler, block UV rays, and protect your interior. Computer-cut films give a factory-perfect fit with no trimming on your glass.",
+        "bullets": ["Blocks up to 99% of UV rays", "Cuts interior heat dramatically", "Nevada-legal shade options", "Lifetime warranty on all films"],
+        "svc": "Auto / Vehicle Tint",
+        "learn_aria": "Learn more about auto and vehicle tint"
+      },
+      {
+        "icon": "i-house",
+        "href": "/home-tint",
+        "title": "Home / Residential Tint",
+        "image": { "alt": "Home residential window tinting Henderson Las Vegas NV", "src": "images/residential.webp", "width": 1000, "height": 667 },
+        "desc": "Lower your cooling bills, stop your furniture and floors from fading, and cut glare, all without losing your view.",
+        "bullets": ["Cuts cooling costs in Nevada summers", "Protects furniture, flooring and art", "Reduces glare on TVs and screens", "Mobile service available"],
+        "svc": "Home / Residential Tint",
+        "learn_aria": "Learn more about home and residential tint"
+      },
+      {
+        "icon": "i-building",
+        "href": "/commercial-film",
+        "title": "Commercial Window Film",
+        "image": { "alt": "Commercial window film Las Vegas NV", "src": "images/commercial.webp", "width": 1000, "height": 666 },
+        "desc": "Improve comfort, add privacy, and cut energy costs. By blocking the sun's heat your HVAC works less, so bills drop.",
+        "bullets": ["Lowers HVAC load year round", "Reduces glare for employees", "Privacy and security film options", "Free estimates for any space"],
+        "svc": "Commercial Window Film",
+        "learn_aria": "Learn more about commercial window film"
+      },
+      {
+        "icon": "i-windshield",
+        "href": "/windshield",
+        "title": "Windshield Repair &amp; Replacement",
+        "image": { "alt": "Windshield replacement Boulder City NV", "src": "images/windshield.webp", "width": 900, "height": 592 },
+        "desc": "Chips and small cracks only get worse in the desert heat. Chip repair we handle in our own shop, and when a windshield is too far gone to repair safely, we subcontract the replacement to a glass specialist and order OEM-spec glass to your VIN.",
+        "bullets": ["Chips and small cracks, repaired in most cases", "OEM-spec glass for full replacements", "Insurance claim assistance", "Restores the windshield structural role"],
+        "svc": "Windshield Replacement",
+        "learn_aria": "Learn more about windshield replacement and chip repair"
+      },
+      {
+        "icon": "i-shield",
+        "href": "/clear-bra",
+        "title": "Clear Bra / Paint Protection",
+        "image": { "alt": "Clear bra paint protection film Boulder City NV", "src": "images/clearbra.webp", "width": 900, "height": 675 },
+        "desc": "Clear, self-healing film across the front end so Nevada rock chips and highway debris hit the film instead of your paint.",
+        "bullets": ["Absorbs rock chips and road debris", "Self-healing with heat", "Nearly invisible once applied", "Partial or full coverage"],
+        "svc": "Clear Bra / PPF",
+        "learn_aria": "Learn more about clear bra"
+      },
+      {
+        "icon": "i-spark",
+        "href": "/ceramic-coating",
+        "title": "Ceramic Coating",
+        "image": { "alt": "Ceramic coating applied at BC Glass and Tint, Boulder City NV", "src": "images/ceramic.webp", "width": 1000, "height": 666 },
+        "desc": "A liquid polymer bonded to your paint by hand, so water and dirt slide off instead of baking on in the desert sun.",
+        "bullets": ["Water and dirt slide right off", "UV protection against the Nevada sun", "Easier washes, no monthly waxing", "Protects paint, glass and trim"],
+        "svc": "Ceramic Coating",
+        "learn_aria": "Learn more about ceramic coating"
+      },
+      {
+        "icon": "i-spark",
+        "href": "/headlight-taillight",
+        "title": "Headlights &amp; Taillights",
+        "image": { "alt": "Headlight lens masked with tape and machine polished during a headlight restoration", "src": "images/headlight.webp", "width": 900, "height": 600 },
+        "desc": "Cloudy, yellowed lenses restored back to clear, plus protection film and legal-depth tinting for headlights and taillights.",
+        "bullets": ["Clears yellowing and oxidation", "More light back on the road at night", "Protection film stops it coming back", "Most vehicles done same day"],
+        "svc": "Headlight / Taillight Film",
+        "learn_aria": "Learn more about headlight restoration"
+      }
+    ]
+  },
+  "new_construction": {
+    "badge": "NEW CONSTRUCTION",
+    "heading": "Building a New Home Near <span>Boulder Creek Golf Club?</span>",
+    "text": "We install window film and blinds for new homeowners in <strong style=\"color:#fff\">Liberty Ridge</strong>, <strong style=\"color:#fff\">Heritage Peak</strong>, <strong style=\"color:#fff\">Iron Pointe</strong> and <strong style=\"color:#fff\">Boulder Hills Estates</strong>, before you even move in. Protect your new floors and cut the desert heat from day one.",
+    "cta": "See New Construction Tint &amp; Blinds"
+  },
+  "why": {
+    "heading": "Why Choose <span>BC Glass &amp; Tint</span>",
+    "sub": "Three decades of computer-cut precision and a lifetime warranty behind every job.",
+    "items": [
+      { "icon": "i-award", "title": "Family-Owned Since 1994", "text": "Three decades serving the community. We treat every customer like a neighbor." },
+      { "icon": "i-cut", "title": "Computer-Cut Precision", "text": "A factory-perfect fit, cut from a pattern before the film ever touches your glass." },
+      { "icon": "i-shield", "title": "Lifetime Film Warranty", "text": "Every window film is backed by a lifetime manufacturer's warranty." },
+      { "icon": "i-clock", "title": "Most Tint Work Done Same Day", "text": "Most vehicles are tinted the same day. Windshield replacements are subcontracted to a glass specialist and booked in once your glass arrives." }
+    ]
+  },
+  "reviews": {
+    "heading": "What Customers <span>Say</span>",
+    "sub": "Rated {google_rating} on Google and {yelp_rating} on Yelp. Real customers, real words.",
+    "more_google": "Read more on Google",
+    "more_yelp": "Read more on Yelp",
+    "items": [
+      { "platform": "google", "quote": "Amazing prices and attention to detail. 100% worth the drive from Vegas. Will definitely be back.", "name": "Payne Fordham" },
+      { "platform": "yelp", "quote": "This is my 3rd amazing tint installation by BC tint on my new pickup. Matched the factory tint perfectly. Highly recommended this family owned business.", "name": "Scott F." },
+      { "platform": "google", "quote": "Fast, friendly and did an amazing job. I've had multiple vehicles tinted here and will never go anywhere else.", "name": "Kristie Bergman" },
+      { "platform": "yelp", "quote": "I have been going to BC Glass and Tint for over 23 years since 2002, and they are simply the best! I drive 40 minutes each way because I trust this amazing family-owned shop.", "name": "Maureen S." },
+      { "platform": "google", "quote": "Best price I could find anywhere in the valley. Quality work done fast and the staff were super helpful.", "name": "Dennis Wolcott" },
+      { "platform": "yelp", "quote": "I would highly recommend BC Glass &amp; Tint! They tinted my new Silverado and the entire process was super easy and everyone was super friendly. They did a great job!", "name": "Cynthia S." },
+      { "platform": "google", "quote": "Great customer service, fast, and efficient! They offered the most affordable price for my particular service!", "name": "Ashley Watson" },
+      { "platform": "yelp", "quote": "Very professional service. Ceramic coating turned out perfect, on time and reasonable price. Would highly recommend!", "name": "Marc W." },
+      { "platform": "google", "quote": "We had our windshield replaced. Customer service was great and they had the best price! And they vacuumed my car! A+++ Highly recommend!", "name": "Andrea Whitmeyer" },
+      { "platform": "yelp", "quote": "They answered all our questions. They got us in quickly. The prices were reasonable, and the final product was gorgeous.", "name": "Denise A." },
+      { "platform": "google", "quote": "Top notch service and fair pricing. These guys know what they're doing. Been coming here for years and will keep coming back.", "name": "John S." },
+      { "platform": "yelp", "quote": "Got me in fast and did great work replacing my windshield. Couldn't have been better, and couldn't beat the price.", "name": "Francis S." },
+      { "platform": "google", "quote": "Great prices, speed, and quality. Highly recommend BC Glass &amp; Tint to anyone in the area.", "name": "Carol Broadbent" },
+      { "platform": "yelp", "quote": "Had my windshield tinted, at a competitive price, and they did a fantastic job! Thank you!", "name": "Ryan S." },
+      { "platform": "google", "quote": "Excellent service and very reasonable prices. My car looks great and I couldn't be happier!", "name": "Jessica Harrison" },
+      { "platform": "yelp", "quote": "Justin and his crew do incredible work. Always top notch and perfect. True perfectionist.", "name": "Brandon L." },
+      { "platform": "google", "quote": "Great prices and amazing work. Would highly recommend to anyone looking for window tinting in Boulder City.", "name": "Steven Hamberg" },
+      { "platform": "yelp", "quote": "I really appreciated the friendly customer service, quality of work, and affordable pricing. I highly recommend this family business.", "name": "Kenneth C." },
+      { "platform": "google", "quote": "The window tint job works and looks great. Thanks for a good job.", "name": "Marty Rihel" },
+      { "platform": "yelp", "quote": "Highly recommend! I was very pleased with the window tint job on my car. The team was friendly and efficient, completing the job quickly. The price was very reasonable.", "name": "Jzus M." },
+      { "platform": "google", "quote": "Great prices and service! Highly recommend.", "name": "rylen reid" }
+    ]
+  },
+  "areas": {
+    "heading": "Areas We <span>Serve</span>",
+    "sub": "We work out of one shop at 1633 Boulder City Pkwy in Boulder City and serve Boulder City, Henderson, Las Vegas and the rest of Southern Nevada. Vehicles come to the shop. For homes and commercial buildings we come to you.",
+    "chip_city": { "href": "/about", "label": "Boulder City" },
+    "chip_henderson": { "href": "/henderson", "label": "Window tinting in Henderson" },
+    "chip_las_vegas": { "href": "/las-vegas", "label": "Window tint and auto glass in Las Vegas" },
+    "chips_plain": ["Summerlin", "Anthem", "North Las Vegas", "Spring Valley"],
+    "notes": [
+      { "text": "Building or moving into a new Boulder City home near Boulder Creek Golf Club? ", "href": "/new-construction", "link_text": "See our new construction window film and blinds page." },
+      { "text": "Boating on Lake Mead? ", "href": "/boat-rv-tint", "link_text": "See boat and RV window tint." },
+      { "text": "Wondering what shade is legal? ", "href": "/nevada-tint-law", "link_text": "Read Nevada window tint law, explained." }
+    ]
+  },
+  "faq": {
+    "heading": "Frequently Asked <span>Questions</span>",
+    "sub": "Quick answers. For anything else, call or text 702-550-8840.",
+    "items": [
+      { "question": "How much does window tinting cost?", "answer": "It depends on the vehicle or rooms and the film you choose. Call 702-550-8840 for a fast, free quote." },
+      { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. In Nevada, front side windows must let through not less than 35 percent of light, counting the glass and the film together, the windshield can only carry a strip across the very top, and your back and rear windows can be tinted as long as the vehicle has outside mirrors on both sides. We install fully legal tint and can recommend the darkest legal shade. Source: Nevada Revised Statutes 484D.440." },
+      { "question": "How long does an install take?", "answer": "Most vehicles are done same-day." },
+      { "question": "Is there a warranty?", "answer": "Yes. Every window film carries a lifetime manufacturer's warranty." },
+      { "question": "What areas do you serve?", "answer": "Boulder City, Henderson, Las Vegas, and all of Southern Nevada." }
+    ],
+    "more_link": "View all questions and answers"
+  },
+  "quote": {
+    "source": "Homepage",
+    "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers",
+    "details_label": "Vehicle, rooms or other details",
+    "sub_full": "Tell us what you need and we will call you back within one business day. Prefer to talk now? Call or text 702-550-8840."
+  },
+  "schema": {
+    "date_modified": "2026-08-27",
+    "offer_catalog": {
+      "name": "Window film, auto glass and window treatments",
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"],
+      "items": [
+        { "name": "Auto Window Tinting", "path": "/auto-tint" },
+        { "name": "Residential Window Film", "path": "/home-tint" },
+        { "name": "Commercial Window Film", "path": "/commercial-film" },
+        { "name": "Windshield Replacement", "path": "/windshield" },
+        { "name": "Windshield Chip Repair", "path": "/chip-repair" },
+        { "name": "Clear Bra Paint Protection Film", "path": "/clear-bra" },
+        { "name": "Ceramic Coating", "path": "/ceramic-coating" },
+        { "name": "Blinds and Motorized Window Treatments", "path": "/blinds" },
+        { "name": "New Construction Window Film and Blinds", "path": "/new-construction" },
+        { "name": "Boat and RV Window Tint", "path": "/boat-rv-tint" },
+        { "name": "Headlight Restoration", "path": "/headlight-taillight", "id_suffix": "headlight-restoration" },
+        { "name": "Headlight and Taillight Protection Film", "path": "/headlight-taillight", "id_suffix": "headlight-film" }
+      ]
+    }
+  }
+}

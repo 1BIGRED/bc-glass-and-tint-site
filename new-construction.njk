@@ -1,0 +1,267 @@
+---
+# New construction landing page. Wording is in _data/pages/new_construction.json; markup
+# lives here. Three standalone JSON-LD blocks (new-construction.11tydata.js). Header uses
+# --gold on New Homes (frame.json new_homes_token). Never restore "communities rising" or
+# Boulder Creek framing; this reproduces LIVE exactly.
+permalink: new-construction.html
+slug: new-construction
+page_key: new_construction
+og_image: images/hero.jpg
+---
+{%- set pg = pages.new_construction -%}
+{%- set sh = pages.shared -%}
+{% include "head/open.njk" %}
+{% include "head/icons.njk" %}
+{% include "head/viewport.njk" %}
+{% include "head/ga4.njk" %}
+{% include "head/meta.njk" %}
+{% set ld = schema_ld[0] %}{% include "jsonld.njk" %}
+<style>
+:root{--gold:#c9a23f;--dark:#191b1f;--ink:#1f2228;--mut:#565d64;--line:#e7e9ec;--soft:#f5f6f7;--rev:#d8a72a}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);line-height:1.6;background:#fff}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:#1f2228;font-weight:800;padding:10px 16px;border-radius:0 0 8px 0;z-index:200}.skip-link:focus{left:0}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:#1f2228;font-weight:800;padding:10px 16px;border-radius:0 0 8px 0;z-index:200}
+.skip-link:focus{left:0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 18px}
+.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
+.util{background:var(--dark);color:#cfd2d6;font-size:12.5px;padding:7px 16px;display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap}
+.util span,.util a{display:inline-flex;align-items:center;gap:6px}
+.util a{color:var(--gold);font-weight:600}
+.util .ic{width:14px;height:14px;flex-shrink:0;color:var(--gold)}
+header{position:sticky;top:0;z-index:60;background:#fff;border-bottom:3px solid var(--gold);box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.hrow{max-width:1100px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{font-size:20px;font-weight:800;letter-spacing:.3px}
+.brand b{color:#1f2228}.brand span{color:var(--goldd)}
+nav.main{display:flex;align-items:center;gap:22px}
+nav.main a{font-size:14.5px;font-weight:600;color:#2b2e33}
+nav.main a:hover{color:var(--goldd)}
+.callbtn{background:var(--gold);color:#1f2228;font-weight:800;font-size:13.5px;padding:9px 15px;border-radius:7px;display:inline-flex;align-items:center;gap:6px}
+.callbtn .ic{width:15px;height:15px;stroke-width:2.2}
+.burger{display:none;background:none;border:0;color:#1f2228;cursor:pointer}
+.burger .ic{width:28px;height:28px}
+.mobnav{display:none;background:#fff;border-bottom:1px solid var(--line)}
+.mobnav a{display:block;padding:13px 20px;font-weight:600;border-top:1px solid var(--line)}
+.qbtn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1f2228;font-weight:800;font-size:16px;padding:14px 30px;border-radius:9px}
+.band{background:var(--gold);color:#241c08}
+.band .wrap{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;padding:14px 18px;font-weight:700;font-size:13.5px}
+.band span{display:inline-flex;align-items:center;gap:7px}
+.band .ic{width:17px;height:17px;stroke-width:2.4}
+section{padding:50px 0}
+.soft{background:var(--soft)}
+h2{font-size:27px;font-weight:800;text-align:center;margin-bottom:6px}
+h2 span{color:var(--goldd)}
+.sub{font-size:14.5px;color:var(--mut);text-align:center;max-width:640px;margin:0 auto 32px}
+.why{display:grid;grid-template-columns:1fr;gap:20px;max-width:580px;margin:0 auto}
+.why .item{display:flex;gap:14px;align-items:flex-start}
+.why .ic{width:30px;height:30px;color:var(--gold);flex-shrink:0;margin-top:2px}
+.why h3{font-size:16px;font-weight:800}
+.why p{font-size:13.5px;color:var(--mut)}
+.faq2{max-width:780px;margin:0 auto}
+.faq2 .item{border-bottom:1px solid var(--line);padding:16px 2px}
+.faq2 .q{font-weight:700;font-size:15.5px;margin-bottom:5px}
+.faq2 .a{font-size:14px;color:var(--mut)}
+.faq2 .more{text-align:center;margin-top:28px}
+.faq2 .more a{background:var(--gold);color:#1f2228;font-weight:800;padding:11px 24px;border-radius:8px;font-size:14px;display:inline-block}
+.quote{background:var(--dark);color:#fff}
+.quote h2{color:#fff}.quote .sub{color:#aeb2b8}
+form{max-width:500px;margin:0 auto;display:grid;gap:11px}
+form input,form select,form textarea{width:100%;padding:13px;border-radius:9px;border:0;font-size:16px;font-family:inherit}
+form textarea{min-height:84px;resize:vertical}
+form .send{background:var(--gold);color:#1f2228;font-weight:800;font-size:16px;padding:15px;border:0;border-radius:9px;cursor:pointer}
+.hp{position:absolute;left:-9999px}
+.stickycall{position:fixed;bottom:0;left:0;right:0;z-index:70;background:var(--gold);color:#1f2228;text-align:center;font-weight:800;padding:14px;font-size:16px;display:none;align-items:center;justify-content:center;gap:8px}
+.stickycall .ic{width:18px;height:18px;stroke-width:2.4}
+footer{background:var(--dark);color:#aeb2b8;font-size:13px;padding:34px 18px;text-align:center;line-height:1.8}
+footer .fcols{display:grid;grid-template-columns:1fr;gap:18px;max-width:820px;margin:0 auto 22px;text-align:left}
+footer h3{color:#fff;font-size:14px;margin-bottom:7px}
+footer a{color:var(--gold);text-decoration:underline}
+@media(max-width:760px){
+ nav.main{display:none}.burger{display:block}
+ .stickycall{display:flex}body{padding-bottom:54px}
+}
+@media(min-width:761px){
+ .why{grid-template-columns:1fr 1fr;max-width:880px}
+ footer .fcols{grid-template-columns:repeat(3,1fr)}
+}
+
+[data-tip]{position:relative}
+[data-tip]::after{content:attr(data-tip);position:absolute;left:50%;top:calc(100% + 11px);transform:translateX(-50%) translateY(-5px);width:max-content;max-width:230px;text-align:center;background:#1f2228;color:#fff;font-size:13px;font-weight:600;line-height:1.4;padding:10px 14px;border-radius:10px;border:2px solid var(--gold);box-shadow:0 10px 26px rgba(0,0,0,.26);opacity:0;pointer-events:none;transition:opacity .16s ease,transform .16s ease;z-index:300}
+[data-tip]::before{content:"";position:absolute;left:50%;top:calc(100% + 3px);transform:translateX(-50%) translateY(-5px);border:8px solid transparent;border-bottom-color:var(--gold);opacity:0;pointer-events:none;transition:opacity .16s ease,transform .16s ease;z-index:300}
+[data-tip]:hover::after,[data-tip]:focus-visible::after,[data-tip].tipshow::after,[data-tip]:hover::before,[data-tip]:focus-visible::before,[data-tip].tipshow::before{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:760px){[data-tip]::after,[data-tip]::before{display:none}}
+
+.qthanks{text-align:center;padding:6px 0}
+.qthanks-in{background:#fff;max-width:520px;margin:0 auto;border-radius:14px;padding:34px 26px;box-shadow:0 12px 34px rgba(0,0,0,.22)}
+.qthanks .qcheck{width:58px;height:58px;margin:0 auto 14px;display:block;color:var(--gold);stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.qthanks h3{font-size:22px;font-weight:800;color:var(--ink);margin-bottom:8px}
+.qthanks p{font-size:14.5px;color:var(--mut);margin-bottom:18px;line-height:1.6}
+.qthanks .tbtn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1f2228;font-weight:800;font-size:15px;padding:12px 24px;border-radius:9px}
+.qthanks .tbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+{% include "a11y-block.njk" %}
+/*--cookiebar*/.ckbar{position:fixed;left:0;right:0;bottom:0;z-index:80;background:#191b1f;color:#fff;border-top:3px solid var(--gold);padding:14px 18px;display:none;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:13.5px;line-height:1.6}.ckbar.show{display:flex}.ckbar p{margin:0;max-width:620px}.ckbar a{color:var(--gold);text-decoration:underline}.ckbar .ckbtns{display:flex;gap:10px;flex-shrink:0}.ckbar button{font-family:inherit;font-size:13.5px;font-weight:800;padding:10px 18px;border-radius:8px;cursor:pointer;min-height:44px;border:1.5px solid transparent}.ckbar .ck-yes{background:var(--gold);color:#1f2228;border-color:var(--gold)}.ckbar .ck-no{background:transparent;color:#fff;border-color:#6f7885}.ckbar button:focus-visible{outline:3px solid #fff;outline-offset:2px}@media(max-width:760px){.ckbar{bottom:54px;font-size:13px}}
+form .svcpick{background:#fff;border-radius:9px;padding:12px 13px 11px;border:0;margin:0;width:100%}
+form .svcpick legend{font-size:12.5px;font-weight:800;color:#565d64;text-transform:uppercase;letter-spacing:.05em;padding:0;margin:0 0 9px;float:left;width:100%}
+form .svcpick legend span{display:block;font-weight:600;text-transform:none;letter-spacing:0;font-size:12.5px;color:#6B7178;margin-top:2px}
+form .svcpick .opts{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;clear:both}
+form .svcpick label{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#1f2228;line-height:1.35;cursor:pointer;padding:3px 0;text-align:left}
+form .svcpick input[type=checkbox]{width:18px;height:18px;flex:0 0 18px;margin:1px 0 0;padding:0;border-radius:4px;accent-color:#c9a23f}
+form .svcpick.err{outline:3px solid #b0413e;outline-offset:1px}
+@media(max-width:560px){form .svcpick .opts{grid-template-columns:1fr}}
+</style>
+<style>
+.phero{position:relative;background:var(--dark);color:#fff;text-align:center;padding:46px 18px}
+.phero .crumb{font-size:12.5px;color:#9aa0a7;margin-bottom:10px}.phero .crumb a{color:var(--gold)}
+.phero h1{font-size:30px;font-weight:800;max-width:780px;margin:0 auto 8px;line-height:1.2}
+.phero p{font-size:15px;color:#c9ccd1;max-width:660px;margin:0 auto 20px}
+.pbtns{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+.ptrust{margin-top:20px;font-size:13px;color:#c9ccd1;display:flex;gap:6px 14px;justify-content:center;flex-wrap:wrap;align-items:center}
+.ptrust b{color:var(--gold)}.ptrust .sep{opacity:.4}
+@media(max-width:760px){.ptrust .sep{display:none}.ptrust{gap:4px 12px}}
+.content{display:grid;grid-template-columns:1fr;gap:26px;align-items:center}
+.content .pic img{width:100%;border-radius:14px;aspect-ratio:3/2;object-fit:cover}
+.content h2{text-align:left;font-size:23px}.content p{color:var(--mut);font-size:14.5px}
+.content ul{list-style:none;margin-top:14px}
+.content li{font-size:14px;color:#3c424a;padding-left:24px;position:relative;margin-bottom:7px}
+.content li::before{content:"";position:absolute;left:0;top:6px;width:11px;height:7px;border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg)}
+.minigrid{display:grid;grid-template-columns:1fr;gap:13px}
+.minicard{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.minicard .ic{width:26px;height:26px;color:var(--gold);flex-shrink:0}.minicard b{font-size:15px}.minicard span{display:block;font-size:12.5px;color:var(--mut)}
+.steps{display:grid;grid-template-columns:1fr;gap:16px;max-width:900px;margin:0 auto}
+.step{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:13px;padding:18px 20px}
+.step .num{flex-shrink:0;width:38px;height:38px;border-radius:99px;background:var(--gold);color:#1f2228;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center}
+.step h3{font-size:16px;font-weight:800;margin-bottom:3px}.step p{font-size:13.5px;color:var(--mut)}
+.communities{display:grid;grid-template-columns:1fr;gap:14px;max-width:1000px;margin:0 auto}
+.commcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:20px 22px}
+.commcard h3{font-size:17px;font-weight:800;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.commcard h3 .ic{width:20px;height:20px;color:var(--gold)}
+.commcard .who{font-size:12.5px;font-weight:700;color:var(--goldd);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.commcard p{font-size:13.5px;color:var(--mut)}
+.revgrid{display:grid;grid-template-columns:1fr;gap:14px;max-width:1000px;margin:0 auto}
+.rev{background:#fff;border:1px solid var(--line);border-radius:13px;padding:20px}
+.rev .vbadge{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:#2f7d52;background:#eaf6ef;border:1px solid #cfe9da;padding:3px 9px;border-radius:99px;margin-bottom:9px}
+.rev .vbadge .ic{width:13px;height:13px;color:#2f7d52;stroke-width:2.4}
+.rev .vbadge.yelp{color:#b3261e;background:#fdeceb;border-color:#f5c6c2}.rev .vbadge.yelp .ic{color:#b3261e;fill:#b3261e;stroke:#b3261e}
+.rev .st{display:inline-flex;gap:2px;color:var(--rev);margin-bottom:8px}.rev .st .ic{width:16px;height:16px;fill:var(--rev);stroke:var(--rev)}
+.rev .qt{font-size:14.5px;margin-bottom:7px;color:#2a2e34}.rev .by{font-size:12.5px;color:var(--mut);font-weight:700}
+.revlink{text-align:center;margin-top:24px}.revlink a{color:var(--gold);font-weight:800;font-size:14px}
+@media(min-width:761px){.content{grid-template-columns:1fr 1fr}.minigrid{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(3,1fr)}.communities{grid-template-columns:repeat(3,1fr)}.revgrid{grid-template-columns:repeat(3,1fr)}}
+
+/* Grid items default to min-width:auto, which stops a fixed-width image
+   from shrinking and pushes the page wider than the phone screen. */
+.content>*{min-width:0}
+.content .pic img{max-width:100%;height:auto}
+
+/* ---- round 1 review fixes ---- */
+/* 1. Never stack the consent bar on top of the sticky call bar, and reserve its height. */
+@media(max-width:760px){
+  body.ck-open .stickycall{display:none}
+  .ckbar{bottom:0;padding:10px 12px 12px;gap:8px;font-size:12.5px;line-height:1.45;row-gap:8px}
+  .ckbar p{flex:1 1 100%;text-align:left;margin:0}
+  .ckbar .ckbtns{flex:1 1 100%;gap:8px}
+  .ckbar .ckbtns button{flex:1;min-height:44px;padding:10px 8px;font-size:13.5px}
+}
+/* 2. Inline links were never given a tap target. */
+.ckbar p a,form p a,.chead h3 a,.faq2 .a a,.chipnote a,.yelpblock a,
+main>p>a,section.soft .wrap>p>a,.revlink a{display:inline-block;padding:5px 3px;margin:0 -3px;line-height:1.5;min-height:24px}
+/* 3. Type floor. Nothing legible should sit under 12.5px. */
+.rcard .vbadge,.rev .vbadge{font-size:12.5px;padding:4px 10px}
+.rcard .vbadge .ic,.rev .vbadge .ic{width:14px;height:14px}
+form p{font-size:13px;line-height:1.55}
+.stats .l{font-size:12.5px}
+.commcard .who{font-size:12.5px}
+/* 4. The service picker is the main conversion control; give it real rows. */
+form .svcpick .opts{gap:2px 14px}
+form .svcpick label{align-items:center;min-height:44px;padding:6px 8px;margin:0 -8px;border-radius:7px}
+form .svcpick input[type=checkbox]{width:22px;height:22px;flex:0 0 22px;margin:0}
+form .svcpick label:has(input:checked){background:#faf3e0;box-shadow:inset 0 0 0 1.5px #c9a23f}
+/* 5. width/height attrs killed the intended aspect-ratio, so photos rendered as portrait slabs. */
+.content .pic img,.content .pic .ph,.shadecard img{height:auto}
+/* 6. Badge contrast in the dark band (the .hero override never reached it). */
+.hero .badge,section .badge{background:#2A2417}
+/* reserve the consent bar's measured height at every viewport */
+body.ck-open{padding-bottom:calc(var(--ckh,150px) + 12px)}
+/* The util bar repeated Call/Text/Email that the sticky bar already provides,
+   costing 140px of the first mobile screen and pushing hero CTAs into the banner. */
+@media(max-width:760px){
+  .util{font-size:12.5px;padding:6px 12px;gap:2px 14px;line-height:1.45;justify-content:center}
+  .util a[href^="tel:"],.util a[href^="sms:"],.util #emailbtn{display:none}
+}
+
+/* ---- round 2 review fixes ---- */
+/* Service pages put a 90-150 word paragraph between the H1 and the phone number,
+   pushing both CTAs underneath the consent bar. Reorder without touching markup. */
+@media(max-width:760px){
+  .phero{display:flex;flex-direction:column}
+  .phero .crumb{order:1}
+  .phero h1{order:2;margin-bottom:12px}
+  .phero .ptrust{order:3}
+  .phero .chipnote{order:4}
+  .phero .pbtns{order:5;margin-bottom:20px}
+  .phero p{order:6}
+  .phero .sub{order:7}
+  /* the wordmark is already in the sticky header; on a phone it was costing 194px
+     and pushing the 5.0/184-review stats under the consent bar */
+  .hero .logo{display:none}
+  .hero h1{font-size:27px;line-height:1.16;margin-bottom:10px}
+}
+/* persistent, readable validation message for the service picker */
+form .svcpick .svcerr{clear:both;margin:0 0 8px;font-size:13.5px;font-weight:700;color:#a3302d;line-height:1.4}
+.quote .sub a{color:#c9a23f !important;font-weight:800;display:inline-block;padding:4px 2px;min-height:24px}
+/* main nav links measured 23px tall - one pixel under the WCAG 2.2 target minimum */
+nav.main a{display:inline-flex;align-items:center;min-height:26px;padding:2px 4px}
+/* round 4: inline links inside .wrap/.band paragraphs never got a tap target */
+.wrap p a,.band a,.ptrust a,.minicard p a{display:inline-block;padding:5px 3px;margin:0 -3px;line-height:1.5;min-height:24px}
+
+@media print{.ckbar,.stickycall,#burger,.mobnav{display:none!important}header{position:static!important}a[href^="tel:"]::after{content:" (702-550-8840)"}}
+</style>
+{% set ld = schema_ld[1] %}{% include "jsonld.njk" %}
+{% include "head/clarity.njk" %}
+{% set ld = schema_ld[2] %}{% include "jsonld.njk" %}
+</head>
+<body>
+{% include "skip-link.njk" %}
+{% include "sprite.njk" %}
+{% include "util.njk" %}
+{% include "header.njk" %}
+<main id="main" tabindex="-1">
+
+<section class="phero"><p class="crumb"><a href="/">{{ sh.crumb.home | safe }}</a> / <a href="/#services">{{ sh.crumb.services | safe }}</a> / {{ pg.hero.crumb | safe }}</p><h1>{{ pg.hero.heading | safe }}</h1><p>{{ pg.hero.intro | safe }}</p><div class="pbtns"><a class="qbtn" href="tel:{{ site.phone.tel | safe }}">{{ sh.buttons.call | safe }} {{ site.phone.display | safe }}</a><a class="qbtn" style="background:transparent;color:#fff;border:1.5px solid #6f7885" href="#quote">{{ sh.buttons.free_quote | safe }}</a></div><div class="ptrust"><span><b>{{ site.reviews.google_rating | safe }}★</b> {{ pg.ptrust.google_label | safe }}</span><span class="sep">|</span><span><b>{{ site.reviews.google_count | safe }}</b> {{ pg.ptrust.reviews_label | safe }}</span><span class="sep">|</span><span>{{ pg.ptrust.family_label | safe }} <b>{{ site.founding_year | safe }}</b></span><span class="sep">|</span><span>{{ pg.ptrust.warranty_label | safe }}</span></div></section>
+
+<div class="band"><div class="wrap">{% for b in pg.band %}<span><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> {{ b | safe }}</span>{% endfor %}</div></div>
+
+<section><div class="wrap"><div class="content"><div class="pic"><img src="images/residential.webp" alt="{{ pg.section_film.image_alt | safe }}" loading="lazy" width="600" height="400"></div><div><h2>{{ pg.section_film.heading | safe }}</h2><p>{{ pg.section_film.intro | safe }}</p><ul>{% for li in pg.section_film.bullets %}<li>{{ li | safe }}</li>{% endfor %}</ul></div></div></div></section>
+
+<section class="soft"><div class="wrap"><div class="content"><div><h2>{{ pg.section_blinds.heading | safe }}</h2><p>{{ pg.section_blinds.intro | safe }}</p><ul>{% for li in pg.section_blinds.bullets %}<li>{{ li | safe }}</li>{% endfor %}</ul></div><div class="pic"><img src="images/blinds.webp" alt="{{ pg.section_blinds.image_alt | safe }}" loading="lazy" width="600" height="400"></div></div></div></section>
+
+<section><div class="wrap"><h2>{{ pg.steps.heading | safe }}</h2><p class="sub">{{ pg.steps.sub | safe }}</p><div class="steps">{% for s in pg.steps.items %}<div class="step"><div class="num">{{ loop.index }}</div><div><h3>{{ s.title | safe }}</h3><p>{{ s.text | safe }}</p></div></div>{% endfor %}</div></div></section>
+
+<section class="soft"><div class="wrap"><h2>{{ pg.needs.heading | safe }}</h2><p class="sub">{{ pg.needs.sub | safe }}</p><div class="minigrid">{% for c in pg.needs.cards %}<a class="minicard" href="{{ c.href | safe }}"><svg class="ic" aria-hidden="true"><use href="#{{ c.icon | safe }}"/></svg><div><b>{{ c.title | safe }}</b><span>{{ c.text | safe }}</span></div></a>{% endfor %}</div></div></section>
+
+<section><div class="wrap"><h2>{{ pg.communities.heading | safe }}</h2><p class="sub">{{ pg.communities.sub | safe }}</p><div class="communities">{% for c in pg.communities.items %}<div class="commcard"><h3><svg class="ic" aria-hidden="true"><use href="#i-house"/></svg> {{ c.name | safe }}</h3><div class="who">{{ c.builder | safe }}</div><p>{{ c.text | safe }}</p></div>{% endfor %}</div><p class="sub" style="margin:26px auto 0">{{ pg.communities.closing | safe }}</p></div></section>
+
+<section class="soft"><div class="wrap"><h2>{{ pg.why.heading | safe }}</h2><p class="sub">{{ pg.why.sub | safe }}</p><div class="why">{% for w in pg.why.items %}<div class="item"><svg class="ic" aria-hidden="true"><use href="#{{ w.icon | safe }}"/></svg><div><h3>{{ w.title | safe }}</h3><p>{{ w.text | safe }}</p></div></div>{% endfor %}</div></div></section>
+
+<section><div class="wrap"><h2>{{ pg.reviews.heading | safe }}</h2><p class="sub">{{ pg.reviews.sub | fill | safe }}</p><div class="revgrid">{% for r in pg.reviews.items %}<div class="rev"><div class="vbadge"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> {{ sh.reviews.google_badge | safe }}</div><div class="st" role="img" aria-label="{{ sh.reviews.stars_label | safe }}"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></div><div class="qt">"{{ r.quote | safe }}"</div><div class="by">{{ r.name | safe }}</div></div>{% endfor %}</div><div class="revlink"><a href="/reviews">{{ pg.reviews.more_link | safe }}</a></div></div></section>
+
+<section class="soft"><div class="wrap"><h2>{{ pg.faq.heading | safe }}</h2><p class="sub">{{ pg.faq.sub_lead | safe }}{{ site.phone.display | safe }}{{ pg.faq.sub_tail | safe }}</p><div class="faq2">{% for item in pg.faq.items %}<div class="item"><h3 class="q">{{ item.question | safe }}</h3><div class="a">{{ item.answer | safe }}</div></div>{% endfor %}<div class="more"><a href="/qa">{{ pg.faq.more_label | safe }}</a></div></div></div></section>
+
+{% include "quote.njk" %}
+
+{% include "sticky-call.njk" %}
+</main>
+{% include "footer.njk" %}
+{% include "js/burger.njk" %}
+{% include "js/emailbtn.njk" %}
+{% include "js/quote-submit.njk" %}
+{% include "js/anim.njk" %}
+{% include "js/source-vin.njk" %}
+{% include "js/gtag-events.njk" %}
+{% include "cookie-bar.njk" %}
+{% include "js/cookie.njk" %}
+{% include "js/svc-validate.njk" %}
+</body>
+</html>

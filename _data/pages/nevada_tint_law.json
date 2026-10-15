@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "title": "Nevada Window Tint Law, Explained | BC Glass &amp; Tint",
+    "description": "What NRS 484D.440 actually says: 35 percent light on front side windows, nonreflective film, and the rules for the windshield and rear glass.",
+    "image_alt": "BC Glass and Tint branded box truck"
+  },
+  "hero": {
+    "crumb": "Nevada Tint Law",
+    "heading": "Nevada Window Tint Law, Explained",
+    "intro": "Nevada's tint law sets one hard number for your front side windows: the glass and film together must pass no less than 35 percent of light, allowing a 7 percent tolerance, and the film itself cannot be reflective. Only a narrow strip at the very top of the windshield may carry any film at all. Your rear window and back side windows are free to go as dark as Nevada allows, provided your vehicle keeps outside mirrors on both sides. Every rule on this page comes straight from Nevada Revised Statutes 484D.440, cited line by line, so you can see exactly where each requirement comes from before you choose a shade.",
+    "quote_btn": "Get a Free Tint Quote"
+  },
+  "statute": {
+    "heading": "What the <span>Statute</span> Says",
+    "sub": "Five provisions of NRS 484D.440, each with the statute cited. Nothing on this page beyond these five is stated as law.",
+    "items": [
+      {
+        "term": "The combined light transmission through your front side glass and film cannot drop below 35 percent, with a 7 percent measurement tolerance.",
+        "detail": "This is measured as visible light transmission, or VLT, for the glass and film together, not the film by itself.",
+        "source": "Source: Nevada Revised Statutes 484D.440."
+      },
+      {
+        "term": "Film on the front side windows must be nonreflective.",
+        "detail": "A mirrored or reflective finish on the front side windows is not allowed under this law, regardless of how dark it is.",
+        "source": "Source: Nevada Revised Statutes 484D.440."
+      },
+      {
+        "term": "Film is not allowed on the windshield except a strip across the topmost portion, subject to a bottom-edge height requirement, and it cannot be red or amber.",
+        "detail": "The exact height that strip can reach down to is set by the statute's own bottom-edge rule.",
+        "source": "Source: Nevada Revised Statutes 484D.440."
+      },
+      {
+        "term": "The rear window and back side windows may be tinted if the vehicle has outside mirrors on both sides that show at least 200 feet behind you.",
+        "detail": "With that mirror setup in place, the statute does not set a separate darkness limit for the rear and back side windows.",
+        "source": "Source: Nevada Revised Statutes 484D.440."
+      },
+      {
+        "term": "On exemptions, the statute says only that the Director may provide for exemptions and exceptions by regulation.",
+        "detail": "The statute does not spell out who qualifies or how, only that the Director can set exemptions by regulation.",
+        "source": "Source: Nevada Revised Statutes 484D.440."
+      }
+    ],
+    "footer_note": "Read the statute yourself: <a href=\"https://nevada.public.law/statutes/nrs_484d.440\" target=\"_blank\" rel=\"noopener\" style=\"color:var(--goldsm);font-weight:700\">Nevada Revised Statutes 484D.440</a>."
+  },
+  "meaning": {
+    "blocks": [
+      {
+        "heading": "What This Means When You Are Choosing a Shade",
+        "paragraphs": [
+          "When you come to us for auto tint, we install film that meets Nevada's front-window rule and steer you toward the darkest shade the law still allows. Every film we install is ceramic. That means you get a shade that meets the law on your front windows while still cutting heat and glare, without guessing at what will or will not pass."
+        ]
+      },
+      {
+        "heading": "What We Do Not Know and Will Not Guess",
+        "paragraphs": [
+          "Nevada Revised Statutes 484D.440 states only that exemptions are set by the Director through regulation, not laid out in the statute itself. We do not know the specific criteria for a medical or any other exemption, and we are not going to guess at a number or a process we cannot verify. If you believe you qualify for an exemption, contact the issuing authority directly rather than relying on a shop's answer."
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Tint Law <span>Questions</span>",
+    "items": [
+      {
+        "question": "Is 35 percent the same as 35 percent tint?",
+        "answer": "Not exactly. The 35 percent figure in the law is VLT, or visible light transmission, the share of light that passes through the glass and film together. People often shorten this to 35 percent tint, but the number describes how much light gets through, not a separate darkness rating for the film alone. Source: Nevada Revised Statutes 484D.440."
+      },
+      {
+        "question": "Can my back windows be darker?",
+        "answer": "Yes, with one condition. Your rear window and back side windows can be tinted as long as your vehicle has outside mirrors on both sides that give you a view of at least 200 feet behind you. Source: Nevada Revised Statutes 484D.440."
+      },
+      {
+        "question": "Can you tint my windshield?",
+        "answer": "Only the top strip. Nevada law does not allow film on the windshield except a strip across the very top, and how far down that strip can reach is set by a bottom-edge height rule in the statute. The strip cannot be red or amber. Source: Nevada Revised Statutes 484D.440."
+      }
+    ]
+  },
+  "also": {
+    "heading": "Related <span>Pages</span>",
+    "links": [
+      { "href": "/auto-tint", "icon": "i-car", "label": "Auto / Vehicle Tint" },
+      { "href": "/henderson", "icon": "i-pin", "label": "Window Tinting in Henderson" },
+      { "href": "/las-vegas", "icon": "i-pin", "label": "Window Tint &amp; Auto Glass in Las Vegas" },
+      { "href": "/qa", "icon": "i-check", "label": "Full FAQ" }
+    ]
+  },
+  "quote": {
+    "source": "Nevada Tint Law",
+    "preselect": "Auto / Vehicle Tint"
+  },
+  "schema": {
+    "date_modified": "2026-08-27"
+  }
+}

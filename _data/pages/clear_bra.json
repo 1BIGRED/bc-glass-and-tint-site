@@ -1,0 +1,123 @@
+{
+  "meta": {
+    "title": "Clear Bra Paint Protection, Boulder City to Vegas | BC Glass",
+    "description": "Self-healing clear bra paint protection film installed at our Boulder City shop for Henderson and Las Vegas drivers. Call 702-550-8840 for a quote.",
+    "image_alt": "Clear bra paint protection film service at BC Glass and Tint in Boulder City, NV"
+  },
+  "hero": {
+    "crumb": "Clear Bra / Paint Protection",
+    "heading": "Clear Bra &amp; Paint Protection Film in Boulder City, NV",
+    "intro": "Paint protection film is not for every vehicle. If you keep a car in the garage and only drive it to shows, you may never need it. For anything that spends real time on Nevada highways, gravel shoulders and desert wind, it is a different story: rock chips and road debris hit the front end first, and clear bra absorbs that impact instead of your paint. It is a self-healing, nearly invisible film, computer-cut to your vehicle's panels, backed by a lifetime manufacturer warranty and installed at our Boulder City shop for drivers from Henderson to Las Vegas."
+  },
+  "band": [
+    "XPEL &amp; ASWF Film",
+    "Computer-Cut Film",
+    "Lifetime Film Warranty",
+    "Partial or Full Coverage",
+    "Free Quotes"
+  ],
+  "content": {
+    "image_alt": "Clear Bra &amp; Paint Protection Film in Boulder City, NV",
+    "heading": "Clear Bra / Paint Protection",
+    "intro": "Nevada highways are brutal on paint. Clear bra is a nearly invisible urethane film that absorbs rock chips and debris so your paint stays flawless.",
+    "bullets": [
+      "Nearly invisible protection",
+      "Absorbs rock chips and debris",
+      "Self-healing with heat",
+      "Partial or full coverage",
+      "Preserves resale value"
+    ]
+  },
+  "reviews": {
+    "heading": "What <span>Customers</span> Say",
+    "sub": "Real reviews from BC Glass and Tint customers.",
+    "items": [
+      {
+        "platform": "google",
+        "quote": "Amazing prices and attention to detail. 100% worth the drive from Vegas. Will definitely be back.",
+        "name": "Payne Fordham"
+      },
+      {
+        "platform": "yelp",
+        "quote": "Justin and his crew do incredible work. Always top notch and perfect. True perfectionist.",
+        "name": "Brandon L."
+      },
+      {
+        "platform": "google",
+        "quote": "Excellent service and very reasonable prices. My car looks great and I couldn't be happier!",
+        "name": "Jessica Harrison"
+      }
+    ]
+  },
+  "also": {
+    "links": [
+      {
+        "href": "/auto-tint",
+        "icon": "i-car",
+        "label": "Auto / Vehicle Tint"
+      },
+      {
+        "href": "/home-tint",
+        "icon": "i-house",
+        "label": "Home / Residential Tint"
+      },
+      {
+        "href": "/commercial-film",
+        "icon": "i-building",
+        "label": "Commercial Window Film"
+      },
+      {
+        "href": "/windshield",
+        "icon": "i-windshield",
+        "label": "Windshield Replacement"
+      },
+      {
+        "href": "/chip-repair",
+        "icon": "i-chip",
+        "label": "Windshield Chip Repair"
+      },
+      {
+        "href": "/ceramic-coating",
+        "icon": "i-spark",
+        "label": "Ceramic Coating"
+      },
+      {
+        "href": "/headlight-taillight",
+        "icon": "i-shield",
+        "label": "Headlight Restoration",
+        "same_line": true
+      },
+      {
+        "href": "/blinds",
+        "icon": "i-blinds",
+        "label": "Blinds &amp; Window Treatments"
+      },
+      {
+        "href": "/henderson",
+        "icon": "i-pin",
+        "label": "Clear bra paint protection for Henderson"
+      },
+      {
+        "href": "/las-vegas",
+        "icon": "i-pin",
+        "label": "Clear bra paint protection for Las Vegas"
+      }
+    ]
+  },
+  "quote": {
+    "source": "Clear Bra / Paint Protection",
+    "preselect": "Clear Bra / PPF"
+  },
+  "schema": {
+    "date_modified": "2026-08-27",
+    "service": {
+      "service_type": "Paint Protection Film (Clear Bra)",
+      "name": "Paint Protection Film (Clear Bra) in Boulder City, NV",
+      "area_served": [
+        "Boulder City",
+        "Henderson",
+        "Las Vegas"
+      ]
+    }
+  }
+}

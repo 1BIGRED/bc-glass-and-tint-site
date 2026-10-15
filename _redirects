@@ -1,0 +1,26 @@
+# Netlify redirects for bcglassandtint.com
+# The trailing ! forces the rule even though the file exists on disk.
+
+# preview.html is Chase's local viewing tool, not a public page.
+# It iframes index.html, has no footer and no privacy link.
+# Keep the file for local use, but do not serve it on the live domain.
+/preview.html    /    301!
+# Pretty URLs also resolve the extensionless form, so cover it too.
+/preview         /    301!
+
+# Two stale URLs from an earlier build that are still indexed and 404 today.
+# Send them to the closest live equivalent instead of dead-ending visitors.
+/services        /#services               301!
+/bc              /               301!
+
+# Repo files live in this folder but must never be served on the live domain.
+# Drag-and-drop deploys upload everything, so block them explicitly.
+# .git is a FILE here, not a directory - the history lives in ../.bcgt-git,
+# outside the deploy folder - so /.git needs its own rule alongside /.git/*.
+/.git            /    301!
+/.git/*          /    301!
+/.gitignore      /    301!
+
+# The Boulder City page duplicated the homepage's H1 and target keyword, and the
+# shop is in Boulder City, so the homepage already covers that search.
+/boulder-city-window-tint  /    301!

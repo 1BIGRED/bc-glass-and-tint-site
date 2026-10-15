@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "title": "Privacy Policy | BC Glass &amp; Tint",
+    "description": "Privacy policy for BC Glass and Tint, Boulder City NV. How we collect, use and protect the information you provide through our website and quote form.",
+    "image_alt": "BC Glass and Tint branded box truck in the Boulder City parade"
+  },
+  "hero": {
+    "heading": "Privacy Policy"
+  },
+  "updated": {
+    "effective": "Effective date: August 25, 2026",
+    "previous_note": "Previous version: August 12, 2026. This update adds Microsoft Clarity, describes our cookie banner, and corrects how you turn analytics off."
+  },
+  "intro": "This Privacy Policy explains how BC Glass &amp; Tint (\"we,\" \"us,\" or \"our\"), a family-owned window tinting, auto glass, and blinds business located at 1633 Boulder City Pkwy, Boulder City, NV 89005, collects and uses information when you visit bcglassandtint.com (the \"Site\"), contact us through it, or become a customer.",
+  "sections": [
+    {
+      "heading": "Information we collect",
+      "blocks": [
+        { "type": "p", "text": "Most of what we hold is information you typed into our form yourself. Some is collected automatically when you use the Site, and all of it is described below. When you submit our quote or contact form, we collect:" },
+        { "type": "ul", "items": [
+          "Your name",
+          "Your phone number",
+          "Your email address, if you provide it",
+          "The service or services you select. You can choose more than one",
+          "Your vehicle identification number, or VIN, if you are asking about a windshield replacement and choose to give it. That field is optional and it only appears when you select windshield replacement",
+          "Any details you include about your vehicle, home, or project",
+          "Which page of our Site you sent the form from, which the form records automatically so we know what you were reading"
+        ] },
+        { "type": "p", "text": "Please do not type medical information, insurance policy or claim numbers, or your driver's license number into the details box. If we need any of that to do your job, we will ask you for it by phone." },
+        { "type": "p", "text": "Our website host, Netlify, also processes our form submissions and may automatically log standard technical information, such as your IP address, browser type, and the pages you visit, for security and basic site operation." },
+        { "type": "p", "text": "We do not use advertising cookies, we do not run ads, and we do not build advertising profiles. Three third-party services do receive some information when you visit, and each one is described below: Google Analytics and Microsoft Clarity, which run only while analytics is allowed, and the Google map embedded on our About page, which loads with that page." }
+      ]
+    },
+    {
+      "heading": "How we use information",
+      "blocks": [
+        { "type": "p", "text": "We use the information you provide to:" },
+        { "type": "ul", "items": [
+          "Respond to your quote request or question",
+          "Schedule and provide the services you ask about",
+          "Contact you about your request by phone, text, or email",
+          "Keep records of our work"
+        ] }
+      ]
+    },
+    {
+      "heading": "Text messages and calls",
+      "blocks": [
+        { "type": "p", "text": "The form says, just above the button: \"By submitting this form, you agree that BC Glass and Tint may contact you about your request by phone, text, or email. Reply STOP to any text to stop receiving them.\"" },
+        { "type": "p", "text": "That permission covers the request you sent us, and nothing else. Texts are typed by a person here at the shop from 702-550-8840. Message and data rates may apply. You can stop them at any time by replying STOP, or simply by telling us to stop in a text, a call, or an email. We will honor it however you say it." },
+        { "type": "p", "text": "We do not send promotional or marketing text messages. If that ever changes, we will ask for your permission separately first, and you will be able to say no without it affecting your service or your price. We do not sell or share mobile phone numbers or text-message consent with anyone for their own marketing." }
+      ]
+    },
+    {
+      "heading": "Cookies and your choices",
+      "blocks": [
+        { "type": "p", "text": "When you first visit, a banner asks whether to allow analytics. Until you answer, analytics is on. If you choose Decline, we switch both Google Analytics and Microsoft Clarity off, delete the cookies they set, and load neither of them again on this browser. Because the banner appears after the page has already opened, a small amount of data may reach Google and Microsoft during that first page view, before you answer. From the moment you press Decline onward, nothing further is sent." },
+        { "type": "p", "text": "Your answer is stored on your own device, in a cookie named <code>bcgt_analytics</code> and in your browser's local storage. That record holds only your yes or no. It does not identify you. You can change your answer at any time using the cookie settings link in our footer." },
+        { "type": "p", "text": "Two things worth knowing. Clearing your browser's cookies and site data does <strong>not</strong> reliably switch analytics off, and because it also erases your Decline choice, it can switch analytics back on and the banner will ask again. And because the choice is stored per browser and per device, declining on your phone does not decline on your laptop." },
+        { "type": "p", "text": "Our Site does not currently respond to \"Do Not Track\" browser signals or the Global Privacy Control, because no single agreed standard for honoring them exists. We do not sell your information in any case." }
+      ]
+    },
+    {
+      "heading": "Analytics",
+      "blocks": [
+        { "type": "p", "text": "We use <strong>Google Analytics</strong> to see how many people visit, which pages they read, and how they interact with the Site: whether you tap to call, text, email, get directions or open our reviews, whether you start and submit our form, how far you scroll, and what you search for on the Site. When you submit the form it also records which service you asked about and which page you sent it from. It does not send Google your name, phone number, email address, VIN, or the details you type. It sets cookies whose names begin with <code>_ga</code>, and it sends Google your IP address, the pages you view, and general information about your device and approximate location. We have not turned on Google's advertising features and we have told Google not to use any of it for advertising." },
+        { "type": "p", "text": "We use <strong>Microsoft Clarity</strong> to see where people get stuck. Clarity records how you move through a page: mouse movement, scrolling, clicks, and how long you stay. It combines those into heatmaps and a playback of the visit. We have configured Clarity to mask what you type into our form, so the recording shows that a field was filled without showing what you wrote. Clarity loads only while analytics is allowed." },
+        { "type": "p", "text": "What Google and Microsoft do with the data they receive is governed by their own privacy policies, not ours." },
+        { "type": "p", "text": "The reliable ways to stop analytics are to choose Decline on our banner, or to install Google's opt-out add-on at <a href=\"https://tools.google.com/dlpage/gaoptout\" rel=\"noopener nofollow\">tools.google.com/dlpage/gaoptout</a>, which covers Google Analytics on every site you visit." }
+      ]
+    },
+    {
+      "heading": "How we share information",
+      "blocks": [
+        { "type": "p", "text": "We do not sell or rent your personal information. We share it only with:" },
+        { "type": "ul", "items": [
+          "<strong>Netlify</strong>, in the United States, which hosts the Site and stores our form submissions",
+          "Our <strong>email provider</strong>, which delivers and stores the notification email containing your request",
+          "<strong>Google</strong> and <strong>Microsoft</strong>, for the analytics described above",
+          "<strong>Suppliers and partners needed to finish your job</strong>, for example a glass or parts distributor we order from using your vehicle information, or your insurance company or its claims administrator if you ask us to bill a claim. We share only what that job requires",
+          "Others when required by law, or to protect our rights, safety, or property"
+        ] }
+      ]
+    },
+    {
+      "heading": "How we protect information",
+      "blocks": [
+        { "type": "p", "text": "Your form reaches us over an encrypted (HTTPS) connection. Submissions are stored in our host's system and in our email, both protected by strong passwords and, where our providers offer it, two-factor authentication. Access is limited to the people at the shop who need it to do your job. We do not take or store payment card numbers on the Site. No method of storing or sending information over the Internet is completely secure, so we keep only what we need." },
+        { "type": "p", "text": "If we ever learn that information you gave us has been accessed by someone who should not have it, we will notify you as required by Nevada law." }
+      ]
+    },
+    {
+      "heading": "Reviewing, correcting, or deleting your information",
+      "blocks": [
+        { "type": "p", "text": "If you want to see what you sent us, correct something, or have it deleted, email <a href=\"mailto:info@bcglassandtint.com\">info@bcglassandtint.com</a> or call <a href=\"tel:+17025508840\">702-550-8840</a> and tell us what you need. We will confirm who you are using the phone number or email address you originally gave us, and we will normally finish within 30 days. There is no charge." },
+        { "type": "p", "text": "Two honest limits. If we have already done work for you, we may need to keep the records of that job (the invoice, what we did, and the vehicle or product details) for warranty, tax, and insurance purposes. We will tell you what we kept and why. And this covers the information you sent us; it does not cover the anonymous analytics described above, which is not tied to your name and which we cannot look up person by person. You can stop that collection by choosing Decline on our banner." }
+      ]
+    },
+    {
+      "heading": "Your Nevada privacy rights",
+      "blocks": [
+        { "type": "p", "text": "Under Nevada law (NRS 603A.300 to 603A.360), a Nevada consumer may submit a verified request directing a website operator not to sell certain covered information. We do not sell your information, and we do not sell covered information as Nevada law defines it." },
+        { "type": "p", "text": "Our designated request address for these requests, and for any other question about your information, is <a href=\"mailto:info@bcglassandtint.com\">info@bcglassandtint.com</a>. Write to us there and we will respond within 60 days. If we need more time we will tell you, and we will take no more than 30 additional days. You can also reach us by phone or mail using the details at the end of this policy, though email is the fastest route." }
+      ]
+    },
+    {
+      "heading": "Data retention",
+      "blocks": [
+        { "type": "p", "text": "We delete quote requests that never became jobs after 24 months. We delete a VIN once the windshield work it was given for is finished. Records of completed work (invoices, what we did, and warranty details) we keep for four years for tax, warranty, and insurance purposes. If you ask us to delete something sooner, see the section above." }
+      ]
+    },
+    {
+      "heading": "Children's privacy",
+      "blocks": [
+        { "type": "p", "text": "Our Site is intended for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children." }
+      ]
+    },
+    {
+      "heading": "Third-party content and links",
+      "blocks": [
+        { "type": "p", "text": "Our About page includes a map embedded from Google. When that map loads, your browser connects to Google's servers, which means Google receives your IP address and may set its own cookies. This happens as the page loads, without you clicking anything. We do not receive or see any of that information. What Google does with it is governed by Google's privacy policy, not ours." },
+        { "type": "p", "text": "Our Site also links out to third-party sites such as Google, Yelp, Facebook and Nextdoor. We are not responsible for the privacy practices of those sites, and we encourage you to review their policies." }
+      ]
+    },
+    {
+      "heading": "Changes to this policy",
+      "blocks": [
+        { "type": "p", "text": "We may update this Privacy Policy from time to time. When we do, we will change the effective date above. If we make a change that materially affects how we handle information we already collected from you (for example adding a new kind of tracking), we will also post a notice on our home page for at least 30 days." }
+      ]
+    },
+    {
+      "heading": "Contact us",
+      "blocks": [
+        { "type": "p", "text": "If you have any questions about this Privacy Policy or your information, contact us:" },
+        { "type": "p", "text": "BC Glass &amp; Tint<br>1633 Boulder City Pkwy, Boulder City, NV 89005<br>Phone or text: <a href=\"tel:+17025508840\">702-550-8840</a><br>Email: <a href=\"mailto:info@bcglassandtint.com\">info@bcglassandtint.com</a>" }
+      ]
+    }
+  ]
+}

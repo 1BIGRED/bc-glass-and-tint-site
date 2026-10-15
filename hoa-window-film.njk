@@ -1,0 +1,86 @@
+---
+# Slim informational page with a visible FAQ. All wording is in _data/pages/hoa_window_film.json;
+# markup lives here. JSON-LD: hoa-window-film.11tydata.js (FAQPage built from the same faq.items
+# shown below). This page puts the sticky call bar BEFORE the quote section (see
+# ARCHITECTURE/INVENTORY "slim" family gotcha).
+permalink: hoa-window-film.html
+slug: hoa-window-film
+page_key: hoa_window_film
+og_image: images/hero.jpg
+---
+{%- set pg = pages.hoa_window_film -%}
+{%- set sh = pages.shared -%}
+{% include "head/top.njk" %}
+
+{% include "head/meta.njk" %}
+{% set ld = schema_ld %}{% include "jsonld.njk" %}
+
+{% include "css/main.njk" %}
+{% include "css/slim-extra.njk" %}
+{% include "css/page.njk" %}{% include "a11y-block.njk" %}
+{% include "css/tail.njk" %}
+{% include "head/clarity.njk" %}
+</head>
+<body>
+{% include "skip-link.njk" %}
+{% include "sprite.njk" %}
+{% include "util.njk" %}
+{% include "header.njk" %}
+<main id="main" tabindex="-1">
+
+<!-- UNIQUE:START hoa-window-film -->
+<div class="phero"><p class="crumb"><a href="/">{{ sh.crumb.home | safe }}</a> / <a href="/#services">{{ sh.crumb.services | safe }}</a> / {{ pg.hero.crumb | safe }}</p><h1>{{ pg.hero.heading | safe }}</h1>
+  <p>{{ pg.hero.intro | safe }}</p>
+  <div class="pbtns"><a class="qbtn" href="tel:{{ site.phone.tel | safe }}">{{ sh.buttons.call | safe }} {{ site.phone.display | safe }}</a><a class="qbtn" style="background:transparent;color:#fff;border:1.5px solid #6f7885" href="#quote">{{ pg.hero.quote_btn | safe }}</a></div>
+</div>
+
+<section><div class="wrap">
+  <h2>{{ pg.statute.heading | safe }}</h2>
+  <p class="sub">{{ pg.statute.sub | safe }}</p>
+  <dl class="factlist">
+{% for it in pg.statute.items %}    <div>
+      <dt>{{ it.term | safe }}</dt>
+      <dd>{{ it.detail | safe }}<span class="src">{{ it.source | safe }}</span></dd>
+    </div>
+{% endfor %}  </dl>
+  <p class="sub" style="margin-top:22px">{{ pg.statute.footer_note | safe }}</p>
+</div></section>
+
+<section class="soft"><div class="wrap content">
+{% for b in pg.meaning.blocks %}  <div>
+    <h2>{{ b.heading | safe }}</h2>
+{% for p in b.paragraphs %}    <p>{{ p | safe }}</p>
+{% endfor %}  </div>
+{% endfor %}</div></section>
+
+<section><div class="wrap">
+  <h2>{{ pg.faq.heading | safe }}</h2>
+  <div class="faq2">
+{% for item in pg.faq.items %}    <div class="item"><h3 class="q">{{ item.question | safe }}</h3><div class="a">{{ item.answer | safe }}</div></div>
+{% endfor %}  </div>
+</div></section>
+
+<section class="soft"><div class="wrap">
+  <h2>{{ pg.also.heading | safe }}</h2>
+  <div class="otherlinks">
+{% for l in pg.also.links %}    <a href="{{ l.href | safe }}"><svg class="ic" aria-hidden="true"><use href="#{{ l.icon | safe }}"/></svg> {{ l.label | safe }}</a>
+{% endfor %}  </div>
+</div></section>
+<!-- UNIQUE:END hoa-window-film -->
+
+{% include "sticky-call.njk" %}
+{% include "quote.njk" %}
+</main>
+{% include "footer.njk" %}
+{% include "js/burger.njk" %}
+{% include "js/emailbtn.njk" %}
+{% include "js/anim.njk" %}
+{% include "js/quote-submit.njk" %}
+{% include "js/source-vin.njk" %}
+
+{% include "js/gtag-events.njk" %}
+{% include "cookie-bar.njk" %}
+{% include "js/cookie.njk" %}
+{% include "js/svc-validate.njk" %}
+</body>
+</html>

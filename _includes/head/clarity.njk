@@ -1,0 +1,9 @@
+<!-- Microsoft Clarity, consent-gated to match Google Analytics -->
+<script>(function(){var K='bcgt_analytics',v=null;
+try{v=localStorage.getItem(K)}catch(e){}
+if(!v){try{var m=document.cookie.match(/(?:^|;\s*)bcgt_analytics=(yes|no)/);if(m)v=m[1];}catch(e){}}
+window.__bcgtLoadClarity=function(){if(window.__bcgtClarityLoaded)return;window.__bcgtClarityLoaded=true;
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,'clarity','script','{{ site.clarity_id | safe }}');};
+if(v!=='no')window.__bcgtLoadClarity();})();</script>

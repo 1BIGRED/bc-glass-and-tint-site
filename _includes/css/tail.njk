@@ -1,0 +1,109 @@
+{#- Review-round fixes that follow the managed a11y block, ending with </style>.
+    Shared by every page except new-construction. Switched by frame[slug].css_tail. -#}
+{%- set c = frame[slug].css_tail or {} -%}
+{% if c.ckbar_line %}/*--cookiebar*/.ckbar{position:fixed;left:0;right:0;bottom:0;z-index:80;background:#191b1f;color:#fff;border-top:3px solid var(--gold);padding:14px 18px;display:none;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:13.5px;line-height:1.6}.ckbar.show{display:flex}.ckbar p{margin:0;max-width:620px}.ckbar a{color:var(--gold);text-decoration:underline}.ckbar .ckbtns{display:flex;gap:10px;flex-shrink:0}.ckbar button{font-family:inherit;font-size:13.5px;font-weight:800;padding:10px 18px;border-radius:8px;cursor:pointer;min-height:44px;border:1.5px solid transparent}.ckbar .ck-yes{background:var(--gold);color:#1f2228;border-color:var(--gold)}.ckbar .ck-no{background:transparent;color:#fff;border-color:#6f7885}.ckbar button:focus-visible{outline:3px solid #fff;outline-offset:2px}@media(max-width:760px){.ckbar{bottom:54px;font-size:13px}}
+{% endif %}{% if c.svcpick %}form .svcpick{background:#fff;border-radius:9px;padding:12px 13px 11px;border:0;margin:0;width:100%}
+form .svcpick legend{font-size:12.5px;font-weight:800;color:#565d64;text-transform:uppercase;letter-spacing:.05em;padding:0;margin:0 0 9px;float:left;width:100%}
+form .svcpick legend span{display:block;font-weight:600;text-transform:none;letter-spacing:0;font-size:12.5px;color:#6B7178;margin-top:2px}
+form .svcpick .opts{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;clear:both}
+form .svcpick label{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#1f2228;line-height:1.35;cursor:pointer;padding:3px 0;text-align:left}
+form .svcpick input[type=checkbox]{width:18px;height:18px;flex:0 0 18px;margin:1px 0 0;padding:0;border-radius:4px;accent-color:#c9a23f}
+form .svcpick.err{outline:3px solid #b0413e;outline-offset:1px}
+@media(max-width:560px){form .svcpick .opts{grid-template-columns:1fr}}
+{% endif %}{% if not c.privacy %}
+{% endif %}{% if c.city %}/* Grid items default to min-width:auto, which stops a fixed-width image
+   from shrinking and pushes the page wider than the phone screen. */
+.content>*{min-width:0}
+.content .pic img{max-width:100%;height:auto}
+
+{% endif %}/* ---- round 1 review fixes ---- */
+/* 1. Never stack the consent bar on top of the sticky call bar, and reserve its height. */
+@media(max-width:760px){
+  body.ck-open .stickycall{display:none}
+  .ckbar{bottom:0;padding:10px 12px 12px;gap:8px;font-size:12.5px;line-height:1.45;row-gap:8px}
+  .ckbar p{flex:1 1 100%;text-align:left;margin:0}
+  .ckbar .ckbtns{flex:1 1 100%;gap:8px}
+  .ckbar .ckbtns button{flex:1;min-height:44px;padding:10px 8px;font-size:13.5px}
+}
+/* 2. Inline links were never given a tap target. */
+.ckbar p a,form p a,.chead h3 a,.faq2 .a a,.chipnote a,.yelpblock a,
+main>p>a,section.soft .wrap>p>a,.revlink a{display:inline-block;padding:5px 3px;margin:0 -3px;line-height:1.5;min-height:24px}
+/* 3. Type floor. Nothing legible should sit under 12.5px. */
+.rcard .vbadge,.rev .vbadge{font-size:12.5px;padding:4px 10px}
+.rcard .vbadge .ic,.rev .vbadge .ic{width:14px;height:14px}
+form p{font-size:13px;line-height:1.55}
+.stats .l{font-size:12.5px}
+.commcard .who{font-size:12.5px}
+/* 4. The service picker is the main conversion control; give it real rows. */
+form .svcpick .opts{gap:2px 14px}
+form .svcpick label{align-items:center;min-height:44px;padding:6px 8px;margin:0 -8px;border-radius:7px}
+form .svcpick input[type=checkbox]{width:22px;height:22px;flex:0 0 22px;margin:0}
+form .svcpick label:has(input:checked){background:#faf3e0;box-shadow:inset 0 0 0 1.5px #c9a23f}
+/* 5. width/height attrs killed the intended aspect-ratio, so photos rendered as portrait slabs. */
+.content .pic img,.content .pic .ph,.shadecard img{height:auto}
+/* 6. Badge contrast in the dark band (the .hero override never reached it). */
+.hero .badge,section .badge{background:#2A2417}
+{% if c.privacy or c.reviews %}
+{% endif %}{% if c.privacy %}/* this page was missing the sticky-bar allowance every other page has */
+@media(max-width:760px){body{padding-bottom:54px}}
+{% endif %}{% if c.reviews %}/* reviews.html had no mobile breakpoint at all: three 107px columns on a phone. */
+@media(max-width:760px){.rgrid{grid-template-columns:1fr}}
+{% endif %}/* reserve the consent bar's measured height at every viewport */
+body.ck-open{padding-bottom:calc(var(--ckh,150px) + 12px)}
+/* The util bar repeated Call/Text/Email that the sticky bar already provides,
+   costing 140px of the first mobile screen and pushing hero CTAs into the banner. */
+@media(max-width:760px){
+  .util{font-size:12.5px;padding:6px 12px;gap:2px 14px;line-height:1.45;justify-content:center}
+  .util a[href^="tel:"],.util a[href^="sms:"],.util #emailbtn{display:none}
+}
+
+/* ---- round 2 review fixes ---- */
+/* Service pages put a 90-150 word paragraph between the H1 and the phone number,
+   pushing both CTAs underneath the consent bar. Reorder without touching markup. */
+@media(max-width:760px){
+  .phero{display:flex;flex-direction:column}
+  .phero .crumb{order:1}
+  .phero h1{order:2;margin-bottom:12px}
+  .phero .ptrust{order:3}
+  .phero .chipnote{order:4}
+  .phero .pbtns{order:5;margin-bottom:20px}
+{% if c.qa %}
+
+
+
+{% endif %}  .phero p{order:6}
+  .phero .sub{order:7}
+  /* the wordmark is already in the sticky header; on a phone it was costing 194px
+     and pushing the 5.0/184-review stats under the consent bar */
+  .hero .logo{display:none}
+  .hero h1{font-size:27px;line-height:1.16;margin-bottom:10px}
+}
+/* persistent, readable validation message for the service picker */
+form .svcpick .svcerr{clear:both;margin:0 0 8px;font-size:13.5px;font-weight:700;color:#a3302d;line-height:1.4}
+.quote .sub a{color:#c9a23f !important;font-weight:800;display:inline-block;padding:4px 2px;min-height:24px}
+{% if c.index %}/* compress the hero stat row so the 5.0 / 184-review proof clears the consent bar */
+@media(max-width:760px){
+  .hero .stats{margin:14px auto 0;gap:10px 6px}
+  .hero .stats .n{font-size:20px;line-height:1.15}
+  .hero .stats .l{font-size:12.5px;line-height:1.25}
+  .hero .pbtns{margin-bottom:4px}
+}
+{% endif %}/* main nav links measured 23px tall - one pixel under the WCAG 2.2 target minimum */
+nav.main a{display:inline-flex;align-items:center;min-height:26px;padding:2px 4px}
+/* round 4: inline links inside .wrap/.band paragraphs never got a tap target */
+.wrap p a,.band a,.ptrust a,.minicard p a{display:inline-block;padding:5px 3px;margin:0 -3px;line-height:1.5;min-height:24px}
+
+{% if c.qa %}.pbtns{display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.qbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#1f2228;font-weight:800;font-size:16px;padding:14px 30px;border-radius:9px;min-height:48px;text-decoration:none}
+.phero p a{display:inline-block;padding:5px 3px;margin:0 -3px;line-height:1.5;min-height:24px;color:var(--gold);font-weight:700}
+
+footer h3{color:#fff;font-size:14px;margin-bottom:7px}
+
+{% endif %}{% if c.privacy or c.qa %}html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+{% endif %}{% if c.index %}/* the homepage hero CTAs had no wrapper and rendered flush against each other */
+.hero .pbtns{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+.hero .pbtns .qbtn{border:1.5px solid transparent}
+{% endif %}{% if c.ckbar_line %}
+{% endif %}@media print{.ckbar,.stickycall,#burger,.mobnav{display:none!important}header{position:static!important}a[href^="tel:"]::after{content:" (702-550-8840)"}}
+</style>

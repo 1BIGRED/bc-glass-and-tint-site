@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Reviews - {google_rating} Stars, {google_count} Google Reviews | BC Glass &amp; Tint",
+    "description": "Read {google_count} five-star Google reviews for BC Glass and Tint in Boulder City, NV. Family-owned window tinting and auto glass since 1994.",
+    "image_alt": "BC Glass and Tint branded box truck in the Boulder City parade"
+  },
+  "hero": {
+    "sub": "{google_count} Google reviews and a {google_rating} star average across Southern Nevada."
+  },
+  "ratings": {
+    "heading": "Five Stars on <span>Every Platform</span>",
+    "sub": "Three places customers can review us. All three say the same thing. Counts as of August 2026.",
+    "note": "Every rating above is counted and hosted by that platform, not by us. Click any card to read the reviews at the source.",
+    "google": {
+      "score": "{google_rating}",
+      "count": "{google_count} reviews",
+      "cta": "Read them on Google"
+    },
+    "yelp": {
+      "score": "{yelp_rating}",
+      "count": "{yelp_count} reviews",
+      "cta": "Read them on Yelp"
+    },
+    "tintwiz": {
+      "score": "{tintwiz_rating}",
+      "count": "{tintwiz_count} reviews",
+      "cta": "Read them on Tint Wiz"
+    }
+  },
+  "google_block": {
+    "count_label": "({google_count} reviews)",
+    "score": "{google_rating}",
+    "items": [
+      { "quote": "Amazing prices and attention to detail. 100% worth the drive from Vegas. Will definitely be back.", "name": "Payne Fordham" },
+      { "quote": "Fast, friendly and did an amazing job. I've had multiple vehicles tinted here and will never go anywhere else.", "name": "Kristie Bergman" },
+      { "quote": "Best price I could find anywhere in the valley. Quality work done fast and the staff were super helpful.", "name": "Dennis Wolcott" },
+      { "quote": "Great customer service, fast, and efficient! They offered the most affordable price for my particular service!", "name": "Ashley Watson" },
+      { "quote": "We had our windshield replaced. Customer service was great and they had the best price! And they vacuumed my car! A+++ Highly recommend!", "name": "Andrea Whitmeyer" },
+      { "quote": "Top notch service and fair pricing. These guys know what they're doing. Been coming here for years and will keep coming back.", "name": "John S." },
+      { "quote": "Great prices and amazing work. Would highly recommend to anyone looking for window tinting in Boulder City.", "name": "Steven Hamberg" },
+      { "quote": "Excellent service and very reasonable prices. My car looks great and I couldn't be happier!", "name": "Jessica Harrison" },
+      { "quote": "Great prices, speed, and quality. Highly recommend BC Glass &amp; Tint to anyone in the area.", "name": "Carol Broadbent" }
+    ],
+    "all_link": "Read all {google_count} reviews on Google"
+  },
+  "yelp_block": {
+    "count_label": "({yelp_count} reviews)",
+    "score": "{yelp_rating}",
+    "items": [
+      { "quote": "This is my 3rd amazing tint installation by BC tint on my new pickup. Matched the factory tint perfectly. Highly recommended this family owned business.", "name": "Scott F." },
+      { "quote": "I have been going to BC Glass and Tint for over 23 years since 2002, and they are simply the best! I drive 40 minutes each way because I trust this amazing family-owned shop.", "name": "Maureen S." },
+      { "quote": "I would highly recommend BC Glass &amp; Tint! They tinted my new Silverado and the entire process was super easy and everyone was super friendly. They did a great job!", "name": "Cynthia S." },
+      { "quote": "Very professional service. Ceramic coating turned out perfect, on time and reasonable price. Would highly recommend!", "name": "Marc W." },
+      { "quote": "They answered all our questions. They got us in quickly. The prices were reasonable, and the final product was gorgeous.", "name": "Denise A." },
+      { "quote": "Got me in fast and did great work replacing my windshield. Couldn't have been better, and couldn't beat the price.", "name": "Francis S." }
+    ],
+    "link_text": "Read our reviews on Yelp",
+    "tintwiz_link_text": "Read our reviews on Tint Wiz"
+  },
+  "quote": {
+    "source": "Reviews",
+    "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers"
+  },
+  "schema": {
+    "date_modified": "2026-08-27"
+  }
+}

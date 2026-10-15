@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "title": "Windshield Chip Repair, Boulder City NV | BC Glass &amp; Tint",
+    "description": "Same-day windshield chip and small crack repair in most cases, serving Boulder City, Henderson and Las Vegas. Often covered by insurance. Call 702-550-8840 for a quote.",
+    "image_alt": "Windshield chip repair service at BC Glass and Tint in Boulder City, NV"
+  },
+  "hero": {
+    "crumb": "Windshield Chip Repair",
+    "heading": "Windshield Chip Repair in Boulder City, NV",
+    "intro": "A rock kicks up from the shoulder on the way through the valley and taps your windshield, and a chip smaller than a coin is suddenly staring back at you every time you drive. Left alone, desert heat is not gentle on that damage, and a small chip can spread into a crack across your sightline before you get around to it. BC Glass and Tint checks the damage first, then fills and seals chips and small cracks before that happens. Insurance often covers the cost, and we are open Tuesday to Saturday for drivers across Boulder City, Henderson and Las Vegas."
+  },
+  "band": [
+    "Chip Repair In House",
+    "Boulder City Shop",
+    "Family Owned Since 1994",
+    "Free Quotes"
+  ],
+  "content": {
+    "image_alt": "Windshield Chip Repair in Boulder City, NV",
+    "heading": "Windshield Chip Repair",
+    "intro": "A small chip or crack does not have to become a full replacement. We check the damage first, then fill and seal what we can, usually same day and often covered by insurance.",
+    "bullets": [
+      "Chips and small cracks, repaired in most cases",
+      "Checked first, then filled and sealed",
+      "Often covered by insurance",
+      "Far cheaper than replacement"
+    ]
+  },
+  "reviews": {
+    "heading": "What <span>Customers</span> Say",
+    "sub": "Real reviews from BC Glass and Tint customers.",
+    "items": [
+      {
+        "platform": "google",
+        "quote": "Great customer service, fast, and efficient! They offered the most affordable price for my particular service!",
+        "name": "Ashley Watson"
+      },
+      {
+        "platform": "yelp",
+        "quote": "Had my windshield tinted, at a competitive price, and they did a fantastic job! Thank you!",
+        "name": "Ryan S."
+      },
+      {
+        "platform": "google",
+        "quote": "Best price I could find anywhere in the valley. Quality work done fast and the staff were super helpful.",
+        "name": "Dennis Wolcott"
+      }
+    ]
+  },
+  "also": {
+    "links": [
+      {
+        "href": "/auto-tint",
+        "icon": "i-car",
+        "label": "Auto / Vehicle Tint"
+      },
+      {
+        "href": "/home-tint",
+        "icon": "i-house",
+        "label": "Home / Residential Tint"
+      },
+      {
+        "href": "/commercial-film",
+        "icon": "i-building",
+        "label": "Commercial Window Film"
+      },
+      {
+        "href": "/windshield",
+        "icon": "i-windshield",
+        "label": "Windshield Replacement"
+      },
+      {
+        "href": "/clear-bra",
+        "icon": "i-shield",
+        "label": "Clear Bra / Paint Protection"
+      },
+      {
+        "href": "/ceramic-coating",
+        "icon": "i-spark",
+        "label": "Ceramic Coating"
+      },
+      {
+        "href": "/headlight-taillight",
+        "icon": "i-shield",
+        "label": "Headlight Restoration",
+        "same_line": true
+      },
+      {
+        "href": "/blinds",
+        "icon": "i-blinds",
+        "label": "Blinds &amp; Window Treatments"
+      },
+      {
+        "href": "/henderson",
+        "icon": "i-pin",
+        "label": "Chip repair for Henderson drivers"
+      },
+      {
+        "href": "/las-vegas",
+        "icon": "i-pin",
+        "label": "Chip repair for Las Vegas drivers"
+      }
+    ]
+  },
+  "quote": {
+    "source": "Windshield Chip Repair",
+    "preselect": "Windshield Chip Repair"
+  },
+  "schema": {
+    "date_modified": "2026-08-27",
+    "service": {
+      "service_type": "Windshield Chip Repair",
+      "name": "Windshield Chip Repair in Boulder City, NV",
+      "area_served": [
+        "Boulder City",
+        "Henderson",
+        "Las Vegas"
+      ]
+    }
+  }
+}

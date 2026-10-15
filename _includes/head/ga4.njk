@@ -1,0 +1,19 @@
+<!-- Google tag (gtag.js), consent-gated -->
+<script>(function(){var K='bcgt_analytics',ID='{{ site.ga4_id | safe }}',v=null;
+try{v=localStorage.getItem(K)}catch(e){}
+if(!v){try{var m=document.cookie.match(/(?:^|;\s*)bcgt_analytics=(yes|no)/);if(m)v=m[1];}catch(e){}}
+window.__bcgtConsent=v;
+window.dataLayer=window.dataLayer||[];
+window.gtag=function(){dataLayer.push(arguments)};
+/* Consent Mode v2. Ads signals stay denied - we do not run ads. Analytics follows
+   the visitor's choice; 'denied' still allows cookieless modelling, which a hard
+   ga-disable does not. */
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:(v==='no'?'denied':'granted'),wait_for_update:500});
+gtag('set','ads_data_redaction',true);
+gtag('set','url_passthrough',true);
+window.__bcgtLoadGa=function(){if(window.__bcgtGaLoaded)return;window.__bcgtGaLoaded=true;
+gtag('js',new Date());
+gtag('config',ID,{allow_google_signals:false,allow_ad_personalization_signals:false});
+var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+ID;
+document.head.appendChild(s);};
+if(v==='no'){window['ga-disable-'+ID]=true;}else{window.__bcgtLoadGa();}})();</script>

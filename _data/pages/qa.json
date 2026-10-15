@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "title": "Window Tinting FAQ for Boulder City, NV | BC Glass &amp; Tint",
+    "description": "Answers to common window tinting, auto glass, clear bra, ceramic coating and blinds questions for BC Glass & Tint in Boulder City, NV. Call 702-550-8840.",
+    "image_alt": "BC Glass & Tint branded box truck in the Boulder City parade"
+  },
+  "hero": {
+    "heading": "Questions &amp; Answers",
+    "intro_lead": "Everything customers ask about tint, glass, and our work. Still stuck? Call or text ",
+    "intro_tail": "."
+  },
+  "faq_main": [
+    {
+      "id": null,
+      "heading": "General <span>Questions</span>",
+      "trailing_blank": false,
+      "last": false,
+      "items": [
+        { "question": "How much does window tinting cost?", "answer": "It depends on real variables: how many windows, the size and shape of the glass, whether old film has to come off first, and which film line you pick. Removing failed film is its own step and is a big reason prices vary. Call or text us your year, make, and model, or a home window count, for a free, no obligation quote." },
+        { "question": "Why can two cars get different prices for the same tint?", "answer": "Because the same tint is rarely the same job. One car might have clean glass, the other four windows of fifteen year old film gone purple. Removing old film is real labor done before the new film goes on, and it is a common reason two similar looking cars land at different numbers. Call or text your year, make, and model for a free, no obligation quote.", "compact": true },
+        { "question": "Do I need an appointment, or do you take walk-ins?", "answer": "We recommend calling ahead so we can have your film and a bay ready, but walk-ins are welcome if there is room." },
+        { "question": "What brand of film do you use?", "answer": "We install XPEL and ASWF film. Both are established manufacturers, and both back their film with a lifetime manufacturer warranty on our installs. Which line is right for you depends on the vehicle or the room and what you want the film to do, so we will walk you through the options when you come in." },
+        { "question": "Is there a warranty?", "answer": "Yes. Every window film we install carries a lifetime manufacturer's warranty.", "compact": true },
+        { "question": "What if something goes wrong with my film later?", "answer": "Call or text us and bring the vehicle, or the room, back to us. The film we install carries a lifetime manufacturer warranty. If you have any questions or concerns at all, give us a call and we will take care of it. We have been at the same shop in Boulder City since 1994, so we are not hard to find later.", "compact": true },
+        { "question": "What areas do you serve?", "answer": "Boulder City, Henderson, Las Vegas, Summerlin, Anthem, and all of Southern Nevada." },
+        { "question": "Do you offer mobile service?", "answer": "Mobile service is available for homes and commercial buildings, not for vehicles. Vehicles need to come to our Boulder City shop. Ask when you call." },
+        { "question": "How long has BC Glass &amp; Tint been in business?", "answer": "We are a family-owned shop that has served Boulder City and Southern Nevada since 1994, more than 30 years." }
+      ]
+    },
+    {
+      "id": "auto",
+      "heading": "Auto / Vehicle <span>Tint</span>",
+      "trailing_blank": false,
+      "last": false,
+      "items": [
+        { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. In Nevada, film on your front side windows has to let through not less than 35 percent of light, with a 7 percent tolerance, counting the glass and the film together, and it has to be nonreflective. The windshield can only carry a strip across the very top, and that strip cannot be red or amber. Your back side windows and rear window can be tinted as long as the vehicle has outside mirrors on both sides. We install fully legal tint and can recommend the darkest legal shade for your vehicle. Source: Nevada Revised Statutes 484D.440." },
+        { "question": "What is the difference between ceramic and carbon film?", "answer": "Ceramic film rejects more heat and blocks more infrared without going darker, and it does not interfere with phone, GPS, or radio signals the way older metallic films did. Carbon is a budget alternative that does not match ceramic for heat rejection. Every film we install is ceramic." },
+        { "question": "How long until I can roll my windows down?", "answer": "Give the film a few days to fully cure before lowering your windows. In summer heat about 24 hours is usually enough, and on cooler days give it longer." },
+        { "question": "Will tint help keep my car cooler?", "answer": "Yes. Our ceramic films reject a large share of the sun's infrared heat, so your interior stays noticeably cooler and your air conditioning does not have to work as hard." },
+        { "question": "How do I care for my tint after it is installed?", "answer": "For the first few days do not roll the windows down. After that, wait about a week before cleaning the film, then use a soft cloth and a mild, ammonia-free cleaner. Ammonia-based products can haze or lift the film over time." },
+        { "question": "How long does an install take?", "answer": "Most vehicles are done same-day." },
+        { "question": "Does my car glass already block UV, or do I still need tint?", "answer": "Your windshield already does much of the work. Laminated windshield glass blocks over 90 percent of UVA. Your side windows are a different kind of glass and can let up to half of it through. That gap is what window film closes. Source: The Skin Cancer Foundation." },
+        { "question": "What does a tint percentage like 35 percent actually mean?", "answer": "It is how much visible light comes through. VLT, or visible light transmission, is the percentage of light that passes through the glass and the film together. A higher number is lighter and more see-through, a lower number is darker. It measures light only, not heat." },
+        { "question": "Is darker tint always better at blocking heat?", "answer": "No. Darkness and heat rejection are two different properties. How dark a film looks is about visible light. How much heat it turns away depends on how it handles infrared, which your eye cannot see at all. A lighter film can perform in the same range as a much darker one, which matters here because Nevada limits how dark your front side windows are allowed to be." },
+        { "question": "Does window film go on the inside or the outside of the glass?", "answer": "The inside. Film is applied to the interior surface of the glass, on vehicles and on buildings alike. Keeping it inside protects it from rain, road grit, and washing, so it lasts longer and keeps looking right." },
+        { "question": "Why does my new tint look hazy or have small water pockets?", "answer": "That is curing, and it is normal. A soapy water solution is used to position the film during the install, and some of that moisture has to work its way out through the film afterward. As it evaporates the haze clears and any small pockets settle. Give it a few days before you worry about it." }
+      ]
+    },
+    {
+      "id": "home",
+      "heading": "Home &amp; Commercial <span>Film</span>",
+      "trailing_blank": true,
+      "last": false,
+      "items": [
+        { "question": "Will tint make my house or office too dark?", "answer": "We offer light, nearly clear films that block heat and UV while keeping your view and natural light." },
+        { "question": "Does sunlight through my windows really fade furniture and flooring?", "answer": "Yes, and it is the most visible sign of how much UV is coming through ordinary glass. The same rays that fade furnishings, flooring, and fabric keep working on a mild day, not only a hot one. Cutting that exposure down is one of the main reasons people put film on a west-facing room. Source: The Skin Cancer Foundation." },
+        { "question": "Does it actually lower cooling bills?", "answer": "Yes. By blocking solar heat your HVAC works less, which lowers bills through Nevada summers." },
+        { "question": "Can you do large storefronts and offices?", "answer": "Absolutely. We offer free estimates for offices, retail, restaurants and more, including security and privacy film." },
+        { "question": "How does the process work?", "answer": "Here is exactly what to expect. You reach out and we set up a free consultation, in person or over the phone. We look at the windows you want done, take measurements, and walk you through your film and shade options. Then we send a clear written quote with the price up front, no guessing and no pressure. When you are ready we book your install date, and on that day our team does the work on site, usually in a single visit, and leaves your home or business clean." }
+      ]
+    },
+    {
+      "id": "windshield",
+      "heading": "Windshield &amp; <span>Glass</span>",
+      "trailing_blank": false,
+      "last": false,
+      "items": [
+        { "question": "Should I repair or replace a chip or crack?", "answer": "If it is a small chip or a small crack, we check it first and can usually fill and seal it before it spreads. When the damage is too large to repair safely, we subcontract the replacement to a glass specialist and manage it for you, with OEM-spec glass ordered to your VIN." },
+        { "question": "Is chip repair covered by insurance?", "answer": "Often yes, and it is far cheaper than a full replacement. We can help with the claim." },
+        { "question": "Will insurance cover a full windshield replacement?", "answer": "Often, yes, and it depends on your policy rather than on us. Comprehensive coverage is what usually applies, and some policies treat glass differently from the rest of your deductible. We handle these claims regularly and can help you work through yours. Bring your policy details when you call and we will tell you what we can, then order the glass to your VIN once you are ready.", "compact": true },
+        { "question": "How fast is a windshield replacement?", "answer": "Same day means the same day as your scheduled appointment, not the day you call. Chip repair we do in our own shop; full replacements we subcontract to a glass specialist and manage for you. We do not keep windshields in stock. We need your VIN to order the correct OEM-spec glass for your vehicle, so it is very unlikely we can replace a windshield on the day you first ring us. What we can usually do is get you booked in that day. Once the glass arrives, the replacement itself is finished in one visit." }
+      ]
+    },
+    {
+      "id": "protection",
+      "heading": "Clear Bra, Ceramic <span>&amp; Blinds</span>",
+      "trailing_blank": false,
+      "last": true,
+      "items": [
+        { "question": "Is clear bra really invisible?", "answer": "Nearly. We install a clear urethane paint protection film with a self-healing top coat. It absorbs rock chips and road debris, and light scratches disappear with heat from the sun. Partial or full coverage is available." },
+        { "question": "How long does ceramic coating last?", "answer": "Up to 7 years with proper care. We use DuraSlic DS 1500 Xtreme, and it holds a deep, hydrophobic gloss for that life. When we coat a vehicle we treat the paint, glass, and plastic trim, so the whole exterior is protected, not just the paint." },
+        { "question": "What kinds of blinds do you install?", "answer": "Three main styles, plus motorized options on any of them. Everything is measured at your windows and ordered to those measurements.<ul style=\"margin:10px 0 10px 20px;padding:0\"><li style=\"margin-bottom:8px\"><b>Cellular shades</b>, also called honeycomb. The cells hold a pocket of trapped air between you and the glass, and that trapped air is what slows the heat coming through. This is the best insulator of the three, so it is what we point people toward for west facing rooms and for anyone trying to take load off the air conditioning.</li><li style=\"margin-bottom:8px\"><b>Roller shades</b>. A single flat panel on a tube, in a range of openness factors. A tighter weave blocks more heat and glare, a more open weave keeps your view out the window. Good where you want light control without giving up the outlook, and they sit close to the glass so they work well over window film.</li><li style=\"margin-bottom:8px\"><b>Roman shades</b>. Fabric that gathers into soft horizontal folds as it lifts. This is the decorative choice of the three, the one that reads like a soft furnishing rather than a window covering. It insulates less than cellular, so it is a look first option.</li><li><b>Motorized</b>, available on all of the above. No cords, which matters in a house with young kids or pets, and you can put tall or hard to reach windows on a remote or a schedule so they close through the hottest part of the afternoon with nobody home to do it.</li></ul>Sized for the Nevada climate means we account for the sun each opening actually gets. A south or west facing window has a harder job than a north facing one, and it should not get the same shade by default." },
+        { "question": "How long will my car be at the shop for a ceramic coating?", "answer": "Usually two to four days, depending on the car. The paint has to be decontaminated and corrected before anything is bonded to it, and darker paint shows every swirl, so it takes more correction work than a light color does. After the coating goes on we keep the vehicle for a further 24 hours while it cures. Tell us the vehicle and we will give you a realistic window before you book.", "compact": true },
+        { "question": "What do I need to avoid after a ceramic coating?", "answer": "Keep it dry while it finishes curing. For the first 24 hours to three days, depending on conditions, do not wash the vehicle, do not park it where sprinklers can reach it, and try to keep it out of the rain. Water spotting during the cure is the one thing that can spoil an otherwise perfect finish. We will tell you the exact window for your car when you pick it up.", "compact": true },
+        { "question": "Are custom blinds available same day like the tint work?", "answer": "No, and it is worth knowing up front. Blinds and shades are measured at your windows and then ordered to those measurements, so they are built for your openings rather than pulled off a shelf. That means there is a wait between the measurement visit and the install visit. Our same day messaging applies to vehicle work, not to made to order window coverings. We will tell you the expected timing when we measure.", "compact": true }
+      ]
+    }
+  ],
+  "faq_more": {
+    "heading": "Headlights &amp; <span>Taillights</span>",
+    "items": [
+      { "question": "Can cloudy or yellowed headlights be fixed, or do I need new ones?", "answer": "In most cases they can be restored, and it costs a fraction of replacing the housings. Headlight lenses are plastic, and the Nevada sun breaks down the factory coating on that plastic until the lens goes cloudy and yellow. It is not dirt, so washing does nothing. Restoration removes the damaged surface layer, then we add a protective clear layer over the fresh surface so the sun does not start the hazing straight over again. Treat this as a safety repair and not only a cosmetic one. A hazed lens scatters light instead of aiming it down the road, so you see less of what is ahead of you at night and oncoming drivers get more glare off your lenses. Clearing them up puts that light back where it belongs. For the longest lasting protection we can apply clear bra film over the lenses instead of a liquid layer. It is the same self healing urethane paint protection film we install on paint, so it takes the rock chips and road scratches the lens would otherwise take, light marks self heal with heat, and it holds up around five to seven years depending on care, far longer than any liquid coating." },
+      { "question": "How much does headlight restoration cost?", "answer": "It comes down to how oxidized the lenses are and how many headlights need work. A light haze buffs out faster than years of deep yellowing, and whether a protective clear layer or clear bra film gets added afterward changes the job too. Call or text us the vehicle and, if you can, a photo of the headlights, for a free, no obligation quote.", "compact": true },
+      { "question": "How long does headlight restoration take?", "answer": "Most vehicles are done the same day. If you want protection film applied over the lenses afterward to stop the hazing coming back, that is best done at the same visit.", "compact": true },
+      { "question": "Can you tint or smoke my headlights and taillights?", "answer": "Yes, and it comes in different depths depending on the look you want. How dark you can go is not a fixed number, it depends on your specific housings and how much light they put out to begin with, so we look at your actual vehicle rather than quoting a percentage. Nevada requires a tail lamp to emit a red light plainly visible from 500 feet to the rear. Bring it by and we will walk through the options with you.", "compact": true }
+    ]
+  },
+  "cta": {
+    "heading": "Still have a question?",
+    "text": "Call or text us and we will give you a straight answer and a free quote."
+  },
+  "quote": {
+    "source": "FAQ",
+    "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers"
+  },
+  "schema": {
+    "date_modified": "2026-08-27"
+  }
+}

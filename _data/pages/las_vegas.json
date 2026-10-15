@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "title": "Window Tint &amp; Auto Glass for Las Vegas, NV | BC Glass &amp; Tint",
+    "description": "Las Vegas valley drivers come to our Boulder City shop for ceramic tint, windshield chip repair and auto glass. Family owned since 1994.",
+    "image_alt": "Ceramic window tint on the rear windows of a Ford F-150, installed at our Boulder City shop"
+  },
+  "hero": {
+    "crumb_parent": "Areas We Serve",
+    "crumb": "Las Vegas NV",
+    "heading": "Window Tint and Auto Glass for Las Vegas Drivers and Homeowners",
+    "intro": "BC Glass and Tint runs out of 1633 Boulder City Pkwy in Boulder City, a family shop, not a Las Vegas company. Valley drivers make the trip anyway, mostly for two reasons: a fair price, and a shop that has done this exact work since 1994. Vehicles come to us for tint, chip repair and windshield replacement. Chip repair we do in our own shop; full replacements we subcontract to a glass specialist and manage from the order through the insurance claim. Homes and commercial buildings across the valley get mobile service instead. Every film carries a lifetime manufacturer warranty, and our hours run Tuesday through Saturday, 9 to 5."
+  },
+  "band": [
+    "XPEL &amp; ASWF Film",
+    "Computer-Cut Film",
+    "Lifetime Film Warranty",
+    "Most Tint Work Same Day",
+    "Free Quotes"
+  ],
+  "content": {
+    "heading": "Chip Today, Crack by August",
+    "paragraphs": [
+      "A chip today is a crack by August. Nevada summer heat spreads a small windshield chip fast, so getting it filled quickly matters more here than almost anywhere else.",
+      "We repair most chips and small cracks the same day, and insurance often covers it, so we can help with the claim if you need us to. If the damage is too large to repair safely, we subcontract the full replacement to a glass specialist and manage it for you: the glass is ordered to your VIN, the job gets booked, we help with the insurance claim, and it is finished on the day of your appointment. We will tell you plainly which one your vehicle needs before we touch the glass."
+    ],
+    "image_alt": "Ceramic window tint on the rear windows of a Ford F-150, installed at our Boulder City shop"
+  },
+  "facts": {
+    "heading": "Why the Drive Is Worth It",
+    "sub": "A few valley-wide facts that make tint and glass work matter here, each one sourced.",
+    "items": [
+      {
+        "term": "Highs hit 110 degrees or hotter on about 9 days most years.",
+        "detail": "That kind of heat is hard on a car's interior and on an unrepaired windshield chip alike.",
+        "source": "Source: National Weather Service climate normals for Las Vegas, 1991-2020."
+      },
+      {
+        "term": "July brings the year's highest midday UV, averaging 9.7.",
+        "detail": "Unprotected UV fades dashboards and upholstery fast, chip or no chip.",
+        "source": "Source: uvindex.io UV index figures for the Las Vegas valley."
+      },
+      {
+        "term": "Ceramic film on our installs blocks up to 99% of UV.",
+        "detail": "That protection starts the day your vehicle leaves our shop.",
+        "source": "Manufacturer specification."
+      }
+    ]
+  },
+  "drivein": {
+    "heading": "Where Our Las Vegas Customers Drive In From",
+    "text": "We see vehicles and mobile service calls from North Las Vegas, Summerlin, Spring Valley and Anthem, along with the rest of the valley. Summerlin in particular already sends us a steady run of new-construction tint work, mostly through referrals from homeowners and window treatment companies rather than a storefront on that side of town. Wherever you are in the valley, the same family shop and the same computer-cut ceramic film handle the job, whether that is a windshield chip in Spring Valley or a whole-house tint job in a brand new Summerlin build."
+  },
+  "getting_here": {
+    "heading": "Getting to Our Shop from Las Vegas",
+    "sub": "Vehicles always come to the shop. For homes and businesses anywhere in the valley, we head out to you instead.",
+    "cards": [
+      {
+        "icon": "i-pin",
+        "title": "1633 Boulder City Pkwy",
+        "text": "right here in Boulder City, NV 89005"
+      },
+      {
+        "icon": "i-car",
+        "title": "An easy highway drive from the valley",
+        "text": "South on US 93/I-11, no travel-time promise either way"
+      },
+      {
+        "icon": "i-clock",
+        "title": "Open Tuesday through Saturday, 9 to 5",
+        "text": "We do not answer the shop phone Sunday or Monday"
+      },
+      {
+        "icon": "i-phone",
+        "title": "A heads up helps",
+        "text": "Text or call ahead of a long drive and we will have a bay open for you when you arrive."
+      }
+    ]
+  },
+  "reviews": {
+    "heading": "What Our Customers Say",
+    "items": [
+      {
+        "platform": "yelp",
+        "quote": "I'm so glad we were referred to BC Glass and Tint. They ordered, and installed, the correct original equipment windshield, at a lower cost than shops in Vegas or Henderson, with quality workmanship, and great customer service. We highly recommend BC Glass and Tint, and now won't shop anywhere else.",
+        "name": "Andrew S., who priced the same windshield at shops in Vegas and Henderson first"
+      },
+      {
+        "platform": "google",
+        "quote": "Amazing prices and attention to detail. 100% worth the drive from Vegas. Will definitely be back.",
+        "name": "Payne Fordham"
+      },
+      {
+        "platform": "yelp",
+        "quote": "I have been going to BC Glass and Tint for over 23 years since 2002, and they are simply the best! I drive 40 minutes each way because I trust this amazing family-owned shop.",
+        "name": "Maureen S."
+      }
+    ],
+    "summary": "Google shows us at {google_rating} from {google_count} reviews, and Yelp has us at {yelp_rating}."
+  },
+  "faq": {
+    "heading": "Las Vegas Questions",
+    "items": [
+      {
+        "question": "How long does an auto tint install take?",
+        "answer": "Most vehicles are done same day."
+      },
+      {
+        "question": "When can I roll my windows down after tint?",
+        "answer": "Give the film a few days to fully cure before rolling your windows down. In summer heat about 24 hours is usually enough, and on cooler days give it longer."
+      },
+      {
+        "question": "How do I take care of new tint?",
+        "answer": "Do not roll your windows down for the first few days. After that wait about a week before cleaning the film, then use a soft cloth with a mild, ammonia-free cleaner. Ammonia-based products can haze or lift the film over time."
+      }
+    ]
+  },
+  "more": {
+    "heading": "More for Las Vegas Drivers and Homeowners",
+    "sub": "Closer to Henderson? See our <a href=\"/henderson\">Henderson page</a>.",
+    "links": [
+      { "href": "/henderson", "label": "Window tinting in Henderson" },
+      { "href": "/boat-rv-tint", "label": "Boat and RV tint near Lake Mead" },
+      { "href": "/nevada-tint-law", "label": "Nevada window tint law explained" },
+      { "href": "/auto-tint", "label": "Auto window tinting" },
+      { "href": "/chip-repair", "label": "Windshield chip repair" },
+      { "href": "/windshield", "label": "Windshield replacement" },
+      { "href": "/ceramic-coating", "label": "Ceramic coating" },
+      { "href": "/clear-bra", "label": "Clear bra paint protection" },
+      { "href": "/home-tint", "label": "Residential window film" },
+      { "href": "/reviews", "label": "Our reviews" },
+      { "href": "/about", "label": "About our shop" },
+      { "href": "/qa", "label": "Full FAQ" }
+    ]
+  },
+  "quote": {
+    "source": "City: Las Vegas",
+    "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers"
+  },
+  "schema": {
+    "date_modified": "2026-08-27",
+    "services": [
+      {
+        "anchor": "service-auto-tint",
+        "service_type": "Auto Window Tinting",
+        "name": "Auto Window Tinting at our Boulder City shop, serving Las Vegas",
+        "path": "/auto-tint",
+        "area_served": "Boulder City"
+      },
+      {
+        "anchor": "service-home-tint",
+        "service_type": "Residential Window Film",
+        "name": "Residential Window Film in Las Vegas, NV",
+        "path": "/home-tint",
+        "area_served": "Las Vegas"
+      },
+      {
+        "anchor": "service-commercial-film",
+        "service_type": "Commercial Window Film",
+        "name": "Commercial Window Film in Las Vegas, NV",
+        "path": "/commercial-film",
+        "area_served": "Las Vegas"
+      },
+      {
+        "anchor": "service-windshield",
+        "service_type": "Windshield Replacement",
+        "name": "Windshield Replacement at our Boulder City shop, serving Las Vegas",
+        "path": "/windshield",
+        "area_served": "Boulder City"
+      },
+      {
+        "anchor": "service-chip-repair",
+        "service_type": "Windshield Chip Repair",
+        "name": "Windshield Chip Repair at our Boulder City shop, serving Las Vegas",
+        "path": "/chip-repair",
+        "area_served": "Boulder City"
+      },
+      {
+        "anchor": "service-blinds",
+        "service_type": "Blinds and Window Treatments",
+        "name": "Blinds and Window Treatments in Las Vegas, NV",
+        "path": "/blinds",
+        "area_served": "Las Vegas"
+      }
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "name": "BC Glass & Tint",
+  "name_html": "BC Glass &amp; Tint",
+  "alternate_name": "BC Glass and Tint",
+  "url": "https://bcglassandtint.com/",
+  "origin": "https://bcglassandtint.com",
+  "logo": "https://bcglassandtint.com/logo.png",
+  "founding_year": "1994",
+  "description": "Family-owned window tinting, auto glass and blinds shop at 1633 Boulder City Pkwy in Boulder City, NV, serving Boulder City, Henderson, Las Vegas and Southern Nevada since 1994.",
+  "phone": {
+    "display": "702-550-8840",
+    "tel": "+17025508840",
+    "schema": "+1-702-550-8840"
+  },
+  "email": "info@bcglassandtint.com",
+  "address": {
+    "street": "1633 Boulder City Pkwy",
+    "city": "Boulder City",
+    "region": "NV",
+    "postal_code": "89005",
+    "country": "US",
+    "display": "1633 Boulder City Pkwy, Boulder City, NV 89005"
+  },
+  "geo": {
+    "latitude": "35.9683462",
+    "longitude": "-114.8567642"
+  },
+  "hours": {
+    "display": "Tuesday to Saturday, 9am to 5pm",
+    "schema": "Tu-Sa 09:00-17:00",
+    "days": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "opens": "09:00",
+    "closes": "17:00"
+  },
+  "maps_url": "https://www.google.com/maps?cid=13670610033548722770",
+  "payment_accepted": "Cash, Credit Card, Debit Card",
+  "area_served": [
+    { "type": "City", "name": "Boulder City", "region": "NV" },
+    { "type": "City", "name": "Henderson", "region": "NV" },
+    { "type": "City", "name": "Las Vegas", "region": "NV" },
+    { "type": "City", "name": "North Las Vegas", "region": "NV" },
+    { "type": "City", "name": "Laughlin", "region": "NV" },
+    { "type": "Place", "name": "Summerlin, NV" },
+    { "type": "Place", "name": "Anthem, NV" },
+    { "type": "Place", "name": "Green Valley, Henderson, NV" },
+    { "type": "Place", "name": "Spring Valley, NV" },
+    { "type": "Place", "name": "Lake Mead National Recreation Area" },
+    { "type": "AdministrativeArea", "name": "Clark County, NV" }
+  ],
+  "schema_images": [
+    "https://bcglassandtint.com/images/hero.jpg",
+    "https://bcglassandtint.com/images/windshield.jpg",
+    "https://bcglassandtint.com/images/residential-before-after-patio.jpg"
+  ],
+  "social": {
+    "instagram": "https://www.instagram.com/bc.glassandtint/",
+    "facebook": "https://www.facebook.com/bcglassandtint/",
+    "yelp": "https://www.yelp.com/biz/bc-glass-and-tint-boulder-city",
+    "tintwiz": "https://tintwiz.me/bc-glass-and-tint-boulder-city",
+    "nextdoor": "https://nextdoor.com/pages/bc-glass-and-tint-boulder-city-nv/",
+    "tintfinder": "https://tintfinder.com/places/nevada/boulder-city/bc-glass-tint/"
+  },
+  "same_as": [
+    "https://www.instagram.com/bc.glassandtint/",
+    "https://www.google.com/maps?cid=13670610033548722770",
+    "https://tintwiz.me/bc-glass-and-tint-boulder-city",
+    "https://www.facebook.com/bcglassandtint/",
+    "https://www.yelp.com/biz/bc-glass-and-tint-boulder-city",
+    "https://nextdoor.com/pages/bc-glass-and-tint-boulder-city-nv/",
+    "https://tintfinder.com/places/nevada/boulder-city/bc-glass-tint/"
+  ],
+  "reviews": {
+    "google_rating": "5.0",
+    "google_count": "184",
+    "yelp_rating": "5.0",
+    "yelp_count": "41",
+    "tintwiz_rating": "5.0",
+    "tintwiz_count": "55"
+  },
+  "ga4_id": "G-0DX8WZ47XL",
+  "clarity_id": "y82eb140py",
+  "google_site_verification": "tUXeY9dMqZpxwDVI6oQBCTet04hdF3YxA8dtILIlctY"
+}

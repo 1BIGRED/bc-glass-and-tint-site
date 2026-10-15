@@ -1,0 +1,52 @@
+{#- The quote form section. Every page that has it shares name="quote" and the same field set;
+    the VIN field is static HTML behind its hidden wrapper (shown by js/source-vin.njk when
+    "Windshield Replacement" is ticked), never injected by script.
+    Shared wording: pages.shared.quote. Per page (pages[page_key].quote):
+      source               hidden "source" value (which page the lead came from)
+      preselect            optional service ticked and listed first
+      order                optional full custom order of the service list
+      details_placeholder  optional, else the shared default
+      details_label        optional, else the shared default
+      sub_intro            optional lead-in before the phone link, else the shared default
+      sub_full             optional complete sub line (home page), replaces lead-in and link
+    frame[slug].quote_format: "flat" (one line) or "index" (home page, indented). -#}
+{%- set s = pages.shared.quote -%}
+{%- set q = pages[page_key].quote -%}
+{%- set fmt = (frame[slug] or {}).quote_format or "flat" -%}
+{%- macro opt(v, pre) -%}
+<label><input type="checkbox" name="service" value="{{ v | safe }}"{% if v == pre %} checked{% endif %}> <span>{{ v | safe }}</span></label>
+{%- endmacro -%}
+{%- set options %}{% if q.order %}{% for v in q.order %}{{ opt(v, q.preselect) }}{% endfor %}{% else %}{% if q.preselect %}{{ opt(q.preselect, q.preselect) }}{% endif %}{% for v in s.services %}{% if v != q.preselect %}{{ opt(v, q.preselect) }}{% endif %}{% endfor %}{% endif %}{% endset -%}
+{%- set sub %}{% if q.sub_full %}{{ q.sub_full | safe }}{% else %}{{ (q.sub_intro or s.sub_intro) | safe }}<a href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display | safe }}</a>{{ s.sub_outro | safe }}{% endif %}{% endset -%}
+{%- set f_open %}<form name="quote" data-clarity-mask="true" method="POST" data-netlify="true" netlify-honeypot="bot-field">{% endset -%}
+{%- set f_hidden %}<input type="hidden" name="form-name" value="quote"><input type="hidden" name="source" value="{{ q.source | safe }}">{% endset -%}
+{%- set f_hp %}<p class="hp" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>{{ s.honeypot_label | safe }} <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>{% endset -%}
+{%- set f_name %}<input type="text" name="name" autocomplete="name" placeholder="{{ s.name_placeholder | safe }}" aria-label="{{ s.name_label | safe }}" required>{% endset -%}
+{%- set f_phone %}<input type="tel" name="phone" autocomplete="tel" placeholder="{{ s.phone_placeholder | safe }}" aria-label="{{ s.phone_label | safe }}" required>{% endset -%}
+{%- set f_email %}<input type="email" name="email" autocomplete="email" placeholder="{{ s.email_placeholder | safe }}" aria-label="{{ s.email_label | safe }}">{% endset -%}
+{%- set f_svc %}<fieldset class="svcpick" id="svc-need" aria-describedby="svc-err"><legend>{{ s.services_legend | safe }}<span>{{ s.services_hint | safe }}</span></legend><p class="svcerr" id="svc-err" role="alert" aria-live="assertive" hidden>{{ s.services_error | safe }}</p><div class="opts">{{ options | safe }}</div></fieldset>{% endset -%}
+{%- set f_vin %}<div id="vin-wrap" style="display:none"><input type="text" name="vin" id="vin-in" placeholder="{{ s.vin_placeholder | safe }}" aria-label="{{ s.vin_label | safe }}" autocomplete="off" maxlength="17"><p style="font-size:12.5px;color:#aeb2b8;line-height:1.5;margin:2px 0 0;text-align:center">{{ s.vin_note | safe }}</p></div>{% endset -%}
+{%- set f_details %}<textarea name="details" placeholder="{{ (q.details_placeholder or s.details_placeholder) | safe }}" aria-label="{{ (q.details_label or s.details_label) | safe }}"></textarea>{% endset -%}
+{%- set f_consent %}<p style="font-size:12.5px;color:#aeb2b8;line-height:1.5;margin:2px 0 0;text-align:center">{{ s.consent_intro | safe }}<a href="/privacy-policy" style="color:var(--gold);font-weight:700">{{ s.consent_link | safe }}</a>{{ s.consent_outro | safe }}</p>{% endset -%}
+{%- set f_send %}<button class="send" type="submit">{{ s.send | safe }}</button>{% endset -%}
+{%- set thanks %}<div class="qthanks" id="qthanks" role="status" tabindex="-1" style="display:none"><div class="qthanks-in"><svg class="qcheck" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><h3>{{ s.thanks_heading | safe }}</h3><p>{{ s.thanks_text | safe }}</p><a class="tbtn" href="tel:{{ site.phone.tel | safe }}"><svg viewBox="0 0 24 24"><path d="M5 4h3.5l1.7 4.3-2.1 1.4a11 11 0 0 0 5.2 5.2l1.4-2.1L19 16.5V20a1 1 0 0 1-1 1A15 15 0 0 1 4 7a1 1 0 0 1 1-1z"/></svg> {{ pages.shared.buttons.call | safe }} {{ site.phone.display | safe }}</a></div></div>{% endset -%}
+{%- if fmt == "index" -%}
+<section class="quote" id="quote">
+  <div class="wrap">
+    <h2>{{ s.heading | safe }}</h2>
+    <p class="sub">{{ sub | safe }}</p>
+    {{ f_open | safe }}
+      {{ f_hidden | safe }}
+      {{ f_hp | safe }}
+      {{ f_name | safe }}
+      {{ f_phone | safe }}
+      {{ f_email | safe }}
+      {{ f_svc | safe }}
+      {{ f_vin | safe }}{{ f_details | safe }}
+      {{ f_consent | safe }}{{ f_send | safe }}
+    </form>{{ thanks | safe }}
+  </div>
+</section>
+{%- else -%}
+<section class="quote" id="quote"><div class="wrap"><h2>{{ s.heading | safe }}</h2><p class="sub">{{ sub | safe }}</p>{{ f_open | safe }}{{ f_hidden | safe }}{{ f_hp | safe }}{{ f_name | safe }}{{ f_phone | safe }}{{ f_email | safe }}{{ f_svc | safe }}{{ f_vin | safe }}{{ f_details | safe }}{{ f_consent | safe }}{{ f_send | safe }}</form>{{ thanks | safe }}</div></section>
+{%- endif -%}
