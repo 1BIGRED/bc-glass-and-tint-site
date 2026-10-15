@@ -149,6 +149,7 @@ collections:
               - { label: "Tint Wiz rating", name: tintwiz_rating, widget: string, hint: "Re-read the live Tint Wiz listing before changing this. It prints on every page." }
               - { label: "Tint Wiz review count", name: tintwiz_count, widget: string, hint: "Re-read the live Tint Wiz listing before changing this. It prints on every page." }
           - { label: "Google Analytics id", name: ga4_id, widget: string, hint: "Do not change." }
+          - { label: "Google Ads tag ID", name: google_ads_id, widget: string, hint: "Leave empty unless the studio says so. Format AW- followed by digits. Empty means no Ads tag loads." }
           - { label: "Microsoft Clarity id", name: clarity_id, widget: string, hint: "Do not change." }
           - { label: "Google site verification token", name: google_site_verification, widget: string, hint: "Do not change." }
 

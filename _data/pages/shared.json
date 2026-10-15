@@ -116,8 +116,8 @@
     "cookie_link": "Cookie choices"
   },
   "cookie_bar": {
-    "label": "Analytics notice",
-    "text": "We use Google Analytics and Microsoft Clarity to see which pages people read, how they move through them, and whether they tap to call. No advertising, and we do not sell anything. ",
+    "label": "Analytics and advertising notice",
+    "text": "We use Google Analytics, Google Ads and Microsoft Clarity to see which pages people read, how they move through them, whether they tap to call, and which ads led to a call or a form. We do not sell anything. ",
     "privacy_link": "Privacy Policy",
     "text_outro": ".",
     "accept": "Accept",

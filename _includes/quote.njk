@@ -19,7 +19,7 @@
 {%- set options %}{% if q.order %}{% for v in q.order %}{{ opt(v, q.preselect) }}{% endfor %}{% else %}{% if q.preselect %}{{ opt(q.preselect, q.preselect) }}{% endif %}{% for v in s.services %}{% if v != q.preselect %}{{ opt(v, q.preselect) }}{% endif %}{% endfor %}{% endif %}{% endset -%}
 {%- set sub %}{% if q.sub_full %}{{ q.sub_full | safe }}{% else %}{{ (q.sub_intro or s.sub_intro) | safe }}<a href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display | safe }}</a>{{ s.sub_outro | safe }}{% endif %}{% endset -%}
 {%- set f_open %}<form name="quote" data-clarity-mask="true" method="POST" data-netlify="true" netlify-honeypot="bot-field">{% endset -%}
-{%- set f_hidden %}<input type="hidden" name="form-name" value="quote"><input type="hidden" name="source" value="{{ q.source | safe }}">{% endset -%}
+{%- set f_hidden %}<input type="hidden" name="form-name" value="quote"><input type="hidden" name="source" value="{{ q.source | safe }}"><input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value=""><input type="hidden" name="gclid" value=""><input type="hidden" name="lead_source" value="">{% endset -%}
 {%- set f_hp %}<p class="hp" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>{{ s.honeypot_label | safe }} <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>{% endset -%}
 {%- set f_name %}<input type="text" name="name" autocomplete="name" placeholder="{{ s.name_placeholder | safe }}" aria-label="{{ s.name_label | safe }}" required>{% endset -%}
 {%- set f_phone %}<input type="tel" name="phone" autocomplete="tel" placeholder="{{ s.phone_placeholder | safe }}" aria-label="{{ s.phone_label | safe }}" required>{% endset -%}
@@ -45,8 +45,9 @@
       {{ f_vin | safe }}{{ f_details | safe }}
       {{ f_consent | safe }}{{ f_send | safe }}
     </form>{{ thanks | safe }}
+    {% include "js/capture.njk" %}
   </div>
 </section>
 {%- else -%}
-<section class="quote" id="quote"><div class="wrap"><h2>{{ s.heading | safe }}</h2><p class="sub">{{ sub | safe }}</p>{{ f_open | safe }}{{ f_hidden | safe }}{{ f_hp | safe }}{{ f_name | safe }}{{ f_phone | safe }}{{ f_email | safe }}{{ f_svc | safe }}{{ f_vin | safe }}{{ f_details | safe }}{{ f_consent | safe }}{{ f_send | safe }}</form>{{ thanks | safe }}</div></section>
+<section class="quote" id="quote"><div class="wrap"><h2>{{ s.heading | safe }}</h2><p class="sub">{{ sub | safe }}</p>{{ f_open | safe }}{{ f_hidden | safe }}{{ f_hp | safe }}{{ f_name | safe }}{{ f_phone | safe }}{{ f_email | safe }}{{ f_svc | safe }}{{ f_vin | safe }}{{ f_details | safe }}{{ f_consent | safe }}{{ f_send | safe }}</form>{{ thanks | safe }}{% include "js/capture.njk" %}</div></section>
 {%- endif -%}

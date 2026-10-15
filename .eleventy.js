@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { fill, jsonld, jsString } = require("./lib/filters");
+const { fill, jsonld, jsString, validAdsId } = require("./lib/filters");
 
 module.exports = function (eleventyConfig) {
   // Static files: copied byte for byte, never processed.
@@ -36,6 +36,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("jsonld", jsonld);
   // jsString: wording printed inside an inline script, as a safe JS string literal.
   eleventyConfig.addFilter("jsString", jsString);
+  eleventyConfig.addFilter("validAdsId", validAdsId);
 
   eleventyConfig.ignores.add("node_modules/**");
   eleventyConfig.ignores.add("_site/**");

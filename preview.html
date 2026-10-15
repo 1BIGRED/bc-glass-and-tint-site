@@ -15,10 +15,10 @@ if(!v){try{var m=document.cookie.match(/(?:^|;\s*)bcgt_analytics=(yes|no)/);if(m
 window.__bcgtConsent=v;
 window.dataLayer=window.dataLayer||[];
 window.gtag=function(){dataLayer.push(arguments)};
-/* Consent Mode v2. Ads signals stay denied - we do not run ads. Analytics follows
-   the visitor's choice; 'denied' still allows cookieless modelling, which a hard
-   ga-disable does not. */
-gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:(v==='no'?'denied':'granted'),wait_for_update:500});
+/* Consent Mode v2. We run Google Ads for conversion measurement only, no remarketing
+   and no personalized ads. ad_storage and ad_user_data follow the same visitor choice
+   as analytics_storage. ad_personalization stays denied so no ad profile is built. */
+gtag('consent','default',{ad_storage:(v==='no'?'denied':'granted'),ad_user_data:(v==='no'?'denied':'granted'),ad_personalization:'denied',analytics_storage:(v==='no'?'denied':'granted'),wait_for_update:500});
 gtag('set','ads_data_redaction',true);
 gtag('set','url_passthrough',true);
 window.__bcgtLoadGa=function(){if(window.__bcgtGaLoaded)return;window.__bcgtGaLoaded=true;
@@ -90,7 +90,7 @@ if(v==='no'){window['ga-disable-'+ID]=true;}else{window.__bcgtLoadGa();}})();</s
   setView('390','780',sw.children[0]);
 </script>
 <script>(function(){if(typeof gtag!=='function')return;document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a)return;var h=a.getAttribute('href')||'';if(h.indexOf('tel:')===0)gtag('event','call_click',{link_url:h});else if(h.indexOf('sms:')===0)gtag('event','text_click',{link_url:h});else if(h.indexOf('mailto:')===0)gtag('event','email_click',{link_url:h});},true);var f=document.querySelector('form[name="quote"]');if(f)f.addEventListener('submit',function(){var s=f.querySelector('[name="source"]');gtag('event','generate_lead',{form_name:'quote',page_source:s?s.value:''});},true);if(f){var st=false;f.addEventListener('focusin',function(){if(st)return;st=true;gtag('event','form_start',{form_name:'quote'});},true);}document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a)return;var h=a.getAttribute('href')||'',t=(a.textContent||'').toLowerCase();if(h.indexOf('google.com/maps')>-1){if(t.indexOf('direction')>-1)gtag('event','directions_click',{link_url:h});else gtag('event','review_click',{platform:'google'});}else if(h.indexOf('yelp.com')>-1)gtag('event','review_click',{platform:'yelp'});else if(h.indexOf('tintwiz.me')>-1)gtag('event','review_click',{platform:'tintwiz'});},true);})();</script>
-<div class="ckbar" id="ckbar" role="region" aria-live="polite" tabindex="-1" aria-label="Analytics notice"><p>We use Google Analytics and Microsoft Clarity to see which pages people read, how they move through them, and whether they tap to call. No advertising, and we do not sell anything. <a href="privacy-policy.html">Privacy Policy</a> &middot; <a href="#" id="ckreopen">Cookie choices</a>.</p><div class="ckbtns"><button type="button" class="ck-yes" id="ckYes">Accept</button><button type="button" class="ck-no" id="ckNo">Decline</button></div></div>
+<div class="ckbar" id="ckbar" role="region" aria-live="polite" tabindex="-1" aria-label="Analytics and advertising notice"><p>We use Google Analytics, Google Ads and Microsoft Clarity to see which pages people read, how they move through them, whether they tap to call, and which ads led to a call or a form. We do not sell anything. <a href="privacy-policy.html">Privacy Policy</a> &middot; <a href="#" id="ckreopen">Cookie choices</a>.</p><div class="ckbtns"><button type="button" class="ck-yes" id="ckYes">Accept</button><button type="button" class="ck-no" id="ckNo">Decline</button></div></div>
 <script>(function(){var K='bcgt_analytics',ID='G-0DX8WZ47XL',bar=document.getElementById('ckbar');if(!bar)return;
 function read(){var v=null;try{v=localStorage.getItem(K)}catch(e){}
 if(!v){try{var m=document.cookie.match(/(?:^|;\s*)bcgt_analytics=(yes|no)/);if(m)v=m[1];}catch(e){}}return v;}

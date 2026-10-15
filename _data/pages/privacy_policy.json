@@ -24,11 +24,12 @@
           "The service or services you select. You can choose more than one",
           "Your vehicle identification number, or VIN, if you are asking about a windshield replacement and choose to give it. That field is optional and it only appears when you select windshield replacement",
           "Any details you include about your vehicle, home, or project",
-          "Which page of our Site you sent the form from, which the form records automatically so we know what you were reading"
+          "Which page of our Site you sent the form from, which the form records automatically so we know what you were reading",
+          "If a code in the web address tells us which ad, sign, or mailer sent you, we save that code with your form submission so we know what worked"
         ] },
         { "type": "p", "text": "Please do not type medical information, insurance policy or claim numbers, or your driver's license number into the details box. If we need any of that to do your job, we will ask you for it by phone." },
         { "type": "p", "text": "Our website host, Netlify, also processes our form submissions and may automatically log standard technical information, such as your IP address, browser type, and the pages you visit, for security and basic site operation." },
-        { "type": "p", "text": "We do not use advertising cookies, we do not run ads, and we do not build advertising profiles. Three third-party services do receive some information when you visit, and each one is described below: Google Analytics and Microsoft Clarity, which run only while analytics is allowed, and the Google map embedded on our About page, which loads with that page." }
+        { "type": "p", "text": "We run Google Ads on Google Search so people looking for our services can find us, and we use it only to measure which ads led to a call, a text or a quote request, including calls to a Google forwarding number shown in an ad. We do not use Google Ads for remarketing, and we do not build an advertising profile that follows you to other websites. Four third-party services receive some information when you visit, and each one is described below: Google Analytics and Google Ads, which work together for this measurement and run only while analytics is allowed, Microsoft Clarity, which also runs only while analytics is allowed, and the Google map embedded on our About page, which loads with that page." }
       ]
     },
     {
@@ -55,7 +56,7 @@
       "heading": "Cookies and your choices",
       "blocks": [
         { "type": "p", "text": "When you first visit, a banner asks whether to allow analytics. Until you answer, analytics is on. If you choose Decline, we switch both Google Analytics and Microsoft Clarity off, delete the cookies they set, and load neither of them again on this browser. Because the banner appears after the page has already opened, a small amount of data may reach Google and Microsoft during that first page view, before you answer. From the moment you press Decline onward, nothing further is sent." },
-        { "type": "p", "text": "Your answer is stored on your own device, in a cookie named <code>bcgt_analytics</code> and in your browser's local storage. That record holds only your yes or no. It does not identify you. You can change your answer at any time using the cookie settings link in our footer." },
+        { "type": "p", "text": "Your answer is stored on your own device, in a cookie named <code>bcgt_analytics</code> and in your browser's local storage. That record holds only your yes or no. It does not identify you. You can change your answer at any time using the Cookie choices link in our footer." },
         { "type": "p", "text": "Two things worth knowing. Clearing your browser's cookies and site data does <strong>not</strong> reliably switch analytics off, and because it also erases your Decline choice, it can switch analytics back on and the banner will ask again. And because the choice is stored per browser and per device, declining on your phone does not decline on your laptop." },
         { "type": "p", "text": "Our Site does not currently respond to \"Do Not Track\" browser signals or the Global Privacy Control, because no single agreed standard for honoring them exists. We do not sell your information in any case." }
       ]
@@ -76,7 +77,7 @@
         { "type": "ul", "items": [
           "<strong>Netlify</strong>, in the United States, which hosts the Site and stores our form submissions",
           "Our <strong>email provider</strong>, which delivers and stores the notification email containing your request",
-          "<strong>Google</strong> and <strong>Microsoft</strong>, for the analytics described above",
+          "<strong>Google</strong> and <strong>Microsoft</strong>, for the analytics and advertising measurement described above",
           "<strong>Suppliers and partners needed to finish your job</strong>, for example a glass or parts distributor we order from using your vehicle information, or your insurance company or its claims administrator if you ask us to bill a claim. We share only what that job requires",
           "Others when required by law, or to protect our rights, safety, or property"
         ] }
