@@ -2,6 +2,8 @@
     Front matter:
       theme: warm        adds body.theme-warm (Warm Gallery: cream ground, for home, office, blinds)
       hero_preload: key  preloads that _data/v2images.json image as the LCP (AVIF srcset)
+      extra_css: [..]    page-owned stylesheets loaded after v2.css (e.g. /assets/v2/builder.css)
+      extra_js: [..]     page-owned scripts, deferred, loaded last
     Reuses the existing head pieces (head/top: charset, viewport, GA4 with Consent Mode, icons;
     head/meta: title, description, canonical, Open Graph, and google-site-verification on the
     homepage via frame.json; jsonld; head/clarity) and the existing behavior scripts (gtag events,
@@ -15,7 +17,8 @@
 <link rel="preload" href="/assets/v2/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 {% if hero_preload and v2images[hero_preload] %}<link rel="preload" as="image" type="image/avif" imagesrcset="{{ v2images[hero_preload].avif }}" imagesizes="100vw" fetchpriority="high">
 {% endif %}<link rel="stylesheet" href="/assets/v2/v2.css">
-{% include "head/clarity.njk" %}
+{% for css in extra_css %}<link rel="stylesheet" href="{{ css }}">
+{% endfor %}{% include "head/clarity.njk" %}
 </head>
 <body class="v2{% if theme == 'warm' %} theme-warm{% endif %}">
 {% include "skip-link.njk" %}
@@ -43,5 +46,6 @@
 {% include "cookie-bar.njk" %}
 {% include "js/cookie.njk" %}
 {% include "js/svc-validate.njk" %}
-</body>
+{% for js in extra_js %}<script src="{{ js }}" defer></script>
+{% endfor %}</body>
 </html>
