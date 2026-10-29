@@ -67,6 +67,7 @@ collections:
               - { label: "As printed", name: display, widget: string }
               - { label: "Dialing form (tel: link)", name: tel, widget: string, hint: "Technical format for click-to-call links: a plus sign, the country code, then the digits with no spaces or dashes." }
               - { label: "Search engine form", name: schema, widget: string, hint: "Technical format read by search engines." }
+              - { label: "As printed on call buttons", name: display_call, widget: string, hint: "The same number written with the area code in parentheses, for example (702) 550-8840. It must be the same number as As printed above." }
           - { label: "Public email", name: email, widget: string, hint: "Changes every page and the Google listing data. Check with the studio first." }
           - label: "Address"
             name: address
@@ -101,6 +102,27 @@ collections:
                 field: { label: "Day", name: value, widget: string }
               - { label: "Opens", name: opens, widget: string, hint: "24-hour time, for example 09:00." }
               - { label: "Closes", name: closes, widget: string, hint: "24-hour time, for example 17:00." }
+              - { label: "Time zone", name: timezone, widget: string, hint: "Technical. The open and closed message works out the time in this zone. Ask the studio before changing." }
+          - label: "Holiday closures (shop closed all day)"
+            name: closures
+            widget: list
+            label_singular: "Closed day"
+            required: false
+            summary: "{{fields.date}} {{fields.note}}"
+            hint: "Add a day the shop is closed. On that date the site says the shop is closed and never promises it opens that day. Add the day only once the shop has confirmed it is closed. Remove the day after it has passed, or leave it; the site ignores past dates. If the same date is also in Holidays with hours not confirmed, the not confirmed list wins and no status shows."
+            fields:
+              - { label: "Date", name: date, widget: datetime, type: date, picker_utc: true, hint: "Pick the calendar day." }
+              - { label: "Note", name: note, widget: string, required: false, hint: "For your own reference, for example Thanksgiving, closed. The site does not print this note on the page." }
+          - label: "Holidays with hours not confirmed"
+            name: hours_unknown
+            widget: list
+            label_singular: "Day"
+            required: false
+            summary: "{{fields.date}} {{fields.note}}"
+            hint: "Days when the shop has not confirmed its hours. On these dates the site shows no open or closed message at all, so it never says something wrong. When the shop confirms a day, delete it from this list. If the shop is closed that day, add it to Holiday closures. If the shop is open its normal hours, just delete it."
+            fields:
+              - { label: "Date", name: date, widget: datetime, type: date, picker_utc: true, hint: "Pick the calendar day." }
+              - { label: "Note", name: note, widget: string, required: false, hint: "For your own reference, for example Christmas Eve, hours not confirmed. The site does not print this note on the page." }
           - { label: "Google Maps link", name: maps_url, widget: string, hint: "Changes every page and the Google listing data. Check with the studio first." }
           - { label: "Payment accepted", name: payment_accepted, widget: string, hint: "Plain text list read by search engines, for example Cash, Credit Card, Debit Card." }
           - label: "Areas served (search engines)"
@@ -152,6 +174,297 @@ collections:
           - { label: "Google Ads tag ID", name: google_ads_id, widget: string, hint: "Leave empty unless the studio says so. Format AW- followed by digits. Empty means no Ads tag loads." }
           - { label: "Microsoft Clarity id", name: clarity_id, widget: string, hint: "Do not change." }
           - { label: "Google site verification token", name: google_site_verification, widget: string, hint: "Do not change." }
+
+  # ================================================================
+  # Prices and gallery photos (_data/pricing.json, _data/gallery.json).
+  # A price reaches the public site only through the rule in lib/pricing.js:
+  # status confirmed AND publish on AND not on legal hold. The gallery lists
+  # only photos that were checked for faces and personal items.
+  # ================================================================
+  - name: prices_gallery
+    label: "Prices & Gallery Photos"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: pricing
+        label: "Prices"
+        file: "_data/pricing.json"
+        description: "Every price the website can show. A price shows on the live site only when Status is Confirmed AND Show on the live site is on. Everything else shows Call for a quote. Draft prices never show on the live site. Never type a guess, a competitor's number, or 0 to mean unknown."
+        fields:
+          - { label: "Date last updated", name: updated, widget: string, hint: "YYYY-MM-DD format. Change it to today's date whenever you change a price." }
+          - { label: "Currency", name: currency, widget: string, hint: "Do not change." }
+          - label: "Rules, in plain English (read only, do not edit)"
+            name: notes
+            widget: list
+            label_singular: "Rule"
+            summary: "{{fields.value}}"
+            hint: "The studio's notes on how this file works. Read them, but do not edit them."
+            field: { label: "Rule", name: value, widget: text }
+          - { label: "Price gate (studio only)", name: gate, widget: hidden }
+          - { label: "Film lines (studio only)", name: film_tiers, widget: hidden }
+          - label: "Shades the shop stocks"
+            name: shades_installed
+            widget: list
+            label_singular: "Shade"
+            required: false
+            summary: "{{fields.value}}"
+            hint: "Add a shade (the percent of light the film lets through) only when the owner lists it as stocked. While this list is empty, the Build Your Tint tool shows example shades with a note that the shop confirms what it stocks."
+            field: { label: "Shade (percent of light let through)", name: value, widget: number, value_type: int, min: 1, max: 100 }
+          - { label: "Example shades (studio only)", name: example_shades, widget: hidden }
+          - { label: "Vehicle sizes (studio only)", name: vehicle_classes, widget: hidden }
+          - label: "Single-price lines (chip repair, home film, coatings, blinds)"
+            name: services
+            widget: object
+            hint: "One price each. A price shows on the live site only when Status is Confirmed AND Show on the live site is on."
+            fields:
+              - label: "Windshield chip repair, first chip"
+                name: chip_repair_first
+                widget: object
+                collapsed: true
+                summary: "{{fields.status}} {{fields.display}}"
+                fields: &service_fields
+                  - { label: "Name of this line", name: label, widget: string, hint: "Technical name of the price line. Ask the studio before changing." }
+                  - { label: "Unit", name: unit, widget: string, required: false, hint: "What the price is for, for example per square foot. Ask the studio before changing." }
+                  - label: "Status"
+                    name: status
+                    widget: select
+                    options:
+                      - { label: "Unknown, no number yet", value: unknown }
+                      - { label: "Draft, not signed off by the owner", value: draft }
+                      - { label: "Confirmed, the owner gave this exact number", value: confirmed }
+                    hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Pick Confirmed only after the owner has given this exact number."
+                  - { label: "Amount (number only)", name: amount, widget: number, value_type: float, min: 0, required: false, hint: "A plain number with no dollar sign, for example 80. Leave empty if unknown. Never type 0 to mean unknown. Never type a guess or a competitor's number." }
+                  - { label: "Words the site prints", name: display, widget: string, required: false, hint: "Exactly what customers read, for example $80 or From $350. Fill it in when the status is Confirmed. Keep Starting at wording where the line says it." }
+                  - { label: "Show on the live site", name: publish, widget: boolean, default: false, required: false, hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Leave this off to keep a confirmed price private; the site then says Call for a quote." }
+                  - { label: "Confirmed by", name: confirmed_by, widget: string, required: false, hint: "Who gave the number, by name or role. Required before you set the status to Confirmed." }
+                  - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, picker_utc: true, required: false, hint: "The day the owner gave the number." }
+                  - { label: "Where the number came from", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
+                  - { label: "How the number was worked out", name: basis, widget: text, required: false, hint: "Reference only. Do not change." }
+              - { label: "Windshield chip repair, each additional chip", name: chip_repair_additional, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+              - { label: "Exterior turf protection film", name: turf_protection_film, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+              - { label: "Home window film, per window", name: home_film_per_window, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+              - { label: "Sliding glass door film", name: sliding_door, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+              - { label: "Office and storefront glass film", name: office_glass, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+              - { label: "Ceramic coating", name: ceramic_coating, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+              - { label: "Clear bra, paint protection film", name: clear_bra, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+              - { label: "Headlight restoration", name: headlight_restoration, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+              - { label: "Blinds and window treatments, from", name: blinds_from, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
+          - label: "Auto tint prices"
+            name: auto_tint
+            widget: object
+            hint: "Prices are set per vehicle size: Car, SUV, Pickup and Van. Front doors darker than 35 percent never get a price on the site (Nevada law, NRS 484D.440)."
+            fields:
+              - label: "Packages (several windows at once)"
+                name: coverage
+                widget: object
+                fields:
+                  - label: "Front doors"
+                    name: two_front_doors
+                    widget: object
+                    collapsed: true
+                    fields:
+                      - { label: "Name of this package", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                      - { label: "Windows covered (studio only)", name: panels, widget: hidden }
+                      - { label: "Worksheet column (studio only)", name: worksheet_column, widget: hidden }
+                      - label: "Car"
+                        name: car
+                        widget: object
+                        collapsed: true
+                        summary: "{{fields.status}} {{fields.display}}"
+                        fields: &price_fields
+                          - label: "Status"
+                            name: status
+                            widget: select
+                            options:
+                              - { label: "Unknown, no number yet", value: unknown }
+                              - { label: "Draft, not signed off by the owner", value: draft }
+                              - { label: "Confirmed, the owner gave this exact number", value: confirmed }
+                            hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Pick Confirmed only after the owner has given this exact number."
+                          - { label: "Amount (number only)", name: amount, widget: number, value_type: float, min: 0, required: false, hint: "A plain number with no dollar sign, for example 150. Leave empty if unknown. Never type 0 to mean unknown. Never type a guess or a competitor's number." }
+                          - { label: "Words the site prints", name: display, widget: string, required: false, hint: "Exactly what customers read, for example From $150. Fill it in when the status is Confirmed." }
+                          - { label: "Show on the live site", name: publish, widget: boolean, default: false, required: false, hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Leave this off to keep a confirmed price private; the site then says Call for a quote." }
+                          - { label: "Confirmed by", name: confirmed_by, widget: string, required: false, hint: "Who gave the number, by name or role. Required before you set the status to Confirmed." }
+                          - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, picker_utc: true, required: false, hint: "The day the owner gave the number." }
+                          - { label: "Where the number came from", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
+                          - { label: "How the number was worked out", name: basis, widget: text, required: false, hint: "Reference only. Do not change." }
+                          - { label: "Why it is unknown", name: why_unknown, widget: string, required: false, hint: "Reference only. Do not change." }
+                      - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                  - label: "Rear doors and back glass"
+                    name: rear_doors_and_back_glass
+                    widget: object
+                    collapsed: true
+                    fields:
+                      - { label: "Name of this package", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                      - { label: "Windows covered (studio only)", name: panels, widget: hidden }
+                      - { label: "Worksheet column (studio only)", name: worksheet_column, widget: hidden }
+                      - { label: "Car", name: car, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                  - label: "Full vehicle, side and back glass"
+                    name: full_vehicle
+                    widget: object
+                    collapsed: true
+                    hint: "Full vehicle means the side and back glass. The windshield and the sunroof are separate lines."
+                    fields:
+                      - { label: "Name of this package", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                      - { label: "Windows covered (studio only)", name: panels, widget: hidden }
+                      - { label: "Worksheet column (studio only)", name: worksheet_column, widget: hidden }
+                      - { label: "Car", name: car, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+              - label: "Single windows (separate lines)"
+                name: panels
+                widget: object
+                fields:
+                  - label: "Front doors"
+                    name: front-doors
+                    widget: object
+                    collapsed: true
+                    fields:
+                      - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                      - { label: "Car", name: car, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                  - label: "Rear doors"
+                    name: rear-doors
+                    widget: object
+                    collapsed: true
+                    fields:
+                      - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                      - { label: "Car", name: car, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                  - label: "Back glass"
+                    name: back-glass
+                    widget: object
+                    collapsed: true
+                    fields:
+                      - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                      - { label: "Car", name: car, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                  - label: "Windshield top strip"
+                    name: windshield-strip
+                    widget: object
+                    collapsed: true
+                    hint: "Nevada allows windshield tint on the top strip only. NRS 484D.440."
+                    fields:
+                      - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                      - { label: "Car", name: car, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                  - label: "Sunroof"
+                    name: sunroof
+                    widget: object
+                    collapsed: true
+                    fields:
+                      - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                      - { label: "Car", name: car, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+                      - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
+              - label: "Full windshield film (ON LEGAL HOLD)"
+                name: full_windshield_film
+                widget: object
+                collapsed: true
+                hint: "On legal hold. Do not publish until Chase rules on Nevada law. The site never prints this line, in any mode, whatever is typed here. The hold switch and the live-site switch are hidden on purpose."
+                fields:
+                  - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
+                  - label: "Status"
+                    name: status
+                    widget: select
+                    options:
+                      - { label: "Unknown, no number yet", value: unknown }
+                      - { label: "Draft, not signed off by the owner", value: draft }
+                      - { label: "Confirmed, the owner gave this exact number", value: confirmed }
+                    hint: "On legal hold. Do not publish until Chase rules on Nevada law. Leave this as Draft."
+                  - { label: "Amount (number only)", name: amount, widget: number, value_type: float, min: 0, required: false, hint: "On legal hold. Do not change." }
+                  - { label: "Words the site prints", name: display, widget: string, required: false, hint: "On legal hold. Do not change." }
+                  - { label: "Where the number came from", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
+                  - { label: "How the number was worked out", name: basis, widget: text, required: false, hint: "Reference only. Do not change." }
+                  - { label: "Legal hold (studio only)", name: legal_hold, widget: hidden }
+                  - { label: "Why it is on hold", name: legal_note, widget: text, required: false, hint: "On legal hold. Do not publish until Chase rules on Nevada law. Reference only; do not change." }
+                  - { label: "Confirmed by", name: confirmed_by, widget: string, required: false, hint: "On legal hold. Leave empty." }
+                  - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, picker_utc: true, required: false, hint: "On legal hold. Leave empty." }
+                  - { label: "Show on the live site (studio only)", name: publish, widget: hidden }
+
+      - name: gallery
+        label: "Gallery Photos"
+        file: "_data/gallery.json"
+        description: "The photos on the Gallery page and the homepage. Add a photo only when it shows no faces and no personal items and the customer is OK with it. Never guess a shade."
+        fields:
+          - { label: "Date last updated", name: updated, widget: string, hint: "YYYY-MM-DD format. Change it to today's date whenever you add or change a photo." }
+          - label: "Photos"
+            name: items
+            widget: list
+            label_singular: "Photo"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Photo id", name: id, widget: string, hint: "Short name written with dashes and no spaces, for example ford-f-150-side. Make it different from every other photo. Do not change it after the photo is live." }
+              - { label: "Kind of entry", name: collection, widget: string, default: "job", hint: "Technical. Leave as job unless the studio says otherwise." }
+              - label: "Service"
+                name: service
+                widget: select
+                options:
+                  - { label: "Auto tint", value: auto-tint }
+                  - { label: "Windshield chip repair", value: chip-repair }
+                  - { label: "Home window film", value: home-film }
+                  - { label: "Commercial and office window film", value: commercial-film }
+              - label: "Vehicle"
+                name: vehicle
+                widget: object
+                required: false
+                hint: "Fill in for vehicle photos only. Leave all three empty for a home, office or chip repair photo. Only write a make and model you are sure of from the job record."
+                fields:
+                  - { label: "Make", name: make, widget: string, required: false }
+                  - { label: "Model", name: model, widget: string, required: false, hint: "Leave empty if you do not know the model for sure." }
+                  - label: "Body"
+                    name: body
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Car", value: car }
+                      - { label: "SUV", value: suv }
+                      - { label: "Pickup", value: pickup }
+                      - { label: "Van", value: van }
+              - label: "Windows with film in this photo"
+                name: panels
+                widget: select
+                multiple: true
+                required: false
+                hint: "Pick every window that has film in the photo. Leave empty for a chip repair photo."
+                options:
+                  - { label: "Front doors", value: front-doors }
+                  - { label: "Rear doors", value: rear-doors }
+                  - { label: "Back glass", value: back-glass }
+                  - { label: "Windshield top strip", value: windshield-strip }
+                  - { label: "Sunroof", value: sunroof }
+                  - { label: "Home window", value: home-window }
+                  - { label: "Office glass", value: office-glass }
+              - { label: "Shade (percent of light let through)", name: shade, widget: number, value_type: int, min: 1, max: 100, required: false, hint: "Light let through, from the job record. Leave empty if unknown. Never guess from the photo." }
+              - { label: "Film line", name: film_line, widget: string, required: false, hint: "The film name from the job record. Leave empty if unknown. Never guess." }
+              - { label: "City", name: city, widget: string, required: false, hint: "Leave empty unless the customer agreed to the city being shown." }
+              - { label: "Title", name: title, widget: string, hint: "Short name shown with the photo, for example Ford F-150." }
+              - { label: "Photo description (for screen readers)", name: alt, widget: text, hint: "One plain sentence describing what the photo shows. Do not name the customer." }
+              - { label: "Small photo (640 wide)", name: img640, widget: image, media_folder: "/images/gallery", public_folder: "/images/gallery", choose_url: false, hint: "The 640 pixel wide version. By habit the file name ends in -640.jpg." }
+              - { label: "Large photo (1280 wide)", name: img1280, widget: image, media_folder: "/images/gallery", public_folder: "/images/gallery", choose_url: false, hint: "The 1280 pixel wide version. By habit the file name ends in -1280.jpg." }
+              - { label: "Large photo width in pixels", name: w, widget: number, value_type: int, hint: "Technical. Ask the studio before changing." }
+              - { label: "Large photo height in pixels", name: h, widget: number, value_type: int, hint: "Technical. Ask the studio before changing." }
+              - { label: "Small photo width in pixels", name: w640, widget: number, value_type: int, hint: "Technical. Ask the studio before changing." }
+              - { label: "Small photo height in pixels", name: h640, widget: number, value_type: int, hint: "Technical. Ask the studio before changing." }
+              - { label: "Edited master file", name: source_master, widget: string, hint: "Where the full size edited photo is kept in the studio photo library. Ask the studio before changing." }
+              - { label: "Checked: no faces, no personal items, customer OK", name: checked, widget: boolean, default: false, hint: "Only on when no faces, no personal items, and the customer is OK with it." }
+              - { label: "Note", name: note, widget: text, required: false, hint: "For the office and studio only; not printed on the page. Say how the make and model were identified." }
+          - { label: "Shade board (studio only)", name: shade_board, widget: hidden }
 
   # ================================================================
   # Shared wording: header, footer, quote form, cookie banner.
@@ -299,6 +612,54 @@ collections:
               - { label: "Text, after the Privacy Policy link", name: text_outro, widget: string, hint: "Usually just a period." }
               - { label: "Accept button", name: accept, widget: string }
               - { label: "Decline button", name: decline, widget: string }
+          - label: "New design: header, menu, status and footer"
+            name: v2
+            widget: object
+            hint: "Wording for the new header, mobile menu, open or closed message and footer line. Keep any HTML codes, such as &amp;, exactly as they are."
+            fields:
+              - { label: "Logo description (for screen readers)", name: logo_alt, widget: string, hint: "Keep the &amp; entity as it is if there is one." }
+              - { label: "Main navigation label (screen readers only)", name: nav_label, widget: string }
+              - label: "Top menu links"
+                name: nav
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Label", name: label, widget: string }
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+              - label: "Extra links in the mobile menu"
+                name: drawer_extra
+                widget: list
+                label_singular: "Link"
+                summary: "{{fields.label}}"
+                fields:
+                  - { label: "Label", name: label, widget: string }
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+              - { label: "Menu button label", name: menu_label, widget: string }
+              - { label: "Close menu button label (screen readers only)", name: close_label, widget: string }
+              - { label: "Call button", name: call, widget: string }
+              - { label: "Call button description (for screen readers)", name: call_aria, widget: string }
+              - { label: "Text button", name: text, widget: string }
+              - { label: "Text button description (for screen readers)", name: text_aria, widget: string }
+              - label: "Open or closed message"
+                name: status
+                widget: object
+                hint: "The site works out open or closed from the hours in Business Info. Words in braces, such as {close}, {day} and {open}, are filled in automatically; leave them exactly as they are."
+                fields:
+                  - { label: "When open", name: open, widget: string, hint: "Keep the {close} token." }
+                  - { label: "When closed, with next opening", name: closed_next, widget: string, hint: "Keep the {day} and {open} tokens." }
+                  - { label: "When closed", name: closed, widget: string }
+                  - { label: "Word for today", name: today, widget: string }
+                  - { label: "Word for tomorrow", name: tomorrow, widget: string }
+              - label: "Footer line"
+                name: footer
+                widget: object
+                fields:
+                  - { label: "Tagline", name: tagline, widget: string }
+                  - { label: "Privacy link text", name: privacy, widget: string }
+                  - { label: "Cookie choices link text", name: cookies, widget: string }
+                  - { label: "Nevada tint law link text", name: tint_law, widget: string }
+                  - { label: "Nevada tint law link address", name: tint_law_href, widget: string, hint: "Technical. Ask the studio before changing." }
 
   # ================================================================
   # Homepage
@@ -512,6 +873,163 @@ collections:
               - { label: "Details field placeholder", name: details_placeholder, widget: string }
               - { label: "Details field label", name: details_label, widget: string }
               - { label: "Paragraph (full version)", name: sub_full, widget: text }
+          - label: "New design: homepage wording"
+            name: v2
+            widget: object
+            hint: "Wording for the new homepage. Words in braces, such as {google_rating} and {google_count}, are filled in automatically from Business Info & Review Counts; leave them exactly as they are. A price here is never typed; it is read from Prices and shows only when that price is confirmed and switched on."
+            fields:
+              - label: "Top of page (hero)"
+                name: hero
+                widget: object
+                fields:
+                  - { label: "Small line above the heading", name: eyebrow, widget: string }
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Lead paragraph", name: lede, widget: text }
+                  - { label: "Price label", name: price_label, widget: string, hint: "Printed beside the price when one can show." }
+                  - { label: "Price source (studio only)", name: price, widget: string, hint: "Technical. Names which price in Prices is shown here. Ask the studio before changing." }
+                  - { label: "Build your tint link text", name: build_link, widget: string }
+                  - { label: "Build your tint link address", name: build_href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Note under the call button", name: call_note, widget: string }
+                  - { label: "Hero image name (studio only)", name: image, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Hero photo description (for screen readers)", name: image_alt, widget: string }
+              - label: "Phone quote"
+                name: phone_quote
+                widget: object
+                hint: "A real review shown beside the phone number. Never invent, paraphrase or pad a review."
+                fields:
+                  - { label: "Reviewer name", name: name, widget: string }
+                  - { label: "Label", name: label, widget: string }
+                  - { label: "Rating line", name: rating_line, widget: string, hint: "Keep the {google_rating} token." }
+              - label: "Proof points"
+                name: proof
+                widget: list
+                label_singular: "Proof point"
+                summary: "{{fields.title}}"
+                hint: "Review numbers here are tokens filled in from Business Info & Review Counts. Never type a review count."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: string }
+              - label: "Build Your Tint teaser"
+                name: build
+                widget: object
+                fields:
+                  - { label: "Small line above the heading", name: eyebrow, widget: string }
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Text", name: text, widget: text }
+                  - { label: "Illustration description (for screen readers)", name: svg_label, widget: string }
+                  - label: "Window chips"
+                    name: chips
+                    widget: list
+                    label_singular: "Chip"
+                    summary: "{{fields.value}}"
+                    field: { label: "Chip", name: value, widget: string }
+                  - { label: "Note under the illustration", name: note, widget: text }
+                  - { label: "Estimate label", name: estimate_label, widget: string }
+                  - { label: "Estimate price source (studio only)", name: estimate_price, widget: string, hint: "Technical. Names which price in Prices is shown here. Ask the studio before changing." }
+                  - { label: "Estimate note", name: estimate_note, widget: string }
+                  - { label: "Button text", name: cta, widget: string }
+                  - { label: "Button link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+              - label: "Prices section"
+                name: prices
+                widget: object
+                hint: "Each card shows its price only when that price is confirmed AND Show on the live site is on in Prices. Otherwise the card says Call for a quote."
+                fields:
+                  - { label: "Small line above the heading", name: eyebrow, widget: string }
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Text", name: text, widget: text }
+                  - { label: "Words when no price shows", name: unknown, widget: string }
+                  - label: "Price cards"
+                    name: cards
+                    widget: list
+                    label_singular: "Card"
+                    summary: "{{fields.title}}"
+                    fields:
+                      - { label: "Title", name: title, widget: string }
+                      - { label: "Sub line", name: sub, widget: string }
+                      - { label: "Price source (studio only)", name: price, widget: string, hint: "Technical. Names which price in Prices is shown on this card. Ask the studio before changing." }
+                      - { label: "Second price source (studio only)", name: note_price, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
+                      - { label: "Note next to the price", name: note, widget: string, required: false, hint: "Keep the {price} token." }
+                      - { label: "Note when there is no second price", name: note_alone, widget: string, required: false }
+                      - { label: "Button text", name: cta, widget: string }
+                      - { label: "Highlight this card", name: featured, widget: boolean, required: false }
+                      - { label: "Phone only (never show a price)", name: phone_only, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
+                  - { label: "Footnote, before the link", name: footnote, widget: string }
+                  - { label: "Footnote link text", name: footnote_link, widget: string }
+                  - { label: "Footnote link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+              - label: "Gallery teaser"
+                name: gallery
+                widget: object
+                fields:
+                  - { label: "Small line above the heading", name: eyebrow, widget: string }
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Link text", name: link, widget: string }
+                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "How many photos to show", name: count, widget: number, value_type: int, min: 1, max: 12 }
+              - label: "Services"
+                name: services
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - label: "Service tiles"
+                    name: tiles
+                    widget: list
+                    label_singular: "Tile"
+                    summary: "{{fields.title}}"
+                    hint: "For the windshield tile: chip repair is done in our own shop; replacement is arranged with a glass specialist. Never write that we do replacement labor ourselves."
+                    fields:
+                      - { label: "Title", name: title, widget: string }
+                      - { label: "Short title", name: short, widget: string, required: false }
+                      - { label: "Text", name: text, widget: text }
+                      - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                      - { label: "Image name (studio only)", name: image, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
+                      - { label: "Gallery photo id (studio only)", name: gallery_id, widget: string, required: false, hint: "Technical. Must match a Photo id in Gallery Photos exactly. Ask the studio before changing." }
+                  - label: "Other services"
+                    name: chips
+                    widget: list
+                    label_singular: "Link"
+                    summary: "{{fields.label}}"
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                      - { label: "Opens another website", name: external, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
+              - label: "Reviews strip"
+                name: reviews
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Label", name: label, widget: string }
+                  - label: "Reviewer names shown"
+                    name: names
+                    widget: list
+                    label_singular: "Name"
+                    summary: "{{fields.value}}"
+                    hint: "Real reviewers only, matching real reviews."
+                    field: { label: "Reviewer name", name: value, widget: string }
+              - label: "How it works"
+                name: how
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - label: "Steps"
+                    name: steps
+                    widget: list
+                    label_singular: "Step"
+                    summary: "{{fields.title}}"
+                    fields:
+                      - { label: "Title", name: title, widget: string }
+                      - { label: "Text", name: text, widget: text }
+              - label: "Questions heading"
+                name: faq
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+              - label: "Contact section"
+                name: contact
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Word before the closed message", name: closed_prefix, widget: string }
+                  - { label: "Call back link text", name: callback_link, widget: string }
           - label: "Search engine details (advanced)"
             name: schema
             widget: object
@@ -2555,3 +3073,322 @@ collections:
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
               - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+
+      - name: prices_page
+        label: "Prices Page (wording only)"
+        file: "_data/pages/prices.json"
+        description: "The wording of the Prices page. The prices themselves are not here; change them under Prices & Gallery Photos, Prices. Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. Never write a dollar amount into any sentence here; a number typed into wording would show even when the price is not confirmed."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Small line above the heading", name: eyebrow, widget: string }
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro paragraph (when prices show)", name: intro, widget: text }
+              - { label: "Intro paragraph (when no prices show)", name: intro_without_prices, widget: text }
+          - { label: "Words when a price does not show", name: price_fallback, widget: string, hint: "Printed in place of any price that is not confirmed and switched on. Keep it as Call for a quote unless the studio says otherwise." }
+          - { label: "Tag on a draft price", name: draft_tag, widget: string, hint: "Appears only on review copies of the site, never on the live site." }
+          - { label: "Price and vehicle format (studio only)", name: cell_format, widget: string, hint: "Technical. Words in braces are filled in automatically. Ask the studio before changing." }
+          - { label: "Format note (studio only)", name: cell_format_note, widget: hidden }
+          - { label: "Confirmed line", name: confirmed_line, widget: string, hint: "Keep the {month_year} token." }
+          - { label: "Template rules (studio only)", name: template_rules, widget: hidden }
+          - label: "Sections"
+            name: sections
+            widget: object
+            fields:
+              - label: "Auto window tint"
+                name: auto_tint
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Paragraph", name: sub, widget: text }
+                  - { label: "Coverage column heading", name: column_coverage, widget: string }
+                  - { label: "Vehicle order (studio only)", name: class_order, widget: hidden }
+                  - { label: "Row order (studio only)", name: row_order, widget: hidden }
+                  - { label: "Extra lines (studio only)", name: line_rows, widget: hidden }
+                  - { label: "Extra lines heading", name: line_rows_heading, widget: string }
+                  - { label: "Footnote", name: footnote, widget: text, hint: "Keep the Nevada law reference, NRS 484D.440." }
+              - label: "Windshield chip repair"
+                name: chip_repair
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Paragraph", name: sub, widget: text }
+                  - { label: "Rows (studio only)", name: rows, widget: hidden }
+              - label: "Home and office film"
+                name: home_office
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Paragraph", name: sub, widget: text }
+                  - { label: "Rows (studio only)", name: rows, widget: hidden }
+              - label: "Vehicle care"
+                name: vehicle_care
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Paragraph", name: sub, widget: text }
+                  - { label: "Rows (studio only)", name: rows, widget: hidden }
+              - label: "Blinds and window treatments"
+                name: blinds
+                widget: object
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "Paragraph", name: sub, widget: text }
+                  - { label: "Rows (studio only)", name: rows, widget: hidden }
+          - label: "What moves the price"
+            name: moves_the_price
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Points"
+                name: items
+                widget: list
+                label_singular: "Point"
+                summary: "{{fields.value}}"
+                field: { label: "Point", name: value, widget: text }
+          - label: "Our promise"
+            name: promise
+            widget: object
+            fields:
+              - label: "Promises"
+                name: items
+                widget: list
+                label_singular: "Promise"
+                summary: "{{fields.value}}"
+                hint: "The warranty line is the manufacturer's lifetime warranty on window film. Do not state any ceramic coating warranty; the shop gives none."
+                field: { label: "Promise", name: value, widget: string }
+              - { label: "Build your tint link text", name: builder_link, widget: string }
+          - label: "How pricing works (questions and answers)"
+            name: faq
+            widget: object
+            hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Questions and answers"
+                name: items
+                widget: list
+                label_singular: "Question"
+                summary: "{{fields.question}}"
+                fields:
+                  - { label: "Question", name: question, widget: string }
+                  - { label: "Answer", name: answer, widget: text, hint: "Shown whenever the prices it mentions are not live. Never type a dollar amount here." }
+                  - { label: "Answer once the prices are live", name: answer_when_published, widget: text, required: false, hint: "Used only when both chip repair prices are confirmed and switched on. Keep the {chip_repair_first} and {chip_repair_additional} tokens; the dollar amounts are filled in from Prices." }
+                  - { label: "Template note (studio only)", name: template_note, widget: hidden }
+          - label: "Footnotes"
+            name: footnotes
+            widget: list
+            label_singular: "Footnote"
+            summary: "{{fields.value}}"
+            field: { label: "Footnote", name: value, widget: string }
+          - { label: "Legal footer", name: legal_footer, widget: text, hint: "Keep the Nevada law reference, NRS 484D.440, and the not legal advice wording." }
+
+      - name: build_your_tint
+        label: "Build Your Tint Page (wording only)"
+        file: "_data/pages/build_your_tint.json"
+        description: "The wording of the Build Your Tint tool. Prices come from Prices & Gallery Photos, Prices, never from this page. Wording may contain small HTML codes or tags, such as &amp;, and tokens in braces, such as {n}. Keep them exactly as they are."
+        fields:
+          - label: "Search result listing"
+            name: meta
+            widget: object
+            fields:
+              - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
+              - { label: "Description", name: description, widget: text }
+              - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+          - label: "Top of page (hero)"
+            name: hero
+            widget: object
+            fields:
+              - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Small line above the heading", name: eyebrow, widget: string }
+              - { label: "Heading (when a price can show)", name: heading, widget: string, hint: "Only mentions the price when at least one auto tint price is live. Otherwise the next field is used." }
+              - { label: "Heading (when no price shows)", name: heading_without_prices, widget: string }
+              - { label: "Heading rule (studio only)", name: heading_rule, widget: hidden }
+              - { label: "Intro paragraph", name: intro, widget: text }
+          - label: "Steps"
+            name: steps
+            widget: object
+            hint: "Keep the {n} token in the step counter."
+            fields:
+              - { label: "Step 1 title", name: vehicle, widget: string }
+              - { label: "Step 2 title", name: panel, widget: string }
+              - { label: "Step 3 title", name: shade, widget: string }
+              - { label: "Step counter", name: step_of, widget: string }
+          - label: "Illustration notes"
+            name: figure
+            widget: object
+            fields:
+              - { label: "Label", name: label, widget: string }
+              - { label: "Note", name: note, widget: text }
+              - { label: "Full windshield note", name: full_windshield_note, widget: text, hint: "Nevada's statute lists only a top strip as an exception. Do not offer or price full windshield film here; it is on legal hold until Chase rules." }
+          - label: "Result box"
+            name: result
+            widget: object
+            fields:
+              - { label: "Price label", name: price_label, widget: string }
+              - { label: "Price note", name: price_note, widget: text }
+              - { label: "Draft price tag", name: draft_tag, widget: string, hint: "Appears only on review copies of the site, never on the live site." }
+              - { label: "Build code label", name: code_label, widget: string }
+              - { label: "Call button label", name: call_label, widget: string }
+              - { label: "Text button label", name: text_label, widget: string }
+              - { label: "Promise", name: promise, widget: string }
+              - { label: "Hours line", name: hours, widget: string, hint: "Must match the hours in Business Info & Review Counts." }
+              - { label: "Closed hint", name: closed_hint, widget: text, hint: "Must match the hours in Business Info & Review Counts." }
+              - { label: "Warranty line", name: warranty, widget: string }
+          - label: "Without JavaScript"
+            name: noscript
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Intro", name: intro, widget: text }
+              - label: "Table column headings"
+                name: columns
+                widget: list
+                label_singular: "Column"
+                summary: "{{fields.value}}"
+                field: { label: "Column heading", name: value, widget: string }
+          - label: "How it works"
+            name: how_it_works
+            widget: object
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - label: "Steps"
+                name: items
+                widget: list
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+          - { label: "Legal footer", name: legal_footer, widget: text, hint: "Keep the Nevada law reference, NRS 484D.440, and the not legal advice wording." }
+          - label: "The tool itself"
+            name: builder
+            widget: object
+            hint: "Wording inside the tool. The legal sentences state Nevada's tint rules; do not reword them without checking the statute (NRS 484D.440) with the studio."
+            fields:
+              - label: "Vehicle buttons"
+                name: vehicles
+                widget: object
+                fields:
+                  - label: "Car"
+                    name: car
+                    widget: object
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Build code letter (studio only)", name: code, widget: hidden }
+                      - { label: "Price size (studio only)", name: price_class, widget: hidden }
+                  - label: "SUV"
+                    name: suv
+                    widget: object
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Build code letter (studio only)", name: code, widget: hidden }
+                      - { label: "Price size (studio only)", name: price_class, widget: hidden }
+                  - label: "Pickup"
+                    name: pickup
+                    widget: object
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Build code letter (studio only)", name: code, widget: hidden }
+                      - { label: "Price size (studio only)", name: price_class, widget: hidden }
+              - label: "Window buttons"
+                name: panels
+                widget: object
+                fields:
+                  - label: "Front doors"
+                    name: front
+                    widget: object
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Price line (studio only)", name: price_key, widget: hidden }
+                  - label: "Rear doors"
+                    name: rear
+                    widget: object
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Price line (studio only)", name: price_key, widget: hidden }
+                  - label: "Back glass"
+                    name: back
+                    widget: object
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Price line (studio only)", name: price_key, widget: hidden }
+                  - label: "Windshield top strip"
+                    name: strip
+                    widget: object
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Price line (studio only)", name: price_key, widget: hidden }
+              - { label: "Window order (studio only)", name: panel_order, widget: hidden }
+              - { label: "Front door limit (studio only)", name: front_min_vlt, widget: hidden }
+              - label: "Nevada rule messages"
+                name: legal
+                widget: object
+                hint: "These sentences state Nevada's tint rules. Do not reword them without checking the statute with the studio."
+                fields:
+                  - label: "No film on this window"
+                    name: none
+                    widget: object
+                    fields:
+                      - { label: "Short", name: short, widget: string }
+                      - { label: "Long", name: long, widget: text }
+                      - { label: "Tone (studio only)", name: tone, widget: hidden }
+                  - label: "Front doors, allowed shade"
+                    name: front_ok
+                    widget: object
+                    fields:
+                      - { label: "Short", name: short, widget: string }
+                      - { label: "Long", name: long, widget: text }
+                      - { label: "Tone (studio only)", name: tone, widget: hidden }
+                  - label: "Front doors, too dark"
+                    name: front_blocked
+                    widget: object
+                    fields:
+                      - { label: "Short", name: short, widget: string }
+                      - { label: "Long", name: long, widget: text }
+                      - { label: "Tone (studio only)", name: tone, widget: hidden }
+                      - { label: "Words in the price row", name: price_row, widget: string }
+                  - label: "Rear windows"
+                    name: rear
+                    widget: object
+                    fields:
+                      - { label: "Short", name: short, widget: string }
+                      - { label: "Long", name: long, widget: text }
+                      - { label: "Tone (studio only)", name: tone, widget: hidden }
+                  - label: "Windshield top strip"
+                    name: strip
+                    widget: object
+                    fields:
+                      - { label: "Short", name: short, widget: string }
+                      - { label: "Long", name: long, widget: text }
+                      - { label: "Tone (studio only)", name: tone, widget: hidden }
+                  - { label: "Windshield strip, pending ruling (studio only)", name: strip_with_29_inch_figure, widget: hidden }
+              - label: "Tool wording"
+                name: text
+                widget: object
+                hint: "Words in braces, such as {n}, {vehicle}, {panel}, {shade}, {legal}, {price}, {code}, {summary} and {url}, are filled in automatically. Keep them exactly as they are."
+                fields:
+                  - { label: "Word for no film", name: none, widget: string }
+                  - { label: "Step counter", name: step_of, widget: string }
+                  - { label: "Draft price tag", name: draft_tag, widget: string, hint: "Appears only on review copies of the site, never on the live site." }
+                  - { label: "Words when a price does not show", name: price_fallback, widget: string }
+                  - { label: "Words before a shade is picked", name: price_empty, widget: string }
+                  - { label: "Price format", name: price_from, widget: string, hint: "Keep the ${n} token." }
+                  - { label: "Words when the build cannot be priced", name: price_blocked, widget: string }
+                  - { label: "Front door limit note", name: front_blocked_note, widget: string }
+                  - { label: "Summary, vehicle", name: summary_intro, widget: string }
+                  - { label: "Summary, window", name: summary_panel, widget: string }
+                  - { label: "Summary, no film", name: summary_no_film, widget: string }
+                  - { label: "Summary, not offered", name: summary_blocked, widget: string }
+                  - { label: "Screen reader message, window changed", name: live_change, widget: string }
+                  - { label: "Screen reader message, vehicle changed", name: live_vehicle, widget: string }
+                  - { label: "Text message body", name: sms_body, widget: string, hint: "The message that opens in the visitor's texting app. Keep the {code}, {summary} and {url} tokens." }
