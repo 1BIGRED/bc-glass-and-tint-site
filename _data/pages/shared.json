@@ -115,6 +115,43 @@
     "privacy_link": "Privacy Policy",
     "cookie_link": "Cookie choices"
   },
+  "v2": {
+    "logo_alt": "BC Glass and Tint, Satisfaction Guaranteed",
+    "nav_label": "Main",
+    "nav": [
+      { "label": "Auto tint", "href": "/auto-tint" },
+      { "label": "Home and office", "href": "/home-tint" },
+      { "label": "Windshield chips", "href": "/chip-repair" },
+      { "label": "Prices", "href": "/prices" },
+      { "label": "Gallery", "href": "/gallery" }
+    ],
+    "drawer_extra": [
+      { "label": "Reviews", "href": "/reviews" },
+      { "label": "About", "href": "/about" },
+      { "label": "Questions and answers", "href": "/qa" },
+      { "label": "Request a call back", "href": "/#quote" }
+    ],
+    "menu_label": "Menu",
+    "close_label": "Close menu",
+    "call": "CALL",
+    "call_aria": "Call",
+    "text": "TEXT",
+    "text_aria": "Text",
+    "status": {
+      "open": "Open now, until {close}",
+      "closed_next": "Closed, opens {day} {open}",
+      "closed": "Closed now",
+      "today": "today",
+      "tomorrow": "tomorrow"
+    },
+    "footer": {
+      "tagline": "Family owned since 1994 · Boulder City, Henderson and Las Vegas",
+      "privacy": "Privacy",
+      "cookies": "Cookie choices",
+      "tint_law": "Nevada tint law",
+      "tint_law_href": "/nevada-tint-law"
+    }
+  },
   "cookie_bar": {
     "label": "Analytics and advertising notice",
     "text": "We use Google Analytics, Google Ads and Microsoft Clarity to see which pages people read, how they move through them, whether they tap to call, and which ads led to a call or a form. We do not sell anything. ",

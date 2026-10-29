@@ -1,0 +1,183 @@
+{
+  "updated": "2026-10-29",
+  "currency": "USD",
+  "notes": [
+    "This file holds every price the website can show. Every entry has a status: \"confirmed\" (the owner gave this exact number), \"draft\" (taken from old quote history, NOT signed off by the owner) or \"unknown\" (no number yet).",
+    "THE PUBLIC SITE shows a price ONLY when status is \"confirmed\" AND publish is true. Everything else shows \"Call for a quote\". Draft prices never appear on the public site.",
+    "PREVIEW builds (Netlify deploy previews and branch deploys, or a build with BC_PRICE_MODE=preview) also show draft prices and confirmed prices that are not yet approved to publish, each with a small \"Draft price\" tag, so the site can be reviewed with prices in place.",
+    "To make a price public: the owner confirms the number, then set status to \"confirmed\", fill amount (a plain number, no dollar sign), display (the words the site prints, for example \"$80\" or \"From $350\"), confirmed_by (who) and confirmed_on (YYYY-MM-DD), and set publish to true.",
+    "A confirmed price can stay private: leave publish false and the public site keeps saying \"Call for a quote\".",
+    "Unknown means amount, display, confirmed_by and confirmed_on are null. Never type a guess, a competitor's number, or a number for a vehicle the quote history does not cover. Never enter 0 to mean unknown.",
+    "Draft prices are the LOWEST figure in the quote history for that vehicle class, shown as a \"From\" price. They came from pricing-reference.md, which the owner has not signed off. Each draft entry names its source and the rows behind it in basis.",
+    "legal_hold true means the entry must never render anywhere, public or preview, whatever its status. full_windshield_film carries it until Chase rules: on a plain reading NRS 484D.440 allows windshield tint on the top strip only.",
+    "Auto tint packages follow the quote history: \"Front doors\" (Front/Sides in the worksheet), \"Rear doors and back glass\" (Rear/Sides) and \"Full vehicle\" (side and back glass; the worksheet's full vehicle is front plus rear on every row and does NOT include the windshield or sunroof). The windshield top strip and the sunroof are separate lines.",
+    "The Build Your Tint tool prices a build only when the windows picked can be covered exactly by packages and separate lines that are allowed to show. If any window cannot be priced, it shows \"Call for a quote\" instead of a partial total.",
+    "film_tiers and shades_installed are empty until the owner names the film lines and lists the shades the shop stocks. Until shades_installed has values, the tool shows example_shades with the label \"Example shades; the shop confirms what it stocks\".",
+    "Front door shades darker than 35 percent never get a price on the site. Nevada law, NRS 484D.440."
+  ],
+  "gate": {
+    "production": "status is confirmed AND publish is true AND legal_hold is not true",
+    "preview": "production rule, plus status draft or confirmed-but-unpublished, tagged \"Draft price\"; legal_hold still never shows",
+    "preview_when": "BC_PRICE_MODE=preview, or Netlify CONTEXT is deploy-preview or branch-deploy",
+    "fallback_display": "Call for a quote",
+    "draft_tag": "Draft price"
+  },
+  "film_tiers": [],
+  "shades_installed": [],
+  "example_shades": {
+    "values": [70, 50, 35, 20, 15, 5],
+    "label": "Example shades; the shop confirms what it stocks"
+  },
+  "vehicle_classes": [
+    { "id": "car", "label": "Car", "plural": "cars" },
+    { "id": "suv", "label": "SUV", "plural": "SUVs" },
+    { "id": "pickup", "label": "Pickup", "plural": "pickups" },
+    { "id": "van", "label": "Van", "plural": "vans" }
+  ],
+  "services": {
+    "chip_repair_first": {
+      "label": "Windshield chip repair, first chip",
+      "unit": "first chip",
+      "status": "confirmed",
+      "amount": 80,
+      "display": "$80",
+      "confirmed_by": "Owner's figure, relayed by Chase; repeated on the office's Google Ads form",
+      "confirmed_on": "2026-10-15",
+      "publish": false
+    },
+    "chip_repair_additional": {
+      "label": "Windshield chip repair, each additional chip",
+      "unit": "each additional chip",
+      "status": "confirmed",
+      "amount": 40,
+      "display": "$40",
+      "confirmed_by": "Owner's figure, relayed by Chase; repeated on the office's Google Ads form",
+      "confirmed_on": "2026-10-15",
+      "publish": false
+    },
+    "turf_protection_film": {
+      "label": "Exterior turf protection film",
+      "unit": "per square foot",
+      "status": "draft",
+      "amount": 15,
+      "display": "Starting at $15 per square foot",
+      "source": "pricing-reference.md (quote history, unsigned)",
+      "basis": "Exterior turf protection film: film starting at $15.00 per square foot. Must always read \"starting at\" (area-profile.md banned_claims).",
+      "confirmed_by": null, "confirmed_on": null, "publish": false
+    },
+    "home_film_per_window": {
+      "label": "Home window film, per window",
+      "unit": "per window",
+      "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false
+    },
+    "sliding_door": {
+      "label": "Sliding glass door film",
+      "unit": null,
+      "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false
+    },
+    "office_glass": {
+      "label": "Office and storefront glass film",
+      "unit": null,
+      "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false
+    },
+    "ceramic_coating": {
+      "label": "Ceramic coating",
+      "unit": null,
+      "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false
+    },
+    "clear_bra": {
+      "label": "Clear bra, paint protection film",
+      "unit": null,
+      "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false
+    },
+    "headlight_restoration": {
+      "label": "Headlight restoration",
+      "unit": null,
+      "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false
+    },
+    "blinds_from": {
+      "label": "Blinds and window treatments, from",
+      "unit": "starting price",
+      "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false
+    }
+  },
+  "auto_tint": {
+    "coverage": {
+      "two_front_doors": {
+        "label": "Front doors",
+        "panels": ["front-doors"],
+        "worksheet_column": "Front/Sides",
+        "car": { "status": "draft", "amount": 150, "display": "From $150", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Front/Sides, lowest car figure: Corvette 2014-2019 and 2020-2026 $150, Accord 2023-present $150", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "suv": { "status": "draft", "amount": 150, "display": "From $150", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Front/Sides, lowest SUV figure: Bronco, Bronco Sport, Traverse 2009-2017 $150 (RX 350 and Outback $200)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "pickup": { "status": "draft", "amount": 150, "display": "From $150", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Front/Sides, lowest pickup figure: Sierra 1500, Sierra 2500-4500, Colorado, F-150 1998-2026, F-250 to F-450 $150 (F-150 1980-1997 $250)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "van": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false }
+      },
+      "rear_doors_and_back_glass": {
+        "label": "Rear doors and back glass",
+        "panels": ["rear-doors", "back-glass"],
+        "worksheet_column": "Rear/Sides",
+        "car": { "status": "draft", "amount": 200, "display": "From $200", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Rear/Sides, lowest car figure: Corvette 2014-2019 and 2020-2026 $200 (Accord $250)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "suv": { "status": "draft", "amount": 200, "display": "From $200", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Rear/Sides, lowest SUV figure: Bronco, Bronco Sport $200 (Traverse and Outback $250, RX 350 $300)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "pickup": { "status": "draft", "amount": 200, "display": "From $200", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Rear/Sides, lowest pickup figure: Sierra 1500, Sierra 2500-4500, Colorado, F-150 1998-2026, F-250 to F-450 $200 (F-150 1980-1997 $250)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "van": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false }
+      },
+      "full_vehicle": {
+        "label": "Full vehicle, side and back glass",
+        "panels": ["front-doors", "rear-doors", "back-glass"],
+        "worksheet_column": "Full Vehicle (equals Front/Sides plus Rear/Sides on every row; windshield and sunroof are separate)",
+        "car": { "status": "draft", "amount": 350, "display": "From $350", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Full Vehicle, lowest car figure: Corvette 2014-2019 and 2020-2026 $350 (Accord $400)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "suv": { "status": "draft", "amount": 350, "display": "From $350", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Full Vehicle, lowest SUV figure: Bronco, Bronco Sport $350 (Traverse $400, Model Y, Outback, 4Runner $450, RX 350 $500)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "pickup": { "status": "draft", "amount": 350, "display": "From $350", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Full Vehicle, lowest pickup figure: Sierra 1500, Sierra 2500-4500, Colorado, F-150 1998-2026, F-250 to F-450 $350 (F-150 1980-1997 $500)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "van": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false }
+      }
+    },
+    "panels": {
+      "front-doors": {
+        "label": "Front doors",
+        "car": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "suv": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "pickup": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "van": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false }
+      },
+      "rear-doors": {
+        "label": "Rear doors",
+        "car": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "suv": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "pickup": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "van": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false }
+      },
+      "back-glass": {
+        "label": "Back glass",
+        "car": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "suv": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "pickup": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "van": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false }
+      },
+      "windshield-strip": {
+        "label": "Windshield top strip",
+        "car": { "status": "draft", "amount": 75, "display": "$75", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Fixed rule: Glare strip $75, any vehicle", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "suv": { "status": "draft", "amount": 75, "display": "$75", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Fixed rule: Glare strip $75, any vehicle", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "pickup": { "status": "draft", "amount": 75, "display": "$75", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Fixed rule: Glare strip $75, any vehicle", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "van": { "status": "draft", "amount": 75, "display": "$75", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Fixed rule: Glare strip $75, any vehicle", "confirmed_by": null, "confirmed_on": null, "publish": false }
+      },
+      "sunroof": {
+        "label": "Sunroof",
+        "car": { "status": "draft", "amount": 100, "display": "From $100", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Sunroof, only car recorded: Accord 2023-present $100", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "suv": { "status": "draft", "amount": 100, "display": "From $100", "source": "pricing-reference.md (quote history, unsigned)", "basis": "Sunroof, lowest SUV figure: Traverse 2009-2017 and Outback 2026 $100 (Model Y $200)", "confirmed_by": null, "confirmed_on": null, "publish": false },
+        "pickup": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false, "why_unknown": "No pickup sunroof is recorded in pricing-reference.md; never infer one." },
+        "van": { "status": "unknown", "amount": null, "display": null, "confirmed_by": null, "confirmed_on": null, "publish": false }
+      }
+    },
+    "full_windshield_film": {
+      "label": "Full windshield film",
+      "status": "draft",
+      "amount": 200,
+      "display": "From $200",
+      "source": "pricing-reference.md (quote history, unsigned)",
+      "basis": "Windshield column, lowest figure: Model Y, Bronco, Bronco Sport, Sierra 1500, Traverse, RX 350, F-150, Outback, Accord $200 (Corvette, Colorado, Sierra 2500-4500, F-250 to F-450 $250)",
+      "legal_hold": true,
+      "legal_note": "NEVER RENDER, not even in preview, until Chase rules. On a plain reading NRS 484D.440 allows windshield tint only on the top strip; no listed exception covers film over the full windshield (R5 section 4.3, overhaul brief section 9 item 2).",
+      "confirmed_by": null, "confirmed_on": null, "publish": false
+    }
+  }
+}

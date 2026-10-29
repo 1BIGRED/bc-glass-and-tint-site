@@ -1,0 +1,29 @@
+{
+  "chip-real": {
+    "width": 900,
+    "height": 1200,
+    "fallback": "/images/v2/chip-real-900.jpeg",
+    "avif": "/images/v2/chip-real-640.avif 640w, /images/v2/chip-real-900.avif 900w",
+    "webp": "/images/v2/chip-real-640.webp 640w, /images/v2/chip-real-900.webp 900w",
+    "jpeg": "/images/v2/chip-real-640.jpeg 640w, /images/v2/chip-real-900.jpeg 900w",
+    "first_avif": "/images/v2/chip-real-640.avif"
+  },
+  "colorado": {
+    "width": 1000,
+    "height": 750,
+    "fallback": "/images/v2/colorado-1000.jpeg",
+    "avif": "/images/v2/colorado-640.avif 640w, /images/v2/colorado-1000.avif 1000w",
+    "webp": "/images/v2/colorado-640.webp 640w, /images/v2/colorado-1000.webp 1000w",
+    "jpeg": "/images/v2/colorado-640.jpeg 640w, /images/v2/colorado-1000.jpeg 1000w",
+    "first_avif": "/images/v2/colorado-640.avif"
+  },
+  "hero-taycan": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v2/hero-taycan-1280.jpeg",
+    "avif": "/images/v2/hero-taycan-640.avif 640w, /images/v2/hero-taycan-1280.avif 1280w, /images/v2/hero-taycan-1800.avif 1800w",
+    "webp": "/images/v2/hero-taycan-640.webp 640w, /images/v2/hero-taycan-1280.webp 1280w, /images/v2/hero-taycan-1800.webp 1800w",
+    "jpeg": "/images/v2/hero-taycan-640.jpeg 640w, /images/v2/hero-taycan-1280.jpeg 1280w, /images/v2/hero-taycan-1800.jpeg 1800w",
+    "first_avif": "/images/v2/hero-taycan-640.avif"
+  }
+}

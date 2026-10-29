@@ -192,7 +192,7 @@
     "heading": "Frequently Asked <span>Questions</span>",
     "sub": "Quick answers. For anything else, call or text 702-550-8840.",
     "items": [
-      { "question": "How much does window tinting cost?", "answer": "It depends on the vehicle or rooms and the film you choose. Call 702-550-8840 for a fast, free quote." },
+      { "question": "How much does window tinting cost?", "answer": "It depends on the vehicle or rooms, which windows and the film you choose. See our <a href=\"/prices\">price guide</a>, or <a href=\"/build-your-tint\">build your tint</a> to see the options on your type of vehicle, then call us and we confirm your exact price." },
       { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. In Nevada, front side windows must let through not less than 35 percent of light, counting the glass and the film together, the windshield can only carry a strip across the very top, and your back and rear windows can be tinted as long as the vehicle has outside mirrors on both sides. We install fully legal tint and can recommend the darkest legal shade. Source: Nevada Revised Statutes 484D.440." },
       { "question": "How long does an install take?", "answer": "Most vehicles are done same-day." },
       { "question": "Is there a warranty?", "answer": "Yes. Every window film carries a lifetime manufacturer's warranty." },
@@ -206,8 +206,105 @@
     "details_label": "Vehicle, rooms or other details",
     "sub_full": "Tell us what you need and we will call you back within one business day. Prefer to talk now? Call or text 702-550-8840."
   },
+  "v2": {
+    "hero": {
+      "eyebrow": "FAMILY OWNED SINCE 1994 · BOULDER CITY, NV",
+      "heading": "Tint that fits like it came with the car.",
+      "lede": "Computer-cut ceramic film, a lifetime manufacturer warranty on the film, and most vehicles finished the same day.",
+      "price_label": "Full vehicle tint from",
+      "price": "auto_tint.coverage.full_vehicle",
+      "build_link": "Build your tint and see the price",
+      "build_href": "/build-your-tint",
+      "call_note": "Have your vehicle's year and model handy.",
+      "image": "hero-taycan",
+      "image_alt": "Dark Porsche Taycan with tinted windows, parked outside the BC Glass and Tint shop"
+    },
+    "phone_quote": {
+      "name": "Dennis Wolcott",
+      "label": "Google review",
+      "rating_line": "Rated {google_rating} on Google"
+    },
+    "proof": [
+      { "title": "Since 1994", "text": "Family owned, on Boulder City Pkwy" },
+      { "title": "Computer-cut", "text": "Cut from a pattern, no trimming on your glass" },
+      { "title": "Lifetime warranty", "text": "On the film, from the manufacturer" },
+      { "title": "Rated {google_rating} on Google", "text": "{google_count} Google reviews" }
+    ],
+    "build": {
+      "eyebrow": "BUILD YOUR TINT",
+      "heading": "Pick the windows. Pick the shade. See the price.",
+      "text": "Tap the windows, choose a shade for each one and see it on the car. Then call with your build and we confirm the price.",
+      "svg_label": "Illustration of a sedan with tinted side windows",
+      "chips": ["Front doors", "Rear doors", "Back glass", "Windshield top strip"],
+      "note": "Illustration, not a photo of your vehicle. Front door shades follow Nevada's 35 percent rule.",
+      "estimate_label": "Estimate for this build",
+      "estimate_price": "auto_tint.coverage.full_vehicle",
+      "estimate_note": "Exact price confirmed by phone. No surprises.",
+      "cta": "START YOUR BUILD",
+      "href": "/build-your-tint"
+    },
+    "prices": {
+      "eyebrow": "PRICES, OUT IN THE OPEN",
+      "heading": "Know what it costs before you call.",
+      "text": "Window film carries a lifetime manufacturer warranty. Your exact price depends on the vehicle and is confirmed by phone, no surprises.",
+      "unknown": "Call for a quote",
+      "cards": [
+        { "title": "Two front doors", "sub": "Match the factory rear glass", "price": "auto_tint.coverage.two_front_doors", "cta": "Call to confirm" },
+        { "title": "Full vehicle", "sub": "Side windows and back glass", "price": "auto_tint.coverage.full_vehicle", "cta": "Call to confirm", "featured": true },
+        { "title": "Windshield chip repair", "sub": "Done in our own shop, usually same day", "price": "services.chip_repair_first", "note_price": "services.chip_repair_additional", "note": "first chip, {price} each after", "note_alone": "first chip", "cta": "Call to book" },
+        { "title": "Home film, per window", "sub": "Homes and offices across the valley", "price": "services.home_film_per_window", "cta": "Call to confirm", "phone_only": true }
+      ],
+      "footnote": "Home and office film, blinds, ceramic coating and clear bra: see the ",
+      "footnote_link": "full price guide",
+      "href": "/prices"
+    },
+    "gallery": {
+      "eyebrow": "SEE THE SHADE FIRST",
+      "heading": "Real cars we tinted, by window and shade.",
+      "link": "Search the full gallery",
+      "href": "/gallery",
+      "count": 4
+    },
+    "services": {
+      "heading": "What we do",
+      "tiles": [
+        { "title": "Auto tint", "text": "Ceramic film, computer-cut, most vehicles same day.", "href": "/auto-tint", "image": "colorado" },
+        { "title": "Home and office film", "short": "Home and office", "text": "Keep the view, cut the glare on west-facing glass.", "href": "/home-tint", "gallery_id": "home-sliding-window-backyard-tree" },
+        { "title": "Windshield chip repair", "short": "Chip repair", "text": "Done in our own shop. Replacements arranged with a glass specialist.", "href": "/chip-repair", "image": "chip-real" }
+      ],
+      "chips": [
+        { "label": "Blinds and motorized shades", "href": "/blinds" },
+        { "label": "Clear bra", "href": "/clear-bra" },
+        { "label": "Ceramic coating", "href": "/ceramic-coating" },
+        { "label": "Headlights and taillights", "href": "/headlight-taillight" },
+        { "label": "Boat and RV tint", "href": "/boat-rv-tint" },
+        { "label": "Gift cards", "href": "https://app.squareup.com/gift/ML2SD9F302V17/order", "external": true }
+      ]
+    },
+    "reviews": {
+      "heading": "In their words",
+      "label": "Google review",
+      "names": ["Dennis Wolcott", "Kristie Bergman", "Steven Hamberg"]
+    },
+    "how": {
+      "heading": "How it works",
+      "steps": [
+        { "title": "1. CALL OR TEXT", "text": "Tell us the vehicle and which windows. Ask anything." },
+        { "title": "2. PICK YOUR SHADES", "text": "Choose your shades, then we cut the film by computer to fit your glass." },
+        { "title": "3. DRIVE HOME COOLER", "text": "Most vehicles are done the same day." }
+      ]
+    },
+    "faq": {
+      "heading": "Questions"
+    },
+    "contact": {
+      "heading": "Talk to a person.",
+      "closed_prefix": "Closed",
+      "callback_link": "Rather have us call you?"
+    }
+  },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "offer_catalog": {
       "name": "Window film, auto glass and window treatments",
       "area_served": ["Boulder City", "Henderson", "Las Vegas"],

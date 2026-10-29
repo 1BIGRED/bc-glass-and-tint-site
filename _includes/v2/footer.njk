@@ -1,0 +1,26 @@
+{#- v2 site footer. Contact facts: site.json. Link lists: pages.shared.footer (same lists as the old
+    footer). Bottom line wording: pages.shared.v2.footer. #ckreopen is the cookie choices link
+    js/cookie.njk listens for; keep the id. -#}
+{%- set w = pages.shared.v2.footer -%}
+{%- set f = pages.shared.footer -%}
+<footer class="v2-footer">
+  <div class="v2-wrap v2-footer__cols">
+    <div>
+      <p class="v2-footer__h">{{ site.name_html | safe }}</p>
+      <p>{{ site.address.display | safe }}<br><a href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a><br><a href="mailto:{{ site.email | safe }}">{{ site.email | safe }}</a><br>{{ site.hours.display | safe }}</p>
+    </div>
+    <div>
+      <p class="v2-footer__h">{{ f.services_heading | safe }}</p>
+      <ul>{% for l in f.services_links %}<li><a href="{{ l.href | safe }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
+    </div>
+    <div>
+      <p class="v2-footer__h">{{ f.areas_heading | safe }}</p>
+      <ul>{% for l in f.areas_links %}<li><a href="{{ l.href | safe }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
+    </div>
+  </div>
+  <div class="v2-wrap v2-footer__bar">
+    <span>{{ site.name_html | safe }} · {{ w.tagline | safe }}</span>
+    <span><a href="/privacy-policy">{{ w.privacy | safe }}</a> · <a href="#" id="ckreopen">{{ w.cookies | safe }}</a> · <a href="{{ w.tint_law_href | safe }}">{{ w.tint_law | safe }}</a></span>
+  </div>
+  <div class="v2-wrap v2-footer__copy">&copy; {{ f.copyright_year | safe }} {{ site.name_html | safe }}. {{ f.rights | safe }}</div>
+</footer>

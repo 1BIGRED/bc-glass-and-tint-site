@@ -1,0 +1,12 @@
+{#- v2 sticky call bar, phones only (under 768px). Two thirds gold CALL with the number, one third
+    TEXT, status line above. When assets/v2/status.js finds the shop closed it sets
+    data-state="closed" and TEXT becomes the primary. It stays visible while the cookie bar is
+    open: v2.css stacks the cookie bar above it (fixes the old body.ck-open .stickycall rule). -#}
+{%- set w = pages.shared.v2 -%}
+<div class="v2-sticky" data-bc-sticky data-state="open">
+  <p class="v2-sticky__status v2-status" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></p>
+  <div class="v2-sticky__row">
+    <a class="v2-sticky__call" href="tel:{{ site.phone.tel | safe }}">{{ w.call | safe }}<span class="v2-sticky__num"> {{ site.phone.display_call | safe }}</span></a>
+    <a class="v2-sticky__text" href="sms:{{ site.phone.tel | safe }}">{{ w.text | safe }}<span class="v2-sticky__num2"> {{ site.phone.display_call | safe }}</span></a>
+  </div>
+</div>

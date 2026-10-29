@@ -1,0 +1,632 @@
+{
+    "updated":  "2026-10-29",
+    "items":  [
+                  {
+                      "id":  "chevrolet-colorado-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Chevrolet",
+                                      "model":  "Colorado",
+                                      "body":  "pickup"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Black Chevrolet Colorado crew cab pickup with off-road tires, parked beside the BC Glass and Tint shop, side windows tinted.",
+                      "title":  "Chevrolet Colorado",
+                      "img640":  "images/gallery/chevrolet-colorado-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/chevrolet-colorado-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-black-chevy-colorado-front-three-quarter-2026-10-23-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "Model name taken from the master filename; Chevrolet bowtie visible in the photo."
+                  },
+                  {
+                      "id":  "chevrolet-silverado-3500hd-side",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Chevrolet",
+                                      "model":  "Silverado 3500HD",
+                                      "body":  "pickup"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Side view of a blue Chevrolet Silverado 3500HD crew cab pickup with tinted front and rear door windows.",
+                      "title":  "Chevrolet Silverado 3500HD",
+                      "img640":  "images/gallery/chevrolet-silverado-3500hd-side-640.jpg",
+                      "img1280":  "images/gallery/chevrolet-silverado-3500hd-side-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-blue-chevy-silverado-3500hd-side-2026-10-24-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "Model name taken from the master filename; Chevrolet badge visible on the grille in the sibling frames."
+                  },
+                  {
+                      "id":  "porsche-taycan-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Porsche",
+                                      "model":  "Taycan",
+                                      "body":  "car"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Black Porsche Taycan electric sedan parked outside a stucco building, side windows tinted.",
+                      "title":  "Porsche Taycan",
+                      "img640":  "images/gallery/porsche-taycan-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/porsche-taycan-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-black-porsche-taycan-2026-08-18-1-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "tesla-model-y-blue-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Tesla",
+                                      "model":  "Model Y",
+                                      "body":  "suv"
+                                  },
+                      "panels":  [
+                                     "front-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Blue-gray Tesla Model Y parked in front of the BC Glass and Tint shop sign.",
+                      "title":  "Tesla Model Y",
+                      "img640":  "images/gallery/tesla-model-y-blue-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/tesla-model-y-blue-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-blue-tesla-model-y-front-sign-2026-09-25-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "Model taken from the master filename."
+                  },
+                  {
+                      "id":  "ford-f-150-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Ford",
+                                      "model":  "F-150",
+                                      "body":  "pickup"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "White Ford F-150 crew cab pickup with dark wheels parked at the BC Glass and Tint shop, side windows tinted.",
+                      "title":  "Ford F-150",
+                      "img640":  "images/gallery/ford-f-150-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/ford-f-150-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-f150-front-three-quarter-shop-2026-07-23-1-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "ford-f-150-rear-door-windows",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Ford",
+                                      "model":  "F-150",
+                                      "body":  "pickup"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Close side view of a white Ford F-150 crew cab showing the tinted front and rear door windows.",
+                      "title":  "Ford F-150 side windows",
+                      "img640":  "images/gallery/ford-f-150-rear-door-windows-640.jpg",
+                      "img1280":  "images/gallery/ford-f-150-rear-door-windows-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-f150-rear-windows-2026-07-23-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "Close detail frame."
+                  },
+                  {
+                      "id":  "ford-f-150-raptor-side",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Ford",
+                                      "model":  "F-150 Raptor",
+                                      "body":  "pickup"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Side profile of a white Ford F-150 Raptor with a RAPTOR bed decal and tinted door windows.",
+                      "title":  "Ford F-150 Raptor",
+                      "img640":  "images/gallery/ford-f-150-raptor-side-640.jpg",
+                      "img1280":  "images/gallery/ford-f-150-raptor-side-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-white-ford-f150-raptor-side-2026-09-24-1-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "kia-suv-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Kia",
+                                      "model":  null,
+                                      "body":  "suv"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "White three-row Kia SUV with a black roof rack parked in front of the BC Glass and Tint shop sign, side windows tinted.",
+                      "title":  "Kia SUV",
+                      "img640":  "images/gallery/kia-suv-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/kia-suv-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-white-kia-suv-front-sign-2026-09-15-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "Model not confirmed (catalog says possibly EV9 or Telluride); left null."
+                  },
+                  {
+                      "id":  "ram-3500-dually-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Ram",
+                                      "model":  "3500",
+                                      "body":  "pickup"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "White Ram 3500 dually crew cab pickup parked at the BC Glass and Tint shop, side windows tinted.",
+                      "title":  "Ram 3500 dually",
+                      "img640":  "images/gallery/ram-3500-dually-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/ram-3500-dually-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-white-ram-3500-dually-front-2026-08-29-1-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "tesla-model-3-white-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Tesla",
+                                      "model":  "Model 3",
+                                      "body":  "car"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "White Tesla Model 3 parked near the BC Glass and Tint shop, side windows tinted.",
+                      "title":  "Tesla Model 3",
+                      "img640":  "images/gallery/tesla-model-3-white-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/tesla-model-3-white-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-white-tesla-model3-2026-08-18-3-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "tesla-model-y-white-side",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Tesla",
+                                      "model":  "Model Y",
+                                      "body":  "suv"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Side profile of a white Tesla Model Y in a parking lot with tinted door windows.",
+                      "title":  "Tesla Model Y side view",
+                      "img640":  "images/gallery/tesla-model-y-white-side-640.jpg",
+                      "img1280":  "images/gallery/tesla-model-y-white-side-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-white-tesla-model-y-side-2026-08-29-1-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "volkswagen-atlas-front-storefront",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Volkswagen",
+                                      "model":  "Atlas",
+                                      "body":  "suv"
+                                  },
+                      "panels":  [
+                                     "front-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "White Volkswagen Atlas SUV parked in front of the BC Glass and Tint shop.",
+                      "title":  "Volkswagen Atlas",
+                      "img640":  "images/gallery/volkswagen-atlas-front-storefront-640.jpg",
+                      "img1280":  "images/gallery/volkswagen-atlas-front-storefront-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/auto/bc-auto-tint-white-vw-atlas-front-storefront-2026-09-22-1-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "jeep-gladiator-side",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Jeep",
+                                      "model":  "Gladiator",
+                                      "body":  "pickup"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "White Jeep Gladiator Rubicon crew cab pickup parked in front of the BC Glass and Tint box truck, side windows tinted.",
+                      "title":  "Jeep Gladiator Rubicon",
+                      "img640":  "images/gallery/jeep-gladiator-side-640.jpg",
+                      "img1280":  "images/gallery/jeep-gladiator-side-1280.jpg",
+                      "w":  1280,
+                      "h":  900,
+                      "w640":  640,
+                      "h640":  450,
+                      "source_master":  "photo-library/_edited-masters/brand-truck-hero/brand-truck-hero-white-jeep-gladiator-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "ford-bronco-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Ford",
+                                      "model":  "Bronco",
+                                      "body":  "suv"
+                                  },
+                      "panels":  [
+                                     "front-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Blue-gray Ford Bronco with a white hardtop parked in front of the BC Glass and Tint shop.",
+                      "title":  "Ford Bronco",
+                      "img640":  "images/gallery/ford-bronco-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/ford-bronco-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "subaru-outback-front-three-quarter",
+                      "collection":  "job",
+                      "service":  "auto-tint",
+                      "vehicle":  {
+                                      "make":  "Subaru",
+                                      "model":  "Outback",
+                                      "body":  "suv"
+                                  },
+                      "panels":  [
+                                     "front-doors",
+                                     "rear-doors"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Gray Subaru Outback wagon parked in front of the BC Glass and Tint box truck, side windows tinted.",
+                      "title":  "Subaru Outback",
+                      "img640":  "images/gallery/subaru-outback-front-three-quarter-640.jpg",
+                      "img1280":  "images/gallery/subaru-outback-front-three-quarter-1280.jpg",
+                      "w":  1280,
+                      "h":  1149,
+                      "w640":  640,
+                      "h640":  575,
+                      "source_master":  "photo-library/_edited-masters/brand-truck-hero/brand-truck-hero-gray-subaru-outback-edited.jpg",
+                      "checked":  true,
+                      "note":  "Catalog lists body as SUV in one row and wagon in another; body set to suv."
+                  },
+                  {
+                      "id":  "windshield-chip-bullseye-interior-wide",
+                      "collection":  "job",
+                      "service":  "chip-repair",
+                      "vehicle":  null,
+                      "panels":  [
+
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Bullseye chip in a windshield near the rearview mirror, photographed from inside the vehicle.",
+                      "title":  "Windshield bullseye chip",
+                      "img640":  "images/gallery/windshield-chip-bullseye-interior-wide-640.jpg",
+                      "img1280":  "images/gallery/windshield-chip-bullseye-interior-wide-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/install/bc-chip-repair-windshield-bullseye-chip-interior-wide-2026-09-30-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "Vehicle not identified. No film involved; panels left empty."
+                  },
+                  {
+                      "id":  "windshield-chip-bullseye-close",
+                      "collection":  "job",
+                      "service":  "chip-repair",
+                      "vehicle":  null,
+                      "panels":  [
+
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Close view of a bullseye chip in a windshield next to a mirror-mounted device, photographed from inside the vehicle.",
+                      "title":  "Windshield bullseye chip, close view",
+                      "img640":  "images/gallery/windshield-chip-bullseye-close-640.jpg",
+                      "img1280":  "images/gallery/windshield-chip-bullseye-close-1280.jpg",
+                      "w":  1280,
+                      "h":  1707,
+                      "w640":  640,
+                      "h640":  853,
+                      "source_master":  "photo-library/_edited-masters/install/bc-chip-repair-windshield-bullseye-chip-portrait-2026-09-30-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "Vehicle not identified. No film involved; panels left empty."
+                  },
+                  {
+                      "id":  "home-frosted-privacy-film-bay-window",
+                      "collection":  "job",
+                      "service":  "home-film",
+                      "vehicle":  null,
+                      "panels":  [
+                                     "home-window"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Three-pane bay window covered in frosted privacy film, with white blinds on the side panes.",
+                      "title":  "Frosted privacy film, bay window",
+                      "img640":  "images/gallery/home-frosted-privacy-film-bay-window-640.jpg",
+                      "img1280":  "images/gallery/home-frosted-privacy-film-bay-window-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/residential/bc-residential-film-frosted-privacy-film-three-pane-2026-08-21-1-edited.jpg",
+                      "checked":  false,
+                      "note":  "Customer bedroom interior (bed visible at bottom edge). No face seen. Confirm customer is fine with it before publishing."
+                  },
+                  {
+                      "id":  "home-slider-window-split-glare",
+                      "collection":  "job",
+                      "service":  "home-film",
+                      "vehicle":  null,
+                      "panels":  [
+                                     "home-window"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Sliding home window looking out to a backyard with a tree and patio table, shot to compare glare between the two panes.",
+                      "title":  "Sliding window, glare comparison",
+                      "img640":  "images/gallery/home-slider-window-split-glare-640.jpg",
+                      "img1280":  "images/gallery/home-slider-window-split-glare-1280.jpg",
+                      "w":  1280,
+                      "h":  1110,
+                      "w640":  640,
+                      "h640":  555,
+                      "source_master":  "photo-library/_edited-masters/residential/residential-tint-slider-split-glare-13-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "home-sliding-window-backyard-tree",
+                      "collection":  "job",
+                      "service":  "home-film",
+                      "vehicle":  null,
+                      "panels":  [
+                                     "home-window"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Sliding home window with film installed, looking out to a backyard with a tree, block wall and patio table.",
+                      "title":  "Sliding window with backyard view",
+                      "img640":  "images/gallery/home-sliding-window-backyard-tree-640.jpg",
+                      "img1280":  "images/gallery/home-sliding-window-backyard-tree-1280.jpg",
+                      "w":  1280,
+                      "h":  720,
+                      "w640":  640,
+                      "h640":  360,
+                      "source_master":  "photo-library/_edited-masters/residential/residential-tint-sliding-door-tree-04-edited.jpg",
+                      "checked":  true,
+                      "note":  ""
+                  },
+                  {
+                      "id":  "home-patio-window-desert-view",
+                      "collection":  "job",
+                      "service":  "home-film",
+                      "vehicle":  null,
+                      "panels":  [
+                                     "home-window"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Two-pane patio window in a home looking out to a covered porch and desert hills.",
+                      "title":  "Patio window, desert view",
+                      "img640":  "images/gallery/home-patio-window-desert-view-640.jpg",
+                      "img1280":  "images/gallery/home-patio-window-desert-view-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/residential/bc-residential-tint-before-after-patio-window-2026-07-26-2-edited.jpg",
+                      "checked":  true,
+                      "note":  "Catalog flags no visible tint difference in this frame; shade not shown."
+                  },
+                  {
+                      "id":  "home-kitchen-window-over-sink",
+                      "collection":  "job",
+                      "service":  "home-film",
+                      "vehicle":  null,
+                      "panels":  [
+                                     "home-window"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Kitchen window above a sink with a wall clock above it, looking out to a block wall and lattice.",
+                      "title":  "Kitchen window over the sink",
+                      "img640":  "images/gallery/home-kitchen-window-over-sink-640.jpg",
+                      "img1280":  "images/gallery/home-kitchen-window-over-sink-1280.jpg",
+                      "w":  1280,
+                      "h":  1707,
+                      "w640":  640,
+                      "h640":  853,
+                      "source_master":  "photo-library/_edited-masters/residential/bc-residential-tint-kitchen-window-over-sink-2026-07-26-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "Catalog quality 3; kitchen interior with no people."
+                  },
+                  {
+                      "id":  "office-window-maroon-awning",
+                      "collection":  "job",
+                      "service":  "commercial-film",
+                      "vehicle":  null,
+                      "panels":  [
+                                     "office-glass"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Storefront window under a maroon awning reflecting trees and a street, with curtains visible inside.",
+                      "title":  "Storefront window under a maroon awning",
+                      "img640":  "images/gallery/office-window-maroon-awning-640.jpg",
+                      "img1280":  "images/gallery/office-window-maroon-awning-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/commercial/bc-commercial-tint-maroon-awning-window-2026-08-18-2-edited.jpg",
+                      "checked":  true,
+                      "note":  "No people in frame or in the reflection."
+                  },
+                  {
+                      "id":  "office-window-white-brick",
+                      "collection":  "job",
+                      "service":  "commercial-film",
+                      "vehicle":  null,
+                      "panels":  [
+                                     "office-glass"
+                                 ],
+                      "shade":  null,
+                      "film_line":  null,
+                      "city":  null,
+                      "alt":  "Window in a white brick wall reflecting parked cars, trees and a building across the street.",
+                      "title":  "Window in a white brick wall",
+                      "img640":  "images/gallery/office-window-white-brick-640.jpg",
+                      "img1280":  "images/gallery/office-window-white-brick-1280.jpg",
+                      "w":  1280,
+                      "h":  960,
+                      "w640":  640,
+                      "h640":  480,
+                      "source_master":  "photo-library/_edited-masters/commercial/bc-commercial-tint-white-brick-window-2026-08-18-1-edited.jpg",
+                      "checked":  true,
+                      "note":  "No people in frame or in the reflection."
+                  }
+              ],
+    "shade_board":  [
+
+                    ]
+}

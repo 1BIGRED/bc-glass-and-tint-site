@@ -1,0 +1,47 @@
+{#- v2 layout (website overhaul, 2026-10-29). Pages not yet converted keep their old layout.
+    Front matter:
+      theme: warm        adds body.theme-warm (Warm Gallery: cream ground, for home, office, blinds)
+      hero_preload: key  preloads that _data/v2images.json image as the LCP (AVIF srcset)
+    Reuses the existing head pieces (head/top: charset, viewport, GA4 with Consent Mode, icons;
+    head/meta: title, description, canonical, Open Graph, and google-site-verification on the
+    homepage via frame.json; jsonld; head/clarity) and the existing behavior scripts (gtag events,
+    cookie consent, quote form submit, source and VIN, service validation). The quote form itself
+    (quote.njk) is included by the page, unchanged. Styles: /assets/v2/v2.css, one file. -#}
+{%- set w2 = pages.shared.v2 -%}
+{% include "head/top.njk" %}
+{% include "head/meta.njk" %}
+{% set ld = schema_ld %}{% include "jsonld.njk" %}
+<link rel="preload" href="/assets/v2/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/v2/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+{% if hero_preload and v2images[hero_preload] %}<link rel="preload" as="image" type="image/avif" imagesrcset="{{ v2images[hero_preload].avif }}" imagesizes="100vw" fetchpriority="high">
+{% endif %}<link rel="stylesheet" href="/assets/v2/v2.css">
+{% include "head/clarity.njk" %}
+</head>
+<body class="v2{% if theme == 'warm' %} theme-warm{% endif %}">
+{% include "skip-link.njk" %}
+{% include "v2/header.njk" %}
+<main id="main" tabindex="-1">
+{{ content | safe }}
+</main>
+{% include "v2/footer.njk" %}
+{% include "v2/sticky-call.njk" %}
+{%- set hoursCfg = {
+  "tz": site.hours.timezone or "America/Los_Angeles",
+  "days": site.hours.days,
+  "opens": site.hours.opens,
+  "closes": site.hours.closes,
+  "closures": site.closures or [],
+  "unknown": site.hours_unknown or [],
+  "labels": w2.status
+} %}
+<script type="application/json" id="bc-hours">{{ hoursCfg | jsonld | replace("<", "\\u003c") | safe }}</script>
+<script src="/assets/v2/status.js" defer></script>
+<script src="/assets/v2/menu.js" defer></script>
+{% include "js/quote-submit.njk" %}
+{% include "js/source-vin.njk" %}
+{% include "js/gtag-events.njk" %}
+{% include "cookie-bar.njk" %}
+{% include "js/cookie.njk" %}
+{% include "js/svc-validate.njk" %}
+</body>
+</html>

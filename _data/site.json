@@ -9,6 +9,7 @@
   "description": "Family-owned window tinting, auto glass and blinds shop at 1633 Boulder City Pkwy in Boulder City, NV, serving Boulder City, Henderson, Las Vegas and Southern Nevada since 1994.",
   "phone": {
     "display": "702-550-8840",
+    "display_call": "(702) 550-8840",
     "tel": "+17025508840",
     "schema": "+1-702-550-8840"
   },
@@ -30,8 +31,19 @@
     "schema": "Tu-Sa 09:00-17:00",
     "days": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     "opens": "09:00",
-    "closes": "17:00"
+    "closes": "17:00",
+    "timezone": "America/Los_Angeles"
   },
+  "closures": [],
+  "hours_unknown": [
+    { "date": "2026-11-26", "note": "Thanksgiving, hours not confirmed" },
+    { "date": "2026-11-27", "note": "Day after Thanksgiving, hours not confirmed" },
+    { "date": "2026-12-24", "note": "Christmas Eve, hours not confirmed" },
+    { "date": "2026-12-25", "note": "Christmas Day, hours not confirmed" },
+    { "date": "2026-12-26", "note": "Day after Christmas, hours not confirmed" },
+    { "date": "2026-12-31", "note": "New Year's Eve, hours not confirmed" },
+    { "date": "2027-01-01", "note": "New Year's Day, hours not confirmed" }
+  ],
   "maps_url": "https://www.google.com/maps?cid=13670610033548722770",
   "payment_accepted": "Cash, Credit Card, Debit Card",
   "area_served": [
