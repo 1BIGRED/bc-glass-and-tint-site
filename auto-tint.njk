@@ -1,14 +1,16 @@
 ---
-# Service page. All wording is in _data/pages/auto_tint.json; this file only holds the
-# page's structure. Layout: _includes/layouts/service.njk. JSON-LD: auto-tint.11tydata.js.
-layout: layouts/service.njk
+# Service page, v2 look. All wording is in _data/pages/auto_tint.json; this file only holds the
+# page's structure. Layout: _includes/layouts/service-v2.njk (chains to layouts/v2.njk).
+# JSON-LD: auto-tint.11tydata.js. Hero photo and Recent work strip: real BC jobs from
+# _data/gallery.json (hero_gallery, gallery_service).
+layout: layouts/service-v2.njk
 permalink: auto-tint.html
 slug: auto-tint
 page_key: auto_tint
 og_image: images/auto-tint-f150-rear.jpg
-content_image: images/auto.webp
-content_image_width: 1000
-content_image_height: 652
-content_icon: i-car
+hero_gallery: ford-f-150-raptor-side
+hero_pos: 50% 55%
+gallery_service: auto-tint
+gallery_count: 4
 schema_order: business-first
 ---

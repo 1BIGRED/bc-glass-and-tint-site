@@ -1,26 +1,34 @@
-{#- v2 layout (website overhaul, 2026-10-29). Pages not yet converted keep their old layout.
+{#- v2 layout (website overhaul, 2026-10-29; creative direction "Glare to Calm").
+    Pages not yet converted keep their old layout.
     Front matter:
       theme: warm        adds body.theme-warm (Warm Gallery: cream ground, for home, office, blinds)
       hero_preload: key  preloads that _data/v2images.json image as the LCP (AVIF srcset)
+      hero_sizes: "..."  the sizes for that preload (default 100vw); must match the hero <img>
+      header_over: true  header sits transparent over a full-bleed hero and turns solid after it
+      lightdown: true    the Light-Down hero (Moment 1): adds html.ld-on before first paint when
+                         motion is allowed, so the glare state paints first and settles to calm
       extra_css: [..]    page-owned stylesheets loaded after v2.css (e.g. /assets/v2/builder.css)
       extra_js: [..]     page-owned scripts, deferred, loaded last
     Reuses the existing head pieces (head/top: charset, viewport, GA4 with Consent Mode, icons;
     head/meta: title, description, canonical, Open Graph, and google-site-verification on the
     homepage via frame.json; jsonld; head/clarity) and the existing behavior scripts (gtag events,
     cookie consent, quote form submit, source and VIN, service validation). The quote form itself
-    (quote.njk) is included by the page, unchanged. Styles: /assets/v2/v2.css, one file. -#}
+    (quote.njk) is included by the page, unchanged. Styles: /assets/v2/v2.css, one file.
+    Fonts preloaded: Barlow Condensed 500 (H1 and H2) and Poppins 400 (body); the 300, 600 and
+    Poppins 500/600 files load on demand. -#}
 {%- set w2 = pages.shared.v2 -%}
 {% include "head/top.njk" %}
 {% include "head/meta.njk" %}
 {% set ld = schema_ld %}{% include "jsonld.njk" %}
-<link rel="preload" href="/assets/v2/fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+{% if lightdown %}<script>try{if(!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))document.documentElement.classList.add("ld-on")}catch(e){}</script>
+{% endif %}<link rel="preload" href="/assets/v2/fonts/barlow-condensed-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/v2/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-{% if hero_preload and v2images[hero_preload] %}<link rel="preload" as="image" type="image/avif" imagesrcset="{{ v2images[hero_preload].avif }}" imagesizes="100vw" fetchpriority="high">
+{% if hero_preload and v2images[hero_preload] %}<link rel="preload" as="image" type="image/avif" imagesrcset="{{ v2images[hero_preload].avif }}" imagesizes="{{ hero_sizes or '100vw' }}" fetchpriority="high">
 {% endif %}<link rel="stylesheet" href="/assets/v2/v2.css">
 {% for css in extra_css %}<link rel="stylesheet" href="{{ css }}">
 {% endfor %}{% include "head/clarity.njk" %}
 </head>
-<body class="v2{% if theme == 'warm' %} theme-warm{% endif %}">
+<body class="v2{% if theme == 'warm' %} theme-warm{% endif %}{% if header_over %} v2-overhero{% endif %}">
 {% include "skip-link.njk" %}
 {% include "v2/header.njk" %}
 <main id="main" tabindex="-1">

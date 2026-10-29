@@ -7,8 +7,8 @@
   "hero": {
     "crumb": "Windshield Replacement",
     "heading": "Windshield Replacement in Boulder City, NV",
-    "note": "Chip or small crack? That is a different, smaller job. <a href=\"/chip-repair\">See windshield chip repair</a>.",
-    "intro": "Every windshield we replace starts with a part ordered to your vehicle's VIN, so the curve, the tint band along the top edge and the sensor mounts all match what the manufacturer built. Chip repair we do here, in our own shop. Full replacements we subcontract to a glass specialist, and we handle everything around it: the glass is ordered to your VIN, the work is booked, and we help you file the insurance claim. One call, one point of contact. We serve Boulder City, Henderson and Las Vegas drivers alike. One thing to know before you call: we do not keep windshields in stock. Your glass is ordered in for your specific vehicle, so the appointment is booked for after it arrives, not for the day you ring us. That is usually within a week.",
+    "note": "Chip or small crack? Start with chip repair. We do that here, in our own shop. <a href=\"/chip-repair\">See windshield chip repair</a>.",
+    "intro": "Chip repair is the job we do ourselves, in our own shop, and when the damage allows it, it can save you a replacement. If the damage is too large to repair safely, we arrange the replacement for you. The glass is ordered to your vehicle's VIN, so the curve, the tint band along the top edge and the sensor mounts match what the manufacturer built. The job is booked, finished on the day of your appointment, and installed by a glass specialist we work with. We help you file the insurance claim, and you deal with one shop from the first call: one call, one point of contact. We serve Boulder City, Henderson and Las Vegas drivers alike. One thing to know before you call: we do not keep windshields in stock. Your glass is ordered in for your specific vehicle, so the appointment is booked for after it arrives, not for the day you ring us. That is usually within the week, a little longer over a weekend.",
     "chooser": {
       "prompt": "Not sure which one you need?",
       "buttons": [
@@ -23,40 +23,62 @@
       ]
     }
   },
+  "lead": {
+    "eyebrow": "Start here",
+    "heading": "Chip repair first",
+    "text": "A chip or a small crack is the job we do ourselves, in our own shop, and in most cases it is done the same day. We check the damage first, then fill and seal what can be saved. If it cannot be repaired safely, the replacement below is the next step.",
+    "cta": "See windshield chip repair",
+    "href": "/chip-repair",
+    "image_alt": "Close view of a bullseye chip in a windshield next to a mirror-mounted device, photographed from inside the vehicle.",
+    "image_caption": "A real windshield chip, photographed from inside the vehicle."
+  },
   "band": [
-    "XPEL &amp; ASWF Film",
-    "Computer-Cut Film",
-    "Lifetime Film Warranty",
+    "Chip Repair In House",
     "Glass Ordered to Your VIN",
+    "Booked for Your Appointment",
+    "Insurance Claim Help",
     "Free Quotes"
   ],
   "content": {
     "image_alt": "Windshield Replacement in Boulder City, NV",
     "heading": "Windshield Replacement",
-    "intro": "When a crack is too large to repair safely, we offer affordable full windshield replacement with OEM-spec glass ordered in to match your vehicle.",
+    "intro": "When damage is too large to repair safely, we arrange the replacement: glass ordered to your VIN, the job booked for after it arrives, finished on your appointment day and installed by a glass specialist we work with.",
     "bullets": [
-      "Chip and small crack repair in house, full replacements subcontracted",
+      "Chip and small crack repair in our own shop",
       "OEM-spec glass ordered to your VIN",
-      "Glass is not stocked, so the job is booked for after it arrives, usually within a week",
+      "Glass is not stocked, so the job is booked for after it arrives, usually within the week",
       "The replacement itself is finished on the day of your appointment",
-      "Insurance claim assistance",
-      "Restores the windshield structural role"
+      "Installed by a glass specialist we work with",
+      "Insurance claim assistance"
     ],
-    "footnote": "Wondering about the tint strip across the top of your new windshield? <a href=\"/nevada-tint-law\" style=\"color:var(--goldsm);font-weight:700\">See Nevada window tint law, explained</a>."
+    "footnote": "Wondering about the tint strip across the top of your new windshield? <a href=\"/nevada-tint-law\">See Nevada window tint law, explained</a>."
+  },
+  "v2": {
+    "eyebrow": "Windshield chips and glass"
+  },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "What it costs",
+    "text": "Chip repair is priced per chip. A replacement depends on your vehicle, because the glass costs different amounts for different cars, so we quote it for yours.",
+    "note": "Call and tell us the vehicle and what the damage looks like.",
+    "cards": [
+      { "kind": "service", "key": "chip_repair_first", "title": "Chip repair", "sub": "Done in our own shop" },
+      { "kind": "quote", "title": "Windshield replacement", "sub": "Glass ordered to your VIN" }
+    ],
+    "links": [
+      { "label": "Chip repair details", "href": "/chip-repair" },
+      { "label": "All prices", "href": "/prices" }
+    ]
   },
   "reviews": {
     "heading": "What <span>Windshield</span> Customers Say",
     "sub": "Real reviews from BC Glass and Tint customers.",
+    "label": "Google review",
     "items": [
       {
         "platform": "google",
         "quote": "We had our windshield replaced. Customer service was great and they had the best price! And they vacuumed my car! A+++ Highly recommend!",
         "name": "Andrea Whitmeyer"
-      },
-      {
-        "platform": "yelp",
-        "quote": "Got me in fast and did great work replacing my windshield. Couldn't have been better, and couldn't beat the price.",
-        "name": "Francis S."
       },
       {
         "platform": "google",
@@ -100,8 +122,7 @@
       {
         "href": "/headlight-taillight",
         "icon": "i-shield",
-        "label": "Headlight Restoration",
-        "same_line": true
+        "label": "Headlight Restoration"
       },
       {
         "href": "/blinds",
@@ -111,12 +132,12 @@
       {
         "href": "/henderson",
         "icon": "i-pin",
-        "label": "Windshield replacement serving Henderson"
+        "label": "Windshield help for Henderson drivers"
       },
       {
         "href": "/las-vegas",
         "icon": "i-pin",
-        "label": "Windshield replacement serving Las Vegas"
+        "label": "Windshield help for Las Vegas drivers"
       }
     ]
   },
@@ -125,7 +146,7 @@
     "preselect": "Windshield Replacement"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Windshield Replacement",
       "name": "Windshield Replacement in Boulder City, NV",

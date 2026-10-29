@@ -1,13 +1,13 @@
 {
   "meta": {
     "title": "Commercial Window Film, Boulder City &amp; Las Vegas | BC Glass",
-    "description": "Commercial window film for Boulder City and Henderson businesses. Cuts HVAC load, adds privacy, computer-cut ceramic film. Call 702-550-8840.",
+    "description": "Commercial window film for Boulder City and Henderson businesses. Cuts glare, adds privacy, computer-cut ceramic film. Call 702-550-8840.",
     "image_alt": "Commercial window film installed in a Boulder City area business"
   },
   "hero": {
     "crumb": "Commercial Window Film",
     "heading": "Commercial Window Film in Boulder City &amp; Las Vegas, NV",
-    "intro": "Most business owners picture window film as something for cars, not storefronts, so the option gets overlooked until an afternoon of west sun turns the office into a greenhouse and the HVAC runs constantly to keep up. Commercial window film is installed on site at your building rather than at our shop, cutting glare and solar heat while adding privacy or security film where you need it. Every job is computer-cut to your building and backed by a lifetime manufacturer warranty, with free estimates for spaces of any size in Boulder City, Henderson or Las Vegas."
+    "intro": "Most business owners picture window film as something for cars, not storefronts, so the option gets overlooked until an afternoon of west sun turns the office into a greenhouse and the HVAC runs constantly to keep up. Commercial window film is installed on site at your building rather than at our shop, cutting glare and solar heat while adding privacy or security film where you need it. Every job is computer-cut to your building and backed by a lifetime manufacturer warranty, with a free quote for spaces of any size in Boulder City, Henderson or Las Vegas."
   },
   "band": [
     "XPEL &amp; ASWF Film",
@@ -19,18 +19,34 @@
   "content": {
     "image_alt": "Commercial Window Film in Boulder City &amp; Las Vegas, NV",
     "heading": "Commercial Window Film",
-    "intro": "Improve comfort, add privacy, and cut energy costs for your building. By blocking the sun the HVAC works less, so bills drop and temperatures stay steady.",
+    "intro": "Improve comfort, add privacy, and cut glare for your building. Blocking the sun helps keep temperatures steadier through the day.",
     "bullets": [
-      "Lowers HVAC load year round",
+      "Helps keep temperatures steadier",
       "Reduces glare for employees",
       "Privacy and security film options",
       "Graffiti-resistant film available",
-      "Free estimates for any size space"
+      "Free quote for any size space"
+    ]
+  },
+  "v2": {
+    "eyebrow": "Commercial window film"
+  },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "Every building is different.",
+    "text": "Commercial film depends on the glass, the film and how much of it there is. Call or send the form and we will quote your space.",
+    "note": "The size of the space and the film you choose set the final price.",
+    "cards": [
+      { "kind": "service", "key": "office_glass", "title": "Office and storefront glass film" }
+    ],
+    "links": [
+      { "label": "All prices", "href": "/prices" }
     ]
   },
   "reviews": {
     "heading": "What <span>Customers</span> Say",
     "sub": "Real reviews from BC Glass and Tint customers.",
+    "label": "Google review",
     "items": [
       {
         "platform": "google",
@@ -41,11 +57,6 @@
         "platform": "google",
         "quote": "Great prices, speed, and quality. Highly recommend BC Glass and Tint to anyone in the area.",
         "name": "Carol Broadbent"
-      },
-      {
-        "platform": "yelp",
-        "quote": "I really appreciated the friendly customer service, quality of work, and affordable pricing. I highly recommend this family business.",
-        "name": "Kenneth C."
       }
     ]
   },
@@ -104,7 +115,7 @@
     "details_placeholder": "Building or space (optional) - no medical, insurance or license numbers"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Commercial Window Film",
       "name": "Commercial Window Film in Boulder City, NV",

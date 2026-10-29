@@ -18,13 +18,15 @@ module.exports = {
         for (let j = 0; j < g.items.length; j++) items.push(g.items[j]);
       }
       for (let j = 0; j < pg.faq_more.items.length; j++) items.push(pg.faq_more.items[j]);
-      const block0 = S.faqPageNode(items, { standalone: true });
-      const block1 = S.graph([
+      // The v2 layout prints one JSON-LD script from schema_ld, so the FAQPage and the business
+      // graph now travel together in one @graph (same nodes, one business @id, FAQPage built
+      // from the same visible items).
+      return S.graph([
+        S.faqPageNode(items, { slug: data.slug }),
         S.businessNode(data.site),
         S.websiteNode(data.site),
         S.webpageNode({ slug: data.slug, name: S.plain(pg.meta.title), dateModified: pg.schema.date_modified })
       ]);
-      return [block0, block1];
     }
   }
 };

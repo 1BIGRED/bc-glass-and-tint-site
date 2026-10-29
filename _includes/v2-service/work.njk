@@ -1,0 +1,21 @@
+{#- Recent work strip: real BC jobs for this service, from _data/gallery.json (checked photos only,
+    chosen by the page's front matter gallery_service). Wording: pages[page_key].v2.work. -#}
+{%- from "v2/macros.njk" import galleryPic -%}
+{%- set wk = pg.v2.work -%}
+{%- set cap = gallery_count or 4 -%}
+<section class="v2-section" id="work" aria-labelledby="sv-work-h">
+  <div class="v2-wrap v2-stack v2-stack--md">
+    <div class="v2-stack v2-intro">
+      <p class="v2-eyebrow">{{ wk.eyebrow | safe }}</p>
+      <h2 class="v2-h2" id="sv-work-h">{{ wk.heading | safe }}</h2>
+{%- if wk.note %}
+      <p class="v2-small">{{ wk.note | safe }}</p>
+{%- endif %}
+    </div>
+    <div class="sv-work" role="region" aria-label="{{ wk.eyebrow | safe }}" tabindex="0">
+{%- for it in workItems %}{% if loop.index <= cap %}
+      <figure class="sv-work__item">{{ galleryPic(it, "(min-width: 1024px) 290px, (min-width: 768px) 46vw, 250px", "sv-work__img") | safe }}<figcaption>{{ it.title | safe }}</figcaption></figure>
+{%- endif %}{% endfor %}
+    </div>
+  </div>
+</section>

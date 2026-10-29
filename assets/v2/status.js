@@ -6,7 +6,9 @@
    - closures: dates the shop is closed (holidays). Status says closed, next open day skips them.
    - hours_unknown: dates whose hours are not confirmed. On those days no status is shown, and
      "opens <day>" is never promised for one of them.
-   When closed, the sticky phone bar gets data-state="closed" and TEXT becomes the primary. */
+   When closed, the sticky phone bar gets data-state="closed": "Text us now" becomes the gold
+   primary and the other cell reads "Call opens Tue 9 am" ([data-bc-opens], labels.call_opens
+   with labels.days_short), never a call button that rings out (CREATIVE-DIRECTION.md 9.4). */
 (function () {
   "use strict";
   var src = document.getElementById("bc-hours");
@@ -68,10 +70,15 @@
       if (listed(unknown, info.iso)) break;
       if (openDay(info)) {
         var label = i === 0 ? (L.today || "today") : i === 1 ? (L.tomorrow || "tomorrow") : info.name;
-        return { open: false, text: (L.closed_next || "Closed, opens {day} {open}").replace("{day}", label).replace("{open}", clock(cfg.opens)) };
+        var shortLabel = i === 0 ? (L.today || "today") : i === 1 ? (L.tomorrow || "tomorrow") : ((L.days_short && L.days_short[info.name]) || info.name);
+        return {
+          open: false,
+          text: (L.closed_next || "Closed, opens {day} {open}").replace("{day}", label).replace("{open}", clock(cfg.opens)),
+          call: (L.call_opens || "Call opens {day} {open}").replace("{day}", shortLabel).replace("{open}", clock(cfg.opens))
+        };
       }
     }
-    return { open: false, text: L.closed || "Closed now" };
+    return { open: false, text: L.closed || "Closed now", call: L.closed || "Closed now" };
   }
 
   function paint() {
@@ -85,7 +92,11 @@
       el.classList.add(s.open ? "is-open" : "is-closed", "is-ready");
     }
     var bars = document.querySelectorAll("[data-bc-sticky]");
-    for (var j = 0; j < bars.length; j++) bars[j].setAttribute("data-state", s && !s.open ? "closed" : "open");
+    for (var j = 0; j < bars.length; j++) {
+      var opens = bars[j].querySelector("[data-bc-opens]");
+      if (opens) opens.textContent = s && !s.open ? s.call : "";
+      bars[j].setAttribute("data-state", s && !s.open ? "closed" : "open");
+    }
   }
 
   paint();

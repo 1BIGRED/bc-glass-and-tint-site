@@ -8,7 +8,8 @@
     "crumb": "Window Film and Your HOA",
     "heading": "Window Film and Your HOA in Nevada",
     "intro": "If your home sits in a community association anywhere in the Las Vegas valley, from Green Valley and Anthem to Seven Hills, Inspirada, Cadence and Lake Las Vegas, the question is almost always the same: am I even allowed to put film on my windows? Nevada's common-interest ownership law answers part of that, and your association's own documents answer the rest. Below is what the statute actually says, section by section, with each one cited so you can read it yourself. This is not legal advice.",
-    "quote_btn": "Get a Free Quote"
+    "quote_btn": "Get a Free Quote",
+    "eyebrow": "Nevada law, NRS 116.2111"
   },
   "statute": {
     "heading": "What the <span>Statute</span> Says",
@@ -89,18 +90,42 @@
   "also": {
     "heading": "Related <span>Pages</span>",
     "links": [
-      { "href": "/home-tint", "icon": "i-home", "label": "Residential Window Film" },
-      { "href": "/henderson", "icon": "i-pin", "label": "Window Tinting in Henderson" },
-      { "href": "/las-vegas", "icon": "i-pin", "label": "Window Tint in Las Vegas" },
-      { "href": "/commercial-film", "icon": "i-check", "label": "Commercial Window Film" },
-      { "href": "/qa", "icon": "i-check", "label": "Full FAQ" }
+      {
+        "href": "/home-tint",
+        "icon": "i-home",
+        "label": "Residential Window Film"
+      },
+      {
+        "href": "/henderson",
+        "icon": "i-pin",
+        "label": "Window Tinting in Henderson"
+      },
+      {
+        "href": "/las-vegas",
+        "icon": "i-pin",
+        "label": "Window Tint in Las Vegas"
+      },
+      {
+        "href": "/commercial-film",
+        "icon": "i-check",
+        "label": "Commercial Window Film"
+      },
+      {
+        "href": "/qa",
+        "icon": "i-check",
+        "label": "Full FAQ"
+      }
     ]
   },
   "quote": {
     "source": "HOA Window Film",
-    "preselect": "Auto / Vehicle Tint"
+    "preselect": "Home / Residential Tint"
   },
   "schema": {
     "date_modified": "2026-08-28"
+  },
+  "contact": {
+    "heading": "Talk to a person.",
+    "closed_prefix": "Closed"
   }
 }

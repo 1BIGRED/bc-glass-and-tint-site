@@ -1,0 +1,165 @@
+---
+layout: layouts/v2.njk
+extra_css:
+  - /assets/v2/service.css
+---
+{#- Service page layout, v2 look (website overhaul, 2026-10-29). Chains into layouts/v2.njk (header,
+    footer, call bar, consent, quote scripts) and loads assets/v2/service.css. Replaces
+    layouts/service.njk for the ten service pages (that layout stays for old pages).
+
+    Wording: _data/pages/<page_key>.json. Order of the page:
+      hero            crumb, eyebrow, H1, short lede (content.intro), call, quote link, real photo
+      facts strip     band
+      story           hero.intro in full plus the value points (content.bullets), footnote
+      page body       whatever the page template prints (blinds, headlight and boat sections)
+      recent work     real BC jobs for the service (front matter gallery_service)
+      price block     the price filters only (v2-service/price.njk)
+      reviews         Google quotes only (platform "google"; Yelp text is never printed)
+      links           the page's own "also" list
+      call + form     contact block, then the unchanged quote form (quote.njk)
+
+    Front matter the page sets (layout, theme: warm, permalink, slug, page_key, og_image,
+    schema_order stay as before):
+      hero_gallery     _data/gallery.json item id for the hero photo (real BC jobs only)
+      hero_v2image     or an _data/v2images.json key
+      hero_pos         object-position for the hero photo, for example "50% 40%"
+      gallery_service  gallery service id for the Recent work strip (needs two or more photos)
+      gallery_count    how many tiles (default 4)
+      content_heading_id  id on the story heading (windshield uses "replacement")
+    No front-matter photo means the type-only hero. Never stock, never vendor imagery. -#}
+{%- from "v2/macros.njk" import pic, galleryPic -%}
+{%- set pg = pages[page_key] -%}
+{%- set sh = pages.shared -%}
+{%- set w2 = sh.v2 -%}
+{%- set cb = pages.home.v2.contact -%}
+{%- set tel = site.phone.tel -%}
+{%- set callText = w2.call + " " + site.phone.display_call -%}
+{%- set callClass = "v2-btn--gold v2-btn--cream v2-gold-desk" if theme == "warm" else "v2-btn--gold v2-gold-desk" -%}
+{%- set phoneSvg -%}<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>{%- endset -%}
+{%- set quoteLabel = pg.hero.quote_btn or sh.buttons.free_quote -%}
+
+{%- set heroItem = false -%}
+{%- if hero_gallery -%}{%- for it in gallery.items -%}{%- if it.id == hero_gallery and it.checked -%}{%- set heroItem = it -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+{%- set heroPic = (hero_v2image and v2images[hero_v2image]) or false -%}
+{%- set hasPhoto = heroItem or heroPic -%}
+
+{%- set workItems = [] -%}
+{%- if gallery_service -%}{%- for it in gallery.items -%}{%- if it.service == gallery_service and it.checked and it.collection == "job" and it.id != hero_gallery -%}{%- set _w = workItems.push(it) -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+
+<section class="sv-hero{% if not hasPhoto %} sv-hero--type{% endif %}" aria-labelledby="sv-h1">
+  <div class="v2-wrap sv-hero__in">
+    <div class="sv-hero__copy">
+      <p class="sv-crumb"><a href="/">{{ sh.crumb.home | safe }}</a> / <a href="/#services">{{ sh.crumb.services | safe }}</a> / {{ pg.hero.crumb | safe }}</p>
+{%- if pg.v2.eyebrow %}
+      <p class="v2-eyebrow">{{ pg.v2.eyebrow | safe }}</p>
+{%- endif %}
+      <h1 class="sv-h1" id="sv-h1">{{ pg.hero.heading | safe }}</h1>
+{%- if pg.hero.note %}
+      <p class="sv-note">{{ pg.hero.note | safe }}</p>
+{%- endif %}
+      <p class="sv-lede">{{ (pg.content.intro if pg.content else pg.hero.intro) | fill | safe }}</p>
+      <div class="sv-actions" data-gold-zone>
+        <a class="v2-btn {{ callClass }} v2-btn--xl" href="tel:{{ tel | safe }}">{{ phoneSvg | safe }}<span>{{ callText | safe }}</span></a>
+        <a class="v2-textlink" href="#quote">{{ quoteLabel | safe }}</a>
+      </div>
+{%- if pg.hero.chooser %}
+      <div class="sv-chooser">
+        <p class="sv-chooser__q">{{ pg.hero.chooser.prompt | safe }}</p>
+        <ul class="sv-chips">
+{%- for b in pg.hero.chooser.buttons %}
+          <li><a href="{{ b.href | safe }}">{{ b.label | safe }}</a></li>
+{%- endfor %}
+        </ul>
+      </div>
+{%- endif %}
+      <p class="sv-hours v2-small">{{ site.hours.display | safe }}</p>
+    </div>
+{%- if hasPhoto %}
+    <figure class="sv-hero__media"{% if hero_pos %} style="--pos:{{ hero_pos }}"{% endif %}>
+{%- if heroItem %}
+      {{ galleryPic(heroItem, "(min-width: 1024px) 640px, 100vw", "sv-hero__img", heroItem.alt) | replace('loading="lazy" decoding="async"', 'fetchpriority="high" decoding="async"') | safe }}
+      <figcaption>{{ heroItem.title | safe }}</figcaption>
+{%- else %}
+      {{ pic(heroPic, pg.hero.image_alt, "(min-width: 1024px) 640px, 100vw", "sv-hero__img", { eager: true, high: true }) | safe }}
+      {%- if pg.hero.image_caption %}<figcaption>{{ pg.hero.image_caption | safe }}</figcaption>{% endif %}
+{%- endif %}
+    </figure>
+{%- endif %}
+  </div>
+</section>
+
+{%- if pg.band %}
+<div class="sv-facts">
+  <div class="v2-wrap">
+    <ul class="sv-facts__list" style="--n:{{ pg.band.length }}">
+{%- for b in pg.band %}
+      <li>{{ b | safe }}</li>
+{%- endfor %}
+    </ul>
+  </div>
+</div>
+{%- endif %}
+
+{%- if pg.lead %}
+{% include "v2-service/lead.njk" %}
+{%- endif %}
+
+{%- if pg.content %}
+<section class="v2-section" aria-labelledby="sv-story-h">
+  <div class="v2-wrap sv-story">
+    <div class="sv-story__text">
+      <h2 class="v2-h2" id="{{ content_heading_id or 'sv-story-h' }}">{{ pg.content.heading | safe }}</h2>
+      <p>{{ pg.hero.intro | fill | safe }}</p>
+{%- if pg.content.note %}
+      <p>{{ pg.content.note | fill | safe }}</p>
+{%- endif %}
+{%- if pg.content.footnote %}
+      <p class="sv-foot">{{ pg.content.footnote | fill | safe }}</p>
+{%- endif %}
+      <a class="v2-textlink" href="#quote">{{ quoteLabel | safe }}</a>
+    </div>
+    <ul class="sv-points">
+{%- for li in pg.content.bullets %}
+      <li>{{ li | fill | safe }}</li>
+{%- endfor %}
+    </ul>
+  </div>
+</section>
+{%- endif %}
+
+{{ content | safe }}
+
+{%- if workItems.length > 1 %}
+{% include "v2-service/work.njk" %}
+{%- endif %}
+
+{%- if pg.price %}
+{% include "v2-service/price.njk" %}
+{%- endif %}
+
+{%- if pg.reviews %}
+{% include "v2-service/reviews.njk" %}
+{%- endif %}
+
+{%- if pg.also %}
+{% include "v2-service/links.njk" %}
+{%- endif %}
+
+{%- set week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] %}
+{%- set closedDays = [] %}
+{%- for d in week %}{% if not (d in site.hours.days) %}{% set _n = closedDays.push(d) %}{% endif %}{% endfor %}
+<section class="v2-section v2-dusk" id="contact" aria-labelledby="contact-h">
+  <div class="v2-wrap v2-dusk__grid">
+    <div class="v2-dusk__talk" data-gold-zone>
+      <p class="v2-eyebrow">{{ cb.eyebrow | safe }}</p>
+      <h2 class="v2-h2" id="contact-h">{{ cb.heading | safe }}</h2>
+      <a class="v2-numeral v2-dusk__num" href="tel:{{ tel | safe }}">{{ site.phone.display_call | safe }}</a>
+      <a class="v2-btn v2-btn--gold v2-gold-desk" href="tel:{{ tel | safe }}">{{ phoneSvg | safe }}<span>{{ callText | safe }}</span></a>
+      <span class="v2-status v2-status--lg" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span>
+      <p class="v2-dusk__facts">{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}.{% if closedDays.length %} {{ cb.closed_prefix | safe }} {{ closedDays | join(" and ") }}.{% endif %}</p>
+    </div>
+    <div class="v2-dusk__aside sv-form">
+{% include "quote.njk" %}
+    </div>
+  </div>
+</section>

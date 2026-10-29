@@ -4,6 +4,9 @@
     "description": "Pick your vehicle, tap a window and choose a shade to see it on screen, with Nevada's tint rule shown on every window. Then call or text us your build code.",
     "image_alt": "Build Your Tint tool from BC Glass and Tint, Boulder City, NV"
   },
+  "schema": {
+    "date_modified": "2026-10-29"
+  },
   "hero": {
     "crumb": "Build Your Tint",
     "eyebrow": "BUILD YOUR TINT",
@@ -12,18 +15,40 @@
     "heading_rule": "Use heading when anyAutoPrice(pricing, mode) in lib/pricing.js is true; otherwise heading_without_prices.",
     "intro": "Three taps and you have a build. Choose your vehicle, pick a window, pick a shade. Every window shows what Nevada allows, and your build gets a short code to read us when you call."
   },
+  "bar": {
+    "label": "Your build so far",
+    "price_label": "Estimate",
+    "code_label": "Build code"
+  },
   "steps": {
     "vehicle": "1. Your vehicle",
     "panel": "2. Tap a window",
     "shade": "3. Shade for",
     "step_of": "Step {n} of 3"
   },
+  "stage": {
+    "scene_legend": "Time of day",
+    "scenes": [
+      { "id": "noon", "label": "Noon" },
+      { "id": "dusk", "label": "Dusk" },
+      { "id": "night", "label": "Night" }
+    ],
+    "default_scene": "dusk",
+    "windshield_label": "WINDSHIELD, TOP STRIP"
+  },
+  "meter": {
+    "label": "light in",
+    "label_none": "no film on this window",
+    "chip_offlimits": "not for road use"
+  },
   "figure": {
     "label": "Illustration, not a photo of your vehicle.",
     "note": "Light, interior color and factory glass change the real look. Ask to see the film on your glass at the shop.",
-    "full_windshield_note": "Full windshield film: ask us. Nevada's statute lists only a top strip as an exception."
+    "full_windshield_note": "Full windshield film: ask us. Nevada's statute lists only a top strip as an exception.",
+    "full_windshield_note_status": "NOT RENDERED (2026-10-29 build worker): full windshield film is on legal hold until Chase rules (overhaul brief section 9 item 2), and \"ask us\" invites it. Restore only after that ruling."
   },
   "result": {
+    "heading": "Your build",
     "price_label": "Estimate for this build",
     "price_note": "Starting price for this build. Your vehicle can move it; the exact price is confirmed by phone.",
     "draft_tag": "Draft price",
@@ -33,12 +58,17 @@
     "promise": "Exact price confirmed by phone, no surprises.",
     "hours": "Open Tuesday to Saturday, 9 to 5.",
     "closed_hint": "Closed right now. Text your build, or call during hours: Tuesday to Saturday, 9 to 5.",
-    "warranty": "Lifetime manufacturer warranty on window film."
+    "warranty": "Lifetime manufacturer warranty on window film.",
+    "form_text": "Rather we call you?",
+    "form_link": "Send a short request",
+    "form_href": "/#quote"
   },
   "noscript": {
     "heading": "Windows and Nevada rules",
     "intro": "Pick a shade for each window below, then call or text us and tell us your picks.",
-    "columns": ["Window", "What Nevada allows"]
+    "columns": ["Window", "What Nevada allows"],
+    "prices_heading": "Starting prices by vehicle",
+    "prices_columns": ["Coverage"]
   },
   "how_it_works": {
     "heading": "How it works",
@@ -53,7 +83,8 @@
     "vehicles": {
       "car": { "label": "Car", "code": "C", "price_class": "car" },
       "suv": { "label": "SUV", "code": "S", "price_class": "suv" },
-      "pickup": { "label": "Pickup", "code": "P", "price_class": "pickup" }
+      "pickup": { "label": "Pickup", "code": "P", "price_class": "pickup" },
+      "van": { "label": "Van", "code": "V", "price_class": "van" }
     },
     "panels": {
       "front": { "label": "Front doors", "price_key": "front-doors" },
@@ -86,6 +117,9 @@
       "summary_blocked": "{panel} {shade}: not offered for road use.",
       "live_change": "{panel} set to {shade}. {legal} Price: {price}.",
       "live_vehicle": "Vehicle set to {vehicle}. Price: {price}.",
+      "live_scene": "Stage light set to {scene}.",
+      "meter_label": "light in",
+      "meter_none": "no film on this window",
       "sms_body": "Hi BC Glass & Tint, here is my build {code}. {summary} {url}"
     }
   }

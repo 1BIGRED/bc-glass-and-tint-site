@@ -1,0 +1,83 @@
+{#- Service page price block. Wording: pages[page_key].price
+      { eyebrow, heading, text, note, cards: [ { kind, key, title, sub } ], links: [ { label, href } ] }
+    Every number comes through the price gate (lib/pricing.js priceFor via the priceFor filter),
+    never from this file or the wording file. Card kinds:
+      service   pricing.services[key]                         (chip repair, ceramic coating, ...)
+      coverage  pricing.auto_tint.coverage[key] by class      (front doors, rear and back glass, full vehicle)
+      panel     pricing.auto_tint.panels[key] by class        (windshield top strip, sunroof)
+      quote     no price record on purpose: always "Call for a quote"
+    A per-class card shows the lowest class price that passes the gate as a "From" price.
+    In production only confirmed and published prices show. In a preview build, drafts show with a
+    "Draft price" tag. When nothing can show, the block is one calm "Call for a quote" line. -#}
+{%- set pr = pg.price -%}
+{%- set classes = ["car", "suv", "pickup", "van"] -%}
+{%- set fallback = pricing.gate.fallback_display -%}
+{%- set cards = [] -%}
+{%- for c in pr.cards -%}
+  {%- set entries = [] -%}
+  {%- if c.kind == "service" -%}
+    {%- set _e = entries.push(pricing.services[c.key]) -%}
+  {%- elif c.kind == "coverage" -%}
+    {%- set cm = pricing.auto_tint.coverage[c.key] -%}
+    {%- for k in classes -%}{%- set _e = entries.push(cm[k]) -%}{%- endfor -%}
+  {%- elif c.kind == "panel" -%}
+    {%- set pm = pricing.auto_tint.panels[c.key] -%}
+    {%- for k in classes -%}{%- set _e = entries.push(pm[k]) -%}{%- endfor -%}
+  {%- endif -%}
+  {%- set shown = [] -%}
+  {%- for e in entries -%}
+    {%- set p = e | priceFor(price_mode) -%}
+    {%- if p.show -%}{%- set _s = shown.push({ "amount": e.amount, "display": p.display, "draft": p.draft, "unit": e.unit }) -%}{%- endif -%}
+  {%- endfor -%}
+  {%- set sorted = shown | sort(false, false, "amount") -%}
+  {%- set low = (sorted | first) if sorted.length else false -%}
+  {%- set varies = (sorted.length > 1 and (sorted | last).amount != low.amount) -%}
+  {%- set _c = cards.push({ "title": c.title, "sub": c.sub, "low": low, "varies": varies }) -%}
+{%- endfor -%}
+{%- set shownCards = cards | selectattr("low") | list -%}
+<section class="v2-band v2-section" id="price" aria-labelledby="sv-price-h">
+  <div class="v2-wrap v2-stack v2-stack--lg">
+    <div class="v2-stack v2-intro">
+      <p class="v2-eyebrow">{{ pr.eyebrow | safe }}</p>
+      <h2 class="v2-h2" id="sv-price-h">{{ pr.heading | safe }}</h2>
+      <p class="v2-body">{{ pr.text | safe }}</p>
+    </div>
+{%- if shownCards.length %}
+    <div class="sv-pcards" style="--n:{{ cards.length if cards.length < 3 else 3 }}">
+{%- for c in cards %}
+      <div class="sv-pcard">
+        <h3 class="v2-h3">{{ c.title | safe }}</h3>
+{%- if c.sub %}
+        <p class="sv-pcard__s">{{ c.sub | safe }}</p>
+{%- endif %}
+{%- if c.low %}
+        <div class="sv-pcard__p"><span class="sv-num">{% if c.varies and c.low.display.indexOf("From") != 0 %}From {% endif %}{{ c.low.display | safe }}</span>{% if c.low.draft %}<span class="v2-draft">{{ pricing.gate.draft_tag | safe }}</span>{% endif %}</div>
+{%- if c.low.unit %}
+        <p class="sv-pcard__u">{{ c.low.unit | safe }}</p>
+{%- endif %}
+{%- else %}
+        <div class="sv-pcard__p"><span class="sv-unknown">{{ fallback | safe }}</span></div>
+{%- endif %}
+      </div>
+{%- endfor %}
+    </div>
+{%- else %}
+    <div class="sv-pquote">
+      <span class="sv-unknown">{{ fallback | safe }}</span>
+{%- if pr.note %}
+      <p class="v2-body">{{ pr.note | safe }}</p>
+{%- endif %}
+    </div>
+{%- endif %}
+{%- if shownCards.length and pr.note %}
+    <p class="v2-small">{{ pr.note | safe }}</p>
+{%- endif %}
+{%- if pr.links %}
+    <p class="sv-plinks">
+{%- for l in pr.links %}
+      <a href="{{ l.href | safe }}">{{ l.label | safe }}</a>
+{%- endfor %}
+    </p>
+{%- endif %}
+  </div>
+</section>

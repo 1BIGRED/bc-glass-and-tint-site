@@ -1,0 +1,182 @@
+/* BC Glass & Tint v2: styles for the non-service pages (website overhaul, 2026-10-29).
+   Loaded after v2.css through front matter extra_css on: about, reviews, qa, henderson,
+   las-vegas, nevada-tint-law, hoa-window-film, new-construction, privacy-policy.
+
+   Tokens only: every color and both font families come from the custom properties in v2.css
+   (Showroom Black by default, Warm Gallery under body.theme-warm). No literal colors here.
+   Direction: editorial, calm, generous space, hairlines over boxes, real photos, gold only on
+   the call (the gold fill is the call button; the eyebrow is the only gold text).
+   Motion: none beyond what v2.css already defines (the meter bar is static). */
+
+/* hidden must always win over the display rules below (the QA filter toggles it) */
+.pg-qa [hidden],.pg-search[hidden]{display:none !important}
+
+/* ---------- Page head ---------- */
+.pg-head{padding-top:56px;padding-bottom:96px;border-bottom:1px solid var(--line)}
+.pg-head__in{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:72px;align-items:center}
+.pg-head--solo .pg-head__in{grid-template-columns:minmax(0,860px)}
+.pg-head--tight{padding-bottom:56px}
+.pg-head__copy{display:flex;flex-direction:column;gap:22px;align-items:flex-start;min-width:0}
+.pg-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;font-size:13px;color:var(--muted);margin-bottom:6px}
+.pg-crumb a{color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;min-height:32px}
+.pg-crumb a:hover{color:var(--text);text-decoration:underline}
+.pg-h1{font-family:var(--font-display);font-weight:600;font-size:clamp(44px,5.4vw,76px);line-height:.98;letter-spacing:.005em;overflow-wrap:break-word}
+.pg-h1 span{display:block;color:var(--text-2)}
+.pg-lede{font-size:17px;line-height:1.65;color:var(--text-2);max-width:62ch}
+.pg-lede a,.pg-prose a,.pg-facts__d a,.pg-ref a{color:var(--accent)}
+.pg-actions{display:flex;flex-wrap:wrap;align-items:center;gap:22px;padding-top:6px}
+.pg-updated{padding-top:6px;max-width:62ch}
+
+/* photo (real BC job photos only) */
+.pg-photo{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pg-photo picture{display:block}
+.pg-photo img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;background:var(--panel);border-radius:2px}
+.pg-photo figcaption{font-size:13px;color:var(--muted)}
+
+/* quiet fact strip under the head */
+.pg-strip{background:var(--band);border-bottom:1px solid var(--line)}
+.pg-strip ul{display:flex;flex-wrap:wrap;gap:6px 40px;padding-top:18px;padding-bottom:18px;font-size:14px;color:var(--text-2)}
+
+/* ---------- Layout helpers ---------- */
+.pg-cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:72px;align-items:start}
+.pg-cols>*{min-width:0}
+.pg-twocol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px;align-items:start}
+.pg-threecol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px}
+.pg-threecol li{display:flex;flex-direction:column;gap:10px;padding-top:24px;border-top:1px solid var(--line-2)}
+.pg-threecol p{color:var(--text-2)}
+.pg-who{font-size:13px;color:var(--muted)}
+.pg-prose{display:flex;flex-direction:column;gap:20px;max-width:64ch;color:var(--text-2)}
+.pg-h2{font-family:var(--font-display);font-weight:600;font-size:clamp(28px,3vw,36px);line-height:1.1;letter-spacing:.01em;color:var(--text)}
+.pg-h3{font-family:var(--font-display);font-weight:600;font-size:clamp(24px,2.4vw,28px);line-height:1.15;letter-spacing:.01em;color:var(--text)}
+
+/* hairline list (bullets as rows) */
+.pg-list{border-top:1px solid var(--line-2)}
+.pg-list li{padding:18px 0;border-bottom:1px solid var(--line-2);color:var(--text-2)}
+
+/* values and why: two columns, hairline tops */
+.pg-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 64px}
+.pg-values li{display:flex;flex-direction:column;gap:8px;padding:28px 0;border-top:1px solid var(--line-2)}
+.pg-values p{color:var(--text-2);max-width:48ch}
+
+/* numbered steps */
+.pg-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;counter-reset:st}
+.pg-steps li{display:flex;flex-direction:column;gap:10px;padding-top:24px;border-top:1px solid var(--line-2)}
+.pg-steps li::before{counter-increment:st;content:counter(st);font-family:var(--font-display);font-weight:600;font-size:56px;line-height:1;color:var(--muted);font-variant-numeric:tabular-nums}
+.pg-steps p{color:var(--text-2)}
+
+/* link rows (service links) */
+.pg-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 64px;border-top:1px solid var(--line-2)}
+.pg-links li{border-bottom:1px solid var(--line-2)}
+.v2 .pg-links a{display:flex;flex-direction:column;gap:2px;padding:18px 0;min-height:56px;text-decoration:none;color:var(--text)}
+.v2 .pg-links a:hover .pg-links__t{color:var(--accent)}
+.pg-links__t{font-family:var(--font-display);font-weight:600;font-size:24px;line-height:1.15}
+.pg-links__s{font-size:14px;color:var(--muted)}
+
+/* getting here: four short facts */
+.pg-info{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+.pg-info li{display:flex;flex-direction:column;gap:6px;padding-top:20px;border-top:1px solid var(--line-2)}
+.pg-info b{font-family:var(--font-display);font-weight:600;font-size:22px;line-height:1.2}
+.pg-info span{font-size:14px;color:var(--text-2)}
+
+/* ---------- Facts and statute rows ---------- */
+.pg-facts{border-top:1px solid var(--line-2);counter-reset:f}
+.pg-facts__row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px 24px;padding:32px 0;border-bottom:1px solid var(--line-2)}
+.pg-facts__row::before{counter-increment:f;content:counter(f,decimal-leading-zero);grid-row:1 / span 2;font-family:var(--font-display);font-weight:600;font-size:36px;line-height:1;color:var(--muted);font-variant-numeric:tabular-nums}
+.pg-facts--plain .pg-facts__row{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:10px 64px;padding:28px 0}
+.pg-facts--plain .pg-facts__row::before{content:none}
+.pg-facts__t{font-family:var(--font-display);font-weight:600;font-size:clamp(24px,2.6vw,30px);line-height:1.15;letter-spacing:.005em;max-width:30ch}
+.pg-facts:not(.pg-facts--plain) .pg-facts__t{max-width:36ch}
+.pg-facts__d{color:var(--text-2);max-width:62ch;display:flex;flex-direction:column;gap:12px}
+.pg-facts__src{font-size:13px;color:var(--muted)}
+.pg-facts dt,.pg-facts dd{margin:0}
+
+/* ---------- Light meter (Nevada tint law) and the rating numeral (reviews) ---------- */
+.pg-meter{display:flex;flex-direction:column;gap:14px;padding:40px;background:var(--panel);border:1px solid var(--line);min-width:0}
+.pg-meter__label{font-family:var(--font-display);font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.pg-meter__num{font-family:var(--font-display);font-weight:600;font-size:clamp(96px,13vw,168px);line-height:.9;letter-spacing:-.02em;color:var(--text);font-variant-numeric:tabular-nums}
+.pg-meter__unit{font-size:.5em;letter-spacing:0;vertical-align:top;margin-left:.04em}
+.pg-meter__bar{position:relative;height:2px;background:var(--line-2);overflow:hidden}
+.pg-meter__bar::after{content:"";position:absolute;inset:0;background:var(--text);transform-origin:left center;transform:scaleX(var(--fill,.35))}
+.pg-meter__text{color:var(--text-2);max-width:44ch}
+.pg-meter__src{font-size:13px;color:var(--muted)}
+.pg-meter--rating{gap:10px}
+.pg-meter--rating .pg-meter__num{font-size:clamp(88px,11vw,140px)}
+.pg-meter .v2-link{display:inline-flex;align-items:center;min-height:44px}
+
+/* ---------- Quotes (verbatim Google reviews, hairlines not cards) ---------- */
+.pg-quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 48px}
+.pg-quote{padding:28px 0 32px;border-top:1px solid var(--line-2);display:flex;flex-direction:column;gap:14px}
+.pg-quote p{font-size:19px;line-height:1.5;color:var(--text);max-width:40ch}
+.pg-quote footer{font-size:13px;color:var(--muted)}
+
+/* ---------- Q and A page ---------- */
+.pg-search{display:flex;flex-direction:column;gap:10px;max-width:720px}
+.pg-search__label{font-family:var(--font-display);font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.pg-search input{width:100%;min-height:56px;padding:0 18px;background:var(--panel);border:1px solid var(--line-3);color:var(--text);font:inherit;font-size:17px;border-radius:0;-webkit-appearance:none;appearance:none}
+.pg-search input::placeholder{color:var(--muted);opacity:1}
+.pg-search__none{color:var(--text-2);padding:8px 0}
+.pg-qa__cat{display:flex;flex-direction:column;gap:20px;scroll-margin-top:96px}
+.pg-qa .v2-faq__list{max-width:880px}
+.pg-qa .v2-faq__a ul,.pg-faq .v2-faq__a ul{list-style:disc;margin:12px 0 12px 22px;display:flex;flex-direction:column;gap:8px}
+
+/* reference Q and A (tint law, HOA): answers always visible */
+.pg-ref{display:flex;flex-direction:column;max-width:880px;border-top:1px solid var(--line-2)}
+.pg-ref__item{display:flex;flex-direction:column;gap:12px;padding:28px 0;border-bottom:1px solid var(--line-2)}
+
+/* next-step strip (tint law to the builder) */
+.pg-next{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px;padding:32px 0;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+.pg-next .v2-stack{gap:6px}
+
+/* ---------- Map (About) ---------- */
+.pg-map{width:100%;aspect-ratio:16/7;border:1px solid var(--line);background:var(--panel)}
+.pg-map iframe{display:block;width:100%;height:100%;border:0}
+
+/* ---------- Privacy policy ---------- */
+.pg-legal{max-width:72ch;display:flex;flex-direction:column;gap:14px;color:var(--text-2)}
+.pg-legal__intro{font-size:17px;color:var(--text)}
+.pg-legal .pg-h2{margin-top:36px;font-size:28px}
+.pg-legal ul{list-style:disc;margin-left:22px;display:flex;flex-direction:column;gap:8px}
+.pg-legal a{color:var(--accent)}
+.pg-legal code{font-size:.92em;color:var(--text)}
+.pg-legal strong{color:var(--text);font-weight:600}
+
+/* ---------- Tablet ---------- */
+@media (min-width:768px) and (max-width:1023.98px){
+  .pg-head__in{grid-template-columns:1fr;gap:40px}
+  .pg-cols{grid-template-columns:1fr;gap:32px}
+  .pg-quotes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pg-info{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pg-threecol,.pg-steps{grid-template-columns:1fr;gap:32px}
+  .pg-twocol{gap:40px}
+  .pg-meter{max-width:520px}
+}
+
+/* ---------- Phone ---------- */
+@media (max-width:767.98px){
+  .pg-head{padding-top:28px;padding-bottom:40px}
+  .pg-head--tight{padding-bottom:32px}
+  .pg-head__in{grid-template-columns:1fr;gap:28px}
+  .pg-head__copy{gap:16px;align-items:stretch}
+  .pg-h1{font-size:44px}
+  .pg-lede{font-size:16px}
+  .pg-actions{flex-direction:column;align-items:stretch;gap:12px;padding-top:0}
+  .pg-actions .v2-btn{width:100%;font-size:21px}
+  .pg-actions .v2-textlink{align-self:center}
+  .pg-photo figcaption{font-size:12px}
+  .pg-strip ul{gap:4px 24px;padding-top:14px;padding-bottom:14px;font-size:13px}
+  .pg-cols,.pg-twocol,.pg-threecol,.pg-steps,.pg-values,.pg-links,.pg-quotes{grid-template-columns:1fr;gap:24px}
+  .pg-quotes{gap:0}
+  .pg-values{gap:0}
+  .pg-links{gap:0}
+  .pg-info{grid-template-columns:1fr;gap:20px}
+  .pg-facts__row{grid-template-columns:44px minmax(0,1fr);gap:8px 16px;padding:24px 0}
+  .pg-facts__row::before{font-size:26px}
+  .pg-facts--plain .pg-facts__row{grid-template-columns:1fr;gap:10px;padding:22px 0}
+  .pg-meter{padding:24px}
+  .pg-quote p{font-size:17px}
+  .pg-map{aspect-ratio:4/3}
+  .pg-next{flex-direction:column;align-items:stretch}
+  .pg-next .v2-btn{width:100%}
+  .pg-search input{font-size:16px}
+  .pg-legal .pg-h2{margin-top:24px;font-size:24px}
+}

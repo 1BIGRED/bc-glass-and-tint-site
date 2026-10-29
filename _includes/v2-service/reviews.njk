@@ -1,0 +1,23 @@
+{#- Reviews on a service page: first-party Google quotes, verbatim, from the page's wording file
+    (pages[page_key].reviews.items). Only items whose platform is "google" print; Yelp text never
+    appears on the v2 pages. No count, rating, stars or platform logo here (counts only through
+    site.json tokens, and none is needed). -#}
+{%- set rv = pg.reviews -%}
+{%- set googleOnly = [] -%}
+{%- for r in rv.items -%}{%- if r.platform == "google" -%}{%- set _g = googleOnly.push(r) -%}{%- endif -%}{%- endfor -%}
+{%- if googleOnly.length %}
+<section class="v2-section" aria-labelledby="sv-rev-h">
+  <div class="v2-wrap v2-stack v2-stack--md">
+    <div class="v2-stack v2-intro">
+      <h2 class="v2-h2" id="sv-rev-h">{{ rv.heading | safe }}</h2>
+      <p class="v2-body">{{ rv.sub | fill | safe }}</p>
+    </div>
+    <div class="sv-quotes" style="--n:{{ googleOnly.length }}">
+{%- for r in googleOnly %}
+      <blockquote class="sv-quote"><p>"{{ r.quote | safe }}"</p><footer>{{ r.name | safe }}, {{ rv.label or pages.home.v2.reviews.label }}</footer></blockquote>
+{%- endfor %}
+    </div>
+    <p class="v2-small sv-more"><a href="/reviews">{{ sh.reviews.more_link | safe }}</a></p>
+  </div>
+</section>
+{%- endif %}

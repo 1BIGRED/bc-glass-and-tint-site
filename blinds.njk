@@ -1,24 +1,41 @@
 ---
-# Service page. All wording is in _data/pages/blinds.json; this file only holds the
-# page's structure. Layout: _includes/layouts/service.njk. JSON-LD: blinds.11tydata.js.
-# blinds is the one service page with extra body sections (shade types, how it works),
-# printed by the layout right after the content section via {{ content | safe }}.
-layout: layouts/service.njk
+# Service page, v2 look, Warm Gallery. All wording is in _data/pages/blinds.json; this file holds
+# the page's structure plus its two extra sections (treatment types and how it works), printed by
+# the layout right after the story section. Layout: _includes/layouts/service-v2.njk.
+# JSON-LD: blinds.11tydata.js. No real blinds photo exists (the old shade card photos were stock),
+# so the hero and the treatment cards are type only.
+layout: layouts/service-v2.njk
+theme: warm
 permalink: blinds.html
 slug: blinds
 page_key: blinds
-og_image: images/blinds.jpg
-content_image: images/blinds.webp
-content_image_width: 1000
-content_image_height: 667
-content_icon: i-blinds
-reviews_soft: true
+og_image: images/hero.jpg
 schema_order: service-first
 ---
 {%- set pg = pages.blinds -%}
-<section class="soft"><div class="wrap"><h2 style="text-align:center">{{ pg.extra.shades.heading | safe }}</h2><p class="sub">{{ pg.extra.shades.sub | safe }}</p><div class="minigrid">
-{% for c in pg.extra.shades.cards %}<div class="shadecard"><img class="lazyimg" loading="lazy" alt="{{ c.alt | safe }}" src="{{ c.src | safe }}" width="{{ c.width | safe }}" height="{{ c.height | safe }}"><div class="sbody"><b>{{ c.title | safe }}</b><span>{{ c.text | safe }}</span></div></div>
-{% endfor %}</div></div></section>
-<section><div class="wrap"><h2 style="text-align:center">{{ pg.extra.steps.heading | safe }}</h2><p class="sub">{{ pg.extra.steps.sub | safe }}</p><div class="minigrid">
-{% for s in pg.extra.steps.items %}<div class="minicard"><svg class="ic" aria-hidden="true"><use href="#{{ s.icon | safe }}"/></svg><div><b>{{ s.title | safe }}</b><span>{{ s.text | safe }}</span></div></div>
-{% endfor %}</div></div></section>
+<section class="v2-band v2-section" aria-labelledby="sv-shades-h">
+  <div class="v2-wrap v2-stack v2-stack--md">
+    <div class="v2-stack v2-intro">
+      <h2 class="v2-h2" id="sv-shades-h">{{ pg.extra.shades.heading | safe }}</h2>
+      <p class="v2-body">{{ pg.extra.shades.sub | safe }}</p>
+    </div>
+    <div class="sv-cols sv-cols--4">
+{%- for c in pg.extra.shades.cards %}
+      <div class="sv-col"><h3>{{ c.title | safe }}</h3><p>{{ c.text | safe }}</p></div>
+{%- endfor %}
+    </div>
+  </div>
+</section>
+<section class="v2-section" aria-labelledby="sv-steps-h">
+  <div class="v2-wrap v2-stack v2-stack--md">
+    <div class="v2-stack v2-intro">
+      <h2 class="v2-h2" id="sv-steps-h">{{ pg.extra.steps.heading | safe }}</h2>
+      <p class="v2-body">{{ pg.extra.steps.sub | safe }}</p>
+    </div>
+    <ol class="sv-steps">
+{%- for s in pg.extra.steps.items %}
+      <li class="sv-col"><h3>{{ s.title | safe }}</h3><p>{{ s.text | safe }}</p></li>
+{%- endfor %}
+    </ol>
+  </div>
+</section>

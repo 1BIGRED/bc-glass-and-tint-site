@@ -1,0 +1,156 @@
+---
+# The gallery, "The Truck Wall" (website overhaul, 2026-10-29). One template, paginated: the hub
+# at /gallery plus one static filter page per service and per body type that has at least two
+# photos (list and rules: gallery.11tydata.js). Layout: _includes/layouts/v2.njk. Styles:
+# assets/v2/gallery.css. Behavior (filter in place, search, lightbox): assets/v2/gallery.js, all
+# optional: without JavaScript every filter is a real link and every tile opens the full photo.
+# Wording: _data/pages/gallery.json. Photos: _data/gallery.json, checked items only.
+layout: layouts/v2.njk
+pagination:
+  data: gallery_views
+  size: 1
+  alias: view
+permalink: "{{ view.permalink }}"
+extra_css: ["/assets/v2/gallery.css"]
+extra_js: ["/assets/v2/gallery.js"]
+---
+{%- set w = pages.gallery -%}
+{%- set isHub = (view.key == "all") -%}
+{%- set callLabel = site.phone.display_call -%}
+{%- set hubView = gallery_views | first -%}
+
+<div data-tw{% if isHub %} data-tw-hub{% endif %} data-tw-key="{{ view.key }}">
+
+<section class="tw-head">
+  <div class="v2-wrap tw-head__in">
+    {%- if not isHub %}
+    <nav class="tw-crumbs" aria-label="{{ w.crumbs_label | safe }}">
+      <ol>
+        <li><a href="/gallery">{{ w.crumb_gallery | safe }}</a></li>
+        <li aria-current="page">{{ view.crumb | safe }}</li>
+      </ol>
+    </nav>
+    {%- endif %}
+    <p class="v2-eyebrow">{{ w.eyebrow | safe }}</p>
+    <h1 class="tw-h1" data-tw-h1>{{ view.h1 | safe }}</h1>
+    <p class="tw-lead" data-tw-lead>{{ view.lead | safe }}</p>
+    <p class="tw-honesty">{{ w.honesty | safe }}</p>
+  </div>
+</section>
+
+<section class="tw-tools" aria-label="{{ w.filters.label | safe }}">
+  <div class="v2-wrap tw-tools__in">
+    <nav class="tw-filters" aria-label="{{ w.filters.label | safe }}">
+      <div class="tw-fgroup">
+        <p class="tw-flabel">{{ w.filters.services | safe }}</p>
+        <ul class="tw-flist">
+          <li><a class="tw-f" href="/gallery" data-tw-view="all"{% if isHub %} aria-current="page"{% endif %}>{{ w.hub.label | safe }} <span class="tw-n v2-num">{{ hubView.count }}</span></a></li>
+          {%- for v in gallery_filters.services %}
+          <li><a class="tw-f" href="{{ v.href }}" data-tw-view="{{ v.key }}"{% if v.key == view.key %} aria-current="page"{% endif %}>{{ v.label | safe }} <span class="tw-n v2-num">{{ v.count }}</span></a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- if gallery_filters.bodies.length %}
+      <div class="tw-fgroup">
+        <p class="tw-flabel">{{ w.filters.bodies | safe }}</p>
+        <ul class="tw-flist">
+          {%- for v in gallery_filters.bodies %}
+          <li><a class="tw-f" href="{{ v.href }}" data-tw-view="{{ v.key }}"{% if v.key == view.key %} aria-current="page"{% endif %}>{{ v.label | safe }} <span class="tw-n v2-num">{{ v.count }}</span></a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+    </nav>
+    <div class="tw-search" data-tw-search hidden>
+      <label class="v2-sr" for="tw-q">{{ w.search.label | safe }}</label>
+      <input id="tw-q" class="tw-q" type="search" placeholder="{{ w.search.placeholder | safe }}" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+      <button type="button" class="tw-qclear" data-tw-clear hidden>{{ w.search.clear | safe }}</button>
+    </div>
+    <p class="tw-status" data-tw-status role="status" aria-live="polite" data-one="{{ w.status.one | safe }}" data-many="{{ w.status.many | safe }}" data-zero="{{ w.status.zero | safe }}">{% if view.count == 1 %}{{ w.status.one | safe }}{% else %}{{ w.status.many | replace("{n}", view.count) | safe }}{% endif %}</p>
+  </div>
+</section>
+
+<section class="tw-wall">
+  <div class="v2-wrap">
+    <ul class="tw-grid" data-tw-grid>
+      {%- for it in view.items %}
+      <li class="tw-item" data-svc="{{ it.service }}" data-body="{{ it.body }}" data-q="{{ it.q }}" data-title="{{ it.title }}" data-sub="{{ it.line2 }}" data-alt="{{ it.alt }}" data-src="{{ it.img1280 }}" data-w="{{ it.w }}" data-h="{{ it.h }}" data-act-label="{{ it.actionLabel }}" data-act-href="{{ it.actionHref }}">
+        <figure class="tw-tile">
+          <a class="tw-open" href="{{ it.img1280 }}">
+            <span class="tw-media"><img src="{{ it.img640 }}" srcset="{{ it.img640 }} {{ it.w640 }}w, {{ it.img1280 }} {{ it.w }}w" sizes="(min-width: 1024px) 296px, (min-width: 768px) 33vw, 50vw" width="{{ it.w }}" height="{{ it.h }}" alt="{{ it.alt }}"{% if loop.index0 >= 2 %} loading="lazy"{% endif %} decoding="async"></span>
+          </a>
+          <figcaption class="tw-cap"><span class="tw-cap__t">{{ it.title }}</span><span class="tw-cap__s">{{ it.line2 }}</span></figcaption>
+        </figure>
+      </li>
+      {%- endfor %}
+    </ul>
+    <div class="tw-empty" data-tw-empty hidden>
+      <p class="tw-empty__t">{{ w.empty.text | safe }}</p>
+      <a class="v2-btn v2-btn--outline" href="tel:{{ site.phone.tel | safe }}">{{ w.empty.call | safe }} {{ callLabel | safe }}</a>
+    </div>
+  </div>
+</section>
+
+{%- if isHub %}
+<section class="v2-section v2-band tw-meter" id="light-meter" aria-labelledby="tw-meter-h">
+  <div class="v2-wrap v2-stack v2-stack--md">
+    <div class="v2-stack v2-intro">
+      <p class="v2-eyebrow">{{ w.meter.eyebrow | safe }}</p>
+      <h2 class="v2-h2" id="tw-meter-h">{{ w.meter.h2 | safe }}</h2>
+      <p class="tw-sim">{{ w.meter.sim | safe }}</p>
+      <p class="v2-body">{{ w.meter.body | safe }}</p>
+    </div>
+    <ul class="tw-shades">
+      {%- for s in shade_chips %}
+      <li><a class="tw-shade" href="{{ w.meter.href | safe }}" aria-label="{{ w.meter.chip_aria | replace('{vlt}', s.vlt) | safe }}">
+        <span class="tw-shade__glass" style="--o:{{ s.opacity }}" aria-hidden="true"></span>
+        <span class="tw-shade__n v2-num" aria-hidden="true">{{ s.vlt }}<span class="tw-shade__pct">%</span></span>
+        <span class="tw-shade__l" aria-hidden="true">{{ w.meter.unit | safe }}</span>
+      </a></li>
+      {%- endfor %}
+    </ul>
+    <div class="tw-law">
+      <p class="tw-law__h">{{ w.meter.law_h | safe }}</p>
+      <p class="v2-small">{{ w.meter.law | safe }}</p>
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<section class="v2-section tw-closing">
+  <div class="v2-wrap v2-stack v2-stack--md">
+    <h2 class="v2-h2">{{ w.closing.h2 | safe }}</h2>
+    <p class="v2-body tw-closing__lead">{{ w.closing.lead | safe }}</p>
+    <p class="tw-closing__num"><a href="tel:{{ site.phone.tel | safe }}">{{ w.closing.call | safe }} {{ callLabel | safe }}</a></p>
+    <p class="v2-status v2-status--lg" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></p>
+    <p class="tw-closing__act"><a class="v2-btn v2-btn--outline" href="{{ w.closing.build_href | safe }}">{{ w.closing.build | safe }}</a></p>
+    <p class="v2-small">{{ site.address.display | safe }}. {{ site.hours.display | safe }}.</p>
+  </div>
+</section>
+
+<dialog class="tw-box" id="tw-dialog" aria-labelledby="tw-d-title">
+  <div class="tw-box__in">
+    <button type="button" class="tw-x" data-tw-close aria-label="{{ w.dialog.close | safe }}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="tw-stage">
+      <button type="button" class="tw-nav tw-nav--prev" data-tw-prev aria-label="{{ w.dialog.prev | safe }}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <img class="tw-dimg" id="tw-d-img" alt="" decoding="async">
+      <button type="button" class="tw-nav tw-nav--next" data-tw-next aria-label="{{ w.dialog.next | safe }}"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="tw-info">
+      <div class="tw-info__txt">
+        <h2 class="tw-info__t" id="tw-d-title"></h2>
+        <p class="tw-info__s" id="tw-d-sub"></p>
+        <p class="tw-info__c v2-num" id="tw-d-count" data-tpl="{{ w.dialog.count | safe }}"></p>
+      </div>
+      <div class="tw-acts">
+        <a class="v2-btn v2-btn--gold" href="tel:{{ site.phone.tel | safe }}">{{ w.dialog.call | safe }} {{ callLabel | safe }}</a>
+        <a class="v2-btn v2-btn--outline" id="tw-d-act" href="/build-your-tint"></a>
+      </div>
+      <p class="v2-small tw-info__note">{{ w.honesty | safe }}</p>
+    </div>
+  </div>
+</dialog>
+
+<script type="application/json" id="tw-views">{{ views_json | jsonld | replace("<", "\\u003c") | safe }}</script>
+
+</div>

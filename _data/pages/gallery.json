@@ -1,0 +1,168 @@
+{
+  "_note": "All wording for the gallery (hub and filter pages). Page structure: gallery.njk. Data and filter pages: gallery.11tydata.js, from _data/gallery.json. Strings may hold HTML entities (&amp;). Tokens {count} and {makes} are filled from the photos on that page. No shade, no city, no price here: a job caption shows only what the gallery record holds.",
+  "min_items": 2,
+  "service_order": ["auto-tint", "home-film", "commercial-film", "chip-repair"],
+  "body_order": ["suv", "pickup", "car"],
+
+  "eyebrow": "The Truck Wall",
+  "crumbs_label": "Breadcrumb",
+  "crumb_home": "Home",
+  "crumb_gallery": "Gallery",
+
+  "hub": {
+    "key": "all",
+    "label": "All jobs",
+    "h1": "Real jobs. One standard.",
+    "lead": "Finished jobs from the shop, one photo at a time. Tap a photo to see it larger, or filter by service and vehicle.",
+    "schema_name": "BC Glass and Tint job gallery",
+    "meta_title": "Window Tint Photo Gallery, Real Jobs | BC Glass &amp; Tint",
+    "meta_description": "See {count} real window tint, home film, commercial film and chip repair jobs from BC Glass &amp; Tint in Boulder City, NV. Filter by service or vehicle."
+  },
+
+  "services": {
+    "auto-tint": {
+      "label": "Auto tint",
+      "crumb": "Auto tint",
+      "h1": "Auto tint jobs",
+      "lead": "Window tint on cars, SUVs and pickups we have finished. Tap a photo to see it larger.",
+      "schema_name": "Auto tint jobs by BC Glass and Tint",
+      "meta_title": "Auto Tint Photos: Cars, SUVs and Pickups | BC Glass &amp; Tint",
+      "meta_description": "{count} real auto tint jobs from BC Glass &amp; Tint in Boulder City: cars, SUVs and pickups. See the photos, then build your tint or call.",
+      "aliases": ["car tint", "vehicle", "window tint"],
+      "action_label": "Build this look",
+      "action_href": "/build-your-tint"
+    },
+    "home-film": {
+      "label": "Home film",
+      "line_label": "Home window film",
+      "crumb": "Home film",
+      "h1": "Home window film jobs",
+      "lead": "Window film on home windows, from sliding windows to a kitchen window over the sink.",
+      "schema_name": "Home window film jobs by BC Glass and Tint",
+      "meta_title": "Home Window Film Photos | BC Glass &amp; Tint",
+      "meta_description": "{count} real home window film jobs from BC Glass &amp; Tint, from sliding windows to a kitchen window. See the photos, then call the shop with questions.",
+      "aliases": ["house", "residential", "window film", "glass"],
+      "action_label": "About home window film",
+      "action_href": "/home-tint"
+    },
+    "commercial-film": {
+      "label": "Commercial film",
+      "line_label": "Commercial window film",
+      "crumb": "Commercial film",
+      "h1": "Commercial window film jobs",
+      "lead": "Window film on storefront and office glass.",
+      "schema_name": "Commercial window film jobs by BC Glass and Tint",
+      "meta_title": "Commercial Window Film Photos | BC Glass &amp; Tint",
+      "meta_description": "{count} real commercial window film jobs from BC Glass &amp; Tint, on storefront and office glass. See the photos, then call the shop about your building.",
+      "aliases": ["storefront", "office", "business", "window film", "glass"],
+      "action_label": "About commercial film",
+      "action_href": "/commercial-film"
+    },
+    "chip-repair": {
+      "label": "Chip repair",
+      "line_label": "Windshield chip repair",
+      "crumb": "Chip repair",
+      "h1": "Windshield chip repair",
+      "lead": "Chip repair is done in house. Whether a chip can be repaired depends on its size, location and condition, so we look at it first.",
+      "schema_name": "Windshield chip repair photos by BC Glass and Tint",
+      "meta_title": "Windshield Chip Repair Photos | BC Glass &amp; Tint",
+      "meta_description": "{count} windshield chip photos from BC Glass &amp; Tint chip repair work in Boulder City. Chip repair is done in house; call the shop and we will look at yours.",
+      "aliases": ["windshield", "chip", "crack", "glass", "bullseye"],
+      "action_label": "About chip repair",
+      "action_href": "/chip-repair"
+    }
+  },
+
+  "bodies": {
+    "suv": {
+      "label": "SUV",
+      "crumb": "SUVs",
+      "h1": "Tinted SUVs",
+      "lead": "SUVs we have tinted, including {makes}. Tap a photo to see it larger.",
+      "schema_name": "Tinted SUVs by BC Glass and Tint",
+      "meta_title": "Tinted SUV Photos, Real Jobs | BC Glass &amp; Tint",
+      "meta_description": "{count} real SUV window tint jobs from BC Glass &amp; Tint, including {makes}. See the photos, then build your tint or call.",
+      "aliases": ["crossover"]
+    },
+    "pickup": {
+      "label": "Pickup",
+      "crumb": "Pickups",
+      "h1": "Tinted pickups",
+      "lead": "Pickup trucks we have tinted, including {makes}. Tap a photo to see it larger.",
+      "schema_name": "Tinted pickups by BC Glass and Tint",
+      "meta_title": "Tinted Pickup Truck Photos, Real Jobs | BC Glass &amp; Tint",
+      "meta_description": "{count} real pickup truck window tint jobs from BC Glass &amp; Tint, including {makes}. See the photos, then build your tint or call.",
+      "aliases": ["truck"]
+    },
+    "car": {
+      "label": "Car",
+      "crumb": "Cars",
+      "h1": "Tinted cars",
+      "lead": "Cars we have tinted, including {makes}. Tap a photo to see it larger.",
+      "schema_name": "Tinted cars by BC Glass and Tint",
+      "meta_title": "Tinted Car Photos, Real Jobs | BC Glass &amp; Tint",
+      "meta_description": "{count} real car window tint jobs from BC Glass &amp; Tint, including {makes}. See the photos, then build your tint or call.",
+      "aliases": []
+    }
+  },
+
+  "panels": {
+    "front-doors": "front doors",
+    "rear-doors": "rear doors"
+  },
+  "panels_both": "front and rear doors",
+
+  "honesty": "Photos and screens differ from real life: light, interior color and factory glass change the look.",
+
+  "filters": {
+    "label": "Filter the gallery",
+    "services": "Service",
+    "bodies": "Vehicle"
+  },
+
+  "search": {
+    "label": "Search the gallery",
+    "placeholder": "Search make, model or service",
+    "clear": "Clear search"
+  },
+
+  "status": {
+    "one": "1 photo",
+    "many": "{n} photos",
+    "zero": "No photos match"
+  },
+
+  "empty": {
+    "text": "No photos match yet. Call and we will tell you how it looks on your car.",
+    "call": "Call"
+  },
+
+  "dialog": {
+    "close": "Close photo",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "count": "{i} of {n}",
+    "call": "Call"
+  },
+
+  "meter": {
+    "eyebrow": "Light Meter",
+    "h2": "See how much light gets in",
+    "sim": "Simulation until our shade board photos are shot",
+    "body": "Each chip is drawn at the share of visible light a film lets in. 70 is the lightest on this board and 5 is the darkest. Tap a shade to start a build.",
+    "shades": [70, 50, 35, 20, 15, 5],
+    "unit": "light in",
+    "chip_aria": "{vlt} percent light in, start a build",
+    "href": "/build-your-tint",
+    "law_h": "Nevada tint law",
+    "law": "Under NRS 484D.440, front side windows must let in at least 35% of light, with a 7% tolerance, counting film and glass together. Rear and back glass has no darkness limit when the vehicle has outside mirrors on both sides. Windshield tint is allowed on the top strip only, and it cannot be red or amber."
+  },
+
+  "closing": {
+    "h2": "Call the shop.",
+    "lead": "Tell us the car and the look you want, or start a build first and we will pick it up from there.",
+    "call": "Call",
+    "build": "Build your tint",
+    "build_href": "/build-your-tint"
+  }
+}

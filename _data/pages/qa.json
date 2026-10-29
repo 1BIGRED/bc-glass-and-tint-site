@@ -9,6 +9,19 @@
     "intro_lead": "Everything customers ask about tint, glass, and our work. Still stuck? Call or text ",
     "intro_tail": "."
   },
+  "v2": {
+    "eyebrow": "Questions and answers",
+    "topics_label": "Jump to a topic",
+    "general_id": "general",
+    "more_id": "headlights",
+    "search": {
+      "label": "Search the questions",
+      "placeholder": "Search, for example ceramic, insurance or blinds",
+      "count_all": "{total} questions",
+      "count_some": "Showing {shown} of {total} questions",
+      "empty": "No question matches that. Call or text us and we will give you a straight answer."
+    }
+  },
   "faq_main": [
     {
       "id": null,
@@ -54,9 +67,9 @@
       "items": [
         { "question": "Will tint make my house or office too dark?", "answer": "We offer light, nearly clear films that block heat and UV while keeping your view and natural light." },
         { "question": "Does sunlight through my windows really fade furniture and flooring?", "answer": "Yes, and it is the most visible sign of how much UV is coming through ordinary glass. The same rays that fade furnishings, flooring, and fabric keep working on a mild day, not only a hot one. Cutting that exposure down is one of the main reasons people put film on a west-facing room. Source: The Skin Cancer Foundation." },
-        { "question": "Does it actually lower cooling bills?", "answer": "Yes. By blocking solar heat your HVAC works less, which lowers bills through Nevada summers." },
-        { "question": "Can you do large storefronts and offices?", "answer": "Absolutely. We offer free estimates for offices, retail, restaurants and more, including security and privacy film." },
-        { "question": "How does the process work?", "answer": "Here is exactly what to expect. You reach out and we set up a free consultation, in person or over the phone. We look at the windows you want done, take measurements, and walk you through your film and shade options. Then we send a clear written quote with the price up front, no guessing and no pressure. When you are ready we book your install date, and on that day our team does the work on site, usually in a single visit, and leaves your home or business clean." }
+        { "question": "Does it actually lower cooling bills?", "answer": "Film turns away part of the sun's heat at the glass, so a sunny room stays more comfortable and your air conditioning does not have to fight the sun as hard. We do not promise a number on your bill, because what you see depends on your home, your glass and the film you choose." },
+        { "question": "Can you do large storefronts and offices?", "answer": "Absolutely. We offer free quotes for offices, retail, restaurants and more, including security and privacy film." },
+        { "question": "How does the process work?", "answer": "Here is what to expect. You call or text us and we give you a free quote based on what you tell us: the windows you want done, or for a vehicle its year, make and model. We walk you through your film and shade options. For blinds and shades we measure at your windows and order to those measurements. When you are ready we book your install date, and on that day our team does the work, usually in a single visit, and leaves your home or business clean. The price is up front, with no guessing and no pressure." }
       ]
     },
     {
@@ -65,10 +78,10 @@
       "trailing_blank": false,
       "last": false,
       "items": [
-        { "question": "Should I repair or replace a chip or crack?", "answer": "If it is a small chip or a small crack, we check it first and can usually fill and seal it before it spreads. When the damage is too large to repair safely, we subcontract the replacement to a glass specialist and manage it for you, with OEM-spec glass ordered to your VIN." },
-        { "question": "Is chip repair covered by insurance?", "answer": "Often yes, and it is far cheaper than a full replacement. We can help with the claim." },
-        { "question": "Will insurance cover a full windshield replacement?", "answer": "Often, yes, and it depends on your policy rather than on us. Comprehensive coverage is what usually applies, and some policies treat glass differently from the rest of your deductible. We handle these claims regularly and can help you work through yours. Bring your policy details when you call and we will tell you what we can, then order the glass to your VIN once you are ready.", "compact": true },
-        { "question": "How fast is a windshield replacement?", "answer": "Same day means the same day as your scheduled appointment, not the day you call. Chip repair we do in our own shop; full replacements we subcontract to a glass specialist and manage for you. We do not keep windshields in stock. We need your VIN to order the correct OEM-spec glass for your vehicle, so it is very unlikely we can replace a windshield on the day you first ring us. What we can usually do is get you booked in that day. Once the glass arrives, the replacement itself is finished in one visit." }
+        { "question": "Should I repair or replace a chip or crack?", "answer": "If it is a small chip or a small crack, we check it first and can usually fill and seal it before it spreads. When the damage is too large to repair safely, the replacement is arranged with a glass specialist we work with, with the glass ordered to your VIN." },
+        { "question": "Is chip repair covered by insurance?", "answer": "Sometimes, depending on your policy. We can help with the claim." },
+        { "question": "Will insurance cover a full windshield replacement?", "answer": "It can, and it depends on your policy rather than on us. Comprehensive coverage is what usually applies, and some policies treat glass differently from the rest of your deductible. We can help you work through the claim. Bring your policy details when you call and we will tell you what we can, then the glass is ordered to your VIN once you are ready.", "compact": true },
+        { "question": "How fast is a windshield replacement?", "answer": "Same day means the same day as your scheduled appointment, not the day you call. Chip repair we do in our own shop; a full replacement is arranged with a glass specialist we work with. We do not keep windshields in stock. We need your VIN to order the correct glass for your vehicle, so it is very unlikely we can replace a windshield on the day you first ring us. What we can usually do is get you booked in that day. Once the glass arrives, the replacement itself is finished in one visit." }
       ]
     },
     {
@@ -79,7 +92,7 @@
       "items": [
         { "question": "Is clear bra really invisible?", "answer": "Nearly. We install a clear urethane paint protection film with a self-healing top coat. It absorbs rock chips and road debris, and light scratches disappear with heat from the sun. Partial or full coverage is available." },
         { "question": "How long does ceramic coating last?", "answer": "Up to 7 years with proper care. We use DuraSlic DS 1500 Xtreme, and it holds a deep, hydrophobic gloss for that life. When we coat a vehicle we treat the paint, glass, and plastic trim, so the whole exterior is protected, not just the paint." },
-        { "question": "What kinds of blinds do you install?", "answer": "Three main styles, plus motorized options on any of them. Everything is measured at your windows and ordered to those measurements.<ul style=\"margin:10px 0 10px 20px;padding:0\"><li style=\"margin-bottom:8px\"><b>Cellular shades</b>, also called honeycomb. The cells hold a pocket of trapped air between you and the glass, and that trapped air is what slows the heat coming through. This is the best insulator of the three, so it is what we point people toward for west facing rooms and for anyone trying to take load off the air conditioning.</li><li style=\"margin-bottom:8px\"><b>Roller shades</b>. A single flat panel on a tube, in a range of openness factors. A tighter weave blocks more heat and glare, a more open weave keeps your view out the window. Good where you want light control without giving up the outlook, and they sit close to the glass so they work well over window film.</li><li style=\"margin-bottom:8px\"><b>Roman shades</b>. Fabric that gathers into soft horizontal folds as it lifts. This is the decorative choice of the three, the one that reads like a soft furnishing rather than a window covering. It insulates less than cellular, so it is a look first option.</li><li><b>Motorized</b>, available on all of the above. No cords, which matters in a house with young kids or pets, and you can put tall or hard to reach windows on a remote or a schedule so they close through the hottest part of the afternoon with nobody home to do it.</li></ul>Sized for the Nevada climate means we account for the sun each opening actually gets. A south or west facing window has a harder job than a north facing one, and it should not get the same shade by default." },
+        { "question": "What kinds of blinds do you install?", "answer": "Three main styles, plus motorized options on any of them. Everything is measured at your windows and ordered to those measurements.<ul><li><b>Cellular shades</b>, also called honeycomb. The cells hold a pocket of trapped air between you and the glass, and that trapped air is what slows the heat coming through. This is the best insulator of the three, so it is what we point people toward for west facing rooms and for anyone trying to take load off the air conditioning.</li><li><b>Roller shades</b>. A single flat panel on a tube, in a range of openness factors. A tighter weave blocks more heat and glare, a more open weave keeps your view out the window. Good where you want light control without giving up the outlook, and they sit close to the glass so they work well over window film.</li><li><b>Roman shades</b>. Fabric that gathers into soft horizontal folds as it lifts. This is the decorative choice of the three, the one that reads like a soft furnishing rather than a window covering. It insulates less than cellular, so it is a look first option.</li><li><b>Motorized</b>, available on all of the above. No cords, which matters in a house with young kids or pets, and you can put tall or hard to reach windows on a remote or a schedule so they close through the hottest part of the afternoon with nobody home to do it.</li></ul>Sized for the Nevada climate means we account for the sun each opening actually gets. A south or west facing window has a harder job than a north facing one, and it should not get the same shade by default." },
         { "question": "How long will my car be at the shop for a ceramic coating?", "answer": "Usually two to four days, depending on the car. The paint has to be decontaminated and corrected before anything is bonded to it, and darker paint shows every swirl, so it takes more correction work than a light color does. After the coating goes on we keep the vehicle for a further 24 hours while it cures. Tell us the vehicle and we will give you a realistic window before you book.", "compact": true },
         { "question": "What do I need to avoid after a ceramic coating?", "answer": "Keep it dry while it finishes curing. For the first 24 hours to three days, depending on conditions, do not wash the vehicle, do not park it where sprinklers can reach it, and try to keep it out of the rain. Water spotting during the cure is the one thing that can spoil an otherwise perfect finish. We will tell you the exact window for your car when you pick it up.", "compact": true },
         { "question": "Are custom blinds available same day like the tint work?", "answer": "No, and it is worth knowing up front. Blinds and shades are measured at your windows and then ordered to those measurements, so they are built for your openings rather than pulled off a shelf. That means there is a wait between the measurement visit and the install visit. Our same day messaging applies to vehicle work, not to made to order window coverings. We will tell you the expected timing when we measure.", "compact": true }
@@ -104,6 +117,6 @@
     "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers"
   },
   "schema": {
-    "date_modified": "2026-08-27"
+    "date_modified": "2026-10-29"
   }
 }

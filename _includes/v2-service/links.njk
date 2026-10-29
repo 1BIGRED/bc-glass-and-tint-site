@@ -1,0 +1,15 @@
+{#- Cross-links: the page's own "also" list (pages[page_key].also). Plain hairline text links, no
+    icons. Heading: the page's own (pg.also.heading) or the shared "Also Serving". -#}
+<section class="v2-band v2-section" aria-labelledby="sv-also-h">
+  <div class="v2-wrap v2-stack v2-stack--md">
+    <div class="v2-stack v2-intro">
+      <h2 class="v2-h2" id="sv-also-h">{{ (pg.also.heading or sh.service_also.heading) | safe }}</h2>
+      <p class="v2-body">{{ sh.service_also.sub_intro | safe }}<a href="/qa">{{ sh.service_also.sub_link | safe }}</a>{{ sh.service_also.sub_outro | safe }}</p>
+    </div>
+    <ul class="sv-links">
+{%- for l in pg.also.links %}
+      <li><a href="{{ l.href | safe }}">{{ l.label | safe }}</a></li>
+{%- endfor %}
+    </ul>
+  </div>
+</section>

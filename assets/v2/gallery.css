@@ -1,0 +1,160 @@
+/* BC Glass & Tint v2: the gallery, "The Truck Wall" (hub and filter pages), plus the Light Meter
+   shade board on the hub. Loaded after v2.css through extra_css. Tokens only: every color and
+   both font families come from the token block in v2.css; this file has no literal colors.
+   Motion: transform and opacity only, ease-out, 100 to 300 ms, press scale(0.97). Filters and
+   search get no animation at all (things used constantly). Everything is static under
+   prefers-reduced-motion. */
+
+[hidden]{display:none !important}
+
+/* ---------- Page head ---------- */
+.tw-head{padding-top:72px;padding-bottom:8px}
+.tw-head__in{display:flex;flex-direction:column;gap:14px}
+.tw-h1{font-family:var(--font-display);font-weight:600;font-size:clamp(44px,6vw,76px);line-height:.98;letter-spacing:.005em;color:var(--text);max-width:22ch}
+.tw-lead{font-size:18px;line-height:1.55;color:var(--text-2);max-width:60ch}
+.tw-honesty{font-size:13px;line-height:1.55;color:var(--muted);max-width:62ch;padding-top:4px}
+.tw-crumbs ol{display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;font-size:13px;color:var(--muted)}
+.tw-crumbs li+li::before{content:"/";margin-right:10px;color:var(--line-3)}
+.v2 .tw-crumbs a{color:var(--muted);display:inline-flex;align-items:center;min-height:44px;text-underline-offset:3px}
+.v2 .tw-crumbs a:hover{color:var(--text)}
+.tw-crumbs [aria-current]{color:var(--text-2)}
+
+/* ---------- Filters and search ---------- */
+.tw-tools{padding-top:28px;padding-bottom:20px}
+.tw-tools__in{display:flex;flex-direction:column;gap:18px}
+.tw-filters{display:flex;flex-wrap:wrap;gap:16px 40px}
+.tw-fgroup{display:flex;flex-direction:column;gap:8px;min-width:0}
+.tw-flabel{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.tw-flist{display:flex;flex-wrap:wrap;gap:8px}
+.v2 .tw-f{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line-2);border-radius:999px;color:var(--text);text-decoration:none;font-size:14px;background:transparent;-webkit-tap-highlight-color:transparent;transition:transform 120ms var(--ease-out)}
+.v2 .tw-f:hover{border-color:var(--line-3);color:var(--text)}
+.v2 .tw-f:active{transform:scale(.97)}
+.v2 .tw-f[aria-current="page"]{background:var(--sel);color:var(--sel-ink);border-color:var(--sel);font-weight:500}
+.tw-n{font-size:12px;color:var(--muted)}
+.v2 .tw-f[aria-current="page"] .tw-n{color:var(--sel-ink)}
+.tw-search{display:flex;flex-wrap:wrap;align-items:center;gap:10px;max-width:520px}
+.tw-q{flex:1 1 260px;min-width:0;min-height:48px;padding:0 16px;background:var(--panel);border:1px solid var(--line-2);border-radius:2px;color:var(--text);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
+.tw-q::placeholder{color:var(--muted);opacity:1}
+.tw-q::-webkit-search-cancel-button{-webkit-appearance:none}
+.tw-q:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.tw-qclear{min-height:44px;padding:0 14px;background:transparent;border:1px solid var(--line-2);border-radius:2px;color:var(--text);font:inherit;font-size:14px;cursor:pointer;transition:transform 120ms var(--ease-out)}
+.tw-qclear:active{transform:scale(.97)}
+.tw-status{font-size:13px;color:var(--muted);min-height:20px}
+
+/* ---------- The wall ---------- */
+.tw-wall{padding-bottom:96px}
+.tw-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 16px}
+.tw-item{min-width:0}
+.tw-tile{display:flex;flex-direction:column;gap:10px}
+.v2 .tw-open{display:block;color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.tw-media{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:2px;background:var(--panel);transition:transform 140ms var(--ease-out)}
+.tw-media img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+/* hover and focus lift the photo 4 percent with a light layer that only changes opacity */
+.tw-media::after{content:"";position:absolute;inset:0;background:var(--text);opacity:0;transition:opacity 160ms var(--ease-out);pointer-events:none}
+.tw-open:focus-visible .tw-media{outline:3px solid var(--focus);outline-offset:3px}
+.tw-open:active .tw-media{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){
+  .tw-open:hover .tw-media::after{opacity:.05}
+}
+.tw-open:focus-visible .tw-media::after{opacity:.05}
+.tw-cap{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tw-cap__t{font-size:14px;font-weight:500;line-height:1.35;color:var(--text)}
+.tw-cap__s{font-size:13px;line-height:1.45;color:var(--muted)}
+.tw-empty{display:flex;flex-direction:column;align-items:flex-start;gap:18px;padding:40px 0 8px;max-width:560px}
+.tw-empty__t{font-size:18px;color:var(--text-2)}
+
+/* ---------- Light Meter shade board (hub) ---------- */
+.tw-sim{display:inline-block;align-self:flex-start;padding:6px 12px;border:1px solid var(--cta);border-radius:999px;font-size:13px;font-weight:500;color:var(--text)}
+.tw-shades{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.v2 .tw-shade{position:relative;display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:2px;background:var(--panel);color:var(--text);text-decoration:none;overflow:hidden;-webkit-tap-highlight-color:transparent;transition:transform 120ms var(--ease-out)}
+.v2 .tw-shade:hover{border-color:var(--line-3);color:var(--text)}
+.v2 .tw-shade:active{transform:scale(.97)}
+.tw-shade__glass{position:relative;display:block;height:112px;background:var(--ill-glass)}
+.tw-shade__glass::before{content:"";position:absolute;inset:0;background:var(--ill-tint);opacity:var(--o,0)}
+.tw-shade__n{display:block;padding:14px 14px 0;font-family:var(--font-display);font-weight:600;font-size:56px;line-height:.95;letter-spacing:-.02em}
+.tw-shade__pct{font-size:.5em;margin-left:2px;vertical-align:top;position:relative;top:.12em}
+.tw-shade__l{display:block;padding:4px 14px 14px;font-size:13px;color:var(--muted)}
+.tw-law{display:flex;flex-direction:column;gap:6px;max-width:68ch;padding-top:20px;border-top:1px solid var(--line-2)}
+.tw-law__h{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- Closing call block ---------- */
+.tw-closing{padding-top:96px;padding-bottom:96px}
+.tw-closing .v2-stack{align-items:flex-start}
+.tw-closing__lead{max-width:52ch}
+.tw-closing__num{font-family:var(--font-display);font-weight:600;font-size:clamp(40px,6vw,72px);line-height:1;font-variant-numeric:tabular-nums}
+.v2 .tw-closing__num a{color:var(--text);text-decoration:none;display:inline-block;padding:4px 0;border-bottom:1px solid var(--cta)}
+.v2 .tw-closing__num a:hover{color:var(--text);border-bottom-color:var(--accent-hover)}
+
+/* ---------- Lightbox (native dialog) ---------- */
+html.tw-lock{overflow:hidden;scrollbar-gutter:stable}
+.tw-box{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:var(--bg);color:var(--text);overflow:hidden}
+@supports (background:color-mix(in srgb,red 50%,transparent)){
+  .tw-box{background:color-mix(in srgb,var(--bg) 97%,transparent)}
+}
+.tw-box::backdrop{background:transparent}
+.tw-box[open]{display:flex;align-items:center;justify-content:center;animation:tw-in 180ms var(--ease-out)}
+@keyframes tw-in{from{opacity:0}to{opacity:1}}
+.tw-box__in{position:relative;width:min(1180px,100%);max-height:100%;display:flex;flex-direction:column;gap:16px;padding:64px var(--gutter) 24px;overflow:auto}
+.tw-x{position:absolute;top:12px;right:var(--gutter);width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--line-2);border-radius:2px;color:var(--text);cursor:pointer;transition:transform 120ms var(--ease-out)}
+.tw-x:active,.tw-nav:active{transform:scale(.97)}
+.tw-stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
+.tw-dimg{display:block;width:auto;height:auto;max-width:100%;max-height:calc(100dvh - 300px);object-fit:contain;border-radius:2px;background:var(--panel)}
+.tw-nav{position:absolute;top:50%;margin-top:-24px;width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;background:var(--bg);border:1px solid var(--line-2);border-radius:2px;color:var(--text);cursor:pointer;z-index:1;transition:transform 120ms var(--ease-out)}
+@supports (background:color-mix(in srgb,red 50%,transparent)){
+  .tw-nav{background:color-mix(in srgb,var(--bg) 78%,transparent)}
+}
+.tw-nav--prev{left:8px}
+.tw-nav--next{right:8px}
+.tw-box button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.tw-box a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.tw-info{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px}
+.tw-info__txt{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 280px}
+.tw-info__t{font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.1;letter-spacing:.01em}
+.tw-info__s{font-size:14px;color:var(--text-2)}
+.tw-info__c{font-size:13px;color:var(--muted)}
+.tw-acts{display:flex;flex-wrap:wrap;gap:12px}
+.tw-info__note{flex:1 1 100%;max-width:64ch}
+
+/* ---------- Tablet ---------- */
+@media (min-width:768px) and (max-width:1023.98px){
+  .tw-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tw-shades{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+/* ---------- Phone ---------- */
+@media (max-width:767.98px){
+  .tw-head{padding-top:40px}
+  .tw-lead{font-size:16px}
+  .tw-tools{padding-top:20px;padding-bottom:14px}
+  .tw-filters{gap:12px;flex-direction:column;flex-wrap:nowrap}
+  .tw-fgroup{margin-right:calc(var(--gutter) * -1)}
+  .tw-flist{flex-wrap:nowrap;overflow-x:auto;padding-right:var(--gutter);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tw-flist::-webkit-scrollbar{display:none}
+  .tw-flist li{flex:0 0 auto}
+  .tw-search{max-width:none}
+  .tw-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 10px}
+  .tw-cap__t{font-size:13px}
+  .tw-cap__s{font-size:12px}
+  .tw-wall{padding-bottom:56px}
+  .tw-shades{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .tw-shade__glass{height:84px}
+  .tw-shade__n{font-size:44px;padding:10px 10px 0}
+  .tw-shade__l{padding:2px 10px 10px;font-size:12px}
+  .tw-closing{padding-top:48px;padding-bottom:48px}
+  .tw-box__in{padding:64px 0 16px;gap:12px}
+  .tw-info{padding:0 var(--gutter)}
+  .tw-x{right:var(--gutter)}
+  .tw-dimg{max-height:calc(100dvh - 340px)}
+  .tw-acts{width:100%}
+  .tw-acts .v2-btn{flex:1 1 100%;min-height:52px}
+  .tw-nav{width:44px;height:44px;margin-top:-22px}
+  .tw-nav--prev{left:4px}
+  .tw-nav--next{right:4px}
+  .tw-info__t{font-size:26px}
+}
+
+/* ---------- Reduced motion: every state is static, press scale off ---------- */
+@media (prefers-reduced-motion:reduce){
+  .tw-box[open]{animation:none}
+  .v2 .tw-f:active,.v2 .tw-shade:active,.tw-open:active .tw-media,.tw-x:active,.tw-nav:active,.tw-qclear:active{transform:none}
+}

@@ -1,21 +1,33 @@
-{#- v2 site header. Wording: pages.shared.v2. Phone number: site.json. The status chip is empty
-    on the server and filled by assets/v2/status.js, so it never states hours without knowing them.
-    Desktop (1180px and up): logo, nav, status, gold Call button with the number.
-    Tablet: logo, status, Call button, menu. Phone: logo, 44px call icon, menu. -#}
+{#- v2 site header (CREATIVE-DIRECTION.md 11.0 and 9.4). Wording: pages.shared.v2. Phone: site.json.
+    The status chip is empty on the server and filled by assets/v2/status.js, so it never states
+    hours without knowing them.
+    Desktop (1024px and up): logo, four links, status chip, phone number as a text link (1180px
+    and up), Call button. The Call button is gold, except while an in-page gold call is on screen
+    (.is-quiet, set by menu.js), so a screen never carries two gold fills.
+    Tablet: logo, status, Call button, Menu. Phone: logo, status dot, 44px call icon (outline;
+    the sticky bar is the gold call), Menu text button.
+    On pages with header_over (the homepage) the header is fixed and transparent over the hero
+    and its ink background fades in once the hero has scrolled away (.is-solid, menu.js). -#}
 {%- set w = pages.shared.v2 -%}
-<header class="v2-header">
+{#- Active link: pages are built as /gallery.html, /auto-tint.html and so on, so strip a
+    trailing ".html" (and "index") before comparing; any /gallery/... filter page counts as
+    Gallery. -#}
+{%- set curUrl = (page.url or "/") | replace(r/index\.html$/, "") | replace(r/\.html$/, "") | replace(r/\/+$/, "") -%}
+{%- if not curUrl %}{% set curUrl = "/" %}{% endif -%}
+<header class="v2-header" data-v2-header>
   <div class="v2-header__in">
     <a class="v2-logo" href="/"><img src="/logo-hero.png" width="640" height="238" alt="{{ w.logo_alt | safe }}" decoding="async"></a>
     <nav class="v2-nav" aria-label="{{ w.nav_label | safe }}">
 {%- for l in w.nav %}
-      <a href="{{ l.href | safe }}"{% if page.url == l.href or page.url == l.href + "/" %} aria-current="page"{% endif %}>{{ l.label | safe }}</a>
+      <a href="{{ l.href | safe }}"{% if curUrl == l.href or (l.href != "/" and curUrl.indexOf(l.href + "/") == 0) %} aria-current="page"{% endif %}>{{ l.label | safe }}</a>
 {%- endfor %}
     </nav>
     <div class="v2-header__cta">
       <span class="v2-status" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span>
-      <a class="v2-btn v2-btn--gold v2-header__call" href="tel:{{ site.phone.tel | safe }}">{{ w.call | safe }} {{ site.phone.display_call | safe }}</a>
-      <a class="v2-iconbtn v2-iconbtn--gold v2-header__icall" href="tel:{{ site.phone.tel | safe }}" aria-label="{{ w.call_aria | safe }} {{ site.phone.display_call | safe }}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
-      <button type="button" class="v2-iconbtn v2-menubtn" id="v2-menu-btn" aria-expanded="false" aria-controls="v2-drawer" aria-label="{{ w.menu_label | safe }}" data-open-label="{{ w.menu_label | safe }}" data-close-label="{{ w.close_label | safe }}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <a class="v2-header__tel" href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a>
+      <a class="v2-btn v2-btn--gold v2-header__call" href="tel:{{ site.phone.tel | safe }}" aria-label="{{ w.call_aria | safe }} {{ site.phone.display_call | safe }}">{{ w.call | safe }}</a>
+      <a class="v2-iconbtn v2-header__icall" href="tel:{{ site.phone.tel | safe }}" aria-label="{{ w.call_aria | safe }} {{ site.phone.display_call | safe }}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
+      <button type="button" class="v2-iconbtn v2-menubtn" id="v2-menu-btn" aria-expanded="false" aria-controls="v2-drawer" data-open-label="{{ w.menu_label | safe }}" data-close-label="{{ w.close_label | safe }}"><span class="v2-menubtn__t">{{ w.menu_label | safe }}</span></button>
     </div>
   </div>
   <nav class="v2-drawer" id="v2-drawer" aria-label="{{ w.menu_label | safe }}" hidden>

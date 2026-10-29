@@ -10,6 +10,21 @@
     "intro": "A boat or an RV needs a different kind of window film work than a car. We tint curved windshields, cabin windows and side glass on boats, and cab, entry and slide-out windows on RVs, all done at our shop in Boulder City near Lake Mead. We are the Boulder City shop, in Boulder City, since 1994, not a valley company driving out to meet you. If you keep a boat at Lake Mead, trailer one in for the season, or live in Boulder City with an RV in the driveway, this is a job we do every season, not a side offering.",
     "quote_btn": "Get a Free Boat or RV Quote"
   },
+  "v2": {
+    "eyebrow": "Boat and RV tint"
+  },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "Quoted to your boat or RV.",
+    "text": "Boat and RV glass varies a great deal, so we quote after we know what you have. Call or send the form and tell us about the glass.",
+    "note": "The glass on your boat or RV sets the final price.",
+    "cards": [
+      { "kind": "quote", "title": "Boat and RV window tint" }
+    ],
+    "links": [
+      { "label": "All prices", "href": "/prices" }
+    ]
+  },
   "need": {
     "heading": "Why Lake Mead <span>Boats and RVs</span> Need It",
     "sub": "What the lake does to glass, and to whatever is sitting behind it.",
@@ -42,7 +57,7 @@
   },
   "law": {
     "heading": "Is There a Tint Law <span>for Boats and RVs?</span>",
-    "sub": "Nevada's window tint statute, NRS 484D.440, is written for motor vehicles on the road. It does not address watercraft, and we are not going to stretch a car and truck law to cover a boat. Whether an RV counts as a motor vehicle under that statute is a question we want a straight answer to before we put it in writing, so for now, ask us about legal shade options for your vehicle. See our <a href=\"/nevada-tint-law\" style=\"color:var(--goldsm);font-weight:700\">Nevada window tint law, explained</a> page for what the statute actually covers."
+    "sub": "Nevada's window tint statute, NRS 484D.440, is written for motor vehicles on the road. It does not address watercraft, and we are not going to stretch a car and truck law to cover a boat. Whether an RV counts as a motor vehicle under that statute is a question we want a straight answer to before we put it in writing, so for now, ask us about legal shade options for your vehicle. See our <a href=\"/nevada-tint-law\">Nevada window tint law, explained</a> page for what the statute actually covers."
   },
   "season": {
     "heading": "Getting Ready for the <span>Season</span>",
@@ -67,7 +82,7 @@
     "details_label": "Boat or RV details"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Boat and RV Window Tint",
       "name": "Boat and RV Window Tint Near Lake Mead",

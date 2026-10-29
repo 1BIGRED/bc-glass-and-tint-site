@@ -21,15 +21,17 @@ module.exports = {
         },
         "name-first"
       );
-      const block0 = S.graph([
+      // The v2 layout prints one JSON-LD script from schema_ld, so the three former blocks
+      // travel together in one @graph (same nodes, one business @id, FAQPage built from the
+      // same visible faq.items, BreadcrumbList Home -> New Construction).
+      return S.graph([
         svc,
         S.businessNode(data.site),
         S.websiteNode(data.site),
-        S.webpageNode({ slug: data.slug, name: S.plain(pg.meta.title), dateModified: sc.date_modified })
+        S.webpageNode({ slug: data.slug, name: S.plain(pg.meta.title), dateModified: sc.date_modified }),
+        S.faqPageNode(pg.faq.items, { slug: data.slug }),
+        S.breadcrumbNode({ slug: data.slug, name: sc.breadcrumb_name })
       ]);
-      const block1 = S.faqPageNode(pg.faq.items, { standalone: true });
-      const block2 = S.breadcrumbNode({ slug: data.slug, name: sc.breadcrumb_name, standalone: true });
-      return [block0, block1, block2];
     }
   }
 };

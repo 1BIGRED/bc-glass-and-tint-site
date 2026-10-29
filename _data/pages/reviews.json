@@ -8,22 +8,19 @@
     "sub": "{google_count} Google reviews and a {google_rating} star average across Southern Nevada."
   },
   "ratings": {
-    "heading": "Five Stars on <span>Every Platform</span>",
-    "sub": "Three places customers can review us. All three say the same thing. Counts as of August 2026.",
-    "note": "Every rating above is counted and hosted by that platform, not by us. Click any card to read the reviews at the source.",
+    "heading": "Read them <span>at the source</span>",
+    "sub": "Customers review us in a few places. Each platform counts and hosts its own reviews.",
+    "note": "Every rating is counted and hosted by that platform, not by us. Each link opens the reviews at the source.",
     "google": {
+      "label": "on Google",
       "score": "{google_rating}",
       "count": "{google_count} reviews",
       "cta": "Read them on Google"
     },
     "yelp": {
-      "score": "{yelp_rating}",
-      "count": "{yelp_count} reviews",
       "cta": "Read them on Yelp"
     },
     "tintwiz": {
-      "score": "{tintwiz_rating}",
-      "count": "{tintwiz_count} reviews",
       "cta": "Read them on Tint Wiz"
     }
   },
@@ -44,24 +41,25 @@
     "all_link": "Read all {google_count} reviews on Google"
   },
   "yelp_block": {
-    "count_label": "({yelp_count} reviews)",
-    "score": "{yelp_rating}",
-    "items": [
-      { "quote": "This is my 3rd amazing tint installation by BC tint on my new pickup. Matched the factory tint perfectly. Highly recommended this family owned business.", "name": "Scott F." },
-      { "quote": "I have been going to BC Glass and Tint for over 23 years since 2002, and they are simply the best! I drive 40 minutes each way because I trust this amazing family-owned shop.", "name": "Maureen S." },
-      { "quote": "I would highly recommend BC Glass &amp; Tint! They tinted my new Silverado and the entire process was super easy and everyone was super friendly. They did a great job!", "name": "Cynthia S." },
-      { "quote": "Very professional service. Ceramic coating turned out perfect, on time and reasonable price. Would highly recommend!", "name": "Marc W." },
-      { "quote": "They answered all our questions. They got us in quickly. The prices were reasonable, and the final product was gorgeous.", "name": "Denise A." },
-      { "quote": "Got me in fast and did great work replacing my windshield. Couldn't have been better, and couldn't beat the price.", "name": "Francis S." }
-    ],
     "link_text": "Read our reviews on Yelp",
     "tintwiz_link_text": "Read our reviews on Tint Wiz"
+  },
+  "v2": {
+    "eyebrow": "Reviews",
+    "leave_link": "Leave us a Google review",
+    "list_heading": "In their words",
+    "list_label": "Google review",
+    "other_heading": "More places to read about us",
+    "contact": {
+      "heading": "Talk to a person.",
+      "closed_prefix": "Closed"
+    }
   },
   "quote": {
     "source": "Reviews",
     "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers"
   },
   "schema": {
-    "date_modified": "2026-08-27"
+    "date_modified": "2026-10-29"
   }
 }

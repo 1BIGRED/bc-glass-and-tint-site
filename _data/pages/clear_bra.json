@@ -28,19 +28,30 @@
       "Preserves resale value"
     ]
   },
+  "v2": {
+    "eyebrow": "Clear bra and paint protection"
+  },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "Quoted to your vehicle.",
+    "text": "The price depends on your vehicle and how much of it you cover, from the front end to the full car. Call or send the form and we will quote it.",
+    "note": "The vehicle and the coverage you choose set the final price.",
+    "cards": [
+      { "kind": "service", "key": "clear_bra", "title": "Clear bra, paint protection film" }
+    ],
+    "links": [
+      { "label": "All prices", "href": "/prices" }
+    ]
+  },
   "reviews": {
     "heading": "What <span>Customers</span> Say",
     "sub": "Real reviews from BC Glass and Tint customers.",
+    "label": "Google review",
     "items": [
       {
         "platform": "google",
         "quote": "Amazing prices and attention to detail. 100% worth the drive from Vegas. Will definitely be back.",
         "name": "Payne Fordham"
-      },
-      {
-        "platform": "yelp",
-        "quote": "Justin and his crew do incredible work. Always top notch and perfect. True perfectionist.",
-        "name": "Brandon L."
       },
       {
         "platform": "google",
@@ -84,8 +95,7 @@
       {
         "href": "/headlight-taillight",
         "icon": "i-shield",
-        "label": "Headlight Restoration",
-        "same_line": true
+        "label": "Headlight Restoration"
       },
       {
         "href": "/blinds",
@@ -109,7 +119,7 @@
     "preselect": "Clear Bra / PPF"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Paint Protection Film (Clear Bra)",
       "name": "Paint Protection Film (Clear Bra) in Boulder City, NV",

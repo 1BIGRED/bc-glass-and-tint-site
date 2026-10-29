@@ -7,7 +7,7 @@
   "hero": {
     "crumb": "Home / Residential Tint",
     "heading": "Home &amp; Residential Window Tinting in Boulder City, NV",
-    "intro": "The west-facing room that turns into an oven by mid-afternoon. The couch cushion that faded a shade lighter than the rest. The habit of keeping the blinds shut on a bright day just to keep the room usable. Residential window film solves exactly this, blocking up to 99 percent of UV rays so floors, art and furniture stop taking the damage, installed on site at your Boulder City, Henderson or Las Vegas home. Just moved into a <a href=\"/new-construction\" style=\"color:var(--gold);font-weight:700\">new Boulder City community</a>? We tint new homes before move-in day."
+    "intro": "The west-facing room that turns into an oven by mid-afternoon. The couch cushion that faded a shade lighter than the rest. The habit of keeping the blinds shut on a bright day just to keep the room usable. Residential window film solves exactly this, protecting floors, art and furniture from the UV that fades them, installed on site at your Boulder City, Henderson or Las Vegas home. Just moved into a <a href=\"/new-construction\">new Boulder City community</a>? We tint new homes before move-in day."
   },
   "band": [
     "XPEL &amp; ASWF Film",
@@ -19,18 +19,40 @@
   "content": {
     "image_alt": "Home &amp; Residential Window Tinting in Boulder City, NV",
     "heading": "Home / Residential Tint",
-    "intro": "Lower your cooling bills, stop your furniture and floors from fading, and cut glare, all without losing your view or natural light.",
+    "intro": "Stop your furniture and floors from fading, cut glare, and take the edge off west-facing afternoon sun, all without losing your view or natural light.",
     "bullets": [
-      "Cuts cooling costs in Nevada summers",
+      "Takes the edge off west-facing afternoon sun",
       "Protects furniture, flooring and art",
       "Reduces glare on TVs and screens",
       "Adds privacy while keeping the light",
       "Mobile service available"
     ]
   },
+  "v2": {
+    "eyebrow": "Home and residential film",
+    "work": {
+      "eyebrow": "Recent work",
+      "heading": "Recent BC jobs",
+      "note": "Photos and screens differ from real life."
+    }
+  },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "Know the price before you call.",
+    "text": "Home film depends on the windows and doors you want done. Call or send the form and we will quote your house.",
+    "note": "The windows and doors you choose set the final price.",
+    "cards": [
+      { "kind": "service", "key": "home_film_per_window", "title": "Home window film" },
+      { "kind": "service", "key": "sliding_door", "title": "Sliding glass door film" }
+    ],
+    "links": [
+      { "label": "All prices", "href": "/prices" }
+    ]
+  },
   "reviews": {
     "heading": "What <span>Home Tint</span> Customers Say",
     "sub": "Real reviews from Boulder City homeowners.",
+    "label": "Google review",
     "items": [
       {
         "platform": "google",
@@ -104,7 +126,7 @@
     "details_placeholder": "Rooms or windows (optional) - no medical, insurance or license numbers"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Residential Window Tinting",
       "name": "Residential Window Tinting in Boulder City, NV",

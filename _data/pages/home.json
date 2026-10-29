@@ -208,72 +208,79 @@
   },
   "v2": {
     "hero": {
-      "eyebrow": "FAMILY OWNED SINCE 1994 · BOULDER CITY, NV",
-      "heading": "Tint that fits like it came with the car.",
-      "lede": "Computer-cut ceramic film, a lifetime manufacturer warranty on the film, and most vehicles finished the same day.",
-      "price_label": "Full vehicle tint from",
-      "price": "auto_tint.coverage.full_vehicle",
+      "eyebrow": "Boulder City, Nevada. Family owned since 1994.",
+      "heading": "Window tint for the desert sun.",
+      "lede": "Cars, homes and offices. Lifetime manufacturer warranty on the film.",
       "build_link": "Build your tint and see the price",
       "build_href": "/build-your-tint",
-      "call_note": "Have your vehicle's year and model handy.",
       "image": "hero-taycan",
-      "image_alt": "Dark Porsche Taycan with tinted windows, parked outside the BC Glass and Tint shop"
+      "image_alt": "Black Porsche Taycan with tinted side windows, parked in the desert sun outside a stucco building"
     },
-    "phone_quote": {
-      "name": "Dennis Wolcott",
+    "quote1": {
+      "name": "Steven Hamberg",
       "label": "Google review",
-      "rating_line": "Rated {google_rating} on Google"
+      "link": "Read the reviews",
+      "href": "/reviews"
     },
-    "proof": [
-      { "title": "Since 1994", "text": "Family owned, on Boulder City Pkwy" },
-      { "title": "Computer-cut", "text": "Cut from a pattern, no trimming on your glass" },
-      { "title": "Lifetime warranty", "text": "On the film, from the manufacturer" },
-      { "title": "Rated {google_rating} on Google", "text": "{google_count} Google reviews" }
-    ],
-    "build": {
-      "eyebrow": "BUILD YOUR TINT",
-      "heading": "Pick the windows. Pick the shade. See the price.",
-      "text": "Tap the windows, choose a shade for each one and see it on the car. Then call with your build and we confirm the price.",
-      "svg_label": "Illustration of a sedan with tinted side windows",
-      "chips": ["Front doors", "Rear doors", "Back glass", "Windshield top strip"],
-      "note": "Illustration, not a photo of your vehicle. Front door shades follow Nevada's 35 percent rule.",
-      "estimate_label": "Estimate for this build",
-      "estimate_price": "auto_tint.coverage.full_vehicle",
-      "estimate_note": "Exact price confirmed by phone. No surprises.",
-      "cta": "START YOUR BUILD",
+    "meter": {
+      "eyebrow": "Build your tint",
+      "heading": "Pick a shade. See it on your car.",
+      "text": "The number is how much light gets through, so lower is darker. Try any shade on your type of vehicle in the builder, then call with your build.",
+      "selected": 35,
+      "unit": "light in",
+      "darkest": "Darkest",
+      "lightest": "Lightest",
+      "chip_aria": "Try {n} percent in the builder",
+      "legal": "Nevada front side windows: film and glass together must let in at least 35% of light, with a 7% tolerance.",
+      "legal_cite": "NRS 484D.440",
+      "sim_note": "Simulation on screen, not real film.",
+      "cta": "Open the builder",
       "href": "/build-your-tint"
     },
     "prices": {
-      "eyebrow": "PRICES, OUT IN THE OPEN",
-      "heading": "Know what it costs before you call.",
-      "text": "Window film carries a lifetime manufacturer warranty. Your exact price depends on the vehicle and is confirmed by phone, no surprises.",
+      "eyebrow": "Prices",
+      "heading": "Know the price before you call.",
       "unknown": "Call for a quote",
+      "from_word": "From",
       "cards": [
-        { "title": "Two front doors", "sub": "Match the factory rear glass", "price": "auto_tint.coverage.two_front_doors", "cta": "Call to confirm" },
-        { "title": "Full vehicle", "sub": "Side windows and back glass", "price": "auto_tint.coverage.full_vehicle", "cta": "Call to confirm", "featured": true },
-        { "title": "Windshield chip repair", "sub": "Done in our own shop, usually same day", "price": "services.chip_repair_first", "note_price": "services.chip_repair_additional", "note": "first chip, {price} each after", "note_alone": "first chip", "cta": "Call to book" },
-        { "title": "Home film, per window", "sub": "Homes and offices across the valley", "price": "services.home_film_per_window", "cta": "Call to confirm", "phone_only": true }
+        { "eyebrow": "Auto tint", "title": "Front doors", "price": "auto_tint.coverage.two_front_doors", "includes": ["Both front side windows", "Match the factory rear glass"], "build": true },
+        { "eyebrow": "Auto tint", "title": "Full vehicle", "price": "auto_tint.coverage.full_vehicle", "includes": ["Side windows and back glass", "Windshield strip and sunroof priced separately"], "build": true },
+        { "eyebrow": "Windshield", "title": "Chip repair", "price": "services.chip_repair_first", "note_price": "services.chip_repair_additional", "note": "First chip. {price} each chip after that.", "note_alone": "First chip.", "includes": ["Done in our own shop", "Most chips, same day"], "build": false }
       ],
-      "footnote": "Home and office film, blinds, ceramic coating and clear bra: see the ",
-      "footnote_link": "full price guide",
+      "build_link": "Build this",
+      "build_href": "/build-your-tint",
+      "call_link": "Call about this",
+      "strip": ["Lifetime manufacturer warranty on the film", "Exact price confirmed by phone, no surprises"],
+      "footnote": "A From price is where that job starts. Your exact price depends on the vehicle and is confirmed by phone.",
+      "all_link": "All prices",
       "href": "/prices"
     },
     "gallery": {
-      "eyebrow": "SEE THE SHADE FIRST",
-      "heading": "Real cars we tinted, by window and shade.",
-      "link": "Search the full gallery",
+      "eyebrow": "Recent work",
+      "heading": "Every car, the same standard.",
+      "honest": "Photos and screens differ from real life. Ask to hold the film against your glass at the shop.",
+      "strip_label": "Recent auto tint jobs, scroll sideways for more",
+      "service_tag": "Auto tint",
+      "link": "See the gallery",
       "href": "/gallery",
-      "count": 4
+      "count": 8
     },
     "services": {
-      "heading": "What we do",
+      "eyebrow": "What we do",
+      "heading": "Tint, film and shades.",
       "tiles": [
-        { "title": "Auto tint", "text": "Ceramic film, computer-cut, most vehicles same day.", "href": "/auto-tint", "image": "colorado" },
-        { "title": "Home and office film", "short": "Home and office", "text": "Keep the view, cut the glare on west-facing glass.", "href": "/home-tint", "gallery_id": "home-sliding-window-backyard-tree" },
-        { "title": "Windshield chip repair", "short": "Chip repair", "text": "Done in our own shop. Replacements arranged with a glass specialist.", "href": "/chip-repair", "image": "chip-real" }
+        { "title": "Auto tint", "text": "Ceramic film, computer-cut, most vehicles same day.", "link": "Auto tint", "href": "/auto-tint", "image": "colorado" },
+        { "title": "Home and office film", "text": "Keep the view, cut the glare on west-facing glass.", "link": "Home and office film", "href": "/home-tint", "gallery_id": "home-sliding-window-backyard-tree", "cream": true },
+        { "title": "Blinds and shades", "text": "Light, privacy and the feel of the room. Measured at your home, motorized if you want it.", "link": "Blinds and shades", "href": "/blinds", "slats": "Blinds", "cream": true }
       ],
-      "chips": [
-        { "label": "Blinds and motorized shades", "href": "/blinds" },
+      "chip_row": {
+        "title": "Windshield chip repair.",
+        "text": "Done in our own shop, most chips same day. Replacements are arranged with a glass specialist we work with.",
+        "link": "Chip repair",
+        "href": "/chip-repair"
+      },
+      "more_label": "Also",
+      "more": [
         { "label": "Clear bra", "href": "/clear-bra" },
         { "label": "Ceramic coating", "href": "/ceramic-coating" },
         { "label": "Headlights and taillights", "href": "/headlight-taillight" },
@@ -282,22 +289,28 @@
       ]
     },
     "reviews": {
+      "eyebrow": "Reviews",
       "heading": "In their words",
       "label": "Google review",
-      "names": ["Dennis Wolcott", "Kristie Bergman", "Steven Hamberg"]
+      "names": ["Kristie Bergman", "Payne Fordham", "Jessica Harrison"],
+      "link": "Read more reviews",
+      "href": "/reviews"
     },
     "how": {
-      "heading": "How it works",
+      "eyebrow": "No surprises",
+      "heading": "What happens when you call",
       "steps": [
-        { "title": "1. CALL OR TEXT", "text": "Tell us the vehicle and which windows. Ask anything." },
-        { "title": "2. PICK YOUR SHADES", "text": "Choose your shades, then we cut the film by computer to fit your glass." },
-        { "title": "3. DRIVE HOME COOLER", "text": "Most vehicles are done the same day." }
+        { "title": "Call or text", "text": "Tell us the vehicle and which windows. Ask anything." },
+        { "title": "Pick your shade", "text": "Name the shade, or read us the build code from Build Your Tint." },
+        { "title": "We book a time", "text": "Most vehicles are done the same day." }
       ]
     },
     "faq": {
-      "heading": "Questions"
+      "eyebrow": "Questions",
+      "heading": "Before you call"
     },
     "contact": {
+      "eyebrow": "Call the shop",
       "heading": "Talk to a person.",
       "closed_prefix": "Closed",
       "callback_link": "Rather have us call you?"

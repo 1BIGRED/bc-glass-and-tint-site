@@ -1,0 +1,19 @@
+{#- "Start here" block for the windshield page: chip repair first, with the real chip photo.
+    Wording: pages[page_key].lead { eyebrow, heading, text, cta, href, image_alt, image_caption }.
+    Photo: _data/v2images.json "chip-real", a real BC job photo (never stock). -#}
+{%- from "v2/macros.njk" import pic -%}
+{%- set ldb = pg.lead -%}
+<section class="v2-section" aria-labelledby="sv-lead-h">
+  <div class="v2-wrap sv-story">
+    <div class="sv-story__text">
+      <p class="v2-eyebrow">{{ ldb.eyebrow | safe }}</p>
+      <h2 class="v2-h2" id="sv-lead-h">{{ ldb.heading | safe }}</h2>
+      <p>{{ ldb.text | safe }}</p>
+      <a class="v2-textlink" href="{{ ldb.href | safe }}">{{ ldb.cta | safe }}</a>
+    </div>
+    <figure class="sv-hero__media" style="--pos:50% 48%">
+      {{ pic(v2images["chip-real"], ldb.image_alt, "(min-width: 1024px) 540px, 100vw", "sv-hero__img") | safe }}
+      <figcaption>{{ ldb.image_caption | safe }}</figcaption>
+    </figure>
+  </div>
+</section>

@@ -8,7 +8,8 @@
     "crumb": "Nevada Tint Law",
     "heading": "Nevada Window Tint Law, Explained",
     "intro": "Nevada's tint law sets one hard number for your front side windows: the glass and film together must pass no less than 35 percent of light, allowing a 7 percent tolerance, and the film itself cannot be reflective. Only a narrow strip at the very top of the windshield may carry any film at all. Your rear window and back side windows are free to go as dark as Nevada allows, provided your vehicle keeps outside mirrors on both sides. Every rule on this page comes straight from Nevada Revised Statutes 484D.440, cited line by line, so you can see exactly where each requirement comes from before you choose a shade.",
-    "quote_btn": "Get a Free Tint Quote"
+    "quote_btn": "Get a Free Tint Quote",
+    "eyebrow": "Nevada law, NRS 484D.440"
   },
   "statute": {
     "heading": "What the <span>Statute</span> Says",
@@ -78,10 +79,26 @@
   "also": {
     "heading": "Related <span>Pages</span>",
     "links": [
-      { "href": "/auto-tint", "icon": "i-car", "label": "Auto / Vehicle Tint" },
-      { "href": "/henderson", "icon": "i-pin", "label": "Window Tinting in Henderson" },
-      { "href": "/las-vegas", "icon": "i-pin", "label": "Window Tint &amp; Auto Glass in Las Vegas" },
-      { "href": "/qa", "icon": "i-check", "label": "Full FAQ" }
+      {
+        "href": "/auto-tint",
+        "icon": "i-car",
+        "label": "Auto / Vehicle Tint"
+      },
+      {
+        "href": "/henderson",
+        "icon": "i-pin",
+        "label": "Window Tinting in Henderson"
+      },
+      {
+        "href": "/las-vegas",
+        "icon": "i-pin",
+        "label": "Window Tint &amp; Auto Glass in Las Vegas"
+      },
+      {
+        "href": "/qa",
+        "icon": "i-check",
+        "label": "Full FAQ"
+      }
     ]
   },
   "quote": {
@@ -90,5 +107,22 @@
   },
   "schema": {
     "date_modified": "2026-08-27"
+  },
+  "meter": {
+    "value": "35",
+    "unit": "%",
+    "label": "Front side windows",
+    "text": "The least visible light that may pass through the glass and film together, with a 7 percent tolerance. The film must be nonreflective.",
+    "source": "Source: Nevada Revised Statutes 484D.440."
+  },
+  "next": {
+    "heading": "Ready to pick a shade?",
+    "text": "Try shades on a vehicle illustration and see the price in the tint builder.",
+    "link": "Build your tint",
+    "href": "/build-your-tint"
+  },
+  "contact": {
+    "heading": "Talk to a person.",
+    "closed_prefix": "Closed"
   }
 }

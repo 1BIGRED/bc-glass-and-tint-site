@@ -3,12 +3,15 @@
     pic(im, alt, sizes, cls, opts): a responsive <picture> from one _data/v2images.json entry
       (AVIF, WebP, JPEG). opts.eager true = no lazy loading; opts.high true = fetchpriority high.
       width and height are always printed so the browser reserves the space (no layout shift).
-    galleryPic(it, sizes, cls): an image from one _data/gallery.json item (640 and 1280 JPEG). -#}
+    galleryPic(it, sizes, cls, alt): an image from one _data/gallery.json item (640 and 1280 JPEG).
+      Image paths in gallery.json may or may not carry a leading slash; both work. -#}
 {% macro pic(im, alt, sizes, cls, opts) -%}
 {%- set o = opts or {} -%}
 <picture><source type="image/avif" srcset="{{ im.avif }}" sizes="{{ sizes }}"><source type="image/webp" srcset="{{ im.webp }}" sizes="{{ sizes }}"><img{% if cls %} class="{{ cls }}"{% endif %} src="{{ im.fallback }}" srcset="{{ im.jpeg }}" sizes="{{ sizes }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ alt | safe }}"{% if o.high %} fetchpriority="high"{% endif %}{% if not o.eager %} loading="lazy" decoding="async"{% endif %}></picture>
 {%- endmacro %}
 
 {% macro galleryPic(it, sizes, cls, alt) -%}
-<img{% if cls %} class="{{ cls }}"{% endif %} src="/{{ it.img640 }}" srcset="/{{ it.img640 }} {{ it.w640 }}w, /{{ it.img1280 }} {{ it.w }}w" sizes="{{ sizes }}" width="{{ it.w }}" height="{{ it.h }}" alt="{{ (alt if alt is defined else it.alt) | safe }}" loading="lazy" decoding="async">
+{%- set a640 = it.img640 if (it.img640 | string)[0] == "/" else "/" + it.img640 -%}
+{%- set a1280 = it.img1280 if (it.img1280 | string)[0] == "/" else "/" + it.img1280 -%}
+<img{% if cls %} class="{{ cls }}"{% endif %} src="{{ a640 }}" srcset="{{ a640 }} {{ it.w640 }}w, {{ a1280 }} {{ it.w }}w" sizes="{{ sizes }}" width="{{ it.w }}" height="{{ it.h }}" alt="{{ (alt if alt is defined else it.alt) | safe }}" loading="lazy" decoding="async">
 {%- endmacro %}

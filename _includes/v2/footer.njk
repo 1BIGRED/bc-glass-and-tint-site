@@ -1,13 +1,19 @@
-{#- v2 site footer. Contact facts: site.json. Link lists: pages.shared.footer (same lists as the old
-    footer). Bottom line wording: pages.shared.v2.footer. #ckreopen is the cookie choices link
-    js/cookie.njk listens for; keep the id. -#}
+{#- v2 site footer (CREATIVE-DIRECTION.md 11.12: --ink-1, logo, address, hours, phone, the main
+    links, legal links, no badge wall). Contact facts: site.json. Main links: pages.shared.v2.nav.
+    The service and area link lists (pages.shared.footer, the same lists as the old footer) stay
+    so every existing page keeps an internal link. Bottom line wording: pages.shared.v2.footer.
+    #ckreopen is the cookie choices link js/cookie.njk listens for; keep the id. -#}
 {%- set w = pages.shared.v2.footer -%}
 {%- set f = pages.shared.footer -%}
 <footer class="v2-footer">
   <div class="v2-wrap v2-footer__cols">
     <div>
-      <p class="v2-footer__h">{{ site.name_html | safe }}</p>
-      <p>{{ site.address.display | safe }}<br><a href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a><br><a href="mailto:{{ site.email | safe }}">{{ site.email | safe }}</a><br>{{ site.hours.display | safe }}</p>
+      <a class="v2-footer__logo" href="/"><img src="/logo-hero.png" width="640" height="238" alt="{{ pages.shared.v2.logo_alt | safe }}" loading="lazy" decoding="async"></a>
+      <p>{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}<br><a href="tel:{{ site.phone.tel | safe }}" class="v2-num">{{ site.phone.display_call | safe }}</a><br><a href="mailto:{{ site.email | safe }}">{{ site.email | safe }}</a></p>
+    </div>
+    <div class="v2-footer__main">
+      <p class="v2-footer__h">{{ w.main_heading | safe }}</p>
+      <ul>{% for l in pages.shared.v2.nav %}<li><a href="{{ l.href | safe }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
     </div>
     <div>
       <p class="v2-footer__h">{{ f.services_heading | safe }}</p>
@@ -19,8 +25,8 @@
     </div>
   </div>
   <div class="v2-wrap v2-footer__bar">
-    <span>{{ site.name_html | safe }} · {{ w.tagline | safe }}</span>
-    <span><a href="/privacy-policy">{{ w.privacy | safe }}</a> · <a href="#" id="ckreopen">{{ w.cookies | safe }}</a> · <a href="{{ w.tint_law_href | safe }}">{{ w.tint_law | safe }}</a></span>
+    <span>{{ w.tagline | safe }}</span>
+    <span><a href="/privacy-policy">{{ w.privacy | safe }}</a><a href="#" id="ckreopen">{{ w.cookies | safe }}</a><a href="{{ w.tint_law_href | safe }}">{{ w.tint_law | safe }}</a></span>
   </div>
   <div class="v2-wrap v2-footer__copy">&copy; {{ f.copyright_year | safe }} {{ site.name_html | safe }}. {{ f.rights | safe }}</div>
 </footer>

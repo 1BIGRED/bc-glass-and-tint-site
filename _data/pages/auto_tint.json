@@ -21,23 +21,42 @@
     "heading": "Auto / Vehicle Tint",
     "intro": "Keep your car cooler, block UV rays, and protect your interior with computer-cut film that fits perfectly with no trimming on your glass, backed by a lifetime warranty and Nevada-legal shades.",
     "bullets": [
-      "Blocks up to 99% of UV rays",
-      "Cuts interior heat dramatically",
+      "Ceramic film blocks up to 99% of UV rays",
+      "Helps keep the cabin cooler",
       "Nevada-legal shade options",
       "Computer-cut, no trimming on your glass",
       "Lifetime warranty on all films"
     ],
-    "footnote": "Not sure what shade is legal on your vehicle? <a href=\"/nevada-tint-law\" style=\"color:var(--goldsm);font-weight:700\">See Nevada window tint law, explained</a>."
+    "footnote": "Not sure what shade is legal on your vehicle? <a href=\"/nevada-tint-law\">See Nevada window tint law, explained</a>."
+  },
+  "v2": {
+    "eyebrow": "Auto window tint",
+    "work": {
+      "eyebrow": "Recent work",
+      "heading": "Recent BC jobs",
+      "note": "Photos and screens differ from real life."
+    }
+  },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "Know the price before you call.",
+    "text": "The price depends on your vehicle and which windows you tint. Build your tint to see where it lands, or call and we will go over it with you.",
+    "note": "Your vehicle and the windows you choose set the final price.",
+    "cards": [
+      { "kind": "coverage", "key": "two_front_doors", "title": "Front doors", "sub": "Price by vehicle type" },
+      { "kind": "coverage", "key": "rear_doors_and_back_glass", "title": "Rear doors and back glass", "sub": "Price by vehicle type" },
+      { "kind": "coverage", "key": "full_vehicle", "title": "Full vehicle", "sub": "Side and back glass, price by vehicle type" }
+    ],
+    "links": [
+      { "label": "Build your tint and see the price", "href": "/build-your-tint" },
+      { "label": "All prices", "href": "/prices" }
+    ]
   },
   "reviews": {
     "heading": "What <span>Auto Tint</span> Customers Say",
     "sub": "Real reviews from BC Glass and Tint customers.",
+    "label": "Google review",
     "items": [
-      {
-        "platform": "yelp",
-        "quote": "This is my 3rd amazing tint installation by BC tint on my new pickup. Matched the factory tint perfectly. Highly recommended this family owned business.",
-        "name": "Scott F."
-      },
       {
         "platform": "google",
         "quote": "Fast, friendly and did an amazing job. I've had multiple vehicles tinted here and will never go anywhere else.",
@@ -85,8 +104,7 @@
       {
         "href": "/headlight-taillight",
         "icon": "i-shield",
-        "label": "Headlight Restoration",
-        "same_line": true
+        "label": "Headlight Restoration"
       },
       {
         "href": "/blinds",
@@ -110,7 +128,7 @@
     "preselect": "Auto / Vehicle Tint"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Auto Window Tinting",
       "name": "Auto Window Tinting in Boulder City, NV",

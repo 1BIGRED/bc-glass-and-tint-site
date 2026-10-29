@@ -29,40 +29,27 @@
       "Professional install, and we fix what is not right"
     ]
   },
+  "v2": {
+    "eyebrow": "Blinds and window treatments"
+  },
   "extra": {
     "shades": {
       "heading": "Find the Right <span>Window Treatment</span>",
       "sub": "Every room handles light differently. We help you pick the treatment that fits the space, then build it to fit your windows.",
       "cards": [
         {
-          "alt": "Roller shades lowered across a dining room window wall",
-          "src": "images/shade-roller.webp",
-          "width": "900",
-          "height": "600",
           "title": "Roller Shades",
           "text": "Clean and simple. A smooth fabric panel rolls away for the full view and drops for instant privacy. A great fit for living areas and offices."
         },
         {
-          "alt": "Cellular honeycomb shades on a bright living room window",
-          "src": "images/shade-cellular.webp",
-          "width": "900",
-          "height": "600",
           "title": "Cellular Shades",
           "text": "Honeycomb cells trap a layer of air at the glass, helping insulate your rooms against Nevada summer heat and winter cold."
         },
         {
-          "alt": "Tan Roman shades with folded fabric panels above a window",
-          "src": "images/shade-roman.webp",
-          "width": "900",
-          "height": "600",
           "title": "Roman Shades",
           "text": "Soft fabric folds that give bedrooms and living rooms a warm, finished look while still controlling light and privacy."
         },
         {
-          "alt": "Remote control operating motorized window blinds",
-          "src": "images/shade-motorized.webp",
-          "width": "900",
-          "height": "600",
           "title": "Motorized Blinds &amp; Shades",
           "text": "Raise and lower at the touch of a button. The answer for tall windows, stairwells and hard-to-reach glass."
         }
@@ -73,41 +60,45 @@
       "sub": "From first call to finished windows, the process is simple.",
       "items": [
         {
-          "icon": "i-phone",
           "title": "1. Get a free quote",
           "text": "Call, text or send the form below. Tell us about your windows and the rooms you want to improve."
         },
         {
-          "icon": "i-check",
           "title": "2. Made to fit",
           "text": "Your blinds and shades are sized to your windows for a clean, custom fit. No off-the-shelf guesswork."
         },
         {
-          "icon": "i-blinds",
           "title": "3. Professional installation",
           "text": "Our team installs every unit and checks its operation before we leave. If anything is not right, tell us and we fix it."
         },
         {
-          "icon": "i-clock",
           "title": "4. Enjoy the room",
           "text": "Better light control, more privacy and a more comfortable home, fitted and finished by one local shop."
         }
       ]
     }
   },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "Priced to your windows.",
+    "text": "Blinds and shades depend on the treatment, the size of each window and how many you want. Call or send the form and we will quote it.",
+    "note": "The treatment and the size of your windows set the final price.",
+    "cards": [
+      { "kind": "service", "key": "blinds_from", "title": "Blinds and window treatments" }
+    ],
+    "links": [
+      { "label": "All prices", "href": "/prices" }
+    ]
+  },
   "reviews": {
     "heading": "What <span>Customers</span> Say",
     "sub": "Real reviews from BC Glass and Tint customers.",
+    "label": "Google review",
     "items": [
       {
         "platform": "google",
         "quote": "They have tinted and installed window coverings for my home, and every one of my cars has been tinted by them. I always recommend them to anyone who gets a new house.",
         "name": "Maureen Springer"
-      },
-      {
-        "platform": "yelp",
-        "quote": "They answered all our questions. They got us in quickly. The prices were reasonable, and the final product was gorgeous.",
-        "name": "Denise A."
       },
       {
         "platform": "google",
@@ -171,7 +162,7 @@
     "details_placeholder": "Rooms or windows (optional) - no medical, insurance or license numbers"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Blinds & Window Treatments",
       "name": "Blinds & Window Treatments in Boulder City, NV",

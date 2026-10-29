@@ -10,8 +10,20 @@
     "intro": "Cloudy, yellowed headlights make a good car look tired, and they cut down how much light actually reaches the road. We restore them back to clear at our Boulder City shop, and we also apply protection film and tint to headlights and taillights. Same shop, same family, since 1994. If you are in Boulder City, Henderson or Las Vegas and your lights have gone hazy, this is a quick job that changes how the whole front of the car reads.",
     "quote_btn": "Get a Free Quote"
   },
-  "photo": {
-    "alt": "Headlight lens masked with tape and machine polished during a headlight restoration"
+  "v2": {
+    "eyebrow": "Headlights and taillights"
+  },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "Quoted to your vehicle.",
+    "text": "Restoration, protection film and light tint each depend on your vehicle and your lights. Call or send the form and we will quote it.",
+    "note": "Your vehicle and the lights you want done set the final price.",
+    "cards": [
+      { "kind": "service", "key": "headlight_restoration", "title": "Headlight restoration" }
+    ],
+    "links": [
+      { "label": "All prices", "href": "/prices" }
+    ]
   },
   "restoration": {
     "heading": "Headlight <span>Restoration</span>",
@@ -38,7 +50,7 @@
       "Available for headlights, taillights or both",
       "Computer-cut to your vehicle"
     ],
-    "outro": "The best time to do this is right after a restoration, or on a new vehicle before the sun has had a chance to start on it. See our <a href=\"/clear-bra\" style=\"color:var(--goldsm);font-weight:700\">clear bra and paint protection</a> page for the same film on your paint."
+    "outro": "The best time to do this is right after a restoration, or on a new vehicle before the sun has had a chance to start on it. See our <a href=\"/clear-bra\">clear bra and paint protection</a> page for the same film on your paint."
   },
   "smoked": {
     "heading": "Smoked and <span>Tinted Lights</span>",
@@ -55,7 +67,7 @@
     "sub": "Two provisions worth knowing, quoted from the statute rather than from a forum.",
     "tail_lamps": "<b>Tail lamps.</b> NRS 484D.115 requires a tail lamp to emit a red light plainly visible from a distance of 500 feet to the rear.",
     "lamp_colors": "<b>Lamp colors.</b> NRS 484D.145 requires rear lamps, reflectors and marker lamps near the rear to display or reflect red, and front marker lamps to display amber. A stop light may be red, amber or yellow.",
-    "closing": "Nevada sets those as performance requirements about what your lights do, not as a percentage number for how dark a film may be. That is why we talk about it per vehicle instead of quoting a figure. For the separate rules covering window tint, see our <a href=\"/nevada-tint-law\" style=\"color:var(--goldsm);font-weight:700\">Nevada window tint law</a> page."
+    "closing": "Nevada sets those as performance requirements about what your lights do, not as a percentage number for how dark a film may be. That is why we talk about it per vehicle instead of quoting a figure. For the separate rules covering window tint, see our <a href=\"/nevada-tint-law\">Nevada window tint law</a> page."
   },
   "also": {
     "heading": "Related <span>Pages</span>",
@@ -90,7 +102,7 @@
     "details_label": "Vehicle year, make and model"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Headlight Restoration",
       "name": "Headlight Restoration, Protection Film and Light Tinting",

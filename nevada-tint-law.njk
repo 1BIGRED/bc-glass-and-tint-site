@@ -1,8 +1,10 @@
 ---
-# Slim informational page with a visible FAQ. All wording is in _data/pages/nevada_tint_law.json;
-# markup lives here. JSON-LD: nevada-tint-law.11tydata.js (FAQPage built from the same faq.items
-# shown below). This page puts the sticky call bar BEFORE the quote section (see
-# ARCHITECTURE/INVENTORY "slim" family gotcha).
+# Nevada tint law, v2 (website overhaul, 2026-10-29). Layout: _includes/layouts/v2.njk. Styles:
+# assets/v2/v2.css plus assets/v2/pages.css. All wording is in _data/pages/nevada_tint_law.json.
+# Only the five verified NRS 484D.440 provisions, each cited. The 29 inch figure is not used.
+# The FAQPage JSON-LD (nevada-tint-law.11tydata.js) is built from the same faq.items printed here.
+layout: layouts/v2.njk
+extra_css: ["/assets/v2/pages.css"]
 permalink: nevada-tint-law.html
 slug: nevada-tint-law
 page_key: nevada_tint_law
@@ -10,77 +12,99 @@ og_image: images/hero.jpg
 ---
 {%- set pg = pages.nevada_tint_law -%}
 {%- set sh = pages.shared -%}
-{% include "head/top.njk" %}
+{%- set tel = site.phone.tel -%}
+{%- set callText = sh.v2.call + " " + site.phone.display_call -%}
 
-{% include "head/meta.njk" %}
-{% set ld = schema_ld %}{% include "jsonld.njk" %}
-
-{% include "css/main.njk" %}
-{% include "css/slim-extra.njk" %}
-{% include "css/page.njk" %}{% include "a11y-block.njk" %}
-{% include "css/tail.njk" %}
-{% include "head/clarity.njk" %}
-</head>
-<body>
-{% include "skip-link.njk" %}
-{% include "sprite.njk" %}
-{% include "util.njk" %}
-{% include "header.njk" %}
-<main id="main" tabindex="-1">
-
-<!-- UNIQUE:START nevada-tint-law -->
-<div class="phero"><p class="crumb"><a href="/">{{ sh.crumb.home | safe }}</a> / <a href="/#services">{{ sh.crumb.services | safe }}</a> / {{ pg.hero.crumb | safe }}</p><h1>{{ pg.hero.heading | safe }}</h1>
-  <p>{{ pg.hero.intro | safe }}</p>
-  <div class="pbtns"><a class="qbtn" href="tel:{{ site.phone.tel | safe }}">{{ sh.buttons.call | safe }} {{ site.phone.display | safe }}</a><a class="qbtn" style="background:transparent;color:#fff;border:1.5px solid #6f7885" href="#quote">{{ pg.hero.quote_btn | safe }}</a></div>
-</div>
-
-<section><div class="wrap">
-  <h2>{{ pg.statute.heading | safe }}</h2>
-  <p class="sub">{{ pg.statute.sub | safe }}</p>
-  <dl class="factlist">
-{% for it in pg.statute.items %}    <div>
-      <dt>{{ it.term | safe }}</dt>
-      <dd>{{ it.detail | safe }}<span class="src">{{ it.source | safe }}</span></dd>
+<section class="pg-head" aria-labelledby="pg-h1">
+  <div class="v2-wrap pg-head__in">
+    <div class="pg-head__copy">
+      <nav class="pg-crumb" aria-label="Breadcrumb"><a href="/">{{ sh.crumb.home | safe }}</a><span aria-hidden="true">/</span><a href="/#services">{{ sh.crumb.services | safe }}</a><span aria-hidden="true">/</span><span>{{ pg.hero.crumb | safe }}</span></nav>
+      <p class="v2-eyebrow">{{ pg.hero.eyebrow | safe }}</p>
+      <h1 class="pg-h1" id="pg-h1">{{ pg.hero.heading | safe }}</h1>
+      <p class="pg-lede">{{ pg.hero.intro | safe }}</p>
+      <div class="pg-actions">
+        <a class="v2-btn v2-btn--gold v2-btn--xl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
+        <a class="v2-textlink" href="#quote">{{ pg.hero.quote_btn | safe }}</a>
+      </div>
     </div>
-{% endfor %}  </dl>
-  <p class="sub" style="margin-top:22px">{{ pg.statute.footer_note | safe }}</p>
-</div></section>
+    <div class="pg-meter" style="--fill:{{ pg.meter.value / 100 }}">
+      <p class="pg-meter__label">{{ pg.meter.label | safe }}</p>
+      <p class="pg-meter__num v2-num">{{ pg.meter.value | safe }}<span class="pg-meter__unit">{{ pg.meter.unit | safe }}</span></p>
+      <div class="pg-meter__bar" aria-hidden="true"></div>
+      <p class="pg-meter__text">{{ pg.meter.text | safe }}</p>
+      <p class="pg-meter__src">{{ pg.meter.source | safe }}</p>
+    </div>
+  </div>
+</section>
 
-<section class="soft"><div class="wrap content">
-{% for b in pg.meaning.blocks %}  <div>
-    <h2>{{ b.heading | safe }}</h2>
-{% for p in b.paragraphs %}    <p>{{ p | safe }}</p>
-{% endfor %}  </div>
-{% endfor %}</div></section>
+<section class="v2-section" aria-labelledby="statute-h">
+  <div class="v2-wrap v2-stack v2-stack--lg">
+    <div class="v2-stack v2-intro">
+      <h2 class="v2-h2" id="statute-h">{{ pg.statute.heading | safe }}</h2>
+      <p class="v2-body">{{ pg.statute.sub | safe }}</p>
+    </div>
+    <ol class="pg-facts">
+{%- for it in pg.statute.items %}
+      <li class="pg-facts__row"><h3 class="pg-facts__t">{{ it.term | safe }}</h3><div class="pg-facts__d">{{ it.detail | safe }}<span class="pg-facts__src">{{ it.source | safe }}</span></div></li>
+{%- endfor %}
+    </ol>
+    <p class="v2-small">{{ pg.statute.footer_note | safe }}</p>
+  </div>
+</section>
 
-<section><div class="wrap">
-  <h2>{{ pg.faq.heading | safe }}</h2>
-  <div class="faq2">
-{% for item in pg.faq.items %}    <div class="item"><h3 class="q">{{ item.question | safe }}</h3><div class="a">{{ item.answer | safe }}</div></div>
-{% endfor %}  </div>
-</div></section>
+<section class="v2-band v2-section" aria-labelledby="meaning-h">
+  <div class="v2-wrap v2-stack v2-stack--lg">
+    <h2 class="v2-sr" id="meaning-h">{{ pg.meaning.blocks[0].heading | safe }}</h2>
+    <div class="pg-twocol">
+{%- for b in pg.meaning.blocks %}
+      <div class="pg-prose"><h3 class="pg-h2">{{ b.heading | safe }}</h3>{% for p in b.paragraphs %}<p>{{ p | safe }}</p>{% endfor %}</div>
+{%- endfor %}
+    </div>
+  </div>
+</section>
 
-<section class="soft"><div class="wrap">
-  <h2>{{ pg.also.heading | safe }}</h2>
-  <div class="otherlinks">
-{% for l in pg.also.links %}    <a href="{{ l.href | safe }}"><svg class="ic" aria-hidden="true"><use href="#{{ l.icon | safe }}"/></svg> {{ l.label | safe }}</a>
-{% endfor %}  </div>
-</div></section>
-<!-- UNIQUE:END nevada-tint-law -->
+<section class="v2-section" aria-labelledby="faq-h">
+  <div class="v2-wrap v2-stack v2-stack--lg">
+    <h2 class="v2-h2" id="faq-h">{{ pg.faq.heading | safe }}</h2>
+    <div class="pg-ref">
+{%- for item in pg.faq.items %}
+      <div class="pg-ref__item"><h3 class="pg-h3">{{ item.question | safe }}</h3><div class="pg-prose">{{ item.answer | safe }}</div></div>
+{%- endfor %}
+    </div>
+    <div class="pg-next">
+      <div class="v2-stack">
+        <h2 class="pg-h2">{{ pg.next.heading | safe }}</h2>
+        <p class="v2-body">{{ pg.next.text | safe }}</p>
+      </div>
+      <a class="v2-btn v2-btn--outline" href="{{ pg.next.href | safe }}">{{ pg.next.link | safe }}</a>
+    </div>
+  </div>
+</section>
 
-{% include "sticky-call.njk" %}
+<section class="v2-band v2-section" aria-labelledby="also-h">
+  <div class="v2-wrap v2-stack v2-stack--md">
+    <h2 class="v2-h2" id="also-h">{{ pg.also.heading | safe }}</h2>
+    <ul class="v2-svcchips">
+{%- for l in pg.also.links %}
+      <li><a href="{{ l.href | safe }}">{{ l.label | safe }}</a></li>
+{%- endfor %}
+    </ul>
+  </div>
+</section>
+
+{%- set week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] %}
+{%- set closedDays = [] %}
+{%- for d in week %}{% if not (d in site.hours.days) %}{% set _n = closedDays.push(d) %}{% endif %}{% endfor %}
+<section class="v2-band v2-section v2-contactwrap" aria-labelledby="contact-h">
+  <div class="v2-wrap v2-contact">
+    <div class="v2-contact__talk">
+      <h2 class="v2-h2 v2-h2--xl" id="contact-h">{{ pg.contact.heading | safe }}</h2>
+      <a class="v2-btn v2-btn--gold v2-btn--xxl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
+      <span class="v2-status v2-status--lg" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span>
+      <p class="v2-body">{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}.{% if closedDays.length %} {{ pg.contact.closed_prefix | safe }} {{ closedDays | join(" and ") }}.{% endif %}</p>
+    </div>
+    <div class="v2-contact__form">
 {% include "quote.njk" %}
-</main>
-{% include "footer.njk" %}
-{% include "js/burger.njk" %}
-{% include "js/emailbtn.njk" %}
-{% include "js/anim.njk" %}
-{% include "js/quote-submit.njk" %}
-{% include "js/source-vin.njk" %}
-
-{% include "js/gtag-events.njk" %}
-{% include "cookie-bar.njk" %}
-{% include "js/cookie.njk" %}
-{% include "js/svc-validate.njk" %}
-</body>
-</html>
+    </div>
+  </div>
+</section>

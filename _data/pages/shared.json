@@ -121,31 +121,36 @@
     "nav": [
       { "label": "Auto tint", "href": "/auto-tint" },
       { "label": "Home and office", "href": "/home-tint" },
-      { "label": "Windshield chips", "href": "/chip-repair" },
       { "label": "Prices", "href": "/prices" },
       { "label": "Gallery", "href": "/gallery" }
     ],
     "drawer_extra": [
+      { "label": "Windshield chip repair", "href": "/chip-repair" },
+      { "label": "Build your tint", "href": "/build-your-tint" },
       { "label": "Reviews", "href": "/reviews" },
       { "label": "About", "href": "/about" },
       { "label": "Questions and answers", "href": "/qa" },
       { "label": "Request a call back", "href": "/#quote" }
     ],
     "menu_label": "Menu",
-    "close_label": "Close menu",
-    "call": "CALL",
+    "close_label": "Close",
+    "call": "Call",
     "call_aria": "Call",
-    "text": "TEXT",
+    "text": "Text",
     "text_aria": "Text",
+    "text_now": "Text us now",
     "status": {
       "open": "Open now, until {close}",
       "closed_next": "Closed, opens {day} {open}",
       "closed": "Closed now",
       "today": "today",
-      "tomorrow": "tomorrow"
+      "tomorrow": "tomorrow",
+      "call_opens": "Call opens {day} {open}",
+      "days_short": { "Sunday": "Sun", "Monday": "Mon", "Tuesday": "Tue", "Wednesday": "Wed", "Thursday": "Thu", "Friday": "Fri", "Saturday": "Sat" }
     },
     "footer": {
-      "tagline": "Family owned since 1994 · Boulder City, Henderson and Las Vegas",
+      "main_heading": "BC Glass &amp; Tint",
+      "tagline": "Family owned since 1994. Boulder City, Henderson and Las Vegas.",
       "privacy": "Privacy",
       "cookies": "Cookie choices",
       "tint_law": "Nevada tint law",

@@ -11,6 +11,51 @@
     "intro": "Starting prices by vehicle, in plain numbers. Your vehicle and your glass can move a quote, so the exact number is confirmed on a short call. No surprises.",
     "intro_without_prices": "Where the shop has posted a price, you see it here. Everything else gets an exact number on a short call, for your vehicle or your home. No surprises."
   },
+  "schema": {
+    "date_modified": "2026-10-29",
+    "service_name": "Window tint, glass and film services"
+  },
+  "proof": [
+    { "title": "Since 1994", "text": "Family owned, on Boulder City Pkwy" },
+    { "title": "Lifetime warranty", "text": "On window film, from the manufacturer" },
+    { "title": "Free quotes", "text": "Call or text Tuesday to Saturday, 9 to 5" }
+  ],
+  "cards": {
+    "eyebrow": "STARTING PRICES",
+    "heading": "Where most jobs start.",
+    "from_word": "From",
+    "note_link_label": "See the price notes",
+    "build_link": "Build this",
+    "call_link": "Call about this",
+    "items": [
+      {
+        "eyebrow": "Auto tint, cars",
+        "title": "Full vehicle",
+        "price": "auto_tint.coverage.full_vehicle.car",
+        "includes": ["Front doors, rear doors and back glass", "Windshield top strip and sunroof are their own lines", "Front doors follow Nevada's 35% rule"],
+        "build_href": "/build-your-tint?b=C-35-15-15-0"
+      },
+      {
+        "eyebrow": "Windshield",
+        "title": "Chip repair",
+        "price": "services.chip_repair_first",
+        "note_price": "services.chip_repair_additional",
+        "note": "first chip, {price} each after",
+        "note_alone": "first chip",
+        "includes": ["Done in our own shop", "We check the chip before we repair it", "Most chips, same day"]
+      },
+      {
+        "eyebrow": "Home and office",
+        "title": "Window film",
+        "price": "services.home_film_per_window",
+        "note_alone": "per window",
+        "includes": ["Free estimate with measurements", "Lifetime manufacturer warranty on the film", "Homes and offices"]
+      }
+    ]
+  },
+  "row_labels": {
+    "blinds_from": "Blinds and window treatments"
+  },
   "price_fallback": "Call for a quote",
   "draft_tag": "Draft price",
   "cell_format": "{display} for {class_plural}",
@@ -101,5 +146,8 @@
     "Starting prices. Your exact price is confirmed by phone.",
     "Where you see Call for a quote, the shop has not posted a price yet."
   ],
-  "legal_footer": "Illustration only. Rules can change; check the current statute. This is not legal advice. NRS 484D.440."
+  "call_block": {
+    "heading": "Call the shop."
+  },
+  "legal_footer": "Tint law: rules can change; check the current statute. This is not legal advice. NRS 484D.440."
 }

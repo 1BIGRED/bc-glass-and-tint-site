@@ -1,6 +1,11 @@
 ---
-# Privacy policy page. Wording is in _data/pages/privacy_policy.json; markup lives here.
-# No quote form, no sticky bar. JSON-LD: privacy-policy.11tydata.js.
+# Privacy policy, v2 (website overhaul, 2026-10-29). Layout: _includes/layouts/v2.njk. Styles:
+# assets/v2/v2.css plus assets/v2/pages.css. Wording is in _data/pages/privacy_policy.json and is
+# the approved C-028 text: restyle only, no wording change. No quote form on this page (the
+# policy says the form is on the other pages). Analytics events come from the layout's
+# js/gtag-events.njk. JSON-LD: privacy-policy.11tydata.js.
+layout: layouts/v2.njk
+extra_css: ["/assets/v2/pages.css"]
 permalink: privacy-policy.html
 slug: privacy-policy
 page_key: privacy_policy
@@ -8,99 +13,34 @@ og_image: images/hero.jpg
 ---
 {%- set pg = pages.privacy_policy -%}
 {%- set sh = pages.shared -%}
-{% include "head/top.njk" %}
+{%- set tel = site.phone.tel -%}
+{%- set callText = sh.v2.call + " " + site.phone.display_call -%}
 
-{% include "head/meta.njk" %}
-{% set ld = schema_ld %}{% include "jsonld.njk" %}
-<style>
-:root{--gold:#c9a23f;--dark:#191b1f;--ink:#1f2228;--mut:#565d64;--line:#e7e9ec;--soft:#f5f6f7}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);line-height:1.65;background:#fff}
-a{color:var(--goldd);text-decoration:none}
-a:hover{text-decoration:underline}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--gold);color:#1f2228;font-weight:800;padding:10px 16px;border-radius:0 0 8px 0;z-index:200}
-.skip-link:focus{left:0}
-.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
-.util{background:var(--dark);color:#cfd2d6;font-size:12.5px;padding:7px 16px;display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap}
-.util span,.util a{display:inline-flex;align-items:center;gap:6px}
-.util a{color:var(--gold);font-weight:600}
-.util .ic{width:14px;height:14px;flex-shrink:0;color:var(--gold)}
-header{position:sticky;top:0;z-index:60;background:#fff;border-bottom:3px solid var(--gold);box-shadow:0 1px 8px rgba(0,0,0,.06)}
-.hrow{max-width:1100px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px}
-.brand{font-size:20px;font-weight:800;letter-spacing:.3px;color:var(--ink)}
-.brand b{color:#1f2228}.brand span{color:var(--gold)}
-nav.main{display:flex;align-items:center;gap:22px}
-nav.main a{font-size:14.5px;font-weight:600;color:#2b2e33}
-.callbtn{background:var(--gold);color:#1f2228;font-weight:800;font-size:13.5px;padding:9px 15px;border-radius:7px;display:inline-flex;align-items:center;gap:6px}
-.callbtn .ic{width:15px;height:15px;stroke-width:2.2}
-.burger{display:none;background:none;border:0;color:#1f2228;cursor:pointer;padding:8px;margin:-8px}
-.burger .ic{width:28px;height:28px}
-.mobnav{display:none;background:#fff;border-bottom:1px solid var(--line)}
-.mobnav a{display:block;padding:13px 20px;font-weight:600;border-top:1px solid var(--line);color:#2b2e33}
-main{max-width:820px;margin:0 auto;padding:44px 20px 60px}
-main h1{font-size:30px;font-weight:800;margin-bottom:6px}
-.updated{font-size:13.5px;color:var(--mut);margin-bottom:26px}
-main h2{font-size:19px;font-weight:800;margin:26px 0 8px}
-main p{font-size:15px;color:#333a41;margin-bottom:12px}
-main ul{margin:0 0 12px 22px}
-main li{font-size:15px;color:#333a41;margin-bottom:6px}
-.note{background:var(--soft);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:14px 16px;font-size:14px;color:var(--mut);margin:22px 0}
-footer{background:var(--dark);color:#aeb2b8;font-size:13px;padding:30px 18px;text-align:center;line-height:1.8;margin-top:40px}footer .fcols{display:grid;grid-template-columns:1fr;gap:18px;max-width:820px;margin:0 auto 22px;text-align:left}footer h3{color:#fff;font-size:14px;margin-bottom:7px}@media(min-width:761px){footer .fcols{grid-template-columns:repeat(4,1fr)}}
-footer a{color:var(--gold)}
-@media(max-width:760px){nav.main{display:none}.burger{display:block}}
+<section class="pg-head pg-head--solo pg-head--tight" aria-labelledby="pg-h1">
+  <div class="v2-wrap pg-head__in">
+    <div class="pg-head__copy">
+      <h1 class="pg-h1" id="pg-h1">{{ pg.hero.heading | safe }}</h1>
+      <div class="pg-actions">
+        <a class="v2-btn v2-btn--gold v2-btn--xl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
+        <a class="v2-textlink" href="/#quote">{{ sh.buttons.free_quote | safe }}</a>
+      </div>
+      <p class="v2-small pg-updated">{{ pg.updated.effective | safe }}<br>{{ pg.updated.previous_note | safe }}</p>
+    </div>
+  </div>
+</section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% include "a11y-block.njk" %}
-{% include "css/tail.njk" %}
-{% include "head/clarity.njk" %}
-</head>
-<body>
-{% include "skip-link.njk" %}
-{% include "sprite.njk" %}
-{% include "util.njk" %}
-{% include "header.njk" %}
-
-<main id="main" tabindex="-1">
-<h1>{{ pg.hero.heading | safe }}</h1><div style="display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px"><a href="tel:{{ site.phone.tel | safe }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:9px;background:#C9A23F;color:#1f2228;font-weight:800;text-decoration:none">{{ sh.buttons.call | safe }} {{ site.phone.display | safe }}</a><a href="/#quote" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:9px;background:transparent;color:#1f2228;border:1.5px solid #b9bec7;font-weight:800;text-decoration:none">{{ sh.buttons.free_quote | safe }}</a></div>
-<p class="updated">{{ pg.updated.effective | safe }}<br><span style="font-size:.92em;color:#565d64">{{ pg.updated.previous_note | safe }}</span></p>
-
-<p>{{ pg.intro | safe }}</p>
-
-{% for s in pg.sections %}<h2>{{ s.heading | safe }}</h2>
-{% for b in s.blocks %}{% if b.type == "p" %}<p>{{ b.text | safe }}</p>
-{% elif b.type == "ul" %}<ul>
-{% for li in b.items %}<li>{{ li | safe }}</li>
-{% endfor %}</ul>
-{% endif %}{% endfor %}{% if not loop.last %}
-{% endif %}{% endfor %}</main>
-
-{% include "footer.njk" %}
-{% include "js/burger.njk" %}
-{% include "js/anim.njk" %}
-<script>(function(){if(typeof gtag!=='function')return;document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a)return;var h=a.getAttribute('href')||'';if(h.indexOf('tel:')===0)gtag('event','call_click',{link_url:h});else if(h.indexOf('sms:')===0)gtag('event','text_click',{link_url:h});else if(h.indexOf('mailto:')===0)gtag('event','email_click',{link_url:h});},true);var f=document.querySelector('form[name="quote"]');if(f)f.addEventListener('submit',function(){var s=f.querySelector('[name="source"]');gtag('event','generate_lead',{form_name:'quote',page_source:s?s.value:''});},true);if(f){var st=false;f.addEventListener('focusin',function(){if(st)return;st=true;gtag('event','form_start',{form_name:'quote'});},true);}document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a)return;var h=a.getAttribute('href')||'',t=(a.textContent||'').toLowerCase();if(h.indexOf('google.com/maps')>-1){if(t.indexOf('direction')>-1)gtag('event','directions_click',{link_url:h});else gtag('event','review_click',{platform:'google'});}else if(h.indexOf('yelp.com')>-1)gtag('event','review_click',{platform:'yelp'});else if(h.indexOf('tintwiz.me')>-1)gtag('event','review_click',{platform:'tintwiz'});},true);})();</script>
-{% include "cookie-bar.njk" %}
-{% include "js/cookie.njk" %}
-</body>
-</html>
+<section class="v2-section pg-legalwrap">
+  <div class="v2-wrap">
+    <div class="pg-legal">
+      <p class="pg-legal__intro">{{ pg.intro | safe }}</p>
+{%- for s in pg.sections %}
+      <h2 class="pg-h2">{{ s.heading | safe }}</h2>
+{%- for b in s.blocks %}{% if b.type == "p" %}
+      <p>{{ b.text | safe }}</p>
+{%- elif b.type == "ul" %}
+      <ul>{% for li in b.items %}<li>{{ li | safe }}</li>{% endfor %}</ul>
+{%- endif %}{% endfor %}
+{%- endfor %}
+    </div>
+  </div>
+</section>

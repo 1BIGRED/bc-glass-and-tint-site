@@ -5,7 +5,8 @@
     "image_alt": "BC Glass and Tint branded box truck in the Boulder City parade"
   },
   "hero": {
-    "heading": "Family-Owned in Boulder City <span style=\"color:var(--gold)\">Since 1994</span>",
+    "eyebrow": "About",
+    "heading": "Family-Owned in Boulder City <span>Since 1994</span>",
     "sub": "Three decades of honest work, computer-cut precision, and a lifetime warranty behind every job."
   },
   "band": [
@@ -53,11 +54,17 @@
   "find": {
     "heading": "Find <span>the Shop</span>",
     "sub": "1633 Boulder City Pkwy, Boulder City, NV 89005. Open Tuesday to Saturday, 9am to 5pm.",
-    "map_title": "Map showing BC Glass and Tint at 1633 Boulder City Pkwy, Boulder City, Nevada"
+    "map_title": "Map showing BC Glass and Tint at 1633 Boulder City Pkwy, Boulder City, Nevada",
+    "directions": "Get directions"
   },
   "follow": {
     "heading": "Follow <span>BC Glass &amp; Tint</span>",
-    "sub": "See our latest installs and connect with us online."
+    "sub": "See our latest installs and connect with us online.",
+    "links": ["Facebook", "Google Reviews", "Yelp", "Tint Wiz"]
+  },
+  "contact": {
+    "heading": "Talk to a person.",
+    "closed_prefix": "Closed"
   },
   "quote": {
     "source": "About",

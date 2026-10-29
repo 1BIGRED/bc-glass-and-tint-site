@@ -7,7 +7,8 @@
   "hero": {
     "crumb_parent": "Areas We Serve",
     "crumb": "Henderson NV",
-    "heading": "Window Tinting, Auto Glass and Blinds for Henderson, NV",
+    "eyebrow": "Henderson, NV",
+    "heading": "Window Film and Windshield Chip Repair for Henderson, NV",
     "intro": "BC Glass and Tint is a family owned window tint, auto glass and blinds shop at 1633 Boulder City Pkwy in Boulder City, about 20 minutes from Henderson. We are not a Henderson company and we do not have a Henderson storefront. Henderson customers drive out to our shop for vehicle work, and for homes and commercial buildings we come to you. Every film we install is computer-cut ceramic and carries a lifetime manufacturer warranty. We have been doing this since 1994, and we are open Tuesday to Saturday, 9am to 5pm."
   },
   "band": [
@@ -20,10 +21,10 @@
   "content": {
     "heading": "What Henderson Customers Come to Us For",
     "bullets": [
-      "Ceramic auto tint at the shop, computer-cut, with no trimming on your glass.",
-      "Windshield chip repair. We can usually fill and seal a small chip or crack before it spreads.",
-      "Windshield replacement. We order OEM-spec glass to your VIN and book the install for once it arrives. Chip repair we do in our own shop; full replacements we subcontract to a glass specialist and manage start to finish.",
       "Residential and commercial window film, installed at your building. Mobile service covers homes and commercial buildings, not vehicles.",
+      "Windshield chip repair. We can usually fill and seal a small chip or crack before it spreads.",
+      "Windshield replacement, arranged with a glass specialist we work with, with the glass ordered to your VIN. Chip repair we do in our own shop.",
+      "Ceramic auto tint at the shop, computer-cut, with no trimming on your glass.",
       "Blinds and motorized window treatments, custom fit to your windows.",
       "Clear bra paint protection and ceramic coating, at the shop."
     ],
@@ -54,8 +55,8 @@
         "source": "Source: uvindex.io Las Vegas climate data."
       },
       {
-        "term": "Our ceramic films block up to 99% of UV.",
-        "detail": "That is the number that actually protects what is inside your home or vehicle.",
+        "term": "Our ceramic auto film blocks up to 99% of UV.",
+        "detail": "That is the number that actually protects what is inside your vehicle.",
         "source": "Manufacturer specification."
       }
     ]
@@ -116,11 +117,11 @@
       },
       {
         "question": "Do you do windshield replacement for Henderson vehicles?",
-        "answer": "Yes. We do not keep every windshield on hand, so we order OEM-spec glass to your VIN and schedule you once it arrives. Chip repair we do in our own shop. Full replacements we subcontract to a glass specialist, and we handle everything around it: the order, the booking and the insurance claim. One call, one point of contact."
+        "answer": "Yes, it is arranged through us. We do not keep windshields in stock, so the glass is ordered to your VIN and you are scheduled once it arrives. Chip repair we do in our own shop. The replacement itself is arranged with a glass specialist we work with, and we help with the order, the booking and the insurance claim. One call, one point of contact."
       },
       {
         "question": "Can you do a whole house, or a new build?",
-        "answer": "Yes. We come out to your Henderson home or new build, take measurements, and send a free written quote before any work starts. Most jobs are finished on site in a single visit."
+        "answer": "Yes. Mobile service covers homes and new builds in Henderson. Tell us roughly how many windows and we will give you a free quote before any work starts. Most jobs are finished on site in a single visit."
       }
     ]
   },
@@ -128,47 +129,39 @@
     "heading": "What Our Customers Say",
     "items": [
       {
-        "platform": "yelp",
-        "quote": "I'm so glad we were referred to BC Glass and Tint. They ordered, and installed, the correct original equipment windshield, at a lower cost than shops in Vegas or Henderson, with quality workmanship, and great customer service. We highly recommend BC Glass and Tint, and now won't shop anywhere else.",
-        "name": "Andrew S., who priced the same windshield at shops in Henderson and Vegas first"
-      },
-      {
-        "platform": "yelp",
-        "quote": "This is my 3rd amazing tint installation by BC tint on my new pickup. Matched the factory tint perfectly. Highly recommended this family owned business.",
-        "name": "Scott F."
-      },
-      {
-        "platform": "yelp",
-        "quote": "I would highly recommend BC Glass &amp; Tint! They tinted my new Silverado and the entire process was super easy and everyone was super friendly. They did a great job!",
-        "name": "Cynthia S."
+        "platform": "google",
+        "quote": "Fast, friendly and did an amazing job. I've had multiple vehicles tinted here and will never go anywhere else.",
+        "name": "Kristie Bergman"
       },
       {
         "platform": "google",
-        "quote": "We had our windshield replaced. Customer service was great and they had the best price! And they vacuumed my car! A+++ Highly recommend!",
-        "name": "Andrea Whitmeyer"
+        "quote": "Best price I could find anywhere in the valley. Quality work done fast and the staff were super helpful.",
+        "name": "Dennis Wolcott"
+      },
+      {
+        "platform": "google",
+        "quote": "Great prices and amazing work. Would highly recommend to anyone looking for window tinting in Boulder City.",
+        "name": "Steven Hamberg"
       }
     ],
-    "summary": "Rated {google_rating} on Google from {google_count} reviews, and {yelp_rating} on Yelp."
+    "summary": "Rated {google_rating} on Google from {google_count} reviews.",
+    "label": "Google review"
   },
   "more": {
     "heading": "More for Henderson Drivers and Homeowners",
     "sub": "Coming from the Las Vegas valley instead? See our <a href=\"/las-vegas\">Las Vegas page</a>.",
     "links": [
       {
-        "href": "/auto-tint",
-        "label": "Auto window tinting"
-      },
-      {
         "href": "/home-tint",
         "label": "Residential window film"
       },
       {
-        "href": "/commercial-film",
-        "label": "Commercial window film"
-      },
-      {
         "href": "/chip-repair",
         "label": "Windshield chip repair"
+      },
+      {
+        "href": "/commercial-film",
+        "label": "Commercial window film"
       },
       {
         "href": "/windshield",
@@ -177,6 +170,10 @@
       {
         "href": "/blinds",
         "label": "Blinds and window treatments"
+      },
+      {
+        "href": "/auto-tint",
+        "label": "Auto window tinting"
       },
       {
         "href": "/nevada-tint-law",
@@ -204,12 +201,16 @@
       }
     ]
   },
+  "contact": {
+    "heading": "Talk to a person.",
+    "closed_prefix": "Closed"
+  },
   "quote": {
     "source": "City: Henderson",
     "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "services": [
       {
         "anchor": "service-auto-tint",

@@ -1,10 +1,32 @@
-/* BC Glass & Tint, Build Your Tint. Vanilla JS, no libraries, no network calls.
-   Progressive enhancement over the server-rendered form in [data-bt].
+/* BC Glass & Tint, Build Your Tint ("The Showroom"). Vanilla JS, no libraries, no network calls.
+   Progressive enhancement over the server-rendered form in [data-bt] (build-your-tint.njk).
    Wording and legal text come from script[data-bt-config] (build_your_tint.json "builder"),
-   prices from script[data-bt-pricing] (_data/pricing.json). Same rule as lib/pricing.js:
-   production shows a price only when status is "confirmed" AND publish is true; with
-   data-price-mode="preview" on [data-bt] it also shows draft and unpublished prices, tagged.
-   legal_hold entries never show. Otherwise the fallback text. */
+   prices from script[data-bt-pricing] (a gated copy of _data/pricing.json made in
+   build-your-tint.11tydata.js). Same rule as lib/pricing.js: production shows a price only when
+   status is "confirmed" AND publish is true; with data-price-mode="preview" on [data-bt] it also
+   shows draft and unpublished prices, tagged. legal_hold entries never show. Otherwise the
+   fallback text.
+
+   Markup contract (hooks; every one is optional, a missing hook is skipped):
+     radios      name="bt-v" (vehicle), "bt-p" (current window), "bt-s-<panel>" (shade per window),
+                 "bt-t" (time of day: noon, dusk, night; relights the stage only)
+     [data-bt-svg]            the illustration; [data-body="<vehicle>"] groups, [data-glass="<panel>"]
+                              groups (get .is-current / .is-blocked), [data-tint="<panel>"] film layers
+     [data-bt-stage]          gets data-scene="<time of day>" (CSS relights it: opacity only)
+     [data-bt-shade="<p>"]    the shade fieldset for one window (only the current one is shown)
+     [data-bt-pval="<p>"] [data-bt-plegal="<p>"]   per-window shade and short legal chip
+     [data-bt-note]           long legal text for the current window
+     Light Meter: [data-bt-mpanel] window name, [data-bt-mnum] numeral, [data-bt-mpct] the % sign,
+                  [data-bt-mlabel] "light in", [data-bt-mbar] bar (transform scaleX), [data-bt-mlegal]
+     Result (any number of copies, e.g. the top bar and the result card): [data-bt-price],
+       [data-bt-draft], [data-bt-pricenote], [data-bt-code], [data-bt-summary], [data-bt-step]
+     [data-bt-actions] with a[data-bt-call] (tel:) and a[data-bt-text] (sms:, body is filled in)
+     [data-bt-closed] hint shown while the shop is closed; [data-bt-live] polite live region
+   Open or closed: [data-bt] data-open="0|1" wins; else html[data-bc-open]; else the sticky call
+   bar's data-state="closed" set by assets/v2/status.js.
+   Share: ?b=C-35-15-15-0 (vehicle code, then one shade per window in panel_order) restores a build;
+   the URL is updated in place (replaceState) once the visitor changes something.
+   GA4 (only through the site's gtag): config_start, config_panel_change, config_complete. */
 (function () {
   'use strict';
   var root = document.querySelector('[data-bt]');
@@ -36,6 +58,9 @@
   }
   function hasValue(name, val) {
     return !!root.querySelector('input[name="' + name + '"][value="' + val + '"]');
+  }
+  function showAll(sel, on) {
+    $$(sel).forEach(function (el) { if (on) el.removeAttribute('hidden'); else el.setAttribute('hidden', ''); });
   }
 
   /* ---------- state (DOM is the source of truth on load, then the URL) ---------- */
@@ -105,7 +130,8 @@
     if (parts.length === 1) return { text: disp(parts[0].e), draft: draft, shown: true };
     var sum = parts.reduce(function (n, p) { return n + p.e.amount; }, 0);
     return { text: fill(T.price_from, { n: sum }), draft: draft, shown: true };
-  }  function code() {
+  }
+  function code() {
     return 'BC-' + cfg.vehicles[state.vehicle].code + '-' + ORDER.map(function (p) { return state.shade[p] || 0; }).join('-');
   }
   function summary() {
@@ -142,22 +168,46 @@
     });
   }
 
-  function setText(sel, txt) { var el = $(sel); if (el && el.textContent !== txt) el.textContent = txt; }
+  // Sets the text of EVERY element matching sel (the bar and the result card both carry one).
+  function setText(sel, txt) {
+    $$(sel).forEach(function (el) { if (el.textContent !== txt) el.textContent = txt; });
+  }
 
   function paintPanels() {
     ORDER.forEach(function (p) {
       var v = state.shade[p], l = legalFor(p, v);
       setText('[data-bt-pval="' + p + '"]', shadeText(v));
-      var lg = $('[data-bt-plegal="' + p + '"]');
-      if (lg) { lg.textContent = l.short; lg.setAttribute('data-tone', l.tone || ''); }
-      var fs = $('[data-bt-shade="' + p + '"]');
-      if (fs) {
-        if (p === state.current) fs.removeAttribute('hidden'); else fs.setAttribute('hidden', '');
-      }
+      $$('[data-bt-plegal="' + p + '"]').forEach(function (lg) {
+        if (lg.textContent !== l.short) lg.textContent = l.short;
+        lg.setAttribute('data-tone', l.tone || '');
+      });
+      showAll('[data-bt-shade="' + p + '"]', p === state.current);
     });
     var cur = legalFor(state.current, state.shade[state.current]);
-    var note = $('[data-bt-note]');
-    if (note) { note.textContent = cur.long; note.setAttribute('data-tone', cur.tone || ''); }
+    $$('[data-bt-note]').forEach(function (note) {
+      if (note.textContent !== cur.long) note.textContent = cur.long;
+      note.setAttribute('data-tone', cur.tone || '');
+    });
+    paintMeter(cur);
+  }
+
+  // The Light Meter: the current window's shade as a big numeral, a 2px bar and the legal chip.
+  function paintMeter(cur) {
+    var v = state.shade[state.current];
+    setText('[data-bt-mpanel]', cfg.panels[state.current].label);
+    setText('[data-bt-mnum]', v ? String(v) : T.none);
+    showAll('[data-bt-mpct]', !!v);
+    setText('[data-bt-mlabel]', v ? (T.meter_label || '') : (T.meter_none || ''));
+    $$('[data-bt-mbar]').forEach(function (b) { b.style.transform = 'scaleX(' + (v / 100) + ')'; });
+    $$('[data-bt-mlegal]').forEach(function (el) {
+      if (el.textContent !== cur.short) el.textContent = cur.short;
+      el.setAttribute('data-tone', cur.tone || '');
+    });
+    var m = $('[data-bt-meter]');
+    if (m) {
+      m.setAttribute('data-none', v ? '0' : '1');
+      m.setAttribute('data-blocked', blocked(state.current, v) ? '1' : '0');
+    }
   }
 
   var smsBase = null, callEl = $('a[data-bt-call]'), textEl = $('a[data-bt-text]');
@@ -174,18 +224,15 @@
     var c = code(), info = priceInfo(), price = info.text;
     setText('[data-bt-code]', c);
     setText('[data-bt-price]', price);
-    var tag = $('[data-bt-draft]');
-    if (tag) { if (info.draft) tag.removeAttribute('hidden'); else tag.setAttribute('hidden', ''); }
-    var pn = $('[data-bt-pricenote]');
-    if (pn) { if (info.shown) pn.removeAttribute('hidden'); else pn.setAttribute('hidden', ''); }
+    showAll('[data-bt-draft]', !!info.draft);
+    showAll('[data-bt-pricenote]', !!info.shown);
     setText('[data-bt-summary]', summary());
     var picked = ORDER.filter(function (p) { return state.shade[p] > 0; }).length;
     setText('[data-bt-step]', fill(T.step_of || 'Step {n} of 3', { n: picked ? 3 : 2 }));
-    var bl = $('[data-bt-blocked]');
-    if (bl) {
+    $$('[data-bt-blocked]').forEach(function (bl) {
       bl.textContent = T.front_blocked_note || '';
       if (blocked('front', state.shade.front)) bl.removeAttribute('hidden'); else bl.setAttribute('hidden', '');
-    }
+    });
     var url = shareUrl();
     if (smsBase && textEl) {
       var abs = location.protocol === 'file:' ? url : location.origin + url;
@@ -208,11 +255,21 @@
     ORDER.forEach(function (p) { setChecked('bt-s-' + p, state.shade[p]); });
   }
 
-  /* ---------- open or closed: Call leads unless the layout says closed ---------- */
+  /* ---------- time of day: relights the stage (CSS custom properties, opacity only) ---------- */
+  var stage = $('[data-bt-stage]');
+  function paintScene() {
+    var s = checkedVal('bt-t');
+    if (stage && s && stage.getAttribute('data-scene') !== s) stage.setAttribute('data-scene', s);
+    return s;
+  }
+
+  /* ---------- open or closed: Call leads unless the shop is closed ---------- */
+  var sticky = document.querySelector('[data-bc-sticky]');
   function applyOpen() {
     var ds = document.documentElement.getAttribute('data-bc-open');
     var own = root.getAttribute('data-open');
-    var closed = (own === '0') || (own == null && ds === '0');
+    var bar = sticky ? sticky.getAttribute('data-state') : null;
+    var closed = (own === '0') || (own == null && (ds === '0' || (ds == null && bar === 'closed')));
     var acts = $('[data-bt-actions]');
     if (acts) acts.setAttribute('data-lead', closed ? 'text' : 'call');
     if (callEl) callEl.classList.toggle('is-primary', !closed);
@@ -221,11 +278,11 @@
       var first = closed ? textEl : callEl, second = closed ? callEl : textEl;
       if (acts.firstElementChild !== first) acts.insertBefore(first, second);
     }
-    var hint = $('[data-bt-closed]');
-    if (hint) { if (closed) hint.removeAttribute('hidden'); else hint.setAttribute('hidden', ''); }
+    showAll('[data-bt-closed]', closed);
   }
   if (window.MutationObserver) {
     new MutationObserver(applyOpen).observe(document.documentElement, { attributes: true, attributeFilter: ['data-bc-open'] });
+    if (sticky) new MutationObserver(applyOpen).observe(sticky, { attributes: true, attributeFilter: ['data-state'] });
     new MutationObserver(function () { render(); applyOpen(); }).observe(root, { attributes: true, attributeFilter: ['data-open', 'data-price-mode'] });
   }
 
@@ -247,6 +304,11 @@
   root.addEventListener('change', function (e) {
     var t = e.target;
     if (!t || t.type !== 'radio') return;
+    if (t.name === 'bt-t') {
+      // Lighting only: not part of the build, the price, the code or the analytics.
+      paintScene();
+      return;
+    }
     start();
     var price;
     if (t.name === 'bt-v') {
@@ -299,5 +361,6 @@
   if (picker) picker.removeAttribute('hidden');
   root.classList.add('bt-ready');
   render();
+  paintScene();
   applyOpen();
 })();

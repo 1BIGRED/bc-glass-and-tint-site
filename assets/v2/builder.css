@@ -1,0 +1,266 @@
+/* BC Glass & Tint v2, Build Your Tint ("The Showroom"), CREATIVE-DIRECTION.md moments 2 and 3.
+   Loaded only by build-your-tint.njk (front matter extra_css), after v2.css. Uses v2.css tokens.
+
+   PAGE-SCOPED TOKEN BLOCK. The stage lighting needs colors v2.css does not have (a noon sky, a
+   dusk horizon, painted bodywork, lamp lenses). They are defined ONCE here, on .bt, and nothing
+   below this block contains a literal color. If the studio wants them global, move this block into
+   v2.css unchanged.
+
+   Time of day (Noon, Dusk, Night) relights the stage by changing custom properties on
+   [data-bt-stage][data-scene]. Every scene-dependent layer animates ONLY opacity (light layers,
+   glass dimming, glass reflection, floor reflection, shoulder highlight, light pool), 240 ms
+   ease-out, so the switch responds on the next frame. Reduced motion: v2.css zeroes transitions. */
+
+.bt{
+  /* sky and floor behind the car, one set per scene */
+  --bt-noon-1:#F6EFE2; --bt-noon-2:#E4D8C3; --bt-noon-3:#CDBFA7; --bt-noon-4:#B9AA90;
+  --bt-dusk-1:#17130F; --bt-dusk-2:#3A2918; --bt-dusk-3:#6E4A28; --bt-dusk-4:#15110D;
+  --bt-night-1:#0B0B0C; --bt-night-2:#111113; --bt-night-3:#16161A; --bt-night-4:#0D0D0F;
+  --bt-pool:rgba(237,233,224,.16);
+  /* glass and film */
+  --bt-glass:#B4C4CD;        /* clear glass with daylight behind it */
+  --bt-glass-night:#08090B;  /* what dims the glass at dusk and night */
+  --bt-glass-warm:#D88A3E;   /* low sun through the glass at dusk */
+  --bt-film:#000000;         /* film layer, drawn at 1 - VLT^(1/2.2) by builder.js */
+  --bt-refl-0:rgba(255,255,255,0);
+  --bt-refl-1:rgba(255,255,255,.9);
+  --bt-refl-2:rgba(255,255,255,.5);
+  /* bodywork */
+  --bt-paint-1:#50545D; --bt-paint-2:#26282D; --bt-paint-3:#101113;
+  --bt-well:#060607;
+  --bt-tire:#0A0A0B;
+  --bt-rim-1:#7A7E87; --bt-rim-2:#26282D;
+  --bt-rimlip:rgba(237,233,224,.28);
+  --bt-hi:#EDE9E0;
+  --bt-seam:rgba(0,0,0,.55);
+  --bt-trim:#0E0F11;
+  --bt-head:#E9E4D8;
+  --bt-tail:#7E2620;
+  --bt-shadow-1:rgba(0,0,0,.85); --bt-shadow-2:rgba(0,0,0,.35); --bt-shadow-0:rgba(0,0,0,0);
+  --bt-plate:rgba(11,11,12,.72);
+  --bt-bar-h:52px;
+}
+
+/* the page hides its own [hidden] state hooks even where a v2 class sets display */
+.bt [hidden],.bt-hero [hidden]{display:none !important}
+
+/* ---------- Intro ---------- */
+.bt-hero__in{display:flex;flex-direction:column;gap:14px;padding-top:32px;padding-bottom:32px}
+.bt-crumb{display:flex;gap:10px;font-size:13px;color:var(--text-2)}
+.v2 .bt-crumb a{color:var(--text-2);text-decoration:none;display:inline-flex;align-items:center;min-height:24px}
+.v2 .bt-crumb a:hover{color:var(--text)}
+.bt-h1{font-family:var(--font-display);font-weight:500;font-size:clamp(36px,3.9vw,56px);line-height:.98;letter-spacing:.01em;text-transform:uppercase;max-width:24ch}
+
+/* ---------- Running bar: estimate and build code ---------- */
+.bt-bar{position:sticky;top:var(--header-h);z-index:50;background:var(--ink-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.bt-bar__in{display:flex;justify-content:space-between;align-items:center;gap:16px;height:var(--bt-bar-h)}
+.bt-bar__item{display:flex;align-items:center;gap:10px;min-width:0}
+.bt-bar__k{font-size:12px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--text-2)}
+.bt-bar__v{font-size:16px;font-weight:600;color:var(--text);white-space:nowrap}
+.bt-bar__code{font-family:var(--font-body);font-size:15px;font-weight:600;letter-spacing:.06em;color:var(--text)}
+
+/* ---------- Layout ---------- */
+.bt-app{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px 48px;padding-top:40px;padding-bottom:96px;align-items:start}
+.bt-stagecol{grid-column:1 / span 7;position:sticky;top:calc(var(--header-h) + var(--bt-bar-h) + 24px);z-index:2}
+.bt-controls{grid-column:8 / span 5;display:flex;flex-direction:column;gap:40px;min-width:0}
+
+/* ---------- The stage ---------- */
+.bt-stage{margin:0}
+.bt-stage__view{position:relative;aspect-ratio:800 / 360;overflow:hidden;border-radius:2px;background:var(--bt-night-1);border:1px solid var(--line)}
+.bt-sky,.bt-pool{position:absolute;inset:0;opacity:0;transition:opacity 240ms var(--ease-out)}
+.bt-sky--noon{background:linear-gradient(180deg,var(--bt-noon-1) 0%,var(--bt-noon-2) 72%,var(--bt-noon-3) 88.6%,var(--bt-noon-4) 100%)}
+.bt-sky--dusk{background:linear-gradient(180deg,var(--bt-dusk-1) 0%,var(--bt-dusk-2) 58%,var(--bt-dusk-3) 86%,var(--bt-dusk-4) 89.2%,var(--bt-dusk-4) 100%)}
+.bt-sky--night{background:linear-gradient(180deg,var(--bt-night-1) 0%,var(--bt-night-2) 80%,var(--bt-night-3) 88.6%,var(--bt-night-4) 100%)}
+.bt-pool{background:radial-gradient(ellipse 46% 78% at 50% 0%,var(--bt-pool) 0%,var(--bt-refl-0) 100%)}
+.bt-svg{position:relative;display:block;width:100%;height:100%}
+
+/* scene values: light layers, glass dim, warm, reflection, floor mirror, shoulder, pool */
+[data-scene="noon"]{--o-noon:1;--o-dusk:0;--o-night:0;--o-pool:0;--o-dim:0;--o-warm:0;--o-refl:.8;--o-mirror:.12;--o-hi:.32;--o-shadow:.75}
+[data-scene="dusk"]{--o-noon:0;--o-dusk:1;--o-night:0;--o-pool:.45;--o-dim:.48;--o-warm:.26;--o-refl:.36;--o-mirror:.2;--o-hi:.42;--o-shadow:.6}
+[data-scene="night"]{--o-noon:0;--o-dusk:0;--o-night:1;--o-pool:1;--o-dim:.82;--o-warm:0;--o-refl:.14;--o-mirror:.26;--o-hi:.6;--o-shadow:.55}
+.bt-sky--noon{opacity:var(--o-noon)}
+.bt-sky--dusk{opacity:var(--o-dusk)}
+.bt-sky--night{opacity:var(--o-night)}
+.bt-pool{opacity:var(--o-pool)}
+
+/* SVG paint (stops and fills come from the token block) */
+.bt-st-paint1{stop-color:var(--bt-paint-1)}
+.bt-st-paint2{stop-color:var(--bt-paint-2)}
+.bt-st-paint3{stop-color:var(--bt-paint-3)}
+.bt-st-refl0{stop-color:var(--bt-refl-0)}
+.bt-st-refl1{stop-color:var(--bt-refl-1)}
+.bt-st-refl2{stop-color:var(--bt-refl-2)}
+.bt-st-rim1{stop-color:var(--bt-rim-1)}
+.bt-st-rim2{stop-color:var(--bt-rim-2)}
+.bt-st-shadow1{stop-color:var(--bt-shadow-1)}
+.bt-st-shadow2{stop-color:var(--bt-shadow-2)}
+.bt-st-shadow0{stop-color:var(--bt-shadow-0)}
+.bt-paint{fill:url(#bt-paint)}
+.bt-well{fill:var(--bt-well)}
+.bt-tire{fill:var(--bt-tire)}
+.bt-rim{fill:url(#bt-rim)}
+.bt-rimlip{fill:none;stroke:var(--bt-rimlip);stroke-width:1.5}
+.bt-hub{fill:var(--bt-paint-3)}
+.bt-seam,.bt-handle{fill:none;stroke:var(--bt-seam);stroke-width:1.5;stroke-linecap:round}
+.bt-handle{stroke-width:3}
+.bt-trim{fill:var(--bt-trim)}
+.bt-head{fill:var(--bt-head);opacity:.85}
+.bt-tail{fill:var(--bt-tail)}
+.bt-shoulder{fill:none;stroke:var(--bt-hi);stroke-width:1.5;stroke-linecap:round;opacity:var(--o-hi);transition:opacity 240ms var(--ease-out)}
+.bt-shadow{fill:url(#bt-shadow);opacity:var(--o-shadow);transition:opacity 240ms var(--ease-out)}
+.bt-mirror{opacity:var(--o-mirror);transition:opacity 240ms var(--ease-out)}
+
+/* glass stack: clear glass, scene dim, dusk warmth, film (builder.js), reflection, edge */
+.bt-glassgrp{cursor:pointer}
+.bt-gl-base{fill:var(--bt-glass)}
+.bt-gl-dim{fill:var(--bt-glass-night);opacity:var(--o-dim);transition:opacity 240ms var(--ease-out)}
+.bt-gl-warm{fill:var(--bt-glass-warm);opacity:var(--o-warm);transition:opacity 240ms var(--ease-out)}
+.bt-gl-tint{fill:var(--bt-film)}
+.bt-gl-refl{fill:url(#bt-refl);opacity:var(--o-refl);transition:opacity 240ms var(--ease-out);pointer-events:none}
+.bt-gl-edge{fill:none;stroke:var(--bt-trim);stroke-width:1.5}
+.is-current>.bt-gl-edge{stroke:var(--gold);stroke-width:2.5}
+.is-blocked>.bt-gl-edge{stroke:var(--text);stroke-width:2;stroke-dasharray:6 5}
+.is-current.is-blocked>.bt-gl-edge{stroke:var(--gold)}
+
+/* windshield inset (front view, top strip only) */
+.bt-inset__plate{fill:var(--bt-plate)}
+.bt-inset__t{fill:var(--text);font-family:var(--font-body);font-size:11px;font-weight:500;letter-spacing:.18em}
+
+/* Time of day switch, over the top right of the stage */
+.bt-scene{position:absolute;top:12px;right:12px;display:flex;margin:0;padding:3px;border:0;border-radius:2px;background:var(--bt-plate);min-width:0}
+.bt-scene__opt{position:relative;display:flex}
+.bt-scene__opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.bt-scene__opt span{display:flex;align-items:center;justify-content:center;min-width:64px;min-height:40px;padding:0 12px;border-radius:2px;font-size:13px;font-weight:500;letter-spacing:.06em;color:var(--text-2);transition:transform 120ms var(--ease-out)}
+.bt-scene__opt input:checked+span{background:var(--text);color:var(--ink-0)}
+.bt-scene__opt input:focus-visible+span{outline:2px solid var(--focus);outline-offset:2px}
+.bt-scene__opt:active span{transform:scale(.97)}
+.bt-cap{margin-top:12px;font-size:13px;color:var(--text-2)}
+
+/* ---------- Steps ---------- */
+.bt-step{margin:0;padding:0;border:0;min-width:0;display:flex;flex-direction:column;gap:16px}
+.bt-step__h{padding:0;font-family:var(--font-body);font-weight:500;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--text-2)}
+.bt-step__h [data-bt-mpanel]{color:var(--text)}
+
+/* 1. vehicle picker: silhouettes */
+.bt-vgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.bt-veh{position:relative;display:flex}
+.bt-veh input,.bt-prow input,.bt-chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
+.bt-veh__box{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;border:1px solid var(--line-2);border-radius:2px;color:var(--text-2);transition:transform 120ms var(--ease-out)}
+.bt-veh__svg{width:100%;max-width:96px;height:auto;fill:currentColor}
+.bt-veh__t{font-size:14px;font-weight:500}
+.bt-veh input:checked+.bt-veh__box{border-color:var(--text);color:var(--text);background:var(--panel)}
+.bt-veh input:focus-visible+.bt-veh__box{outline:2px solid var(--focus);outline-offset:3px}
+.bt-veh:active .bt-veh__box{transform:scale(.97)}
+
+/* 2. windows */
+.bt-plist{border-top:1px solid var(--line-2)}
+.bt-prow{position:relative;display:flex}
+.bt-prow__box{flex:1;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;padding:8px 12px 8px 16px;border-bottom:1px solid var(--line-2);box-shadow:inset 2px 0 0 transparent;transition:background-color 120ms var(--ease-out)}
+.bt-prow__name{font-size:16px;color:var(--text)}
+.bt-prow__val{display:flex;align-items:center;gap:12px}
+.bt-prow__val b{font-weight:600;font-size:16px;min-width:3.2em;text-align:right}
+.bt-prow input:checked+.bt-prow__box{background:var(--panel);box-shadow:inset 2px 0 0 var(--text)}
+.bt-prow input:focus-visible+.bt-prow__box{outline:2px solid var(--focus);outline-offset:-2px}
+
+/* legal tone chip: the words carry the meaning; the outline only echoes it */
+.bt-tone{display:inline-flex;align-items:center;min-height:24px;padding:0 10px;border:1px solid var(--line-2);border-radius:999px;font-size:12px;font-weight:500;color:var(--text-2);white-space:nowrap}
+.bt-tone[data-tone="ok"]{color:var(--text)}
+.bt-tone[data-tone="caution"]{color:var(--text);border-color:var(--line-3)}
+.bt-tone[data-tone="stop"]{color:var(--text);border-style:dashed;border-color:var(--text)}
+.bt-tone[data-tone="muted"]{border-color:transparent}
+
+/* 3. the Light Meter */
+.bt-meter__read{display:flex;align-items:flex-end;gap:16px;min-height:144px}
+.bt-meter__num{font-size:160px;color:var(--text);white-space:nowrap}
+.bt-meter__num small{font-size:.4em;vertical-align:top;margin-left:.02em;letter-spacing:0}
+.bt-meter[data-none="1"] .bt-meter__num{font-size:96px}
+.bt-meter__unit{font-family:var(--font-body);font-weight:500;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--text-2);padding-bottom:20px}
+.bt-meter__bar{height:2px;background:var(--line-2);position:relative;overflow:hidden}
+.bt-meter__bar span{position:absolute;inset:0;background:var(--text);transform-origin:0 50%;transition:transform 120ms var(--ease-out)}
+.bt-meter[data-blocked="1"] .bt-meter__bar span{opacity:.4}
+.bt-shades{margin:0;padding:0;border:0;min-width:0}
+.bt-chips{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.bt-chip{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:4px 0;color:var(--text-2);font-size:13px;font-weight:500;transition:transform 120ms var(--ease-out);-webkit-tap-highlight-color:transparent}
+.bt-chip__sw{position:relative;display:block;width:100%;max-width:64px;height:44px;border-radius:999px;background:var(--shade-glass);overflow:hidden;box-shadow:0 0 0 1px var(--line-2)}
+.bt-chip__sw::after{content:"";position:absolute;inset:0;background:var(--shade-ink);opacity:var(--o,0)}
+.bt-chip.is-none .bt-chip__sw::before{content:"";position:absolute;left:50%;top:-10%;width:1px;height:120%;background:var(--line-3);transform:rotate(55deg)}
+.bt-chip.is-off .bt-chip__sw{box-shadow:none;outline:1px dashed var(--text-2);outline-offset:2px}
+.bt-chip input:checked~.bt-chip__sw{box-shadow:0 0 0 1px var(--ink-0),0 0 0 3px var(--gold)}
+.bt-chip.is-off input:checked~.bt-chip__sw{outline-color:var(--gold)}
+.bt-chip input:checked~.bt-chip__n{color:var(--text)}
+.bt-chip input:focus-visible~.bt-chip__sw{outline:2px solid var(--focus);outline-offset:4px}
+.bt-chip:hover{color:var(--text)}
+.bt-chip:active{transform:scale(.97)}
+.bt-legal{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px 12px;font-size:13px;line-height:1.5;color:var(--text);background:var(--legal-bg);border-left:1px solid var(--line-3);padding:12px 16px;border-radius:2px}
+.bt-legal__long{flex:1 1 220px;color:var(--text-2)}
+.bt-legal__long[data-tone="stop"]{color:var(--text)}
+
+/* ---------- Result ---------- */
+.bt-result{background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:32px;display:flex;flex-direction:column;gap:20px}
+.bt-result__h{font-family:var(--font-display);font-weight:600;font-size:28px;line-height:1.1;letter-spacing:.04em;text-transform:uppercase}
+.bt-result__price,.bt-result__code{display:flex;flex-direction:column;gap:8px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.bt-k{font-size:12px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--text-2)}
+.bt-result__fig{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.bt-price{font-size:clamp(36px,3.6vw,56px);font-weight:300;color:var(--text)}
+.bt-code{font-family:var(--font-display);font-weight:300;font-size:40px;line-height:1;letter-spacing:.04em;color:var(--text)}
+.bt-blocked{font-size:14px;color:var(--text)}
+.bt-summary{font-size:15px;color:var(--text-2)}
+.bt-acts{display:flex;flex-direction:column;gap:12px;margin:0}
+.v2 .bt-act{display:flex;align-items:center;justify-content:center;min-height:56px;padding:0 20px;border-radius:2px;border:1px solid var(--ghost-line);color:var(--text);text-decoration:none;font-family:var(--font-body);font-weight:600;font-size:15px;letter-spacing:.08em;text-transform:uppercase;text-align:center;transition:transform 140ms var(--ease-out)}
+.v2 .bt-act:hover{border-color:var(--text);color:var(--text)}
+.v2 .bt-act.is-primary{background:var(--cta);border-color:var(--cta);color:var(--cta-ink)}
+.v2 .bt-act.is-primary:hover{background:var(--cta-hover);border-color:var(--cta-hover);color:var(--cta-ink)}
+.bt-act:active{transform:scale(.97)}
+.bt-closed{color:var(--text)}
+.v2 .bt-quiet{color:var(--text-2)}
+
+/* ---------- No-JS table version ---------- */
+.bt-nojs{display:flex;flex-direction:column;gap:20px;padding-top:24px;padding-bottom:64px}
+.bt-table{width:100%;border-collapse:collapse;font-size:15px}
+.bt-table th,.bt-table td{text-align:left;vertical-align:top;padding:12px 12px 12px 0;border-bottom:1px solid var(--line-2)}
+.bt-table thead th{font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--text-2)}
+.bt-table tbody th{font-weight:500}
+.bt-nojs .bt-acts{flex-direction:row;flex-wrap:wrap}
+
+/* ---------- Tablet ---------- */
+@media (max-width:1023.98px){
+  .bt-stagecol{grid-column:1 / -1;position:static}
+  .bt-controls{grid-column:1 / -1}
+}
+
+/* ---------- Phone: the stage stays pinned under the bar while the controls scroll ---------- */
+@media (max-width:767.98px){
+  .bt{--bt-bar-h:44px}
+  .bt-hero__in{padding-top:24px;padding-bottom:24px;gap:12px}
+  .bt-h1{font-size:36px}
+  /* labels stay for screen readers; the price and the code speak for themselves on a phone */
+  .bt-bar__k{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+  .bt-bar__in{gap:10px}
+  .bt-bar__item{gap:6px}
+  .bt-bar__v{font-size:15px}
+  .bt-bar .v2-draft{height:20px;padding:0 6px;font-size:10px;letter-spacing:.04em}
+  .bt-bar__code{font-size:14px;letter-spacing:.03em;white-space:nowrap}
+  .bt-app{gap:0;padding-top:0;padding-bottom:56px}
+  .bt-stagecol{position:sticky;top:calc(var(--header-h) + var(--bt-bar-h));z-index:20;margin:0 calc(-1 * var(--gutter));padding:0 var(--gutter) 10px;background:var(--bg);border-bottom:1px solid var(--line)}
+  .bt-stage__view{border-left:0;border-right:0;border-radius:0;margin:0 calc(-1 * var(--gutter))}
+  .bt-scene{top:6px;right:6px;padding:2px}
+  .bt-scene__opt span{min-width:52px;min-height:36px;padding:0 8px;font-size:12px}
+  .bt-cap{margin-top:8px;font-size:12px}
+  .bt-controls{gap:32px;padding-top:24px}
+  .bt-vgrid{gap:6px}
+  .bt-veh__box{padding:10px 4px 8px}
+  .bt-veh__t{font-size:13px}
+  .bt-prow__box{padding-left:12px;gap:8px}
+  .bt-prow__name{font-size:15px}
+  .bt-meter__read{min-height:88px;gap:12px}
+  .bt-meter__num{font-size:96px}
+  .bt-meter[data-none="1"] .bt-meter__num{font-size:64px}
+  .bt-meter__unit{padding-bottom:12px}
+  .bt-chips{gap:4px}
+  .bt-chip__sw{height:40px}
+  .bt-chip{font-size:12px}
+  .bt-result{padding:24px 20px}
+  .bt-code{font-size:32px}
+  /* one gold fill per phone screen: the sticky call bar. In-page primary goes light. */
+  .v2 .bt-act.is-primary,.v2 .bt-act.is-primary:hover{background:var(--sel);border-color:var(--sel);color:var(--sel-ink)}
+}

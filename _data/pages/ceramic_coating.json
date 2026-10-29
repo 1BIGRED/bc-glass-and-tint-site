@@ -1,13 +1,13 @@
 {
   "meta": {
     "title": "Ceramic Coating, Boulder City to Henderson NV | BC Glass",
-    "description": "Hydrophobic ceramic coating with a long-lasting gloss, installed at our Boulder City shop for Henderson and Las Vegas drivers. Call 702-550-8840 for a quote.",
+    "description": "Hydrophobic ceramic coating with a long-lasting gloss for Boulder City, Henderson and Las Vegas drivers. Call 702-550-8840 for a quote.",
     "image_alt": "Ceramic coating service at BC Glass and Tint in Boulder City, NV"
   },
   "hero": {
     "crumb": "Ceramic Coating",
     "heading": "Ceramic Coating in Boulder City, NV",
-    "intro": "How many weekends do you want to spend hand-waxing a car in Southern Nevada heat, only to watch the shine dull again within a month? Ceramic coating is a liquid polymer bonded to your paint by hand that leaves a hydrophobic, high-gloss finish so water and dirt slide off instead of baking on, with a shine that holds for years instead of weeks. Applied at our Boulder City shop, it is built for drivers across Henderson and Las Vegas who want their car to look detailed every day, not just after a wash. We use DuraSlic DS 1500 Xtreme, and the car is usually with us two to four days, because the paint has to be decontaminated and corrected first, and we keep it a further 24 hours after application while it cures."
+    "intro": "How many weekends do you want to spend hand-waxing a car in Southern Nevada heat, only to watch the shine dull again within a month? Ceramic coating is a liquid polymer bonded to your paint by hand that leaves a hydrophobic, high-gloss finish so water and dirt slide off instead of baking on, with a shine that holds for years instead of weeks. It is built for drivers across Henderson and Las Vegas who want their car to look detailed every day, not just after a wash. We use DuraSlic DS 1500 Xtreme, and the car is usually with us two to four days, because the paint has to be decontaminated and corrected first, and we keep it a further 24 hours after application while it cures."
   },
   "band": [
     "DuraSlic DS 1500 Xtreme",
@@ -26,15 +26,26 @@
       "Removes swirls and light scratches"
     ]
   },
+  "v2": {
+    "eyebrow": "Ceramic coating"
+  },
+  "price": {
+    "eyebrow": "Price",
+    "heading": "Quoted to your car.",
+    "text": "The price depends on the vehicle and on how much correction the paint needs first. Call or send the form and we will quote your car.",
+    "note": "The vehicle and the condition of the paint set the final price.",
+    "cards": [
+      { "kind": "service", "key": "ceramic_coating", "title": "Ceramic coating" }
+    ],
+    "links": [
+      { "label": "All prices", "href": "/prices" }
+    ]
+  },
   "reviews": {
     "heading": "What <span>Ceramic</span> Customers Say",
     "sub": "Real reviews from BC Glass and Tint customers.",
+    "label": "Google review",
     "items": [
-      {
-        "platform": "yelp",
-        "quote": "Very professional service. Ceramic coating turned out perfect, on time and reasonable price. Would highly recommend!",
-        "name": "Marc W."
-      },
       {
         "platform": "google",
         "quote": "10/10 experience. They did an outstanding job for a great price. The quality of the work exceeded my expectations and everything was handled professionally.",
@@ -82,8 +93,7 @@
       {
         "href": "/headlight-taillight",
         "icon": "i-spark",
-        "label": "Headlight Restoration",
-        "same_line": true
+        "label": "Headlight Restoration"
       },
       {
         "href": "/blinds",
@@ -107,7 +117,7 @@
     "preselect": "Ceramic Coating"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "service": {
       "service_type": "Ceramic Coating",
       "name": "Ceramic Coating in Boulder City, NV",

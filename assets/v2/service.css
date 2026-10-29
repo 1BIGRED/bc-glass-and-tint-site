@@ -1,0 +1,145 @@
+/* BC Glass & Tint v2 service pages (website overhaul, 2026-10-29).
+   Loaded after v2.css by _includes/layouts/service-v2.njk (extra_css). Used by auto-tint,
+   home-tint, commercial-film, blinds, windshield, chip-repair, ceramic-coating, clear-bra,
+   headlight-taillight and boat-rv-tint.
+
+   TOKEN-ONLY: every color below is a custom property from the token blocks at the top of
+   v2.css (Showroom Black by default, body.theme-warm for Warm Gallery). No literal colors here.
+   Motion: nothing animates on scroll. Press and hover reuse the v2.css transitions
+   (transform only, ease-out). Hairlines over boxes. Gold fill lives only on the call buttons. */
+
+/* ---------- Hero: photo split, or type only when BC has no real photo for the service ---------- */
+.sv-hero{background:var(--bg);border-bottom:1px solid var(--line)}
+.sv-hero__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:64px;align-items:center;padding-top:64px;padding-bottom:72px}
+.sv-hero--type .sv-hero__in{grid-template-columns:minmax(0,880px);padding-top:88px;padding-bottom:80px}
+.sv-hero__copy{display:flex;flex-direction:column;gap:20px;min-width:0}
+.sv-crumb{font-size:13px;line-height:1.5;color:var(--muted)}
+.v2 .sv-crumb a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.v2 .sv-crumb a:hover{color:var(--text)}
+.sv-h1{font-family:var(--font-display);font-weight:700;font-size:clamp(40px,4.7vw,66px);line-height:.98;letter-spacing:.005em;overflow-wrap:break-word}
+.sv-hero--type .sv-h1{font-size:clamp(44px,6vw,84px)}
+.sv-lede{font-size:19px;line-height:1.55;color:var(--text-2);max-width:56ch}
+.sv-note{font-size:15px;line-height:1.55;color:var(--text-2);max-width:56ch;padding-left:14px;border-left:1px solid var(--line-3)}
+.sv-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding-top:6px}
+.v2 .v2-btn.sv-call-ink{background:var(--sel);color:var(--sel-ink);border-top:2px solid var(--cta);border-color:var(--cta)}
+.v2 .v2-btn.sv-call-ink:hover{background:var(--sel);color:var(--sel-ink);border-color:var(--cta-hover)}
+.sv-hours{margin:0}
+.sv-chooser{display:flex;flex-direction:column;gap:12px;padding-top:6px}
+.sv-chooser__q{font-size:14px;color:var(--muted)}
+.sv-hero__media{margin:0;min-width:0}
+.sv-hero__img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:var(--pos,50% 50%);border-radius:2px;background:var(--panel)}
+.sv-hero__media figcaption{margin-top:10px;font-size:13px;line-height:1.5;color:var(--muted)}
+
+/* ---------- Facts strip (the old trust band, as plain hairline cells) ---------- */
+.sv-facts{background:var(--band);border-bottom:1px solid var(--line)}
+.sv-facts__list{display:grid;grid-template-columns:repeat(var(--n,4),minmax(0,1fr))}
+.sv-facts li{padding:22px 24px;border-left:1px solid var(--line-2);font-family:var(--font-display);font-weight:600;font-size:20px;line-height:1.2;letter-spacing:.02em;display:flex;align-items:center}
+.sv-facts li:first-child{border-left:0;padding-left:0}
+
+/* ---------- Story: the page's own words, with the value points as a hairline list ---------- */
+.sv-story{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:72px;align-items:start}
+.sv-story__text{display:flex;flex-direction:column;gap:22px;min-width:0}
+.sv-story__text p{max-width:62ch;font-size:17px;line-height:1.65;color:var(--text-2)}
+.sv-story__text p.sv-foot{font-size:14px;line-height:1.6;color:var(--muted)}
+.sv-story__text .v2-textlink{align-self:flex-start}
+.sv-points{border-bottom:1px solid var(--line-2)}
+.sv-points li{position:relative;padding:17px 0 17px 30px;border-top:1px solid var(--line-2);font-size:17px;line-height:1.5}
+.sv-points li::before{content:"";position:absolute;left:0;top:30px;width:16px;height:1px;background:var(--text-2)}
+
+/* ---------- Sections used by the body of blinds, headlight and boat pages ---------- */
+.sv-prose{display:flex;flex-direction:column;gap:18px;max-width:68ch}
+.sv-prose p{font-size:17px;line-height:1.65;color:var(--text-2)}
+.sv-prose p b{color:var(--text);font-weight:600}
+.sv-sub{font-size:19px;line-height:1.5;color:var(--text-2);max-width:60ch}
+.sv-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
+.sv-cols--4{grid-template-columns:repeat(4,minmax(0,1fr));gap:0 32px}
+.sv-col{display:flex;flex-direction:column;gap:10px;padding:24px 0;border-top:1px solid var(--line-2)}
+.sv-col h3{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1.1}
+.sv-col p{font-size:16px;line-height:1.6;color:var(--text-2)}
+.sv-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
+.sv-facts-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
+.sv-facts-list div{padding:22px 0;border-top:1px solid var(--line-2);display:flex;flex-direction:column;gap:8px}
+.sv-facts-list dt{font-family:var(--font-display);font-weight:600;font-size:23px;line-height:1.2}
+.sv-facts-list dd{margin:0;font-size:16px;line-height:1.6;color:var(--text-2)}
+.sv-cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+
+/* ---------- Recent work (real BC jobs for this service) ---------- */
+.sv-work{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.sv-work__item{margin:0;display:flex;flex-direction:column;gap:10px}
+.sv-work__img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:2px;background:var(--panel)}
+.sv-work figcaption{font-size:13px;line-height:1.5;color:var(--muted)}
+
+/* ---------- Price block ---------- */
+.sv-pcards{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:20px}
+.sv-pcard{background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:32px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.sv-pcard__t{font-family:var(--font-display);font-weight:600;font-size:23px;line-height:1.2}
+.sv-pcard__s{font-size:14px;line-height:1.5;color:var(--muted)}
+.sv-pcard__p{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 0;padding-top:8px}
+.sv-pcard__u{font-size:13px;color:var(--muted);margin:0}
+.sv-draft{display:inline-block;margin-left:12px;padding:2px 8px;border:1px solid var(--line-3);border-radius:2px;font-family:var(--font-body);font-weight:500;font-size:12px;line-height:1.5;letter-spacing:.04em;color:var(--muted);white-space:nowrap}
+.sv-pquote{display:flex;flex-direction:column;gap:10px;padding:28px 0;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);max-width:720px}
+.sv-plinks{display:flex;flex-wrap:wrap;gap:4px 28px}
+.v2 .sv-plinks a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line-3);padding:12px 0 2px;font-size:16px}
+.v2 .sv-plinks a:hover{color:var(--text);border-bottom-color:var(--accent-hover)}
+
+/* ---------- Reviews (Google quotes, verbatim; hairlines, not cards) ---------- */
+.sv-quotes{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:0 48px}
+.sv-quote{display:flex;flex-direction:column;gap:16px;padding-top:24px;border-top:1px solid var(--line-2)}
+.sv-quote p{font-size:19px;line-height:1.5;color:var(--text)}
+.sv-quote footer{font-size:13px;line-height:1.5;color:var(--muted)}
+.sv-more{margin-top:8px}
+
+/* ---------- Cross-links ---------- */
+.sv-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px;border-bottom:1px solid var(--line-2)}
+.v2 .sv-links a{display:flex;align-items:center;min-height:52px;padding:6px 0;border-top:1px solid var(--line-2);color:var(--text);text-decoration:none;font-size:16px;transition:transform 160ms var(--ease-out)}
+.v2 .sv-links a:hover{color:var(--accent)}
+
+/* ---------- Tablet and below ---------- */
+@media (max-width:1023.98px){
+  .sv-hero__in{gap:40px}
+  .sv-story{gap:48px}
+  .sv-work{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sv-pcards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sv-quotes{grid-template-columns:1fr;gap:28px}
+  .sv-cols--4{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:900px){
+  .sv-hero__in,.sv-story{grid-template-columns:minmax(0,1fr)}
+  .sv-hero--type .sv-hero__in{grid-template-columns:minmax(0,1fr)}
+  .sv-story{gap:32px}
+  .sv-cols,.sv-steps,.sv-facts-list{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---------- Phone ---------- */
+@media (max-width:767.98px){
+  .sv-hero__in{gap:0;padding-top:0;padding-bottom:32px}
+  .sv-hero--type .sv-hero__in{padding-top:36px;padding-bottom:32px}
+  .v2 .sv-hero__media{order:-1;margin:0 calc(var(--gutter) * -1) 24px}
+  .sv-hero__img{aspect-ratio:16/11;border-radius:0}
+  .sv-hero__media figcaption{display:none}
+  .v2 .sv-story .sv-hero__media{order:0;margin:0}
+  .sv-story .sv-hero__img{aspect-ratio:4/3}
+  .sv-story .sv-hero__media figcaption{display:block}
+  .sv-hero__copy{gap:16px}
+  .sv-h1{font-size:40px}
+  .sv-hero--type .sv-h1{font-size:42px}
+  .sv-lede{font-size:17px}
+  .sv-actions{flex-direction:column;align-items:stretch;gap:6px}
+  .sv-actions .v2-btn{width:100%;font-size:21px}
+  .v2 .sv-actions .v2-textlink{align-self:center}
+  .sv-facts__list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sv-facts li{padding:14px 12px;font-size:17px;border-left:0;border-top:1px solid var(--line-2)}
+  .sv-facts li:nth-child(-n+2){border-top:0}
+  .sv-facts li:nth-child(odd){padding-left:0}
+  .sv-facts li:nth-child(even){border-left:1px solid var(--line-2)}
+  .sv-points li{padding-top:14px;padding-bottom:14px}
+  .sv-points li::before{top:26px}
+  .sv-col h3{font-size:24px}
+  .sv-work{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;margin-right:calc(var(--gutter) * -1);padding-right:var(--gutter);scrollbar-width:none}
+  .sv-work::-webkit-scrollbar{display:none}
+  .sv-work__item{flex:0 0 250px;scroll-snap-align:start}
+  .sv-pcards{grid-template-columns:minmax(0,1fr);gap:12px}
+  .sv-pcard{padding:20px}
+  .sv-quote p{font-size:17px}
+  .sv-links{grid-template-columns:minmax(0,1fr)}
+}

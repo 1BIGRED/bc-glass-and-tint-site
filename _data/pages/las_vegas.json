@@ -7,8 +7,9 @@
   "hero": {
     "crumb_parent": "Areas We Serve",
     "crumb": "Las Vegas NV",
-    "heading": "Window Tint and Auto Glass for Las Vegas Drivers and Homeowners",
-    "intro": "BC Glass and Tint runs out of 1633 Boulder City Pkwy in Boulder City, a family shop, not a Las Vegas company. Valley drivers make the trip anyway, mostly for two reasons: a fair price, and a shop that has done this exact work since 1994. Vehicles come to us for tint, chip repair and windshield replacement. Chip repair we do in our own shop; full replacements we subcontract to a glass specialist and manage from the order through the insurance claim. Homes and commercial buildings across the valley get mobile service instead. Every film carries a lifetime manufacturer warranty, and our hours run Tuesday through Saturday, 9 to 5."
+    "eyebrow": "Las Vegas, NV",
+    "heading": "Window Film and Chip Repair for Las Vegas Homes and Drivers",
+    "intro": "BC Glass and Tint runs out of 1633 Boulder City Pkwy in Boulder City, a family shop, not a Las Vegas company. Valley customers make the trip anyway, mostly for two reasons: a fair price, and a shop that has done this exact work since 1994. Homes and commercial buildings across the valley get mobile service for window film. Windshield chip repair we do in our own shop, and vehicles come to us for tint and for windshield replacement, which is arranged with a glass specialist we work with, with the glass ordered to your VIN. Every film carries a lifetime manufacturer warranty, and our hours run Tuesday through Saturday, 9 to 5."
   },
   "band": [
     "XPEL &amp; ASWF Film",
@@ -18,12 +19,12 @@
     "Free Quotes"
   ],
   "content": {
-    "heading": "Chip Today, Crack by August",
+    "heading": "Fix the Chip Before It Spreads",
     "paragraphs": [
-      "A chip today is a crack by August. Nevada summer heat spreads a small windshield chip fast, so getting it filled quickly matters more here than almost anywhere else.",
-      "We repair most chips and small cracks the same day, and insurance often covers it, so we can help with the claim if you need us to. If the damage is too large to repair safely, we subcontract the full replacement to a glass specialist and manage it for you: the glass is ordered to your VIN, the job gets booked, we help with the insurance claim, and it is finished on the day of your appointment. We will tell you plainly which one your vehicle needs before we touch the glass."
+      "Nevada summer heat can spread a small windshield chip, so getting it looked at quickly matters.",
+      "We repair most chips and small cracks the same day, and insurance sometimes covers it, so we can help with the claim if you need us to. If the damage is too large to repair safely, the replacement is arranged with a glass specialist we work with: the glass is ordered to your VIN, the job gets booked, we help with the insurance claim, and it is finished on the day of your appointment. We will tell you plainly which one your vehicle needs before we touch the glass."
     ],
-    "image_alt": "Ceramic window tint on the rear windows of a Ford F-150, installed at our Boulder City shop"
+    "image_alt": "Bullseye chip in a windshield near the rearview mirror, photographed from inside the vehicle."
   },
   "facts": {
     "heading": "Why the Drive Is Worth It",
@@ -40,7 +41,7 @@
         "source": "Source: uvindex.io UV index figures for the Las Vegas valley."
       },
       {
-        "term": "Ceramic film on our installs blocks up to 99% of UV.",
+        "term": "Our ceramic auto film blocks up to 99% of UV.",
         "detail": "That protection starts the day your vehicle leaves our shop.",
         "source": "Manufacturer specification."
       }
@@ -80,22 +81,23 @@
     "heading": "What Our Customers Say",
     "items": [
       {
-        "platform": "yelp",
-        "quote": "I'm so glad we were referred to BC Glass and Tint. They ordered, and installed, the correct original equipment windshield, at a lower cost than shops in Vegas or Henderson, with quality workmanship, and great customer service. We highly recommend BC Glass and Tint, and now won't shop anywhere else.",
-        "name": "Andrew S., who priced the same windshield at shops in Vegas and Henderson first"
-      },
-      {
         "platform": "google",
         "quote": "Amazing prices and attention to detail. 100% worth the drive from Vegas. Will definitely be back.",
         "name": "Payne Fordham"
       },
       {
-        "platform": "yelp",
-        "quote": "I have been going to BC Glass and Tint for over 23 years since 2002, and they are simply the best! I drive 40 minutes each way because I trust this amazing family-owned shop.",
-        "name": "Maureen S."
+        "platform": "google",
+        "quote": "Excellent service and very reasonable prices. My car looks great and I couldn't be happier!",
+        "name": "Jessica Harrison"
+      },
+      {
+        "platform": "google",
+        "quote": "Great prices, speed, and quality. Highly recommend BC Glass &amp; Tint to anyone in the area.",
+        "name": "Carol Broadbent"
       }
     ],
-    "summary": "Google shows us at {google_rating} from {google_count} reviews, and Yelp has us at {yelp_rating}."
+    "summary": "Google shows us at {google_rating} from {google_count} reviews.",
+    "label": "Google review"
   },
   "faq": {
     "heading": "Las Vegas Questions",
@@ -118,26 +120,66 @@
     "heading": "More for Las Vegas Drivers and Homeowners",
     "sub": "Closer to Henderson? See our <a href=\"/henderson\">Henderson page</a>.",
     "links": [
-      { "href": "/henderson", "label": "Window tinting in Henderson" },
-      { "href": "/boat-rv-tint", "label": "Boat and RV tint near Lake Mead" },
-      { "href": "/nevada-tint-law", "label": "Nevada window tint law explained" },
-      { "href": "/auto-tint", "label": "Auto window tinting" },
-      { "href": "/chip-repair", "label": "Windshield chip repair" },
-      { "href": "/windshield", "label": "Windshield replacement" },
-      { "href": "/ceramic-coating", "label": "Ceramic coating" },
-      { "href": "/clear-bra", "label": "Clear bra paint protection" },
-      { "href": "/home-tint", "label": "Residential window film" },
-      { "href": "/reviews", "label": "Our reviews" },
-      { "href": "/about", "label": "About our shop" },
-      { "href": "/qa", "label": "Full FAQ" }
+      {
+        "href": "/home-tint",
+        "label": "Residential window film"
+      },
+      {
+        "href": "/chip-repair",
+        "label": "Windshield chip repair"
+      },
+      {
+        "href": "/windshield",
+        "label": "Windshield replacement"
+      },
+      {
+        "href": "/henderson",
+        "label": "Window tinting in Henderson"
+      },
+      {
+        "href": "/auto-tint",
+        "label": "Auto window tinting"
+      },
+      {
+        "href": "/ceramic-coating",
+        "label": "Ceramic coating"
+      },
+      {
+        "href": "/clear-bra",
+        "label": "Clear bra paint protection"
+      },
+      {
+        "href": "/nevada-tint-law",
+        "label": "Nevada window tint law explained"
+      },
+      {
+        "href": "/boat-rv-tint",
+        "label": "Boat and RV tint near Lake Mead"
+      },
+      {
+        "href": "/reviews",
+        "label": "Our reviews"
+      },
+      {
+        "href": "/about",
+        "label": "About our shop"
+      },
+      {
+        "href": "/qa",
+        "label": "Full FAQ"
+      }
     ]
+  },
+  "contact": {
+    "heading": "Talk to a person.",
+    "closed_prefix": "Closed"
   },
   "quote": {
     "source": "City: Las Vegas",
     "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers"
   },
   "schema": {
-    "date_modified": "2026-08-27",
+    "date_modified": "2026-10-29",
     "services": [
       {
         "anchor": "service-auto-tint",

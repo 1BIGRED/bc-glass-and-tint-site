@@ -1,0 +1,78 @@
+/* BC Glass & Tint v2, the price guide (prices.njk). Loaded after v2.css; v2.css tokens only, no
+   literal colors. The "From" cards, strip, FAQ and draft tag are v2.css components (.v2-pc,
+   .v2-pstrip, .v2-faq, .v2-draft); this file adds the page frame, the crawlable tables and the
+   closing call. Tables stay real <table> elements on every width; on phones the auto tint grid
+   re-flows each row into a labelled block (td[data-label]). */
+
+/* ---------- Intro and value proof ---------- */
+.pr-hero__in{display:flex;flex-direction:column;gap:16px;padding-top:56px;padding-bottom:48px}
+.pr-crumb{display:flex;gap:10px;font-size:13px;color:var(--text-2)}
+.v2 .pr-crumb a{color:var(--text-2);text-decoration:none}
+.v2 .pr-crumb a:hover{color:var(--text)}
+.pr-h1{font-family:var(--font-display);font-weight:500;font-size:clamp(44px,5.6vw,80px);line-height:.95;letter-spacing:.01em;text-transform:uppercase;max-width:14ch}
+.pr-proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pr-proof li{display:flex;flex-direction:column;gap:4px;padding:24px 24px 24px 0}
+.pr-proof li+li{padding-left:24px;border-left:1px solid var(--line)}
+.pr-proof__t{font-family:var(--font-display);font-weight:600;font-size:24px;line-height:1.1;letter-spacing:.04em;text-transform:uppercase}
+.pr-proof__s{font-size:14px;color:var(--text-2)}
+.pr-cardsec{padding-top:96px}
+
+/* ---------- Tables ---------- */
+.pr-headrow{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 32px}
+.pr-table{width:100%;border-collapse:collapse;font-size:16px}
+.pr-table th,.pr-table td{text-align:left;vertical-align:baseline;padding:16px 16px 16px 0;border-bottom:1px solid var(--line-2)}
+.pr-table thead th{font-size:12px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--text-2);border-bottom-color:var(--line-3)}
+.pr-table tbody th{font-weight:500;color:var(--text)}
+.pr-table td{color:var(--text);font-variant-numeric:tabular-nums}
+.pr-table td .v2-draft{margin-left:6px;vertical-align:middle}
+.pr-table--grid td,.pr-table--grid thead th:not(:first-child){width:18%}
+.pr-cfq{color:var(--text-2)}
+.pr-subhead th{padding-top:32px;font-size:12px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--text-2)}
+.pr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px 48px}
+.pr-block{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pr-block .pr-table{margin-top:8px}
+.pr-block .pr-table td{text-align:right;padding-right:0;white-space:nowrap}
+
+/* ---------- What moves the price ---------- */
+.pr-moves{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px}
+.pr-moves>.v2-h2{grid-column:1 / span 4}
+.pr-moves__list{grid-column:6 / span 7;border-top:1px solid var(--line-2)}
+.pr-moves__list li{display:grid;grid-template-columns:56px minmax(0,1fr);align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid var(--line-2);font-size:17px}
+.pr-moves__n{font-size:40px;color:var(--text-2)}
+
+/* ---------- Closing call ---------- */
+.pr-call__in{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.v2 .pr-call__num{font-size:72px;color:var(--text);text-decoration:none}
+.v2 .pr-call__num:hover{color:var(--text)}
+.pr-call__acts{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px}
+.pr-notes{display:flex;flex-direction:column;gap:6px;padding-top:24px;margin-top:8px;border-top:1px solid var(--line);width:100%}
+
+/* ---------- Tablet ---------- */
+@media (max-width:1023.98px){
+  .pr-grid{grid-template-columns:1fr;gap:48px}
+  .pr-moves>.v2-h2,.pr-moves__list{grid-column:1 / -1}
+}
+
+/* ---------- Phone ---------- */
+@media (max-width:767.98px){
+  .pr-hero__in{padding-top:28px;padding-bottom:28px;gap:12px}
+  .pr-h1{font-size:44px}
+  .pr-proof{grid-template-columns:1fr}
+  .pr-proof li,.pr-proof li+li{padding:14px 0;border-left:0}
+  .pr-proof li+li{border-top:1px solid var(--line)}
+  .pr-proof__t{font-size:20px}
+  .pr-cardsec{padding-top:56px}
+  .pr-table{font-size:15px}
+  /* auto tint grid: each coverage row becomes a block of "class: price" lines */
+  .pr-table--grid thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .pr-table--grid tr{display:block;padding:12px 0;border-bottom:1px solid var(--line-2)}
+  .pr-table--grid th,.pr-table--grid td{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:auto;padding:6px 0;border:0}
+  .pr-table--grid tbody th{font-size:16px;padding-bottom:8px}
+  .pr-table--grid td::before{content:attr(data-label);color:var(--text-2);font-size:14px}
+  .pr-table--grid td>span:first-child{margin-left:auto}
+  .pr-subhead{padding:0 !important;border-bottom:0 !important}
+  .pr-subhead th{padding-top:20px !important}
+  .pr-moves__list li{grid-template-columns:40px minmax(0,1fr);font-size:16px}
+  .pr-moves__n{font-size:32px}
+  .v2 .pr-call__num{font-size:48px}
+}
