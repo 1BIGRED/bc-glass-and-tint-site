@@ -12,20 +12,26 @@ const { fill } = require("./lib/filters");
 // a missing file, a missing path, a draft or an unknown, resolves to null and the page prints
 // the quiet "Call for a quote". A path that points at a per-vehicle-class map (car, suv, ...)
 // shows the lowest class that passes the gate, as a "From" price.
-function gatePass(e) {
-  return !!(e && e.status === "confirmed" && e.publish === true && e.legal_hold !== true && e.display);
-}
+// 2026-10-29 (CEO): the gate now goes through lib/pricing.js priceFor(), so preview builds
+// (BC_PRICE_MODE=preview or a Netlify deploy-preview/branch-deploy) also show draft prices,
+// flagged draft:true for the "Draft price" tag. Production is unchanged: confirmed + publish only.
+const { priceFor, priceMode } = require("./lib/pricing");
+const MODE = priceMode(process.env);
 function resolvePrice(pricing, path) {
   if (!pricing || !path) return null;
   const node = String(path).split(".").reduce((o, k) => (o && typeof o === "object" ? o[k] : undefined), pricing);
   if (!node || typeof node !== "object" || node.legal_hold === true) return null;
-  if (node.status) return gatePass(node) ? { display: node.display, amount: node.amount } : null;
-  const ok = Object.keys(node).map((k) => node[k]).filter((v) => v && typeof v === "object" && v.status).filter(gatePass);
+  if (node.status) {
+    const r = priceFor(node, MODE);
+    return r.show ? { display: r.display, amount: node.amount, draft: r.draft } : null;
+  }
+  const ok = Object.keys(node).map((k) => node[k]).filter((v) => v && typeof v === "object" && v.status)
+    .map((v) => ({ v, r: priceFor(v, MODE) })).filter((x) => x.r.show);
   if (!ok.length) return null;
-  ok.sort((a, b) => (a.amount || 0) - (b.amount || 0));
-  const varies = ok.some((v) => v.amount !== ok[0].amount);
-  const d = String(ok[0].display);
-  return { display: varies && !/^from\b/i.test(d) ? "From " + d : d, amount: ok[0].amount };
+  ok.sort((a, b) => (a.v.amount || 0) - (b.v.amount || 0));
+  const varies = ok.some((x) => x.v.amount !== ok[0].v.amount);
+  const d = String(ok[0].r.display);
+  return { display: varies && !/^from\b/i.test(d) ? "From " + d : d, amount: ok[0].v.amount, draft: ok.some((x) => x.r.draft) };
 }
 
 module.exports = {

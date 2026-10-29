@@ -38,6 +38,15 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("jsString", jsString);
   eleventyConfig.addFilter("validAdsId", validAdsId);
 
+  // Prices (website overhaul 2026-10-29). price_mode is "preview" (drafts shown, tagged) when
+  // BC_PRICE_MODE=preview or Netlify CONTEXT is deploy-preview/branch-deploy; else "production"
+  // (only owner-confirmed, published prices). priceFor/quoteFor apply that one rule everywhere.
+  const pricingLib = require("./lib/pricing");
+  eleventyConfig.addGlobalData("price_mode", pricingLib.priceMode(process.env));
+  eleventyConfig.addFilter("priceFor", (entry, mode) => pricingLib.priceFor(entry, mode));
+  eleventyConfig.addFilter("quoteFor", (pricing, classId, panels, mode) => pricingLib.quoteFor(pricing, classId, panels, mode));
+  eleventyConfig.addFilter("anyAutoPrice", (pricing, mode) => pricingLib.anyAutoPrice(pricing, mode));
+
   eleventyConfig.ignores.add("node_modules/**");
   eleventyConfig.ignores.add("_site/**");
   eleventyConfig.ignores.add("README.md");
