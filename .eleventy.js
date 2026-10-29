@@ -43,6 +43,10 @@ module.exports = function (eleventyConfig) {
   // (only owner-confirmed, published prices). priceFor/quoteFor apply that one rule everywhere.
   const pricingLib = require("./lib/pricing");
   eleventyConfig.addGlobalData("price_mode", pricingLib.priceMode(process.env));
+  // Staging (2026-10-29): BC_NOINDEX=1 on the staging Netlify site adds a robots noindex meta to
+  // every page so the preview copy never competes with bcglassandtint.com in search. Never set it
+  // on the live site.
+  eleventyConfig.addGlobalData("noindex", String(process.env.BC_NOINDEX || "") === "1");
   eleventyConfig.addFilter("priceFor", (entry, mode) => pricingLib.priceFor(entry, mode));
   eleventyConfig.addFilter("quoteFor", (pricing, classId, panels, mode) => pricingLib.quoteFor(pricing, classId, panels, mode));
   eleventyConfig.addFilter("anyAutoPrice", (pricing, mode) => pricingLib.anyAutoPrice(pricing, mode));

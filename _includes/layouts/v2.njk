@@ -19,7 +19,8 @@
 {%- set w2 = pages.shared.v2 -%}
 {% include "head/top.njk" %}
 {% include "head/meta.njk" %}
-{% set ld = schema_ld %}{% include "jsonld.njk" %}
+{% if noindex %}<meta name="robots" content="noindex, nofollow">
+{% endif %}{% set ld = schema_ld %}{% include "jsonld.njk" %}
 {% if lightdown %}<script>try{if(!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))document.documentElement.classList.add("ld-on")}catch(e){}</script>
 {% endif %}<link rel="preload" href="/assets/v2/fonts/barlow-condensed-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/v2/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
