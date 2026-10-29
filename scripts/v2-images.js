@@ -12,7 +12,7 @@ const ROOT = path.join(__dirname, "..");
 const SRC = path.join(ROOT, "images-src", "v2");
 const OUT = path.join(ROOT, "images", "v2");
 const DATA = path.join(ROOT, "_data", "v2images.json");
-const WIDTHS = [640, 1280, 1800];
+const WIDTHS = [640, 960, 1280, 1800];
 
 (async () => {
   const files = fs.readdirSync(SRC).filter((f) => /\.jpe?g$/i.test(f)).sort();
@@ -27,7 +27,7 @@ const WIDTHS = [640, 1280, 1800];
       filenameFormat: (id, src, width, format) => `${name}-${width}.${format}`,
       sharpJpegOptions: { quality: 78, mozjpeg: true, progressive: true },
       sharpWebpOptions: { quality: 74 },
-      sharpAvifOptions: { quality: 52 }
+      sharpAvifOptions: { quality: 45 }
     });
     const pick = (fmt) => meta[fmt].map((m) => ({ url: m.url, width: m.width, height: m.height }));
     const jpeg = pick("jpeg");
