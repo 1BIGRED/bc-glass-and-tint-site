@@ -202,6 +202,7 @@ body.theme-warm{
   --ok:var(--goldsm);
   --shut:var(--ink-soft);
   --focus:var(--ink);
+  --focus-on-dark:#EDE9E0;   /* header, hero, dusk band, sticky bar and cookie bar stay dark on cream pages; the ring must stay light */
   --shade-glass:#FBF9F4;
   --legal-bg:rgba(34,32,28,.05);
   /* the in-page call button on cream is ink with paper text and a gold top bar (doc rule 3) */
@@ -261,6 +262,9 @@ body.v2 main:focus{outline:none}
 .v2-btn svg{width:18px;height:18px;flex:0 0 18px}
 .v2-iconbtn{min-width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1px solid var(--header-btn-line);border-radius:2px;color:var(--header-text);cursor:pointer;padding:0 10px;font-family:var(--font-body);font-weight:500;font-size:14px;transition:transform 140ms var(--ease-out);-webkit-tap-highlight-color:transparent;text-decoration:none}
 .v2 .v2-iconbtn--gold{color:var(--header-icon-ink)}
+/* the phone icon button is an <a>; without this, body.v2 a{color:var(--link)} wins and paints it ink on the dark header of cream pages */
+body.v2 a.v2-iconbtn{color:var(--header-text)}
+body.v2 a.v2-iconbtn--gold{color:var(--header-icon-ink)}
 .theme-warm .v2-btn--gold.v2-btn--cream{background:var(--call-cream-bg);color:var(--call-cream-ink);box-shadow:inset 0 2px 0 var(--gold)}
 
 /* ---------- Header (doc 11.0 and 9.4) ---------- */
@@ -281,7 +285,7 @@ body.v2 main:focus{outline:none}
 .v2 .v2-header.is-quiet .v2-header__call{background:transparent;color:var(--header-text);border-color:var(--header-btn-line)}
 .v2-header__icall,.v2-menubtn{display:none}
 .v2-header .v2-status{color:var(--header-muted);min-width:9.5em}
-.v2-header :focus-visible{outline-color:var(--focus-on-dark)}
+body.v2 .v2-header :focus-visible{outline-color:var(--focus-on-dark)}
 
 /* over the hero (homepage, front matter header_over: true): transparent, solid after the hero */
 body.v2-overhero .v2-header{position:fixed;left:0;right:0}
@@ -340,7 +344,7 @@ html.ld-on .v2-hero .ld-calm,html.ld-on .v2-hero .ld-copy{animation:ld-in 600ms 
 .v2 .v2-hero .v2-textlink,.v2 .v2-hero .v2-textlink:hover{color:var(--hero-text)}
 .v2-hero__foot{position:absolute;left:0;right:0;bottom:0}
 .v2-hero__foot .v2-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;min-height:56px;border-top:1px solid var(--line);font-size:13px;color:var(--hero-text-2)}
-.v2-hero :focus-visible{outline-color:var(--focus-on-dark)}
+body.v2 .v2-hero :focus-visible{outline-color:var(--focus-on-dark)}
 
 /* ---------- Sections and rhythm (doc section 8) ---------- */
 .v2-section{padding-top:var(--section);padding-bottom:var(--section)}
@@ -498,7 +502,7 @@ html.ld-on .v2-hero .ld-calm,html.ld-on .v2-hero .ld-copy{animation:ld-in 600ms 
 .v2 .v2-dusk__num:hover{color:var(--deep-text);text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:var(--gold);text-underline-offset:10px}
 .v2-dusk__facts{font-size:14px;line-height:1.7;color:var(--deep-text-2)}
 .v2-dusk .v2-status{color:var(--deep-muted)}
-.v2-dusk :focus-visible{outline-color:var(--focus-on-dark)}
+body.v2 .v2-dusk :focus-visible{outline-color:var(--focus-on-dark)}
 .v2-callback{width:100%;border-top:1px solid var(--deep-line-2)}
 .v2-callback>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;cursor:pointer;font-size:16px;font-weight:500;color:var(--deep-text);-webkit-tap-highlight-color:transparent}
 .v2-callback>summary::-webkit-details-marker{display:none}
@@ -717,7 +721,7 @@ body.v2.ck-open{padding-bottom:calc(var(--scb) + var(--ckh,140px) + 8px)}
   .v2-sticky__textnow,.v2-sticky__opens{visibility:hidden}
   .v2-sticky[data-state="closed"] .v2-sticky__call,.v2-sticky[data-state="closed"] .v2-sticky__text{visibility:hidden}
   .v2-sticky[data-state="closed"] .v2-sticky__textnow,.v2-sticky[data-state="closed"] .v2-sticky__opens{visibility:visible}
-  .v2-sticky :focus-visible{outline:2px solid var(--focus-on-dark);outline-offset:-4px}
+  body.v2 .v2-sticky :focus-visible{outline:2px solid var(--focus-on-dark);outline-offset:-4px}
 
   .v2 .ckbar{padding:10px 16px 12px;gap:8px;font-size:12.5px;line-height:1.45}
   .v2 .ckbar p{flex:1 1 100%}

@@ -63,6 +63,8 @@
   .pr-proof__t{font-size:20px}
   .pr-cardsec{padding-top:56px}
   .pr-table{font-size:15px}
+  /* the four small price tables: let a price cell wrap so a long row label plus "Draft price" never pushes the page wider than the phone */
+  .pr-block .pr-table td{white-space:normal}
   /* auto tint grid: each coverage row becomes a block of "class: price" lines */
   .pr-table--grid thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
   .pr-table--grid tr{display:block;padding:12px 0;border-bottom:1px solid var(--line-2)}
