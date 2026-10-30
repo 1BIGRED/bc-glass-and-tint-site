@@ -6,7 +6,7 @@
   "origin": "https://bcglassandtint.com",
   "logo": "https://bcglassandtint.com/logo.png",
   "founding_year": "1994",
-  "description": "Family-owned window tinting, auto glass and blinds shop at 1633 Boulder City Pkwy in Boulder City, NV, serving Boulder City, Henderson, Las Vegas and Southern Nevada since 1994.",
+  "description": "Family owned since 1994: window tint and window film, windshield chip repair and blinds at 1633 Boulder City Pkwy in Boulder City, NV, serving Boulder City, Henderson, Las Vegas and Southern Nevada.",
   "phone": {
     "display": "702-550-8840",
     "display_call": "(702) 550-8840",
@@ -27,7 +27,7 @@
     "longitude": "-114.8567642"
   },
   "hours": {
-    "display": "Tuesday to Saturday, 9am to 5pm",
+    "display": "Tuesday to Saturday, 9 to 5",
     "schema": "Tu-Sa 09:00-17:00",
     "days": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     "opens": "09:00",

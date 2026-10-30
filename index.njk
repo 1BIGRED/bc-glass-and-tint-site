@@ -9,12 +9,17 @@
 # Booking controls: the WS2 action macro only. Prices: the WS4 priceRow macro only (gate in
 # lib/pricing.js). Reviews: featurable Google reviews only (_data/reviews.json).
 # Hero mode: home.json v3.hero.media_mode, "ramp" (default) or "storefront" (index.11tydata.js).
+# Integration pass (CEO rulings 2026-10-29, phone length): lanes are "slim" (lane photos hidden
+# under 768px, kept on desktop) and "compact" (no lane review), "In their words." shows the two
+# reviews in home.json v3.words_ids (at most two reviews on the homepage, /reviews for more), and
+# "Also done at the shop." is a links-only list.
 layout: layouts/v3.njk
 permalink: index.html
 slug: index
 page_key: home
 og_image: logo.png
 bundles: ["home"]
+body_class: page-home
 ---
 {%- import "v3-service/blocks.njk" as b with context -%}
 {%- from "v3/hero.njk" import homeHero with context -%}
@@ -22,17 +27,17 @@ bundles: ["home"]
 {%- set heroData = { eyebrow: H.hero.eyebrow, h1: H.hero.h1, sub: H.hero.sub, router_label: H.hero.router_label, proof: H.hero.proof, media: hero } -%}
 {{ homeHero(heroData, ws5_router) }}
 
-{{ b.carLane({ uid: "car" }) }}
+{{ b.carLane({ uid: "car", slim: true, compact: true }) }}
 
-{{ b.homeLane({ uid: "home" }) }}
+{{ b.homeLane({ uid: "home", slim: true, compact: true }) }}
 
-{{ b.chipLane({ uid: "ws" }) }}
+{{ b.chipLane({ uid: "ws", slim: true, compact: true }) }}
 
-{{ b.words() }}
+{{ b.words({ ids: H.words_ids }) }}
 
 {{ b.howBooking("any", { uid: "how" }) }}
 
-{{ b.alsoDone({ id: "services" }) }}
+{{ b.alsoDone({ id: "services", links_only: true }) }}
 
 {{ b.faq(H.faq.items, { uid: "faq", ground: "bg-ink-1" }) }}
 

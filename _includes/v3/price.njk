@@ -23,8 +23,11 @@
     Output of priceRow: <div class="v3-prow" data-price-block> <dt> label </dt> <dd> value </dd> </div>,
     a valid dl group. "From" is set in t-label text-2 before the number (P-b); the dollar sign is the
     same size as the numerals. No strikethrough, no badge, no "save" (P-e).
-    Styling: .v3-prow and .v3-prices rules ship in the prices page bundle today
-    (assets/v3/css/prices/55-prices.css); a core copy is requested from the CEO (WS4 log). -#}
+            bare         true when a list prints its fallback words once for every row (integration
+                         pass): the value cell keeps the words for screen readers only (class vh)
+    Styling: the shared .v3-prices / .v3-prow / .v3-price rules are in the CORE bundle
+    (assets/v3/css/55-price-row.css, integration pass 2026-10-29), so priceRow renders styled on
+    every page; only the prices page layout stays in assets/v3/css/prices/55-prices.css. -#}
 {% macro priceValue(entry, opts) -%}
 {%- set o = opts or {} -%}
 {%- set mode = o.mode or price_mode or "production" -%}
@@ -41,6 +44,6 @@
 {%- set mode = o.mode or price_mode or "production" -%}
 <div class="v3-prow" data-price-block data-price-mode="{{ mode }}">
   <dt class="v3-prow__label t-body">{{ label | safe }}{% if o.note %}<span class="v3-prow__note t-label fg-2">{{ o.note | safe }}</span>{% endif %}</dt>
-  <dd class="v3-prow__value">{{ priceValue(entry, o) }}</dd>
+  <dd class="v3-prow__value{% if o.bare %} vh{% endif %}">{{ priceValue(entry, o) }}</dd>
 </div>
 {%- endmacro %}

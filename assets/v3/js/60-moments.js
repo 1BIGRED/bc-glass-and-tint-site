@@ -14,8 +14,19 @@
   var doc = document;
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // 1. Class switch
+  // 1. Class switch. A class the visitor picks also rides into every "Build your tint" link on the
+  //    page ([data-build-link]) as /build-your-tint?class=<id>; the builder preselects that vehicle
+  //    and nothing else (integration pass, CEO ruling 2026-10-29). Until a class is picked the links
+  //    stay plain, so no vehicle is chosen for anyone who did not choose one.
   var switches = doc.querySelectorAll("[data-class-switch]");
+  function carryClass(v) {
+    if (!/^[a-z]{2,12}$/.test(v)) return;
+    Array.prototype.forEach.call(doc.querySelectorAll("a[data-build-link]"), function (a) {
+      if (a.getAttribute("data-href0") == null) a.setAttribute("data-href0", a.getAttribute("href"));
+      var base = a.getAttribute("data-href0").split("?")[0].split("#")[0];
+      a.setAttribute("href", base + "?class=" + encodeURIComponent(v));
+    });
+  }
   Array.prototype.forEach.call(switches, function (box) {
     var seg = box.querySelector("[data-class-seg]");
     if (!seg) return;
@@ -26,6 +37,7 @@
       Array.prototype.forEach.call(box.querySelectorAll(".ws5-classpane"), function (p) {
         p.classList.toggle("is-on", p.getAttribute("data-class") === v);
       });
+      carryClass(v);
     });
   });
 

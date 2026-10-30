@@ -42,7 +42,7 @@ layout: layouts/v3.njk
       {%- if P.after %}<p class="t-body measure ws5-svc-prices__after">{{ P.after | safe }}</p>{% endif %}
       <p class="t-body ws5-svc-prices__links">{% for l in P.links %}{% if not l.build %}<a href="{{ l.href }}">{{ l.label | safe }}</a>{% if not loop.last %} <span class="fg-2" aria-hidden="true">&middot;</span> {% endif %}{% endif %}{% endfor %}</p>
       <div class="ws5-actrow">
-        {%- for l in P.links %}{% if l.build %}<a class="ws5-btn" href="{{ l.href }}">{{ (P.build_price if anyPrice else P.build_plain) | safe }}</a>{% endif %}{% endfor %}
+        {%- for l in P.links %}{% if l.build %}<a class="ws5-btn" href="{{ l.href }}" data-build-link>{{ (P.build_price if anyPrice else P.build_plain) | safe }}</a>{% endif %}{% endfor %}
         {{ action({ slot: "price", service: sv }) }}
       </div>
     </div>

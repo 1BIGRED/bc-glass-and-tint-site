@@ -315,7 +315,9 @@
     paintFvp();
     paintLegal();
     handOff(c, summary);
-    if (c) store("local", STORE, c);
+    // opts.keep: a vehicle preselected from ?class= is not a build yet, so it never overwrites a
+    // saved build the visitor might still resume.
+    if (c && !(opts && opts.keep)) store("local", STORE, c);
     if (state.v && windowKeys().length && !completed) {
       completed = true;
       emit("build_complete", { vehicle: state.v, preset_id: state.preset || "", code: c });
@@ -434,14 +436,44 @@
   });
 
   // ---------- start ----------
-  var fromUrl = null;
-  try { fromUrl = new URLSearchParams(location.search).get("b"); } catch (e) { fromUrl = null; }
+  var fromUrl = null, fromClass = null;
+  try {
+    var qs = new URLSearchParams(location.search);
+    fromUrl = qs.get("b");
+    fromClass = qs.get("class");
+  } catch (e) { fromUrl = null; fromClass = null; }
+  // ?class=<id> (the Car / SUV / Pickup / Van switch on the homepage car lane and /auto-tint,
+  // integration pass): preselect that vehicle ONLY. No preset, no window, no add-on is chosen, and
+  // the vehicle alone is not stored as a build (the visitor has not built anything yet).
+  var classOnly = !!(fromClass && byId(cfg.classes, String(fromClass).toLowerCase()));
   var resumeBox = $("[data-bt-resume]");
   if (fromUrl && applyCode(fromUrl)) {
     // Arriving with a code (a price row, a gallery card, a shared link) is the visitor's scope
     // (blueprint 4.5 default rule); it is not a build they made here, so no build_complete.
     started = true;
     completed = true;
+    classOnly = false;
+  } else if (classOnly) {
+    state.v = String(fromClass).toLowerCase();
+    state.preset = null;
+    state.addons = [];
+    var prevC = store("local", STORE);
+    if (prevC && BB.isValid(prevC) && resumeBox) {
+      resumeBox.removeAttribute("hidden");
+      var goC = resumeBox.querySelector("[data-bt-resume-go]");
+      var clearC = resumeBox.querySelector("[data-bt-resume-clear]");
+      if (goC) goC.addEventListener("click", function () {
+        begin();
+        applyCode(prevC);
+        resumeBox.setAttribute("hidden", "");
+        syncForm();
+        paint();
+      });
+      if (clearC) clearC.addEventListener("click", function () {
+        store("local", STORE, null);
+        resumeBox.setAttribute("hidden", "");
+      });
+    }
   } else {
     if (cfg.default_preset) applyPreset(cfg.default_preset);
     var prev = store("local", STORE);
@@ -465,5 +497,5 @@
   if (!reduce) root.classList.add("bt-anim");
   syncForm();
   readWindows();
-  paint({ quiet: true });
+  paint({ quiet: true, keep: classOnly });
 })();

@@ -72,12 +72,20 @@
 {%- endfor %}
   </fieldset>
 {%- for c in pricing.vehicle_classes %}
+  {#- Integration pass: when no row of this class can show a price, the fallback words print ONCE
+      under the list instead of on every row (the same honest list WS4 prints on /prices). -#}
+  {%- set shownRows = [] -%}
+  {%- for r in R %}{% set pp = (pricing | ws5at(r.ref, c.id)) | priceParts(price_mode or "production") %}{% if pp.show %}{% set _x = shownRows.push(1) %}{% endif %}{% endfor -%}
+  {%- set bare = (shownRows.length == 0) -%}
   <div class="ws5-classpane{% if loop.first %} is-on{% endif %}" data-class="{{ c.id }}">
-    <dl class="v3-prices ws5-prices" aria-label="{{ c.label | safe }}">
+    <dl class="v3-prices ws5-prices{% if bare %} ws5-prices--bare{% endif %}" aria-label="{{ c.label | safe }}">
 {%- for r in R %}
-      {{ priceRow(r.label, pricing | ws5at(r.ref, c.id), { fallback: S.price_fallback.auto, draft_label: S.draft_label, note: r.note }) }}
+      {{ priceRow(r.label, pricing | ws5at(r.ref, c.id), { fallback: S.price_fallback.auto, draft_label: S.draft_label, note: r.note, bare: bare }) }}
 {%- endfor %}
     </dl>
+    {%- if bare %}
+    <p class="ws5-prices__once fg-2" aria-hidden="true">{{ S.price_fallback.auto | safe }}.</p>
+    {%- endif %}
     {%- set ar = pricing | ws5arith(c.id, price_mode) %}
     {%- if ar %}
     <p class="t-label fg-2 ws5-arith">{{ S.car.arith | replace("{front}", ar.front) | replace("{rear}", ar.rear) | replace("{full}", ar.full) | safe }}{% if ar.draft %} <span class="v3-prow__draft t-label">{{ S.draft_label | safe }}</span>{% endif %}</p>
@@ -169,14 +177,24 @@
 {% macro alsoDone(opts) -%}
 {%- set o = opts or {} -%}
 {%- set A = pages.sections.also -%}
-<section class="ws5-also section--minor" aria-labelledby="also-h"{% if o.id %} id="{{ o.id }}"{% endif %}>
+<section class="ws5-also section--minor{% if o.links_only %} ws5-also--links{% endif %}" aria-labelledby="also-h"{% if o.id %} id="{{ o.id }}"{% endif %}>
   <div class="wrap">
     {{ head(A.eyebrow, o.h2 or A.h2, "also-h") }}
+{%- if o.links_only %}
+    {#- Integration pass (CEO ruling 2026-10-29): on the homepage this is a compact links-only list;
+        each service page carries the one-line description. -#}
+    <ul class="ws5-links list-plain">
+{%- for it in (o.items or A.items) %}{% if it.href != o.skip %}
+      <li><a href="{{ it.href }}">{{ it.title | safe }}</a></li>
+{%- endif %}{% endfor %}
+    </ul>
+{%- else %}
     <ul class="ws5-list list-plain">
 {%- for it in (o.items or A.items) %}{% if it.href != o.skip %}
       <li class="ws5-list__i"><h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ it.text | safe }}</p><a href="{{ it.href }}">{{ it.link | safe }}</a></li>
 {%- endif %}{% endfor %}
     </ul>
+{%- endif %}
   </div>
 </section>
 {%- endmacro %}
@@ -221,14 +239,14 @@
 {%- set C = pages.sections.car -%}
 {%- set uid = o.uid or "car" -%}
 {%- set anyPrice = pricing | anyAutoPrice(price_mode) -%}
-<section class="ws5-lane ws5-lane--car section mood-dark {{ o.ground or 'bg-ink-0' }}" id="{{ o.id or C.id }}" aria-labelledby="{{ uid }}-h">
+<section class="ws5-lane ws5-lane--car section mood-dark {{ o.ground or 'bg-ink-0' }}{% if o.slim %} ws5-lane--slim{% endif %}" id="{{ o.id or C.id }}" aria-labelledby="{{ uid }}-h">
   <div class="wrap grid ws5-lane__grid">
     <div class="ws5-lane__copy">
       {{ head(o.eyebrow or C.eyebrow, o.h2 or C.h2, uid + "-h", { lede: C.lede }) }}
       {{ carPrices(uid) }}
       <p class="t-label fg-2 measure">{{ C.moves | safe }}</p>
       <div class="ws5-actrow">
-        <a class="ws5-btn" href="{{ C.build_href }}">{{ (C.build_link_price if anyPrice else C.build_link_plain) | safe }}</a>
+        <a class="ws5-btn" href="{{ C.build_href }}" data-build-link>{{ (C.build_link_price if anyPrice else C.build_link_plain) | safe }}</a>
         {{ action({ slot: "lane", service: "car" }) }}
       </div>
       {%- if not o.compact %}
@@ -248,7 +266,7 @@
 {%- set Hm = pages.sections.home -%}
 {%- set S = pages.sections -%}
 {%- set uid = o.uid or "home" -%}
-<section class="ws5-lane ws5-lane--home section mood-warm bg-paper" id="{{ o.id or Hm.id }}" aria-labelledby="{{ uid }}-h">
+<section class="ws5-lane ws5-lane--home section mood-warm bg-paper{% if o.slim %} ws5-lane--slim{% endif %}" id="{{ o.id or Hm.id }}" aria-labelledby="{{ uid }}-h">
   <div class="wrap grid ws5-lane__grid ws5-lane__grid--mirror">
     {%- if ws5photos[Hm.photo] %}
     <div class="ws5-lane__media">{{ photo(Hm.photo, "(min-width: 1024px) 50vw, 100vw", { ratio: "54" }) }}</div>
@@ -284,7 +302,7 @@
 {%- set o = opts or {} -%}
 {%- set W = pages.sections.chip -%}
 {%- set uid = o.uid or "ws" -%}
-<section class="ws5-lane ws5-lane--chip section mood-dark {{ o.ground or 'bg-ink-1' }}" id="{{ o.id or W.id }}" aria-labelledby="{{ uid }}-h">
+<section class="ws5-lane ws5-lane--chip section mood-dark {{ o.ground or 'bg-ink-1' }}{% if o.slim %} ws5-lane--slim{% endif %}" id="{{ o.id or W.id }}" aria-labelledby="{{ uid }}-h">
   <div class="wrap grid ws5-lane__grid ws5-lane__grid--mirror">
     {%- if ws5photos[W.photo] %}
     <div class="ws5-lane__media">{{ photo(W.photo, "(min-width: 1024px) 50vw, 100vw", { ratio: "43" }) }}</div>

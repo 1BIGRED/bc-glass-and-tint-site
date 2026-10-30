@@ -24,7 +24,8 @@
    plain links.
 
    Phone bar (art direction CB-e): hidden while a text field has focus (the on-screen keyboard is
-   open) and while the request form's own submit button is on screen. */
+   open) and while any in-page gold primary ([data-gold-fill], e.g. the request form's own submit
+   button) has any part on screen. */
 (function () {
   "use strict";
   var core = window.BCStatus;
@@ -140,13 +141,25 @@
     };
     document.addEventListener("focusin", function (e) { if (isField(e.target)) { hideReasons.kbd = true; sync(); } });
     document.addEventListener("focusout", function (e) { if (isField(e.target)) { hideReasons.kbd = false; sync(); } });
+    /* One gold fill per screen (art direction C1, V5; CEO ruling 2026-10-29, integration pass):
+       while ANY in-page gold primary marked [data-gold-fill] (every request form's submit, and any
+       future in-page gold control on phones) has any part on screen, the bar steps aside. The bar is
+       position: fixed, so hiding it moves nothing in the page (no layout shift). No scroll listener:
+       one IntersectionObserver, threshold 0. */
     if ("IntersectionObserver" in window) {
-      var submit = document.querySelector('form[name="quote"] [type="submit"]');
-      if (submit) {
-        new IntersectionObserver(function (entries) {
-          hideReasons.form = entries[entries.length - 1].isIntersecting;
+      var golds = document.querySelectorAll("[data-gold-fill]");
+      if (golds.length) {
+        var onScreen = [];
+        var io = new IntersectionObserver(function (entries) {
+          for (var k = 0; k < entries.length; k++) {
+            var t = entries[k].target, at = onScreen.indexOf(t);
+            if (entries[k].isIntersecting && at === -1) onScreen.push(t);
+            else if (!entries[k].isIntersecting && at > -1) onScreen.splice(at, 1);
+          }
+          hideReasons.form = onScreen.length > 0;
           sync();
-        }, { threshold: 0.5 }).observe(submit);
+        }, { threshold: 0 });
+        for (var g = 0; g < golds.length; g++) io.observe(golds[g]);
       }
     }
   }

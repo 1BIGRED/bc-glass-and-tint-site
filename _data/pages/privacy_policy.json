@@ -20,11 +20,12 @@
         { "type": "ul", "items": [
           "Your name",
           "Your phone number",
-          "Your email address, if you provide it",
-          "The service or services you select. You can choose more than one",
-          "Your vehicle identification number, or VIN, if you are asking about a windshield replacement and choose to give it. That field is optional and it only appears when you select windshield replacement",
-          "Any details you include about your vehicle, home, or project",
-          "Which page of our Site you sent the form from, which the form records automatically so we know what you were reading",
+          "The one service you choose from the list: car tint, home or office film, blinds, chip repair, or other",
+          "Any details you include about your vehicle, home, or project. That box is optional",
+          "Your build code, if you built your tint on our Build Your Tint page and came to the form from there",
+          "Up to two days and times of day that work for you, if you pick them. That part is optional",
+          "A short reference number the form creates for your request, so you can mention it if you call",
+          "Which page of our Site you sent the form from, and whether the shop was open at that moment, which the form records automatically",
           "If a code in the web address tells us which ad, sign, or mailer sent you, we save that code with your form submission so we know what worked"
         ] },
         { "type": "p", "text": "Please do not type medical information, insurance policy or claim numbers, or your driver's license number into the details box. If we need any of that to do your job, we will ask you for it by phone." },

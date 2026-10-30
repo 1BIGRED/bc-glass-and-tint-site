@@ -100,7 +100,7 @@
 
   <p class="rq-consent t-label">{{ q.consent_intro | safe }}<a href="/privacy-policy">{{ q.consent_link | safe }}</a>{{ q.consent_outro | safe }}</p>
 
-  <button class="rq-submit t-button" type="submit" data-gold-zone data-label="{{ f.submit }}" data-sending="{{ f.sending }}">{{ f.submit | safe }}</button>
+  <button class="rq-submit t-button" type="submit" data-gold-zone data-gold-fill data-label="{{ f.submit }}" data-sending="{{ f.sending }}">{{ f.submit | safe }}</button>
   <p class="rq-fail" role="alert" data-rq-fail hidden>{{ f.send_error | rqFill(site) | safe }}</p>
 </form>
 

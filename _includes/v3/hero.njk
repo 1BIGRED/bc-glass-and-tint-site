@@ -86,7 +86,7 @@
       {% if o.lede %}<p class="t-lead fg-2 ws5-hero__sub measure">{{ o.lede | safe }}</p>{% endif %}
       {%- if o.service %}
       <div class="ws5-hero__act">
-        {%- if o.build_link %}<a class="ws5-btn" href="{{ o.build_href or '/build-your-tint' }}">{{ o.build_link | safe }}</a>{% endif %}
+        {%- if o.build_link %}<a class="ws5-btn" href="{{ o.build_href or '/build-your-tint' }}" data-build-link>{{ o.build_link | safe }}</a>{% endif %}
         {{ action({ slot: "hero", service: o.service }) }}
       </div>
       {%- endif %}

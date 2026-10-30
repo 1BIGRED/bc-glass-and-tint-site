@@ -12,7 +12,11 @@ function walk(d, out) {
   });
   return out;
 }
-let bad = 0, pics = 0, pages = 0, loose = [];
+// The site logo is not a photo (integration pass 2026-10-29): a <picture> whose <img> carries a
+// logo class (v3-logo-img) is a WebP source plus a PNG fallback by design, so it is counted apart and
+// held only to width, height and alt, never to the AVIF photo rule.
+const isLogo = (img) => /\sclass="[^"]*\blogo\b|\sclass="[^"]*-logo-img\b/i.test(img);
+let bad = 0, pics = 0, pages = 0, logos = 0, loose = [];
 walk(dir, []).forEach((f) => {
   const h = fs.readFileSync(f, "utf8");
   const rel = path.relative(dir, f).split(path.sep).join("/");
@@ -20,8 +24,16 @@ walk(dir, []).forEach((f) => {
   const pictures = h.match(/<picture[\s\S]*?<\/picture>/g) || [];
   let any = false;
   pictures.forEach((p) => {
-    pics++; any = true;
     const img = (p.match(/<img[^>]*>/) || [""])[0];
+    if (isLogo(img)) {
+      logos++;
+      const lp = [];
+      ["width", "height"].forEach((a) => { if (!new RegExp("\\s" + a + '="\\d+"').test(img)) lp.push("no " + a); });
+      if (!/\salt="[^"]+"/.test(img)) lp.push("no alt");
+      if (lp.length) { bad++; console.log("BAD  " + rel + " (logo): " + lp.join(", ")); }
+      return;
+    }
+    pics++; any = true;
     const probs = [];
     if (!/<source[^>]*type="image\/avif"/.test(p)) probs.push("no avif source");
     if (!/<source[^>]*type="image\/webp"/.test(p)) probs.push("no webp source");
@@ -35,6 +47,6 @@ walk(dir, []).forEach((f) => {
   if (outside.length) loose.push(rel + " (" + outside.length + ")");
   if (pre > 2) { bad++; console.log("BAD  " + rel + ": " + pre + " image preloads"); }
 });
-console.log("pages with <picture>: " + pages + ", <picture> elements: " + pics + ", problems: " + bad);
+console.log("pages with <picture>: " + pages + ", <picture> elements: " + pics + ", logo pictures (not photos): " + logos + ", problems: " + bad);
 console.log("photo <img> outside <picture>: " + (loose.length ? loose.join(", ") : "none"));
 process.exit(bad ? 1 : 0);

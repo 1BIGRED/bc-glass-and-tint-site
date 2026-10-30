@@ -10,7 +10,8 @@
   <div class="wrap ws5-footer__grid">
     <div class="ws5-footer__brand">
       {%- set lg = images._logo if (images and images._logo) else { png: "/logo-hero.png", width: 640, height: 238 } %}
-      <a class="ws5-footer__logo" href="/"><img class="v3-logo-img" src="{{ lg.png }}" width="{{ lg.width }}" height="{{ lg.height }}" alt="{{ logoAlt | safe }}" loading="lazy" decoding="async"></a>
+      {#- Same logo markup as the header (WebP with the PNG fallback; integration pass) -#}
+      <a class="ws5-footer__logo" href="/"><picture>{% if lg.webp %}<source type="image/webp" srcset="{{ lg.webp | safe }}">{% endif %}<img class="v3-logo-img" src="{{ lg.png }}" width="{{ lg.width }}" height="{{ lg.height }}" alt="{{ logoAlt | safe }}" loading="lazy" decoding="async"></picture></a>
       <p class="fg-2 measure">{{ F.tagline | safe }}</p>
     </div>
     <div class="ws5-footer__visit">

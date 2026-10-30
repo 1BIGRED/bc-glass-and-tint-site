@@ -21,6 +21,7 @@
       { "id": "home", "label": "My home or office", "href": "#home", "micro": "Window film and blinds. Free in-home measure." },
       { "id": "windshield", "label": "My windshield", "href": "#windshield", "price_ref": "services.chip_repair_first", "price_tpl": "Chip repair, ${amount} first chip.", "fallback": "Most chips fixed the same day." }
     ],
+    "words_ids": ["g-steven-hamberg", "g-sean-rush"],
     "faq": {
       "items": [
         { "question": "How much does window tint cost?", "answer": "It depends on the vehicle or the rooms, which windows, and whether old film has to come off first. See the <a href=\"/prices\">price guide</a>, or <a href=\"/build-your-tint\">build your tint</a> to see the options on your type of vehicle. We confirm your exact price before anything is booked." },

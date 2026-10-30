@@ -125,6 +125,42 @@
   .ws5-while { margin-top: var(--sp-16); }
 }
 
+/* Integration pass (CEO ruling 2026-10-29, phone length): on the homepage ("slim" lanes) the lane
+   photos give way under 768px and stay on tablet and desktop. The picture is lazy, so a hidden one
+   is never fetched. */
+@media (max-width: 767px) {
+  .ws5-lane--slim .ws5-lane__media { display: none; }
+}
+/* Homepage only, phones: one step tighter rhythm (8px scale, art direction G2). The ground changes
+   between sections still mark every section; nothing is removed here. */
+@media (max-width: 639px) {
+  .page-home .ws5-lane,
+  .page-home .ws5-words,
+  .page-home .ws5-how,
+  .page-home .ws5-also,
+  .page-home .ws5-faq,
+  .page-home .ws5-talk { padding-block: var(--sp-32); }
+  .page-home .ws5-lane--car .ws5-lane__copy::before { margin-bottom: var(--sp-24); }
+  .page-home .ws5-fear { margin-top: var(--sp-16); }
+  /* Phone-only trims to reach the 9-screen ruling. Each item still prints on desktop and lives on
+     its own page: the windshield lane's "While you are here" (/chip-repair, /headlight-taillight,
+     "Also done at the shop." below), the shop line under the reviews (the contact block repeats the
+     address and the storefront photo), and the Light Ramp strip under the hero copy (decorative,
+     aria-hidden; the car lane now peeks above the call bar as the scroll cue instead). */
+  .page-home .ws5-lane--chip .ws5-while,
+  .page-home .ws5-shopline,
+  .page-home.hero-ramp .ws5-hero--home .ws5-hero__media { display: none; }
+  .page-home.hero-ramp .ws5-hero--home .ws5-hero__copy { padding-bottom: var(--sp-32); }
+  .page-home .ws5-acc__i summary { min-height: 48px; padding: var(--sp-12) 0; }
+  .page-home .ws5-talk__form { margin-top: var(--sp-32) !important; padding-top: var(--sp-24); }
+  .page-home .ws5-talk__media .ws5-fig__img { aspect-ratio: 2 / 1; }
+  .page-home .ws5-steps { gap: var(--sp-12); }
+  .page-home .ws5-how .ws5-actrow { margin-top: var(--sp-24); }
+  .page-home .ws5-also--links .ws5-head,
+  .page-home .ws5-faq .ws5-head { margin-bottom: var(--sp-16); }
+  .page-home .ws5-acc + p { margin-top: var(--sp-16); }
+}
+
 @media (min-width: 1024px) {
   .ws5-hero--home .ws5-hero__media picture { display: flex; flex: 1 1 auto; }
   .ws5-hero--home .ws5-hero__media picture img { width: 100%; height: 100%; object-fit: cover; }

@@ -1,64 +1,7 @@
-/* BC Glass & Tint v3, prices page (WS4). Art direction 3.4 (the prices page), P-a to P-f (price
-   rows, From, fallback words, draft tag, the class switch), B-b (secondary button), accordion
-   (1.4). Page bundle /assets/h/prices.<hash>.css, front matter bundles: ["prices"].
-   The .v3-prices / .v3-prow / .v3-price rules are the price-row macro's styles
-   (_includes/v3/price.njk). They live here until the CEO rules where a core copy goes (WS4 log). */
-
-/* ---------- Price rows (P-a to P-e): a definition list, hairlines, no boxes ---------- */
-.v3-prices {
-  margin: 0;
-}
-.v3-prow {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-8) var(--sp-16);
-  min-height: 56px;
-  padding-block: var(--sp-12);
-  border-bottom: 1px solid var(--hair);
-}
-.v3-prow:first-child {
-  border-top: 1px solid var(--hair);
-}
-.v3-prow__label {
-  min-width: 0;
-}
-.v3-prow__note {
-  display: block;
-}
-.v3-prow__value {
-  flex: 0 1 auto;
-  max-width: 60%;
-  margin: 0;
-  text-align: right;
-  text-wrap: balance;
-}
-.v3-price {
-  white-space: nowrap;
-}
-.v3-price__from {
-  margin-right: var(--sp-4);
-}
-/* P-c: unconfirmed price words, Poppins 400 15px text-2, right aligned */
-.v3-price__fallback {
-  font-family: var(--font-text);
-  font-weight: 400;
-  font-size: 0.9375rem;
-  line-height: var(--lh-text);
-}
-/* P-d: preview builds only; never pushes a row past 375px (it wraps under the number) */
-.v3-price__draft {
-  display: inline-block;
-  padding: 0 var(--sp-4);
-  border: 1px solid var(--ctl-line);
-  border-radius: var(--radius);
-  color: var(--fg-2);
-  font-weight: 600;
-  letter-spacing: var(--tr-caps);
-  text-transform: uppercase;
-  white-space: nowrap;
-  vertical-align: middle;
-}
+/* BC Glass & Tint v3, prices page (WS4). Art direction 3.4 (the prices page), P-f (the class
+   switch), B-b (secondary button), accordion (1.4). Page bundle /assets/h/prices.<hash>.css, front
+   matter bundles: ["prices"]. The shared price-row rules (.v3-prices, .v3-prow, .v3-price, P-a to
+   P-e) moved to the core bundle, assets/v3/css/55-price-row.css (integration pass 2026-10-29). */
 
 /* ---------- Page frame ---------- */
 .pr-top {
