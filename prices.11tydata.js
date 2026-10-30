@@ -1,37 +1,26 @@
-// Data for prices.html, the full price guide. Wording: _data/pages/prices.json. Every number comes
-// from _data/pricing.json through lib/pricing.js (priceFor / quoteFor) with this build's price
-// mode; nothing is typed in a template. full_windshield_film (legal_hold) is never read here.
+// Data for /prices, v3 (WS4; blueprint 4.3 and 6.1, art direction 3.4, engineering 4.3 "prices page").
+// Wording: _data/pages/prices.json. Every number comes from _data/pricing.json through lib/pricing.js
+// with this build's price mode; nothing is typed in a template. full_windshield_film (legal_hold) is
+// never read here.
 //
-//   pr_cards    the three "From" cards: { gate result, parts for the big numeral, note }
-//   pr_auto     auto tint table: coverage rows x vehicle classes (quoteFor), plus the add-on lines
-//   pr_rows     the service tables, row by row (priceFor)
-//   pr_faq      the visible FAQ, answer chosen by the template_note rule; the FAQPage schema is
-//               built from this SAME list, so the page and the structured data cannot differ
-//   schema_ld   Breadcrumb, the one business node (#business), a Service with Offers ONLY for
-//               prices the public site shows (production gate, never a draft), FAQPage, WebSite,
-//               WebPage
+//   pr_car      the car tint table: rows and lines x vehicle classes, each cell a gated priceParts
+//               result; any_shown says whether one cell shows (else the page prints one honest list
+//               of fallback rows instead of a grid of identical words); fvp: the fronts-plus-rears
+//               arithmetic per class, only where all three prices pass AND sum
+//   pr_home     home, office and blinds rows (gated, fallback words by row)
+//   pr_ws       windshield chip rows (gated) plus the fixed text rows
+//   pr_any      true when at least one price on the page shows in this mode (picks the lede)
+//   pr_reviewed "Prices reviewed <date>" only when pricing.reviewed_on is a real date
+//   pr_faq      the visible FAQ; the FAQPage JSON-LD is built from this SAME list
+//   schema_ld   Breadcrumb, the one business node (#business), a Service with Offers ONLY for prices
+//               the public site shows (production gate, never a draft), FAQPage, WebSite, WebPage
 const S = require("./lib/schema");
 const { fill } = require("./lib/filters");
-const { priceFor, quoteFor, priceMode } = require("./lib/pricing");
+const P = require("./lib/pricing");
+const { priceParts } = require("./lib/eleventy-ws4");
 
-const MODE = priceMode(process.env);
-
-function at(obj, path) {
-  return String(path || "").split(".").reduce((o, k) => (o && typeof o === "object" ? o[k] : undefined), obj);
-}
-
-// "From $350" -> { from: true, cur: "$", num: "350" }; "$80" -> { from: false, ... }. Anything
-// else ("Starting at $15 per square foot") keeps its whole display string.
-function splitDisplay(display) {
-  const m = /^(from\s+)?\$([\d,]+)(.*)$/i.exec(String(display || "").trim());
-  if (!m || (m[3] || "").trim()) return { whole: String(display || "") };
-  return { from: !!m[1], cur: "$", num: m[2] };
-}
-
-function gated(entry) {
-  if (!entry || entry.legal_hold === true) return { show: false, display: "", draft: false };
-  return priceFor(entry, MODE);
-}
+const MODE = P.priceMode(process.env);
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function faqItems(data) {
   const pg = data.pages.prices;
@@ -40,8 +29,8 @@ function faqItems(data) {
     let answer = it.answer;
     if (it.answer_when_published) {
       // Published wording only when BOTH chip prices pass the PRODUCTION gate (confirmed + publish).
-      const a = priceFor(sv.chip_repair_first, "production");
-      const b = priceFor(sv.chip_repair_additional, "production");
+      const a = P.priceFor(sv.chip_repair_first, "production");
+      const b = P.priceFor(sv.chip_repair_additional, "production");
       if (a.show && b.show) {
         answer = it.answer_when_published
           .replace("{chip_repair_first}", sv.chip_repair_first.display)
@@ -52,86 +41,90 @@ function faqItems(data) {
   });
 }
 
+// A plain array from page data. Eleventy's computed-data proxy cannot take concat() or spread on
+// its dependency pass (Symbol lookups), so arrays are copied with an index loop first.
+function list(a) {
+  const out = [];
+  if (!a) return out;
+  for (let i = 0; i < a.length; i++) out.push(a[i]);
+  return out;
+}
+
+function gatedRows(data, rows) {
+  return list(rows).map((r) => ({
+    label: r.label,
+    fallback: r.fallback,
+    cell: priceParts(P.entryAt(data.pricing, r.price), MODE)
+  }));
+}
+
 module.exports = {
   eleventyComputed: {
-    pr_cards: (data) => {
-      const c = data.pages.prices.cards;
-      return (c.items || []).map((it) => {
-        const p = gated(at(data.pricing, it.price));
-        const np = it.note_price ? gated(at(data.pricing, it.note_price)) : null;
-        let note = "";
-        if (p.show) {
-          if (np && np.show && it.note) note = it.note.replace("{price}", np.display);
-          else if (it.note_alone) note = it.note_alone;
-        }
-        return Object.assign({}, it, { p, parts: p.show ? splitDisplay(p.display) : null, note, note_draft: !!(np && np.show && np.draft) });
-      });
-    },
-    pr_auto: (data) => {
+    pr_car: (data) => {
       const pr = data.pricing || {};
       const a = pr.auto_tint || {};
-      const sec = data.pages.prices.sections.auto_tint;
+      const sec = data.pages.prices.sections.car;
       const byId = {};
       (pr.vehicle_classes || []).forEach((c) => { byId[c.id] = c; });
-      const classes = (sec.class_order || []).map((id) => byId[id]).filter(Boolean);
-      const rows = (sec.row_order || []).filter((k) => a.coverage && a.coverage[k]).map((k) => ({
-        label: a.coverage[k].label,
-        cells: classes.map((c) => quoteFor(pr, c.id, a.coverage[k].panels, MODE))
-      }));
-      const lines = (sec.line_rows || []).filter((k) => a.panels && a.panels[k]).map((k) => ({
-        label: a.panels[k].label,
-        cells: classes.map((c) => gated(a.panels[k][c.id]))
-      }));
-      return { classes, rows, lines };
-    },
-    pr_rows: (data) => {
-      const pg = data.pages.prices;
-      const sv = (data.pricing && data.pricing.services) || {};
-      const out = {};
-      Object.keys(pg.sections).forEach((key) => {
-        const rows = pg.sections[key].rows;
-        if (!rows) return;
-        out[key] = rows.filter((k) => sv[k]).map((k) => ({
-          key: k,
-          label: (pg.row_labels && pg.row_labels[k]) || sv[k].label,
-          price: gated(sv[k])
-        }));
+      const classes = list(sec.class_order).map((id) => byId[id]).filter(Boolean);
+      const rows = [];
+      list(sec.rows).forEach((r) => {
+        if (a.coverage && a.coverage[r.key]) rows.push({ label: r.label, cells: classes.map((c) => priceParts(a.coverage[r.key][c.id], MODE)) });
       });
-      return out;
+      list(sec.lines).forEach((r) => {
+        if (a.panels && a.panels[r.key]) rows.push({ label: r.label, cells: classes.map((c) => priceParts(a.panels[r.key][c.id], MODE)) });
+      });
+      const anyShown = rows.some((r) => r.cells.some((c) => c.show));
+      const fvp = classes.map((c) => ({ label: c.label, f: P.fullVsParts(pr, c.id, MODE) })).filter((x) => x.f);
+      return { classes, rows, any_shown: anyShown, fvp };
     },
-    pr_faq: (data) => faqItems(data),
-    // true when at least one price on the page shows in this mode (picks the hero intro line)
+    pr_home: (data) => gatedRows(data, data.pages.prices.sections.home.rows),
+    pr_ws: (data) => gatedRows(data, data.pages.prices.sections.windshield.rows),
     pr_any: (data) => {
       const pr = data.pricing || {};
+      const sec = data.pages.prices.sections;
+      const all = [];
       const a = pr.auto_tint || {};
-      const groups = [a.coverage || {}, a.panels || {}];
-      const auto = groups.some((g) => Object.keys(g).some((k) => Object.keys(g[k]).some((c) => gated(g[k][c]).show)));
-      const svc = Object.keys(pr.services || {}).some((k) => gated(pr.services[k]).show);
-      return auto || svc;
+      [a.coverage || {}, a.panels || {}].forEach((g) => Object.keys(g).forEach((k) => Object.keys(g[k]).forEach((c) => all.push(g[k][c]))));
+      list(sec.home.rows).forEach((r) => all.push(P.entryAt(pr, r.price)));
+      list(sec.windshield.rows).forEach((r) => all.push(P.entryAt(pr, r.price)));
+      return all.some((e) => P.priceFor(e, MODE).show);
     },
+    pr_has_auto: (data) => P.anyAutoPrice(data.pricing, MODE),
+    pr_reviewed: (data) => {
+      const d = data.pricing && data.pricing.reviewed_on;
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d || ""));
+      if (!m || +m[2] < 1 || +m[2] > 12) return "";
+      return data.pages.prices.reviewed_line.replace("{date}", MONTHS[+m[2] - 1] + " " + +m[3] + ", " + m[1]);
+    },
+    pr_faq: (data) => faqItems(data),
     schema_ld: (data) => {
       const pg = data.pages.prices;
       const pr = data.pricing || {};
       const url = S.pageUrl(data.slug);
-      // Offers only for prices the PUBLIC site shows (status confirmed AND publish true).
+      // Offers only for prices the PUBLIC site shows (status confirmed AND publish true). This page
+      // prints the same production numbers, so visible prices and markup match (blueprint 6.1).
       const offers = [];
       function offer(name, entry) {
-        const r = priceFor(entry, "production");
+        const r = P.priceFor(entry, "production");
         if (!r.show || r.draft) return;
         const o = { "@type": "Offer", name, priceCurrency: pr.currency || "USD", url };
-        if (/^from\b/i.test(String(entry.display || ""))) {
-          o.priceSpecification = { "@type": "PriceSpecification", minPrice: entry.amount, priceCurrency: pr.currency || "USD" };
+        if (/^(from|typically)\b/i.test(r.display)) {
+          o.priceSpecification = { "@type": "PriceSpecification", minPrice: Array.isArray(entry.range) ? entry.range[0] : entry.amount, priceCurrency: pr.currency || "USD" };
+          if (Array.isArray(entry.range)) o.priceSpecification.maxPrice = entry.range[1];
         } else {
           o.price = entry.amount;
         }
         offers.push(o);
       }
       const a = pr.auto_tint || {};
+      const sec = pg.sections;
       (pr.vehicle_classes || []).forEach((c) => {
-        Object.keys(a.coverage || {}).forEach((k) => offer(a.coverage[k].label + ", " + c.plural, a.coverage[k][c.id]));
-        Object.keys(a.panels || {}).forEach((k) => offer(a.panels[k].label + ", " + c.plural, a.panels[k][c.id]));
+        list(sec.car.rows).forEach((r) => a.coverage && a.coverage[r.key] && offer(r.label + ", " + c.plural, a.coverage[r.key][c.id]));
+        list(sec.car.lines).forEach((r) => a.panels && a.panels[r.key] && offer(r.label + ", " + c.plural, a.panels[r.key][c.id]));
       });
-      Object.keys(pr.services || {}).forEach((k) => offer(pr.services[k].label, pr.services[k]));
+      list(sec.home.rows).forEach((r) => offer(r.label, P.entryAt(pr, r.price)));
+      list(sec.windshield.rows).forEach((r) => offer(r.label, P.entryAt(pr, r.price)));
       const service = offers.length ? {
         "@type": "Service",
         "@id": url + "#service",

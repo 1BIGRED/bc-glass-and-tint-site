@@ -34,16 +34,20 @@
     "closes": "17:00",
     "timezone": "America/Los_Angeles"
   },
-  "closures": [],
-  "hours_unknown": [
-    { "date": "2026-11-26", "note": "Thanksgiving, hours not confirmed" },
-    { "date": "2026-11-27", "note": "Day after Thanksgiving, hours not confirmed" },
-    { "date": "2026-12-24", "note": "Christmas Eve, hours not confirmed" },
-    { "date": "2026-12-25", "note": "Christmas Day, hours not confirmed" },
-    { "date": "2026-12-26", "note": "Day after Christmas, hours not confirmed" },
-    { "date": "2026-12-31", "note": "New Year's Eve, hours not confirmed" },
-    { "date": "2027-01-01", "note": "New Year's Day, hours not confirmed" }
+  "closures": [
+    { "date": "2026-11-26", "reason": "Thanksgiving" },
+    { "date": "2026-12-24", "reason": "Christmas Eve" },
+    { "date": "2026-12-25", "reason": "Christmas Day" },
+    { "date": "2026-12-26", "reason": "the day after Christmas" }
   ],
+  "hours_unknown": [
+    { "date": "2027-01-01", "note": "New Year's Day, not named by the owner" }
+  ],
+  "day_notes": [],
+  "hours_source": "Owner answer 2026-10-29 (decisions-and-rules.md, Holiday 2026 hours): normal Tuesday to Saturday, 9 to 5, all season, closed only Thanksgiving Day (Thu Nov 26) and Dec 24, 25 and 26. New Year week normal; Fri Jan 1 2027 was not named, so it stays unknown. Add a closure only when the owner confirms it; a day not named stays in hours_unknown, never shown as open.",
+  "texts_confirmed": false,
+  "chip_photo_assess": false,
+  "lines": { "text_reply": null, "request_confirm": null, "call_length": null },
   "maps_url": "https://www.google.com/maps?cid=13670610033548722770",
   "payment_accepted": "Cash, Credit Card, Debit Card",
   "area_served": [

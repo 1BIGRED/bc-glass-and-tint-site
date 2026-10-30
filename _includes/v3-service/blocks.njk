@@ -1,0 +1,377 @@
+{#- WS5 shared section macros (overhaul v3). Used by index.njk, layouts/service-v3.njk,
+    layouts/city-v3.njk and the info pages. Import WITH CONTEXT (they read site, pages, pricing,
+    reviews, ws5photos, ws5shades and price_mode):
+      {% import "v3-service/blocks.njk" as b with context %}
+
+    Rules carried here so no page can break them:
+      - every booking control is the WS2 action macro (no hand-written tel: or sms: links; the
+        contact block's printed number and the footer are the two allowed exceptions);
+      - every price goes through the WS4 priceRow macro (the lib/pricing.js gate), with the
+        blueprint 6.1 fallback words by context, never "Call for a quote" in a lane;
+      - every review is a featurable Google review (ws5review / ws5featured throw otherwise);
+      - every photo is a ws5photos key; a key that resolves to nothing prints nothing;
+      - no text on photos, captions sit under them (art direction PH3). -#}
+{%- from "v3/actions.njk" import action with context -%}
+{%- from "v3/price.njk" import priceRow with context -%}
+{%- from "v3/media.njk" import picture -%}
+{%- from "v3/request.njk" import requestForm with context -%}
+
+{#- Eyebrow plus H2 (one heading system, art direction T2). -#}
+{% macro head(eyebrow, title, id, opts) -%}
+{%- set o = opts or {} -%}
+<header class="ws5-head{% if o.cls %} {{ o.cls }}{% endif %}">
+  {% if eyebrow %}<p class="t-eyebrow">{{ eyebrow | safe }}</p>{% endif %}
+  <h2 id="{{ id }}">{{ title | safe }}</h2>
+  {% if o.lede %}<p class="t-lead fg-2 measure">{{ o.lede | safe }}</p>{% endif %}
+</header>
+{%- endmacro %}
+
+{#- One photo with its caption under it. sizes must be honest; opts { ratio, high, eager, cls }. -#}
+{% macro photo(key, sizes, opts) -%}
+{%- set o = opts or {} -%}
+{%- set ph = ws5photos[key] -%}
+{%- if ph %}
+<figure class="ws5-fig{% if o.ratio %} ws5-fig--{{ o.ratio }}{% endif %}{% if o.cls %} {{ o.cls }}{% endif %}" data-photo="{{ key }}" data-photo-source="{{ ph.source }}">
+  <div class="ws5-fig__img">{{ picture(ph.item, sizes, { alt: ph.alt, high: o.high, eager: o.eager }) }}</div>
+  {%- if ph.caption %}
+  <figcaption class="t-label fg-2">{{ ph.caption | safe }}</figcaption>
+  {%- endif %}
+</figure>
+{%- endif %}
+{%- endmacro %}
+
+{#- One verbatim Google review (art direction V-a, V-b). No stars, no logo, no quote glyphs. -#}
+{% macro quote(r, opts) -%}
+{%- set o = opts or {} -%}
+<figure class="ws5-quote{% if o.cls %} {{ o.cls }}{% endif %}" data-review="{{ r.id }}">
+  <blockquote><p>{{ r.text | safe }}</p></blockquote>
+  <figcaption class="t-label fg-2"><a href="{{ (r.url or reviews.listing_url) | safe }}" target="_blank" rel="noopener">{{ r.author_display | safe }}{% if r.month_year %}, {{ r.month_year | safe }}{% endif %}, {{ pages.sections.words.attribution | safe }}</a></figcaption>
+</figure>
+{%- endmacro %}
+
+{#- A dl of single price rows: rows = [{ label, ref, fallback_key, note }], fallback default key. -#}
+{% macro prices(rows, fallbackKey) -%}
+{%- set S = pages.sections -%}
+<dl class="v3-prices ws5-prices">
+{%- for r in rows %}
+  {{ priceRow(r.label, (pricing | ws5at(r.ref)) if r.ref else null, { fallback: S.price_fallback[r.fallback_key or fallbackKey or "service"], draft_label: S.draft_label, note: r.note }) }}
+{%- endfor %}
+</dl>
+{%- endmacro %}
+
+{#- The car price rows with the Car / SUV / Pickup / Van switch (art direction P-f). Without JS
+    the switch stays hidden and Car shows (engineering 2.3). -#}
+{% macro carPrices(uid, rows) -%}
+{%- set S = pages.sections -%}
+{%- set R = rows or S.car.rows -%}
+<div class="ws5-classes" data-class-switch>
+  <fieldset class="ws5-seg" data-class-seg hidden>
+    <legend class="vh">{{ S.classes_label | safe }}</legend>
+{%- for c in pricing.vehicle_classes %}
+    <label class="ws5-seg__opt"><input type="radio" name="{{ uid }}-class" value="{{ c.id }}"{% if loop.first %} checked{% endif %}><span>{{ c.label | safe }}</span></label>
+{%- endfor %}
+  </fieldset>
+{%- for c in pricing.vehicle_classes %}
+  <div class="ws5-classpane{% if loop.first %} is-on{% endif %}" data-class="{{ c.id }}">
+    <dl class="v3-prices ws5-prices" aria-label="{{ c.label | safe }}">
+{%- for r in R %}
+      {{ priceRow(r.label, pricing | ws5at(r.ref, c.id), { fallback: S.price_fallback.auto, draft_label: S.draft_label, note: r.note }) }}
+{%- endfor %}
+    </dl>
+    {%- set ar = pricing | ws5arith(c.id, price_mode) %}
+    {%- if ar %}
+    <p class="t-label fg-2 ws5-arith">{{ S.car.arith | replace("{front}", ar.front) | replace("{rear}", ar.rear) | replace("{full}", ar.full) | safe }}{% if ar.draft %} <span class="v3-prow__draft t-label">{{ S.draft_label | safe }}</span>{% endif %}</p>
+    {%- endif %}
+  </div>
+{%- endfor %}
+</div>
+{%- endmacro %}
+
+{#- Mini shade preview (art direction 3.1 #2a, LR-a, LR-b). Example numerals carry the example
+    label until the owner lists the stocked shades. Glare to Calm plays here once (60-moments.js). -#}
+{% macro shadePreview(uid) -%}
+{%- set W = pages.sections.shade -%}
+{%- set sh = ws5shades -%}
+{%- set start = 35 -%}
+<div class="ws5-shade" data-shade-preview data-glare-once>
+  <div class="ws5-shade__view">
+    <div class="ws5-shade__pane" data-shade-pane style="--pane-a: 0.3795" aria-hidden="true"></div>
+    <div class="ws5-shade__read">
+      <p class="ws5-shade__num"><span class="t-numeral tnum" data-shade-num>{{ start }}</span><span class="t-label fg-2">{{ W.unit | safe }}</span></p>
+      <p class="t-label ws5-shade__legal" data-shade-legal data-ok="{{ W.front_ok }}" data-no="{{ W.front_no }}">{{ W.front_ok | safe }}</p>
+    </div>
+    <div class="ws5-shade__glare" aria-hidden="true"></div>
+  </div>
+  <div class="ws5-shade__meter" aria-hidden="true"><i data-shade-meter style="transform: scaleX(0.35)"></i></div>
+  <div class="ws5-shade__chips" role="group" aria-label="{{ W.group_aria | safe }}">
+{%- for s in sh.items %}
+    <button type="button" class="ws5-chip" data-vlt="{{ s.vlt }}" data-alpha="{{ s.alpha }}" data-front="{{ 'yes' if s.legal_front else 'no' }}" aria-pressed="{{ 'true' if s.vlt == start else 'false' }}" aria-label="{{ W.chip_aria | replace('{vlt}', s.vlt) }}" style="--pane-a: {{ s.alpha }}"><span class="tnum">{{ s.vlt }}</span></button>
+{%- endfor %}
+  </div>
+  <p class="t-label fg-2 measure">{{ W.caption | safe }}</p>
+  <p class="t-label fg-2">{{ W.sim | safe }}{% if sh.example %} {{ sh.label | safe }}.{% endif %}</p>
+</div>
+{%- endmacro %}
+
+{#- Review row for "In their words" and city proof. -#}
+{% macro reviewRow(ids) -%}
+<div class="ws5-quotes">
+{%- for id in ids %}{{ quote(reviews | ws5review(id)) }}{% endfor %}
+</div>
+{%- endmacro %}
+
+{#- "How booking works." (blueprint 3.6). steps override optional. -#}
+{% macro howBooking(service, opts) -%}
+{%- set o = opts or {} -%}
+{%- set H = pages.sections.how -%}
+{%- set uid = o.uid or "how" -%}
+<section class="ws5-how section {{ 'mood-warm bg-paper-2' if o.mood == 'warm' else 'mood-dark bg-ink-1' }}" aria-labelledby="{{ uid }}-h">
+  <div class="wrap">
+    {{ head(H.eyebrow, o.h2 or H.h2, uid + "-h") }}
+    <ol class="ws5-steps list-plain">
+{%- for s in (o.steps or H.steps) %}
+      <li class="ws5-steps__i"><span class="ws5-steps__n" aria-hidden="true">{{ loop.index }}</span><div><h3 class="ws5-steps__t">{{ s.title | safe }}</h3><p class="fg-2">{{ s.text | safe }}</p></div></li>
+{%- endfor %}
+    </ol>
+    <p class="t-lead measure ws5-fear">{{ (o.fear or H.fear) | safe }}</p>
+    <div class="ws5-actrow">{{ action({ slot: "lane", service: service or "any" }) }}</div>
+  </div>
+</section>
+{%- endmacro %}
+
+{#- Accordion FAQ (native details). Visible items = the FAQPage items, built from the same list. -#}
+{% macro faq(items, opts) -%}
+{%- set o = opts or {} -%}
+{%- set F = pages.sections.faq -%}
+{%- set uid = o.uid or "faq" -%}
+<section class="ws5-faq section--minor {{ 'mood-warm' if o.mood == 'warm' else 'mood-dark' }} {{ o.ground or ('bg-paper' if o.mood == 'warm' else 'bg-ink-1') }}" aria-labelledby="{{ uid }}-h"{% if o.id %} id="{{ o.id }}"{% endif %}>
+  <div class="wrap">
+    <div class="ws5-faq__in">
+      {{ head(o.eyebrow or F.eyebrow, o.h2 or F.h2, uid + "-h") }}
+      <div class="ws5-acc">
+{%- for it in items %}
+        <details class="ws5-acc__i">
+          <summary><span>{{ it.question | safe }}</span><i aria-hidden="true"></i></summary>
+          <div class="ws5-acc__a measure">{{ it.answer | safe }}</div>
+        </details>
+{%- endfor %}
+      </div>
+      {%- if not o.no_more %}
+      <p class="t-body"><a href="{{ F.more_href }}">{{ F.more_link | safe }}</a></p>
+      {%- endif %}
+    </div>
+  </div>
+</section>
+{%- endmacro %}
+
+{#- "Also done at the shop." (blueprint 3.7). Carries id="services" on the homepage (the
+    /services redirect target, engineering 2.2). -#}
+{% macro alsoDone(opts) -%}
+{%- set o = opts or {} -%}
+{%- set A = pages.sections.also -%}
+<section class="ws5-also section--minor" aria-labelledby="also-h"{% if o.id %} id="{{ o.id }}"{% endif %}>
+  <div class="wrap">
+    {{ head(A.eyebrow, o.h2 or A.h2, "also-h") }}
+    <ul class="ws5-list list-plain">
+{%- for it in (o.items or A.items) %}{% if it.href != o.skip %}
+      <li class="ws5-list__i"><h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ it.text | safe }}</p><a href="{{ it.href }}">{{ it.link | safe }}</a></li>
+{%- endif %}{% endfor %}
+    </ul>
+  </div>
+</section>
+{%- endmacro %}
+
+{#- Status chip, long form, painted by the WS2 action system ([data-bc-status]). Empty without JS. -#}
+{% macro status() -%}
+<p class="v3-status v3-status--long ws5-status" data-bc-status data-form="long"><span class="v3-status__dot" aria-hidden="true"></span><span class="v3-status__txt"></span></p>
+{%- endmacro %}
+
+{#- "Talk to a person." (blueprint 3.9). Anchor #quote kept on the homepage. opts:
+    { id, service, form_service, source, h2, photo, uid } -#}
+{% macro talk(opts) -%}
+{%- set o = opts or {} -%}
+{%- set T = pages.sections.talk -%}
+{%- set uid = o.uid or "talk" -%}
+<section class="ws5-talk section {{ 'mood-warm' if o.mood == 'warm' else 'mood-dark' }} {{ o.ground or ('bg-paper-2' if o.mood == 'warm' else 'bg-ink-0') }}" aria-labelledby="{{ uid }}-h"{% if o.id %} id="{{ o.id }}"{% endif %}>
+  <div class="wrap grid ws5-talk__grid">
+    <div class="ws5-talk__copy">
+      {{ status() }}
+      <h2 id="{{ uid }}-h">{{ (o.h2 or T.h2) | safe }}</h2>
+      <p class="ws5-talk__num"><a class="tnum" href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a></p>
+      <div class="ws5-actrow">{{ action({ slot: "contact", service: o.service or "any" }) }}</div>
+      <p class="t-body">{{ T.hours | safe }}</p>
+      <p class="t-body ws5-closures" data-closures data-intro="{{ T.closures_intro }}" data-fact="{{ T.closed_fact }}" hidden></p>
+      <p class="t-body">{{ site.address.display | safe }}<br><a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ T.map_link | safe }}</a></p>
+      <p class="t-body fg-2">{{ T.where | safe }}</p>
+      <details class="ws5-talk__form" data-talk-form>
+        <summary><span class="t-h3">{{ T.form_heading | safe }}</span><span class="t-label fg-2">{{ T.form_note | safe }}</span><i aria-hidden="true"></i></summary>
+        <div class="ws5-talk__formbody">{{ requestForm({ source: o.source or "contact", service: o.form_service, id: uid + "-rq" }) }}</div>
+      </details>
+    </div>
+    {%- if ws5photos[o.photo or T.photo] %}
+    <div class="ws5-talk__media">{{ photo(o.photo or T.photo, "(min-width: 1024px) 40vw, 100vw", { ratio: "45" }) }}</div>
+    {%- endif %}
+  </div>
+</section>
+{%- endmacro %}
+
+{#- The car lane (blueprint 3.2). opts { uid, h2, eyebrow, compact, ground } -#}
+{% macro carLane(opts) -%}
+{%- set o = opts or {} -%}
+{%- set C = pages.sections.car -%}
+{%- set uid = o.uid or "car" -%}
+{%- set anyPrice = pricing | anyAutoPrice(price_mode) -%}
+<section class="ws5-lane ws5-lane--car section mood-dark {{ o.ground or 'bg-ink-0' }}" id="{{ o.id or C.id }}" aria-labelledby="{{ uid }}-h">
+  <div class="wrap grid ws5-lane__grid">
+    <div class="ws5-lane__copy">
+      {{ head(o.eyebrow or C.eyebrow, o.h2 or C.h2, uid + "-h", { lede: C.lede }) }}
+      {{ carPrices(uid) }}
+      <p class="t-label fg-2 measure">{{ C.moves | safe }}</p>
+      <div class="ws5-actrow">
+        <a class="ws5-btn" href="{{ C.build_href }}">{{ (C.build_link_price if anyPrice else C.build_link_plain) | safe }}</a>
+        {{ action({ slot: "lane", service: "car" }) }}
+      </div>
+      {%- if not o.compact %}
+      {{ quote(reviews | ws5review(C.review)) }}
+      {%- endif %}
+    </div>
+    <div class="ws5-lane__side">
+      {{ shadePreview(uid) }}
+    </div>
+  </div>
+</section>
+{%- endmacro %}
+
+{#- The home lane (blueprint 3.3), Warm Gallery band. -#}
+{% macro homeLane(opts) -%}
+{%- set o = opts or {} -%}
+{%- set Hm = pages.sections.home -%}
+{%- set S = pages.sections -%}
+{%- set uid = o.uid or "home" -%}
+<section class="ws5-lane ws5-lane--home section mood-warm bg-paper" id="{{ o.id or Hm.id }}" aria-labelledby="{{ uid }}-h">
+  <div class="wrap grid ws5-lane__grid ws5-lane__grid--mirror">
+    {%- if ws5photos[Hm.photo] %}
+    <div class="ws5-lane__media">{{ photo(Hm.photo, "(min-width: 1024px) 50vw, 100vw", { ratio: "54" }) }}</div>
+    {%- endif %}
+    <div class="ws5-lane__copy">
+      {{ head(o.eyebrow or Hm.eyebrow, o.h2 or Hm.h2, uid + "-h") }}
+      <div class="ws5-pair">
+        <div class="ws5-pair__i">
+          <h3 class="t-h3">{{ Hm.film.h3 | safe }}</h3>
+          <p>{{ Hm.film.text | safe }}</p>
+          {{ prices([{ label: Hm.film.row_label, ref: Hm.film.ref }], "home") }}
+          <p class="t-body"><a href="{{ Hm.film.href }}">{{ Hm.film.link | safe }}</a> <span class="fg-2">&middot;</span> <a href="{{ Hm.commercial_href }}">{{ Hm.commercial_link | safe }}</a></p>
+        </div>
+        <div class="ws5-pair__i">
+          <h3 class="t-h3">{{ Hm.blinds.h3 | safe }}</h3>
+          <p>{{ Hm.blinds.text | safe }}</p>
+          {{ prices([{ label: Hm.blinds.row_label, ref: Hm.blinds.ref }], "home") }}
+          <p class="t-body"><a href="{{ Hm.blinds.href }}">{{ Hm.blinds.link | safe }}</a></p>
+        </div>
+      </div>
+      <div class="ws5-actrow">{{ action({ slot: "lane", service: "home" }) }}</div>
+      <p class="t-label fg-2">{{ (site.lines.request_confirm if (site.lines and site.lines.request_confirm) else Hm.confirm_fallback) | safe }}</p>
+      {%- if not o.compact %}
+      {{ quote(reviews | ws5review(Hm.review)) }}
+      {%- endif %}
+    </div>
+  </div>
+</section>
+{%- endmacro %}
+
+{#- The windshield lane (blueprint 3.4). -#}
+{% macro chipLane(opts) -%}
+{%- set o = opts or {} -%}
+{%- set W = pages.sections.chip -%}
+{%- set uid = o.uid or "ws" -%}
+<section class="ws5-lane ws5-lane--chip section mood-dark {{ o.ground or 'bg-ink-1' }}" id="{{ o.id or W.id }}" aria-labelledby="{{ uid }}-h">
+  <div class="wrap grid ws5-lane__grid ws5-lane__grid--mirror">
+    {%- if ws5photos[W.photo] %}
+    <div class="ws5-lane__media">{{ photo(W.photo, "(min-width: 1024px) 50vw, 100vw", { ratio: "43" }) }}</div>
+    {%- endif %}
+    <div class="ws5-lane__copy">
+      {{ head(o.eyebrow or W.eyebrow, o.h2 or W.h2, uid + "-h", { lede: W.lede }) }}
+      {{ prices(W.rows, "service") }}
+      <p class="t-body">{{ W.bigger | safe }} <a href="{{ W.bigger_href }}">{{ W.bigger_link | safe }}</a></p>
+      <div class="ws5-actrow">{{ action({ slot: "lane", service: "chip" }) }}</div>
+      {%- if site.chip_photo_assess %}<p class="t-label fg-2">{{ W.photo_line | safe }}</p>{% endif %}
+      <div class="ws5-while">
+        <h3 class="t-eyebrow">{{ W.while_heading | safe }}</h3>
+        <ul class="list-plain">{% for w in W.while %}<li><span class="ws5-while__t">{{ w.title | safe }}:</span> <span class="fg-2">{{ w.text | safe }}</span></li>{% endfor %}</ul>
+      </div>
+      {%- if not o.compact %}
+      {{ quote(reviews | ws5review(W.review)) }}
+      {%- endif %}
+    </div>
+  </div>
+</section>
+{%- endmacro %}
+
+{#- "In their words." (blueprint 3.5). Platform line only from a fresh live read
+    (site.reviews.google_as_of within 14 days of the build, engineering 2.3); otherwise no count. -#}
+{% macro words(opts) -%}
+{%- set o = opts or {} -%}
+{%- set V = pages.sections.words -%}
+{%- set rv = site.reviews or {} -%}
+<section class="ws5-words section mood-dark bg-ink-0" aria-labelledby="words-h">
+  <div class="wrap">
+    {{ head(V.eyebrow, o.h2 or V.h2, "words-h") }}
+    <p class="t-label fg-2 ws5-words__label">{{ V.label | safe }}.{% if rv.google_as_of and (rv.google_as_of | ws5fresh(14)) %} {{ V.platform_line | replace("{rating}", rv.google_rating) | replace("{count}", rv.google_count) | replace("{month}", rv.google_as_of_label or rv.google_as_of) | safe }}.{% endif %} <a href="{{ reviews.listing_url | safe }}" target="_blank" rel="noopener">{{ V.all_link | safe }}</a> <span class="fg-2">&middot;</span> <a href="{{ V.page_href }}">{{ V.page_link | safe }}</a></p>
+    {{ reviewRow(o.ids or V.ids) }}
+    {%- if not o.no_shop %}
+    <div class="ws5-shopline">
+      {{ photo(V.shop_photo, "(min-width: 1024px) 320px, 50vw", { ratio: "43", cls: "ws5-shopline__img" }) }}
+      <p class="t-body">{{ V.shop_line | safe }}</p>
+    </div>
+    {%- endif %}
+  </div>
+</section>
+{%- endmacro %}
+
+{#- Gallery-style work tiles for a service page: items from _data/gallery.json (checked jobs). -#}
+{% macro work(items, opts) -%}
+{%- set o = opts or {} -%}
+<ul class="ws5-work list-plain">
+{%- for it in items %}{% if images[it.id] %}
+  <li class="ws5-work__i">
+    <figure>
+      <div class="ws5-work__img">{{ picture(images[it.id], "(min-width: 1024px) 25vw, 50vw", { alt: it.alt }) }}</div>
+      <figcaption><span class="ws5-work__t">{{ it.title | safe }}</span></figcaption>
+    </figure>
+  </li>
+{%- endif %}{% endfor %}
+</ul>
+{%- endmacro %}
+
+{#- Generic typed content blocks for service and info pages (pg.v3.blocks):
+      { type: "list", heading, eyebrow, lede, items: [{ title, text }] }
+      { type: "prose", heading, eyebrow, paragraphs: [] }
+      { type: "statute", heading, eyebrow, lede, items: [{ term, detail, source }], note }
+      { type: "steps", heading, eyebrow, items: [{ title, text }] }
+    Grounds alternate by the page's mood. -#}
+{% macro blocks(list, mood, prefix) -%}
+{%- for bk in list %}
+{%- set bid = (prefix or "bk") + "-" + loop.index %}
+<section class="ws5-block ws5-block--{{ bk.type }} section--minor {{ ('bg-paper-2' if loop.index % 2 else 'bg-paper') if mood == 'warm' else ('bg-ink-1' if loop.index % 2 else 'bg-ink-0') }}" aria-labelledby="{{ bid }}-h"{% if bk.id %} id="{{ bk.id }}"{% endif %}>
+  <div class="wrap">
+    {{ head(bk.eyebrow, bk.heading, bid + "-h", { lede: bk.lede }) }}
+{%- if bk.type == "list" or bk.type == "steps" %}
+    <ul class="ws5-list list-plain{% if bk.type == 'steps' %} ws5-list--steps{% endif %}">
+{%- for it in bk.items %}
+      <li class="ws5-list__i">{% if bk.type == 'steps' %}<span class="ws5-steps__n" aria-hidden="true">{{ loop.index }}</span>{% endif %}<h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ it.text | safe }}</p>{% if it.href %}<a href="{{ it.href }}">{{ it.link | safe }}</a>{% endif %}</li>
+{%- endfor %}
+    </ul>
+{%- elif bk.type == "prose" %}
+    <div class="ws5-prose measure stack-16">{% for p in bk.paragraphs %}<p>{{ p | safe }}</p>{% endfor %}</div>
+{%- elif bk.type == "statute" %}
+    <ol class="ws5-statute list-plain">
+{%- for it in bk.items %}
+      <li class="ws5-statute__i"><p class="ws5-statute__term">{{ it.term | safe }}</p><p class="fg-2">{{ it.detail | safe }}</p><p class="t-label fg-2">{{ it.source | safe }}</p></li>
+{%- endfor %}
+    </ol>
+    {%- if bk.note %}<p class="t-body">{{ bk.note | safe }}</p>{% endif %}
+{%- endif %}
+  </div>
+</section>
+{%- endfor %}
+{%- endmacro %}

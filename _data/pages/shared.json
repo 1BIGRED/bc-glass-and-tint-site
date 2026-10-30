@@ -157,6 +157,64 @@
       "tint_law_href": "/nevada-tint-law"
     }
   },
+  "v3": {
+    "status": {
+      "open": "Open now until {close}",
+      "open_short": "Open",
+      "closed_short": "Closed",
+      "closed_next": "Closed now. Opens {day} at {open}.",
+      "closed_nonext": "Closed now.",
+      "holiday_next": "Closed for {reason}. Opens {day} at {open}.",
+      "holiday_nonext": "Closed for {reason}.",
+      "calls_open": "Calls open {day} at {open}",
+      "calls_open_short": "Calls open {day} {open}",
+      "days_short": { "Sunday": "Sun", "Monday": "Mon", "Tuesday": "Tue", "Wednesday": "Wed", "Thursday": "Thu", "Friday": "Fri", "Saturday": "Sat" }
+    },
+    "actions": {
+      "group_aria": "Call or text us",
+      "p_call": "Call",
+      "p_text": "Text",
+      "p_request": "Request a time",
+      "p_measure": "Book an in-home measure",
+      "s_call": "or call",
+      "s_text": "or text",
+      "s_request": "or request a time",
+      "p_text_chip_photo": "Text us a photo of the chip",
+      "p_text_chip_plain": "Text us your vehicle and where the chip is",
+      "s_text_chip_photo": "or text a photo of the chip",
+      "s_text_chip_plain": "or text us your vehicle and where the chip is",
+      "chip_body": "Chip repair question",
+      "p_call_build": "Call {number} with this build",
+      "s_call_build": "or call with this build",
+      "p_text_build": "Text this build",
+      "s_text_build": "or text this build",
+      "build_body": "Hi BC Glass & Tint, here is my build {code}.",
+      "bar_text": "Text",
+      "hours_call": "Call {hours}",
+      "header": {
+        "logo_alt": "BC Glass and Tint, Satisfaction Guaranteed",
+        "nav_label": "Main",
+        "nav": [
+          { "label": "Car tint", "href": "/auto-tint" },
+          { "label": "Home and office", "href": "/home-tint" },
+          { "label": "Windshield", "href": "/windshield" },
+          { "label": "Prices", "href": "/prices" },
+          { "label": "Gallery", "href": "/gallery" }
+        ],
+        "drawer_extra": [
+          { "label": "Build your tint", "href": "/build-your-tint" },
+          { "label": "Reviews", "href": "/reviews" },
+          { "label": "The shop", "href": "/about" },
+          { "label": "Questions and answers", "href": "/qa" },
+          { "label": "Request a time", "href": "/book" }
+        ],
+        "menu_label": "Menu",
+        "close_label": "Close",
+        "call": "Call",
+        "call_aria": "Call"
+      }
+    }
+  },
   "cookie_bar": {
     "label": "Analytics and advertising notice",
     "text": "We use Google Analytics, Google Ads and Microsoft Clarity to see which pages people read, how they move through them, whether they tap to call, and which ads led to a call or a form. We do not sell anything. ",

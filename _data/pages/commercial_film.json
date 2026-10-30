@@ -1,130 +1,60 @@
 {
+  "_note": "Office and storefront film page, overhaul v3 (WS5), Warm Gallery. 'Licensed' kept off this quote area until the NSCB question is answered (blueprint lesson L22). Security film never implies unbreakable glass (decisions-and-rules). Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "Commercial Window Film, Boulder City &amp; Las Vegas | BC Glass",
-    "description": "Commercial window film for Boulder City and Henderson businesses. Cuts glare, adds privacy, computer-cut ceramic film. Call 702-550-8840.",
-    "image_alt": "Commercial window film installed in a Boulder City area business"
+    "title": "Office and Storefront Window Film, Boulder City | BC Glass &amp; Tint",
+    "description": "Window film for offices and storefronts in Boulder City, Henderson and Las Vegas. Helps cut glare and heat; privacy and security films available. Free measure.",
+    "image_alt": "Storefront window under a maroon awning"
   },
-  "hero": {
-    "crumb": "Commercial Window Film",
-    "heading": "Commercial Window Film in Boulder City &amp; Las Vegas, NV",
-    "intro": "Most business owners picture window film as something for cars, not storefronts, so the option gets overlooked until an afternoon of west sun turns the office into a greenhouse and the HVAC runs constantly to keep up. Commercial window film is installed on site at your building rather than at our shop, cutting glare and solar heat while adding privacy or security film where you need it. Every job is computer-cut to your building and backed by a lifetime manufacturer warranty, with a free quote for spaces of any size in Boulder City, Henderson or Las Vegas."
-  },
-  "band": [
-    "XPEL &amp; ASWF Film",
-    "Computer-Cut Film",
-    "Lifetime Film Warranty",
-    "Installed On Site",
-    "Free Quotes"
-  ],
-  "content": {
-    "image_alt": "Commercial Window Film in Boulder City &amp; Las Vegas, NV",
-    "heading": "Commercial Window Film",
-    "intro": "Improve comfort, add privacy, and cut glare for your building. Blocking the sun helps keep temperatures steadier through the day.",
-    "bullets": [
-      "Helps keep temperatures steadier",
-      "Reduces glare for employees",
-      "Privacy and security film options",
-      "Graffiti-resistant film available",
-      "Free quote for any size space"
-    ]
-  },
-  "v2": {
-    "eyebrow": "Commercial window film"
-  },
-  "price": {
-    "eyebrow": "Price",
-    "heading": "Every building is different.",
-    "text": "Commercial film depends on the glass, the film and how much of it there is. Call or send the form and we will quote your space.",
-    "note": "The size of the space and the film you choose set the final price.",
-    "cards": [
-      { "kind": "service", "key": "office_glass", "title": "Office and storefront glass film" }
-    ],
-    "links": [
-      { "label": "All prices", "href": "/prices" }
-    ]
-  },
-  "reviews": {
-    "heading": "What <span>Customers</span> Say",
-    "sub": "Real reviews from BC Glass and Tint customers.",
-    "label": "Google review",
-    "items": [
-      {
-        "platform": "google",
-        "quote": "Top notch service and fair pricing. These guys know what they're doing. Been coming here for years and will keep coming back.",
-        "name": "John S."
-      },
-      {
-        "platform": "google",
-        "quote": "Great prices, speed, and quality. Highly recommend BC Glass &amp; Tint to anyone in the area.",
-        "name": "Carol Broadbent"
-      }
-    ]
-  },
-  "also": {
-    "links": [
-      {
-        "href": "/auto-tint",
-        "icon": "i-car",
-        "label": "Auto / Vehicle Tint"
-      },
-      {
-        "href": "/home-tint",
-        "icon": "i-house",
-        "label": "Home / Residential Tint"
-      },
-      {
-        "href": "/windshield",
-        "icon": "i-windshield",
-        "label": "Windshield Replacement"
-      },
-      {
-        "href": "/chip-repair",
-        "icon": "i-chip",
-        "label": "Windshield Chip Repair"
-      },
-      {
-        "href": "/clear-bra",
-        "icon": "i-shield",
-        "label": "Clear Bra / Paint Protection"
-      },
-      {
-        "href": "/ceramic-coating",
-        "icon": "i-spark",
-        "label": "Ceramic Coating"
-      },
-      {
-        "href": "/blinds",
-        "icon": "i-blinds",
-        "label": "Blinds &amp; Window Treatments"
-      },
-      {
-        "href": "/henderson",
-        "icon": "i-pin",
-        "label": "Commercial film for Henderson"
-      },
-      {
-        "href": "/las-vegas",
-        "icon": "i-pin",
-        "label": "Commercial film for Las Vegas"
-      }
-    ]
-  },
-  "quote": {
-    "source": "Commercial Window Film",
-    "preselect": "Commercial Window Film",
-    "details_placeholder": "Building or space (optional) - no medical, insurance or license numbers"
+  "v3": {
+    "crumb": "Office and storefront film",
+    "service": "home",
+    "form_service": "home",
+    "source": "Commercial film",
+    "eyebrow": "Office and storefront film. We come to your building.",
+    "h1": "Office and storefront film.",
+    "lede": "Window film for offices and storefronts. It helps cut glare and heat at the glass, with privacy and security films where you need them.",
+    "hero_photo": "commercial",
+    "proof": "Lifetime manufacturer warranty on the film.",
+    "prices": {
+      "eyebrow": "Price",
+      "h2": "Free measure and quote.",
+      "lede": "Every building is different, so we measure first. The measure and the quote are free for a space of any size.",
+      "rows": [ { "label": "Office and storefront glass", "ref": "services.office_glass" } ],
+      "fallback": "home",
+      "links": [ { "label": "All prices", "href": "/prices" } ]
+    },
+    "looks": {
+      "eyebrow": "Recent work",
+      "h2": "What it looks like.",
+      "service": "commercial-film",
+      "count": 4,
+      "note": "Real BC jobs. Photos and screens differ from real life.",
+      "link": { "label": "See commercial film jobs", "href": "/gallery/commercial-film" }
+    },
+    "gets": {
+      "eyebrow": "What you get",
+      "h2": "Calmer glass at work.",
+      "items": [
+        { "title": "Less glare on screens and desks.", "text": "Film cuts glare on sun-facing glass, so the space stays usable through the afternoon." },
+        { "title": "Privacy and security film options.", "text": "Security film is one part of a glass-safety plan, never a guarantee. We will walk you through what each film does and does not do." }
+      ]
+    },
+    "review": "g-john-s",
+    "faq": {
+      "items": [
+        { "question": "Can you do large storefronts and offices?", "answer": "Yes. We give free quotes for offices, retail, restaurants and more, including security and privacy film." },
+        { "question": "Will film make the office too dark?", "answer": "No. Light, nearly clear films are available that keep the view and natural light while cutting glare and UV." },
+        { "question": "Does security film make glass unbreakable?", "answer": "No film makes glass unbreakable. Security film is one part of a glass-safety plan, and we will tell you plainly what it does and does not do." },
+        { "question": "Do you come to us?", "answer": "Yes. Windows do not move, so we measure and install at your building. Vehicles come to the shop." }
+      ]
+    }
   },
   "schema": {
     "date_modified": "2026-10-29",
     "service": {
       "service_type": "Commercial Window Film",
-      "name": "Commercial Window Film in Boulder City, NV",
-      "area_served": [
-        "Boulder City",
-        "Henderson",
-        "Las Vegas"
-      ]
-    },
-    "webpage_name": "Commercial Window Film, Boulder City & Henderson | BC Glass"
+      "name": "Office and Storefront Window Film in Boulder City, NV",
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
+    }
   }
 }

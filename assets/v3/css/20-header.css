@@ -34,6 +34,18 @@ html {
    own space in the flow and nothing starts underneath it. No transform, filter or contain on
    this element, so the menu sheet's fixed position keeps the viewport as its containing block. */
 .v3-header {
+  /* Pinned to the dark tokens on EVERY page, cream pages included (art direction H-e), so the
+     controls and the menu sheet never inherit a warm mood. */
+  --bg: var(--ink-0);
+  --bg-2: var(--ink-1);
+  --surface: var(--ink-2);
+  --fg: var(--text);
+  --fg-2: var(--text-2);
+  --hair: var(--line);
+  --ctl-line: var(--line-ctl);
+  --cta-bg: var(--gold);
+  --cta-fg: var(--ink-0);
+  --link-hover: var(--gold);
   --focus: var(--gold);
   position: sticky;
   top: 0;
@@ -213,10 +225,24 @@ html {
   background-color: var(--gold-press);
   border-color: var(--gold-press);
 }
-.v3-header.is-quiet .v3-header__call {
+/* Outline (quiet) form: while an in-page gold booking control is on screen (.is-quiet), and
+   whenever the shop is not open (the gold control is then the Text or Request primary, never a
+   tel: link; the header call itself stays a tel: link in every state). */
+.v3-header.is-quiet .v3-header__call,
+html[data-status-state]:not([data-status-state="open"]) .v3-header__call {
   background-color: transparent;
   border-color: var(--line-ctl);
   color: var(--text);
+}
+.v3-header.is-quiet .v3-header__call:hover,
+html[data-status-state]:not([data-status-state="open"]) .v3-header__call:hover {
+  background-color: transparent;
+  border-color: var(--text);
+}
+.v3-header.is-quiet .v3-header__call:active,
+html[data-status-state]:not([data-status-state="open"]) .v3-header__call:active {
+  background-color: transparent;
+  border-color: var(--text-2);
 }
 
 /* Phone call icon (H-d): 44 x 44, 1px line-ctl border (3.92:1), 20px glyph in text (14.92:1) */
@@ -259,8 +285,8 @@ html {
   z-index: var(--z-drawer);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-8);
-  padding: var(--sp-24) var(--margin) calc(var(--sp-48) + env(safe-area-inset-bottom, 0px));
+  gap: 0;
+  padding: var(--sp-16) var(--margin) calc(var(--sp-48) + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
   overscroll-behavior: contain;
   background-color: var(--ink-0);
@@ -274,10 +300,14 @@ html {
   transform: none;
   transition-duration: var(--dur-sheet-in);
 }
-.v3-drawer a {
+.v3-drawer > .v3-status {
+  flex: 0 0 auto;
+  margin-bottom: var(--sp-8);
+}
+.v3-drawer > a {
   display: flex;
   align-items: center;
-  min-height: 56px;
+  min-height: 52px;
   border-bottom: 1px solid var(--line);
   font-family: var(--font-display);
   font-weight: 500;
@@ -288,13 +318,13 @@ html {
   text-decoration: none;
   color: var(--text);
 }
-.v3-drawer a.v3-drawer__minor {
+.v3-drawer > a.v3-drawer__minor {
   font-family: var(--font-text);
   font-weight: 400;
   font-size: var(--t-body);
   letter-spacing: 0;
   text-transform: none;
-  min-height: 48px;
+  min-height: 44px;
 }
 html.v3-menu-open {
   overflow: hidden;

@@ -1,131 +1,58 @@
 {
+  "_note": "Ceramic coating page, overhaul v3 (WS5), short secondary template. No ceramic coating warranty is stated at all (decisions-and-rules usable claims). The 'up to 7 years' durability line from the v2 copy is NOT carried until the owner confirms it (logged in WS5.md). Product name and the two to four day timing are from the client's own v2 copy. No real coating photo exists, so the hero is type only. Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "Ceramic Coating, Boulder City to Henderson NV | BC Glass",
-    "description": "Hydrophobic ceramic coating with a long-lasting gloss for Boulder City, Henderson and Las Vegas drivers. Call 702-550-8840 for a quote.",
-    "image_alt": "Ceramic coating service at BC Glass and Tint in Boulder City, NV"
+    "title": "Ceramic Coating in Boulder City, NV | BC Glass &amp; Tint",
+    "description": "Ceramic coating bonded to your paint by hand, so water and dirt slide off instead of baking on in the desert sun. Boulder City shop, family owned since 1994.",
+    "image_alt": "BC Glass and Tint logo"
   },
-  "hero": {
-    "crumb": "Ceramic Coating",
-    "heading": "Ceramic Coating in Boulder City, NV",
-    "intro": "How many weekends do you want to spend hand-waxing a car in Southern Nevada heat, only to watch the shine dull again within a month? Ceramic coating is a liquid polymer bonded to your paint by hand that leaves a hydrophobic, high-gloss finish so water and dirt slide off instead of baking on, with a shine that holds for years instead of weeks. It is built for drivers across Henderson and Las Vegas who want their car to look detailed every day, not just after a wash. We use DuraSlic DS 1500 Xtreme, and the car is usually with us two to four days, because the paint has to be decontaminated and corrected first, and we keep it a further 24 hours after application while it cures."
-  },
-  "band": [
-    "DuraSlic DS 1500 Xtreme",
-    "Up to 7 Years",
-    "Paint, Glass and Trim",
-    "Two to Four Days",
-    "Free Quotes"
-  ],
-  "content": {
-    "image_alt": "Ceramic Coating in Boulder City, NV",
-    "heading": "Ceramic Coating",
-    "intro": "A hydrophobic, UV-resistant shell bonded to your paint for a deep, lasting gloss, often paired with paint correction to remove swirls.",
-    "bullets": [
-      "Water and dirt slide right off",
-      "UV protection against Nevada sun",
-      "Removes swirls and light scratches"
-    ]
-  },
-  "v2": {
-    "eyebrow": "Ceramic coating"
-  },
-  "price": {
-    "eyebrow": "Price",
-    "heading": "Quoted to your car.",
-    "text": "The price depends on the vehicle and on how much correction the paint needs first. Call or send the form and we will quote your car.",
-    "note": "The vehicle and the condition of the paint set the final price.",
-    "cards": [
-      { "kind": "service", "key": "ceramic_coating", "title": "Ceramic coating" }
-    ],
-    "links": [
-      { "label": "All prices", "href": "/prices" }
-    ]
-  },
-  "reviews": {
-    "heading": "What <span>Ceramic</span> Customers Say",
-    "sub": "Real reviews from BC Glass and Tint customers.",
-    "label": "Google review",
-    "items": [
-      {
-        "platform": "google",
-        "quote": "10/10 experience. They did an outstanding job for a great price. The quality of the work exceeded my expectations and everything was handled professionally.",
-        "name": "Nicholas Parr"
-      },
-      {
-        "platform": "google",
-        "quote": "Great customer service, fast, and efficient! They offered the most affordable price for my particular service!",
-        "name": "Ashley Watson"
-      }
-    ]
-  },
-  "also": {
-    "links": [
-      {
-        "href": "/auto-tint",
-        "icon": "i-car",
-        "label": "Auto / Vehicle Tint"
-      },
-      {
-        "href": "/home-tint",
-        "icon": "i-house",
-        "label": "Home / Residential Tint"
-      },
-      {
-        "href": "/commercial-film",
-        "icon": "i-building",
-        "label": "Commercial Window Film"
-      },
-      {
-        "href": "/windshield",
-        "icon": "i-windshield",
-        "label": "Windshield Replacement"
-      },
-      {
-        "href": "/chip-repair",
-        "icon": "i-chip",
-        "label": "Windshield Chip Repair"
-      },
-      {
-        "href": "/clear-bra",
-        "icon": "i-shield",
-        "label": "Clear Bra / Paint Protection"
-      },
-      {
-        "href": "/headlight-taillight",
-        "icon": "i-spark",
-        "label": "Headlight Restoration"
-      },
-      {
-        "href": "/blinds",
-        "icon": "i-blinds",
-        "label": "Blinds &amp; Window Treatments"
-      },
-      {
-        "href": "/henderson",
-        "icon": "i-pin",
-        "label": "Ceramic coating serving Henderson"
-      },
-      {
-        "href": "/las-vegas",
-        "icon": "i-pin",
-        "label": "Ceramic coating serving Las Vegas"
-      }
-    ]
-  },
-  "quote": {
-    "source": "Ceramic Coating",
-    "preselect": "Ceramic Coating"
+  "v3": {
+    "crumb": "Ceramic coating",
+    "service": "car",
+    "form_service": "other",
+    "source": "Ceramic coating",
+    "eyebrow": "Ceramic coating. Boulder City shop.",
+    "h1": "Ceramic coating.",
+    "lede": "A coating bonded to your paint by hand, so water and dirt slide off instead of baking on in the desert sun.",
+    "hero_strip": true,
+    "proof": "Family owned since 1994.",
+    "prices": {
+      "eyebrow": "Price",
+      "h2": "Quoted to your car.",
+      "lede": "The vehicle and how much correction the paint needs first set the price.",
+      "rows": [ { "label": "Ceramic coating", "ref": "services.ceramic_coating" } ],
+      "fallback": "service",
+      "links": [ { "label": "All prices", "href": "/prices" } ]
+    },
+    "gets": {
+      "eyebrow": "What to expect",
+      "h2": "Prepared first, then coated.",
+      "items": [
+        { "title": "Paint, glass and trim.", "text": "We use DuraSlic DS 1500 Xtreme and treat the paint, glass and plastic trim, so the whole exterior is covered." },
+        { "title": "Two to four days.", "text": "The paint is decontaminated and corrected before anything is bonded to it, and we keep the car a further 24 hours while the coating cures." }
+      ]
+    },
+    "review": "g-nicholas-parr",
+    "while": {
+      "eyebrow": "While you are here",
+      "h2": "Often paired.",
+      "items": [
+        { "title": "Windshield ceramic coating", "text": "Rain and bugs come off easier." },
+        { "title": "Clear bra", "text": "Paint protection film for the front end.", "link": "Clear bra", "href": "/clear-bra" }
+      ]
+    },
+    "faq": {
+      "items": [
+        { "question": "How long will my car be at the shop?", "answer": "Usually two to four days, depending on the car. The paint has to be decontaminated and corrected before anything is bonded to it, and darker paint shows every swirl, so it takes more correction work. After the coating goes on we keep the vehicle a further 24 hours while it cures." },
+        { "question": "What do I need to avoid after a ceramic coating?", "answer": "Keep it dry while it finishes curing. For the first 24 hours to three days, depending on conditions, do not wash the vehicle, do not park it where sprinklers can reach it, and try to keep it out of the rain. We will tell you the exact window for your car when you pick it up." }
+      ]
+    }
   },
   "schema": {
     "date_modified": "2026-10-29",
     "service": {
       "service_type": "Ceramic Coating",
       "name": "Ceramic Coating in Boulder City, NV",
-      "area_served": [
-        "Boulder City",
-        "Henderson",
-        "Las Vegas"
-      ]
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
     }
   }
 }

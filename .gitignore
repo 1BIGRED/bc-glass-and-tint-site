@@ -9,3 +9,7 @@ desktop.ini
 .env.*
 
 _site-*/
+
+# v3 image sources are local copies of the client photo library (scripts/images.js --sync); outputs in images/v3 are committed
+images-src/v3/*
+!images-src/v3/manifest.json

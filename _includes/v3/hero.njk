@@ -1,26 +1,21 @@
-{# STUB: owned by WS5, replace #}
-{#- The homepage hero MEDIA slot (CEO ruling: two modes from data, "ramp" is the default; art
-    direction 2.2 to 2.4). WS5 owns the hero layout and copy; this file is only the slot contract,
-    so swapping the storefront photo and the Light Ramp is one slot, not a redesign (HF3).
+{#- Hero macros (WS5; overhaul v3). The media slot contract from phase A is kept as is:
+      heroMedia(hero, { strip })  hero = { mode: "ramp" | "storefront", image, alt, sizes, note }
+    "ramp" is the default and the fallback; storefront without an image falls back to the ramp, so
+    a missing photo never ships an empty box (CEO ruling; art direction 2.2 to 2.4, HF3). The
+    storefront photo must be WS6's crop with the customer's Bronco fully out of frame; never a
+    customer vehicle as the brand image (Chase note 1).
 
-    Data (the page sets one object named hero, for example from pages.home in index.11tydata.js):
-      hero = {
-        mode:    "ramp" | "storefront"   missing or anything else = "ramp"
-        image:   one _data/images.json item (storefront mode only; without it the slot falls back
-                 to the ramp, so a missing photo never ships an empty box)
-        alt:     alt text for the storefront photo (required in storefront mode)
-        sizes:   sizes for the <img> AND the preload, identical (engineering 3.9)
-        note:    optional 13px line under the media (the ramp's honesty line, art direction HF1)
-      }
-    Layout behavior (layouts/v3.njk): body gets class hero-ramp or hero-storefront, and in
-    storefront mode with an image the head gets the one image preload with the same sizes.
+    homeHero(h, router)   the homepage hero (art direction 2.3 HL1 to HL8, blueprint 3.1)
+    pageHero(o)           service, city and info page hero (art direction 3.2 item 1)
+    Import WITH CONTEXT:  {% from "v3/hero.njk" import homeHero, pageHero, heroMedia with context %}
 
-    Import and call:
-      {% from "v3/hero.njk" import heroMedia with context %}
-      {{ heroMedia(hero, { strip: false }) }}
-    opts.strip  true renders the ramp as the 120px phone strip (HF2) -#}
-{% macro heroMedia(h, opts) -%}
+    No motion on load (HL8): nothing here animates. The hero never sits under the header: the
+    header is sticky and holds its own height in the flow (layouts/v3.njk), so the hero starts
+    below it (HL1). -#}
 {%- from "v3/media.njk" import picture -%}
+{%- from "v3/actions.njk" import action with context -%}
+
+{% macro heroMedia(h, opts) -%}
 {%- set o = opts or {} -%}
 {%- set hh = h or {} -%}
 {%- set isStore = (hh.mode == "storefront" and hh.image) -%}
@@ -39,4 +34,79 @@
 {%- endif %}
 </figure>
 {%- endif %}
+{%- endmacro %}
+
+{#- The proof token beside the action (blueprint 3.1): the warranty line always; the Google line
+    only from a fresh human read (site.reviews.google_as_of within 14 days of the build). -#}
+{% macro proof(line) -%}
+{%- set rv = site.reviews or {} -%}
+<p class="ws5-proof t-label fg-2">{{ line | safe }}{% if rv.google_as_of and (rv.google_as_of | ws5fresh(14)) %} <a href="{{ reviews.listing_url | safe }}" target="_blank" rel="noopener">Google: {{ rv.google_rating }} from {{ rv.google_count }} reviews, read {{ (rv.google_as_of_label or rv.google_as_of) | safe }}</a>.{% endif %}</p>
+{%- endmacro %}
+
+{% macro homeHero(h, router) -%}
+{%- set hh = h or {} -%}
+<section class="ws5-hero ws5-hero--home mood-dark bg-ink-0" aria-labelledby="hero-h">
+  <div class="ws5-hero__in">
+    <div class="ws5-hero__copy">
+      <p class="t-eyebrow">{{ hh.eyebrow | safe }}</p>
+      <h1 id="hero-h">{{ hh.h1 | safe }}</h1>
+      <p class="t-lead fg-2 ws5-hero__sub">{{ hh.sub | safe }}</p>
+      <div class="ws5-hero__act">{{ action({ slot: "hero", service: "any" }) }}</div>
+      <p class="v3-status v3-status--long ws5-hero__status" data-bc-status data-form="long"><span class="v3-status__dot" aria-hidden="true"></span><span class="v3-status__txt"></span></p>
+      <nav class="ws5-router" aria-label="{{ hh.router_label | safe }}">
+{%- for t in router %}
+        <a class="ws5-route" href="{{ t.href }}" data-ev="router_click" data-path="{{ t.id }}">
+          <span class="ws5-route__strip ws5-route__strip--{{ t.id }}" aria-hidden="true"></span>
+          <span class="ws5-route__t">{{ t.label | safe }}</span>
+          <span class="ws5-route__m">{{ t.micro | safe }}{% if t.draft %} <span class="v3-prow__draft t-label">{{ pages.sections.draft_label | safe }}</span>{% endif %}</span>
+          <svg class="ws5-route__chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+{%- endfor %}
+      </nav>
+      {{ proof(hh.proof) }}
+    </div>
+    <div class="ws5-hero__media">
+      {{ heroMedia(hh.media) }}
+    </div>
+  </div>
+</section>
+{%- endmacro %}
+
+{#- o = { eyebrow, h1, lede, service, photo (ws5photos key), ramp (true = Light Ramp media),
+          strip (true = ramp as a strip under the copy), build_link, build_href, proof, mood,
+          ground, note, crumb_parent } -#}
+{% macro pageHero(o) -%}
+{%- set ph = ws5photos[o.photo] if o.photo else null -%}
+{%- set hasMedia = ph or o.ramp -%}
+<section class="ws5-hero ws5-hero--page {{ o.ground or ('bg-paper-2' if o.mood == 'warm' else 'bg-ink-0') }}{% if not hasMedia %} ws5-hero--solo{% endif %}" aria-labelledby="hero-h">
+  <div class="ws5-hero__in">
+    <div class="ws5-hero__copy">
+      {% if o.eyebrow %}<p class="t-eyebrow">{{ o.eyebrow | safe }}</p>{% endif %}
+      <h1 id="hero-h">{{ o.h1 | safe }}</h1>
+      {% if o.lede %}<p class="t-lead fg-2 ws5-hero__sub measure">{{ o.lede | safe }}</p>{% endif %}
+      {%- if o.service %}
+      <div class="ws5-hero__act">
+        {%- if o.build_link %}<a class="ws5-btn" href="{{ o.build_href or '/build-your-tint' }}">{{ o.build_link | safe }}</a>{% endif %}
+        {{ action({ slot: "hero", service: o.service }) }}
+      </div>
+      {%- endif %}
+      {% if o.proof %}{{ proof(o.proof) }}{% endif %}
+      {%- if o.strip %}
+      <div class="ws5-hero__strip v3-ramp v3-ramp--strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      {%- endif %}
+    </div>
+    {%- if hasMedia %}
+    <div class="ws5-hero__media">
+      {%- if ph %}
+      <figure class="v3-hero-media v3-hero-media--photo" data-photo="{{ o.photo }}" data-photo-source="{{ ph.source }}">
+        {{ picture(ph.item, "(min-width: 1024px) 50vw, 100vw", { alt: ph.alt, high: true }) }}
+        {% if ph.caption %}<figcaption class="v3-hero-media__note">{{ ph.caption | safe }}</figcaption>{% endif %}
+      </figure>
+      {%- else %}
+      {{ heroMedia({ mode: "ramp", note: o.note }) }}
+      {%- endif %}
+    </div>
+    {%- endif %}
+  </div>
+</section>
 {%- endmacro %}

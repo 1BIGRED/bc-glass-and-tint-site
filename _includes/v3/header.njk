@@ -1,43 +1,45 @@
-{# STUB: owned by WS2, replace #}
-{#- v3 site header. Phase A foundation (2026-10-29): real markup, styled by assets/v3/css/20-header.css,
-    behavior in assets/v3/js/20-header.js. WS2 owns this file from here and may change anything
-    except the outcome rules below.
+{#- v3 site header. Owner: WS2 (built in Phase A, finished here).
     Outcome rules (CEO ruling, art direction section 4, engineering 4.1):
-    - opaque black on every page from the first frame; constant height (--header-h);
-    - the raised layer fades in by opacity only after about 8px of scroll;
-    - the phone icon is a tel: link in every state (engineering 3.2.2 header exception);
-    - [data-bc-status] is the status word slot, space reserved, empty and invisible until the
-      action system fills it and adds .is-ready (plus .is-open or .is-closed);
+    - opaque black on every page from the first frame; constant height (--header-h 64 / 80);
+    - the raised layer (ink-head plus a hairline) fades in by opacity only after about 8px of scroll;
+    - the call control stays a tel: link in every state (engineering 3.2.2 header exception);
+    - five text links on desktop (Car tint, Home and office, Windshield, Prices, Gallery); under 1024px
+      they live in the menu sheet with the less used pages, the live status at the top and the call and
+      text controls at the bottom (art direction H-f);
+    - [data-bc-status] is the status word: space reserved, invisible until 30-actions.js fills it and
+      adds .is-ready (plus .is-open or .is-closed); no word at all on an unknown day or without JS;
     - #v3-menu-btn and #v3-drawer are the ids 20-header.js binds.
-    Wording: pages.shared.v2 (logo_alt, nav, drawer_extra, menu_label, close_label, call, call_aria)
-    until WS2 adds v3 header labels. Phone: site.json phone. Logo: the real raster original
-    /logo-hero.png (640 x 238), scaled whole by CSS, never redrawn. Front matter header_raised:
-    true prints data-raised="always" (layer on from load). -#}
-{%- set w = pages.shared.v2 -%}
+    Wording: pages.shared.v3.actions.header. Phone: site.json phone. Logo: global data images._logo
+    (images/v3/logo-120.png and .webp, 322 x 120, the real raster, 3x the 40px display height, never
+    redrawn; class v3-logo-img). Front matter header_raised: true
+    prints data-raised="always" (layer on from load). -#}
+{%- from "v3/actions.njk" import action, statusChip with context -%}
+{%- set w = pages.shared.v3.actions.header -%}
 {%- set curUrl = (page.url or "/") | replace(r/index\.html$/, "") | replace(r/\.html$/, "") | replace(r/\/+$/, "") -%}
 {%- if not curUrl %}{% set curUrl = "/" %}{% endif -%}
 <header class="v3-header" data-v3-header{% if header_raised %} data-raised="always"{% endif %}>
   <div class="v3-header__in wrap">
-    <a class="v3-logo" href="/"><img src="/logo-hero.png" width="640" height="238" alt="{{ w.logo_alt | safe }}" decoding="async"></a>
+    <a class="v3-logo" href="/"><picture><source type="image/webp" srcset="{{ images._logo.webp | safe }}"><img class="v3-logo-img" src="{{ images._logo.png | safe }}" width="{{ images._logo.width }}" height="{{ images._logo.height }}" alt="{{ w.logo_alt | safe }}" decoding="async"></picture></a>
     <nav class="v3-nav" aria-label="{{ w.nav_label | safe }}">
 {%- for l in w.nav %}
       <a href="{{ l.href | safe }}"{% if curUrl == l.href or (l.href != "/" and curUrl.indexOf(l.href + "/") == 0) %} aria-current="page"{% endif %}>{{ l.label | safe }}</a>
 {%- endfor %}
     </nav>
     <div class="v3-header__cta">
-      <span class="v3-status" data-bc-status data-slot="header"><span class="v3-status__dot" aria-hidden="true"></span><span class="v3-status__txt"></span></span>
+      {{ statusChip({ form: "short" }) }}
       <a class="v3-header__tel tnum" href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a>
-      <a class="v3-header__call" href="tel:{{ site.phone.tel | safe }}" aria-label="{{ w.call_aria | safe }} {{ site.phone.display_call | safe }}">{{ w.call | safe }}</a>
-      <a class="v3-header__icall" href="tel:{{ site.phone.tel | safe }}" aria-label="{{ w.call_aria | safe }} {{ site.phone.display_call | safe }}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
+      {{ action({ slot: "header" }) }}
       <button type="button" class="v3-menubtn" id="v3-menu-btn" aria-expanded="false" aria-controls="v3-drawer" data-open-label="{{ w.menu_label | safe }}" data-close-label="{{ w.close_label | safe }}"><span class="v3-menubtn__t">{{ w.menu_label | safe }}</span></button>
     </div>
   </div>
   <nav class="v3-drawer" id="v3-drawer" aria-label="{{ w.menu_label | safe }}" hidden>
+    {{ statusChip({ form: "long" }) }}
 {%- for l in w.nav %}
-    <a href="{{ l.href | safe }}">{{ l.label | safe }}</a>
+    <a href="{{ l.href | safe }}"{% if curUrl == l.href or (l.href != "/" and curUrl.indexOf(l.href + "/") == 0) %} aria-current="page"{% endif %}>{{ l.label | safe }}</a>
 {%- endfor %}
 {%- for l in w.drawer_extra %}
     <a class="v3-drawer__minor" href="{{ l.href | safe }}">{{ l.label | safe }}</a>
 {%- endfor %}
+    {{ action({ slot: "drawer", service: "any", on_book: (slug == "book" or on_book) }) }}
   </nav>
 </header>

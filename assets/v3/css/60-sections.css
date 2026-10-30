@@ -1,0 +1,430 @@
+/* BC Glass & Tint v3, shared section styles (WS5). Core bundle: loads on every v3 page.
+   Source of every value: overhaul-v3\03-ART-DIRECTION-visual.md section 1 (tokens via 00-tokens.css,
+   components 1.4) and section 3 (sections and templates). Booking buttons and the status chip are
+   WS2's (30-actions.css); price row markup is WS4's (v3/price.njk), styled here only inside WS5's
+   own containers (.ws5-prices). Page-only styles live in the home/, service/ and gallery/ bundles.
+   Rules applied: one radius (2px), no shadows, hairlines and tonal steps only, gold only on the
+   booking control, the selected shade ring and the focus ring (C1, C2), no text on photos (PH3). */
+
+/* ---------- Section head: eyebrow, H2, lede (G4: heading to body 24px) ---------- */
+.ws5-head > * + * { margin-top: var(--sp-16); }
+.ws5-head h2 + .t-lead { margin-top: var(--sp-24); }
+.ws5-head { margin-bottom: var(--sp-32); }
+
+/* ---------- Secondary link button (art direction B-b), for non-booking links ---------- */
+.ws5-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 var(--sp-24);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-button);
+  line-height: var(--lh-button);
+  letter-spacing: var(--tr-button);
+  text-decoration: none;
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out);
+}
+.ws5-btn:hover { background-color: var(--surface); border-color: var(--fg); }
+@media (min-width: 1024px) { .ws5-btn { min-height: 52px; } }
+
+.ws5-actrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-16);
+  margin-top: var(--sp-32);
+}
+.ws5-actrow + * { margin-top: var(--sp-16); }
+
+/* ---------- Figures (GT-a, PH5, PH7): explicit ratio boxes, caption under the image ---------- */
+.ws5-fig { margin: 0; }
+.ws5-fig__img { position: relative; overflow: hidden; border-radius: var(--radius); background: var(--surface); }
+.ws5-fig__img picture { display: block; width: 100%; height: 100%; }
+.ws5-fig__img img { width: 100%; height: 100% !important; object-fit: cover; aspect-ratio: auto !important; }
+.ws5-fig--54 .ws5-fig__img { aspect-ratio: 5 / 4; }
+.ws5-fig--43 .ws5-fig__img { aspect-ratio: 4 / 3; }
+.ws5-fig--45 .ws5-fig__img { aspect-ratio: 4 / 5; }
+.ws5-fig--32 .ws5-fig__img { aspect-ratio: 3 / 2; }
+.ws5-fig--11 .ws5-fig__img { aspect-ratio: 1 / 1; }
+.ws5-fig figcaption { margin-top: var(--sp-12); }
+
+/* ---------- Review block (V-a to V-d): hairline at the left, no card, no glyphs ---------- */
+.ws5-quote {
+  margin: var(--sp-48) 0 0;
+  padding-left: var(--sp-24);
+  border-left: 1px solid var(--ctl-line);
+}
+.ws5-quote blockquote { margin: 0; }
+.ws5-quote blockquote p {
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--fg);
+  max-width: 40ch;
+}
+.ws5-quote figcaption { margin-top: var(--sp-12); }
+.ws5-quote figcaption a { color: var(--fg-2); }
+@media (min-width: 1024px) { .ws5-quote blockquote p { font-size: 1.25rem; } }
+.ws5-quotes { display: grid; gap: var(--sp-48); margin-top: var(--sp-32); }
+.ws5-quotes .ws5-quote { margin-top: 0; }
+@media (min-width: 1024px) { .ws5-quotes { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); column-gap: calc(var(--gutter) * 2); } }
+
+/* ---------- Price rows inside WS5 containers (P-a to P-d) ---------- */
+.ws5-prices { margin: var(--sp-24) 0 var(--sp-16); }
+.ws5-prices .v3-prow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-16);
+  min-height: 56px;
+  padding: var(--sp-12) 0;
+  border-bottom: 1px solid var(--hair);
+}
+.ws5-prices .v3-prow:first-child { border-top: 1px solid var(--hair); }
+.ws5-prices .v3-prow__label { flex: 1 1 auto; min-width: 0; }
+.ws5-prices .v3-prow__value { margin: 0; flex: 0 1 auto; text-align: right; }
+.ws5-prices .v3-price__fallback { display: inline-block; font-size: 0.9375rem; line-height: 1.35; color: var(--fg-2); max-width: 19ch; }
+@media (min-width: 640px) { .ws5-prices .v3-price__fallback { max-width: none; } }
+.ws5-prices .v3-price__from { margin-right: var(--sp-4); }
+.ws5-prices .v3-prow__note { display: block; margin-top: var(--sp-4); font-size: var(--t-label); line-height: var(--lh-label); color: var(--fg-2); }
+.v3-prow__draft,
+.ws5-prices .v3-price__draft {
+  display: inline-block;
+  margin-left: var(--sp-8);
+  padding: 0 var(--sp-4);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--fg-2);
+  vertical-align: middle;
+}
+.ws5-arith { margin-top: var(--sp-12); }
+
+/* ---------- Vehicle class switch (P-f): 44px segmented control, selection inverts ---------- */
+.ws5-seg {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  min-inline-size: 0;
+}
+.ws5-seg[hidden] { display: none !important; }
+.ws5-seg__opt { position: relative; display: block; }
+.ws5-seg__opt + .ws5-seg__opt { border-left: 1px solid var(--ctl-line); }
+.ws5-seg__opt input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.ws5-seg__opt span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 64px;
+  padding: 0 var(--sp-16);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--fg);
+  transition: background-color var(--dur-ui) var(--ease-out), color var(--dur-ui) var(--ease-out);
+}
+.ws5-seg__opt input:checked + span { background: var(--fg); color: var(--bg); }
+.ws5-seg__opt input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
+.ws5-classpane:not(.is-on) { display: none; }
+
+/* ---------- Shade preview (art direction 3.1 #2a, LR-a) ---------- */
+.ws5-shade {
+  position: relative;
+  padding: var(--sp-24);
+  background: var(--ink-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+}
+.ws5-shade > * + * { margin-top: var(--sp-16); }
+.ws5-shade__view {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--sp-24);
+  align-items: end;
+}
+.ws5-shade__pane {
+  height: 160px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background-color: var(--glare);
+  background-image: linear-gradient(rgba(11, 11, 12, var(--pane-a, 0)), rgba(11, 11, 12, var(--pane-a, 0)));
+  transition: background-image var(--dur-fast) var(--ease-out);
+}
+.ws5-shade__num { display: flex; align-items: baseline; gap: var(--sp-8); }
+.ws5-shade__num .t-numeral { font-size: 5rem; }
+.ws5-shade__legal { margin-top: var(--sp-8); color: var(--text-2); }
+.ws5-shade__glare {
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 30% 40%, rgba(255, 248, 234, 0.85), rgba(255, 248, 234, 0) 70%);
+  opacity: 0;
+}
+.ws5-shade.is-glare .ws5-shade__glare { opacity: 1; }
+.ws5-shade.is-calm .ws5-shade__glare { opacity: 0; transition: opacity 600ms var(--ease-out); }
+.ws5-shade__meter { height: 2px; background: var(--line); border-radius: var(--radius); overflow: hidden; }
+.ws5-shade__meter i { display: block; height: 100%; background: var(--text); transform-origin: left center; transition: transform var(--dur-fast) var(--ease-out); }
+.ws5-shade__chips {
+  display: flex;
+  gap: var(--sp-8);
+  overflow-x: auto;
+  padding: 4px 4px 4px;
+  margin-left: -4px;
+  scrollbar-width: none;
+}
+.ws5-shade__chips::-webkit-scrollbar { display: none; }
+.ws5-chip {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-8);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-2);
+  font-size: var(--t-label);
+  font-weight: 600;
+  cursor: pointer;
+}
+.ws5-chip::before {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background-color: var(--glare);
+  background-image: linear-gradient(rgba(11, 11, 12, var(--pane-a, 0)), rgba(11, 11, 12, var(--pane-a, 0)));
+}
+.ws5-chip[aria-pressed="true"] { color: var(--text); }
+.ws5-chip[aria-pressed="true"]::before { outline: 2px solid var(--gold); outline-offset: 2px; }
+.ws5-chip:focus-visible { outline: none; }
+.ws5-chip:focus-visible::before { outline: 2px solid var(--gold); outline-offset: 4px; }
+@media (min-width: 1024px) {
+  .ws5-shade { padding: var(--sp-32); }
+  .ws5-shade__pane { height: 220px; }
+  .ws5-shade__num .t-numeral { font-size: 8rem; }
+  .ws5-chip::before { width: 56px; height: 56px; }
+  .ws5-shade__chips { gap: var(--sp-12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ws5-shade__glare { display: none; }
+}
+
+/* ---------- How booking works (art direction 3.1 #6): numerals, no icons, no circles ---------- */
+.ws5-steps { display: grid; gap: var(--sp-32); }
+.ws5-steps__i { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: var(--sp-16); padding-top: var(--sp-16); border-top: 1px solid var(--hair); }
+.ws5-steps__n { font-family: var(--font-display); font-weight: 300; font-size: 3rem; line-height: 0.9; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.ws5-steps__t { font-family: var(--font-text); font-weight: 600; font-size: var(--t-body); line-height: 1.4; letter-spacing: 0; text-transform: none; }
+.ws5-steps__i p { margin-top: var(--sp-4); }
+.ws5-fear { margin-top: var(--sp-48); }
+@media (min-width: 1024px) {
+  .ws5-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter); }
+  .ws5-steps__i { grid-template-columns: 1fr; gap: var(--sp-16); padding-top: var(--sp-24); }
+  .ws5-steps__n { font-size: 4rem; }
+}
+
+/* ---------- Accordion (art direction "Accordion"): native details, whole row is the button ---------- */
+.ws5-faq__in { max-width: 54rem; }
+.ws5-acc { border-top: 1px solid var(--hair); }
+.ws5-acc__i { border-bottom: 1px solid var(--hair); }
+.ws5-acc__i summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-16);
+  min-height: 56px;
+  padding: var(--sp-16) 0;
+  list-style: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+}
+.ws5-acc__i summary::-webkit-details-marker { display: none; }
+.ws5-acc__i summary i {
+  position: relative;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.ws5-acc__i summary i::before,
+.ws5-acc__i summary i::after { content: ""; position: absolute; left: 0; top: 7px; width: 16px; height: 1.5px; background: currentColor; }
+.ws5-acc__i summary i::after { transform: rotate(90deg); }
+.ws5-acc__i[open] summary i { transform: rotate(45deg); }
+.ws5-acc__a { padding: 0 0 var(--sp-24); color: var(--fg-2); }
+.ws5-acc__a a { color: var(--fg); }
+.ws5-acc__a ul { margin: var(--sp-12) 0; padding-left: var(--sp-24); }
+.ws5-acc__a li + li { margin-top: var(--sp-8); }
+.ws5-acc + p { margin-top: var(--sp-24); }
+
+/* ---------- Typographic lists (also done, while you are here, page blocks) ---------- */
+.ws5-list { display: grid; border-top: 1px solid var(--hair); }
+.ws5-list__i { padding: var(--sp-24) 0; border-bottom: 1px solid var(--hair); }
+.ws5-list__i > * + * { margin-top: var(--sp-8); }
+.ws5-list__i p { max-width: var(--measure); }
+.ws5-list__i a { display: inline-block; margin-top: var(--sp-12); }
+@media (min-width: 1024px) {
+  .ws5-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--gutter) * 2); border-top: 0; }
+  .ws5-list__i:nth-child(-n + 2) { border-top: 1px solid var(--hair); }
+}
+.ws5-list--steps .ws5-list__i { display: grid; grid-template-columns: 48px minmax(0, 1fr); column-gap: var(--sp-16); }
+.ws5-list--steps .ws5-list__i > :not(.ws5-steps__n) { grid-column: 2; }
+.ws5-list--steps .ws5-steps__n { grid-row: 1 / span 3; font-size: 2.5rem; }
+
+.ws5-while { margin-top: var(--sp-32); }
+.ws5-while ul { margin-top: var(--sp-12); }
+.ws5-while li + li { margin-top: var(--sp-8); }
+.ws5-while__t { font-weight: 600; }
+
+/* ---------- Paired blocks (home lane: film, then blinds; each its own story) ---------- */
+.ws5-pair { display: grid; gap: var(--sp-32); }
+.ws5-pair__i > * + * { margin-top: var(--sp-12); }
+.ws5-pair__i .ws5-prices { margin: var(--sp-16) 0 var(--sp-12); }
+
+/* ---------- Statute and prose blocks ---------- */
+.ws5-statute { display: grid; gap: 0; border-top: 1px solid var(--hair); }
+.ws5-statute__i { padding: var(--sp-24) 0; border-bottom: 1px solid var(--hair); max-width: 48rem; }
+.ws5-statute__i > * + * { margin-top: var(--sp-8); }
+.ws5-statute__term { font-weight: 600; }
+.ws5-statute + p { margin-top: var(--sp-24); }
+.ws5-prose p { font-size: var(--t-body); }
+.ws5-prose a, .ws5-statute a { color: var(--fg); }
+
+/* ---------- Talk to a person (blueprint 3.9; art direction 3.1 #9) ---------- */
+.ws5-talk__grid { row-gap: var(--sp-48); }
+.ws5-talk__copy > * + * { margin-top: var(--sp-16); }
+.ws5-talk__copy h2 { margin-top: var(--sp-16); }
+.ws5-talk__num { margin-top: var(--sp-24) !important; }
+.ws5-talk__num a {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+.ws5-talk__num a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+.ws5-talk .ws5-actrow { margin-top: var(--sp-24); margin-bottom: var(--sp-24); }
+.ws5-talk__form { margin-top: var(--sp-48) !important; padding-top: var(--sp-32); border-top: 1px solid var(--hair); max-width: 35rem; }
+.ws5-talk__form summary { display: grid; grid-template-columns: minmax(0, 1fr) 16px; column-gap: var(--sp-16); align-items: center; min-height: 56px; cursor: pointer; list-style: none; }
+.ws5-talk__form summary::-webkit-details-marker { display: none; }
+.ws5-talk__form summary .t-label { grid-column: 1; margin-top: var(--sp-4); }
+.ws5-talk__form summary i { grid-column: 2; grid-row: 1 / span 2; position: relative; width: 16px; height: 16px; transition: transform var(--dur-fast) var(--ease-out); }
+.ws5-talk__form summary i::before, .ws5-talk__form summary i::after { content: ""; position: absolute; left: 0; top: 7px; width: 16px; height: 1.5px; background: currentColor; }
+.ws5-talk__form summary i::after { transform: rotate(90deg); }
+.ws5-talk__form[open] summary i { transform: rotate(45deg); }
+.ws5-talk__formbody { margin-top: var(--sp-24); }
+.ws5-closures[hidden] { display: none; }
+@media (min-width: 1024px) {
+  .ws5-talk__copy { grid-column: 1 / span 6; }
+  .ws5-talk__media { grid-column: 8 / span 5; }
+  .ws5-talk__num a { font-size: 4rem; }
+}
+
+/* WS3's request form inside WS5 contact blocks: layout only (fields are WS3's 40-request.css) */
+.ws5-talk__form .v3-request > * + * { margin-top: var(--sp-16); }
+
+/* ---------- In their words: the shop line ---------- */
+.ws5-words__label a { color: var(--fg); }
+.ws5-shopline { display: grid; gap: var(--sp-16); margin-top: var(--sp-64); padding-top: var(--sp-32); border-top: 1px solid var(--hair); align-items: center; }
+.ws5-shopline__img { max-width: 320px; }
+@media (min-width: 640px) { .ws5-shopline { grid-template-columns: 320px minmax(0, 1fr); gap: var(--sp-32); } }
+
+/* ---------- Work tiles (art direction GT-a, GT-b; gallery data) ---------- */
+.ws5-work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-8); }
+.ws5-work__img { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); background: var(--surface); }
+.ws5-work__img picture { display: block; height: 100%; }
+.ws5-work__img img { width: 100%; height: 100%; object-fit: cover; }
+.ws5-work figure { margin: 0; }
+.ws5-work figcaption { margin-top: var(--sp-8); }
+.ws5-work__t { font-weight: 600; font-size: 0.9375rem; }
+@media (min-width: 1024px) { .ws5-work { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-16); } }
+
+/* ---------- Proof token ---------- */
+.ws5-proof a { color: var(--fg-2); }
+
+/* ---------- Footer (art direction 3.1 row 10) ---------- */
+.ws5-footer { padding-block: var(--sp-64) var(--sp-32); padding-bottom: calc(var(--sp-32) + var(--scb)); }
+.ws5-footer__grid { display: grid; gap: var(--sp-48); }
+.ws5-footer__logo img { height: 40px; width: auto; }
+.ws5-footer__brand > * + * { margin-top: var(--sp-16); }
+.ws5-footer__visit > * + * { margin-top: var(--sp-12); }
+.ws5-footer__nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-32); }
+.ws5-footer__nav > div { grid-column: 1 / -1; }
+.ws5-footer__nav li + li { margin-top: var(--sp-8); }
+.ws5-footer__nav ul a,
+.ws5-footer__visit a { text-decoration-color: var(--line-ctl); }
+.ws5-footer__nav h2 + ul { margin-top: var(--sp-12); }
+.ws5-footer__nav a { display: inline-block; padding: 2px 0; }
+.ws5-footer__legal { display: grid; gap: var(--sp-8); margin-top: var(--sp-48); padding-top: var(--sp-24); border-top: 1px solid var(--line); }
+@media (min-width: 1024px) {
+  .ws5-footer__grid { grid-template-columns: 4fr 3fr 5fr; gap: var(--gutter); }
+  .ws5-footer__nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ws5-footer__nav > div { grid-column: auto; }
+  .ws5-footer__legal { grid-template-columns: 1fr auto; }
+}
+
+/* ---------- Hero shell (homepage, service, city and info pages) ----------
+   HL1: the hero starts below the header (the header is sticky and holds its height in the flow).
+   HL8: nothing in a hero moves on load. */
+.ws5-hero__in {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--margin));
+  margin-inline: auto;
+}
+.ws5-hero__copy { padding: var(--sp-24) var(--margin) var(--sp-32); }
+.ws5-hero__copy > * + * { margin-top: var(--sp-12); }
+.ws5-hero__sub { margin-top: var(--sp-12); }
+.ws5-hero__act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-16); margin-top: var(--sp-24) !important; }
+.ws5-proof { margin-top: var(--sp-16) !important; }
+.ws5-hero__media { padding: 0 var(--margin) var(--sp-24); }
+.ws5-hero__media .v3-hero-media--ramp .v3-ramp { min-height: 0; height: 120px; }
+.ws5-hero__media .v3-hero-media--storefront img,
+.ws5-hero__media .v3-hero-media--photo img { aspect-ratio: 5 / 4; width: 100%; height: auto; object-fit: cover; border-radius: var(--radius); }
+.ws5-hero__strip { margin-top: var(--sp-32) !important; }
+
+/* ---------- Generic page blocks ---------- */
+.ws5-block .ws5-head { max-width: 48rem; }
+
+/* Ink primary for a non-booking link on cream (gift cards to Square): art direction C3 cream button */
+.ws5-btn--ink { background: var(--ink-w); color: var(--paper); border-color: var(--ink-w); }
+.ws5-btn--ink:hover { background: #3a3732; border-color: #3a3732; }
+
+/* ---------- Phone compaction for the shared sections (8 px scale, G2) ---------- */
+@media (max-width: 639px) {
+  .ws5-shade { padding: var(--sp-16); }
+  .ws5-shade > * + * { margin-top: var(--sp-12); }
+  .ws5-shade__pane { height: 88px; }
+  .ws5-shade__num .t-numeral { font-size: 4rem; }
+  .ws5-words, .ws5-how, .ws5-talk { padding-block: var(--sp-48); }
+  .ws5-quotes { gap: var(--sp-32); margin-top: var(--sp-24); }
+  .ws5-quote blockquote p { font-size: 1rem; }
+  .ws5-shopline { margin-top: var(--sp-32); padding-top: var(--sp-24); grid-template-columns: 120px minmax(0, 1fr); align-items: center; }
+  .ws5-steps { gap: var(--sp-16); }
+  .ws5-steps__i { padding-top: var(--sp-12); }
+  .ws5-steps__n { font-size: 2.25rem; }
+  .ws5-fear { margin-top: var(--sp-24); }
+  .ws5-list__i { padding: var(--sp-16) 0; }
+  .ws5-list__i a { margin-top: var(--sp-4); }
+  .ws5-head { margin-bottom: var(--sp-24); }
+  .ws5-footer { padding-top: var(--sp-48); }
+  .ws5-footer__grid { gap: var(--sp-32); }
+  .ws5-talk__media .ws5-fig__img { aspect-ratio: 16 / 9; }
+}

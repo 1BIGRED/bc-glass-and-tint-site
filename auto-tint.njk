@@ -1,16 +1,10 @@
 ---
-# Service page, v2 look. All wording is in _data/pages/auto_tint.json; this file only holds the
-# page's structure. Layout: _includes/layouts/service-v2.njk (chains to layouts/v2.njk).
-# JSON-LD: auto-tint.11tydata.js. Hero photo and Recent work strip: real BC jobs from
-# _data/gallery.json (hero_gallery, gallery_service).
-layout: layouts/service-v2.njk
+# Car tint. Hero: the Light Ramp until the craft macro is shot (art direction 3.2).
+# Overhaul v3 (WS5). Template: layouts/service-v3.njk (blueprint 4.1). Wording and blocks:
+# _data/pages/auto_tint.json v3. JSON-LD: auto-tint.11tydata.js (FAQPage from the same items shown).
+layout: layouts/service-v3.njk
 permalink: auto-tint.html
 slug: auto-tint
 page_key: auto_tint
-og_image: images/auto-tint-f150-rear.jpg
-hero_gallery: ford-f-150-raptor-side
-hero_pos: 50% 55%
-gallery_service: auto-tint
-gallery_count: 4
-schema_order: business-first
+bundles: ["home", "service"]
 ---

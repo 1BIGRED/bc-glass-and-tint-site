@@ -1,0 +1,39 @@
+---
+# The 404 page (WS1, overhaul v3). Netlify serves 404.html with status 404 for any unknown path.
+# Noindex, not in the sitemap, not in collections. The shop's number is printed and callable here
+# so a lost visitor still has a way in.
+layout: layouts/v3.njk
+permalink: 404.html
+robots_noindex: true
+eleventyExcludeFromCollections: true
+slug: "404"
+meta_title: "Page not found | BC Glass &amp; Tint"
+meta_description: "That page is not here. Window tint and film for cars, homes and offices in Boulder City, NV. Call or find what you need from the links on this page."
+hero:
+  mode: ramp
+---
+{%- from "v3/actions.njk" import action with context -%}
+<section class="section v3-404">
+  <div class="wrap">
+    <div class="grid">
+      <div class="d-span-7 stack-24">
+        <p class="t-eyebrow">Page not found</p>
+        <h1>That page is not here.</h1>
+        <p class="t-lead measure">The link may be old or mistyped. Pick where you were headed, or talk to a person at the shop.</p>
+        <ul class="v3-404__links list-plain" role="list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/prices">Prices</a></li>
+          <li><a href="/build-your-tint">Build your tint</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/auto-tint">Car tint</a></li>
+          <li><a href="/home-tint">Home and office film</a></li>
+          <li><a href="/chip-repair">Windshield chip repair</a></li>
+        </ul>
+        <div class="v3-404__call stack-12">
+          {{ action({ slot: "contact", service: "any" }) }}
+          <p class="t-label fg-2">The shop is at {{ site.address.display | safe }}.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

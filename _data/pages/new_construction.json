@@ -1,241 +1,79 @@
 {
+  "_note": "New construction page, overhaul v3 (WS5), Warm Gallery. Claims gates kept (decisions-and-rules): no prices of any kind, never 'prices are already worked out', the builder-independence line stays with the builder names, never any growth framing for Boulder City, and no warranty-safety promise (area-profile banned_claims). Copy carried from the v2 page with outcome claims softened. Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "New Construction Window Tint &amp; Blinds | BC Glass",
-    "description": "Window film and blinds for new construction homes in Boulder City: Liberty Ridge, Iron Pointe, Boulder Hills Estates. Family-owned since 1994.",
-    "image_alt": "BC Glass and Tint branded box truck in the Boulder City parade"
+    "title": "New Home Window Film and Blinds, Boulder City | BC Glass &amp; Tint",
+    "description": "Window film and blinds for new homes in Boulder City, before move-in day. Liberty Ridge, Iron Pointe, Boulder Hills Estates. Family owned since 1994.",
+    "image_alt": "Living room windows looking out to the desert"
   },
-  "hero": {
-    "crumb": "New Construction",
-    "heading": "New Home Window Tint, Film &amp; Blinds in Boulder City",
-    "intro": "A fresh build is the perfect time to add window film, blinds and tint before the Nevada sun ever touches your floors. BC Glass and Tint is your local shop, family-owned since 1994 and just minutes from your new door.",
-    "eyebrow": "New construction"
-  },
-  "ptrust": {
-    "google_label": "on Google",
-    "reviews_label": "reviews",
-    "family_label": "Family-owned since",
-    "warranty_label": "Lifetime film warranty"
-  },
-  "band": [
-    "Local to Boulder City",
-    "Computer-Cut Film",
-    "Lifetime Film Warranty",
-    "New-Home Ready",
-    "Free Quotes"
-  ],
-  "section_film": {
-    "image_alt": "Home window with film installed, looking out to a backyard with a tree and a patio table",
-    "heading": "Protect a new home from day one",
-    "intro": "An empty, just-finished home is the easiest and cleanest place to install window film. Before the furniture, the rugs and the artwork arrive, we can add residential film that keeps your investment cool, comfortable and protected through every Nevada summer.",
-    "bullets": [
-      "Cuts the UV that fades new flooring, cabinets and furniture",
-      "Turns away desert heat at the glass so sunny rooms stay more comfortable",
-      "Reduces glare on TVs and screens",
-      "Adds privacy without giving up the golf-course view"
-    ]
-  },
-  "section_blinds": {
-    "image_alt": "",
-    "heading": "Bare new windows? We do blinds too",
-    "intro": "New homes come with beautiful, and completely bare, windows. We install custom blinds and window treatments sized for your new home and the Nevada climate, so you get privacy and comfort without the builder-grade wait.",
-    "bullets": [
-      "Cellular shades built for desert insulation",
-      "Roller, cellular and Roman shade options",
-      "Motorized options for tall or hard-to-reach windows",
-      "One local shop for film and blinds together"
-    ]
-  },
-  "steps": {
-    "heading": "Time It Right: <span>Before You Move In</span>",
-    "sub": "The empty-home window is the easiest install you will ever schedule. Here is how it works.",
-    "items": [
+  "v3": {
+    "crumb": "New construction",
+    "service": "home",
+    "form_service": "home",
+    "source": "New construction",
+    "eyebrow": "New construction. Boulder City.",
+    "h1": "New home window film and blinds.",
+    "lede": "An empty, just-finished home is the easiest and cleanest place to add window film and blinds, before the furniture, rugs and artwork arrive.",
+    "hero_photo": "home-living",
+    "proof": "Family owned since 1994.",
+    "blocks": [
       {
-        "title": "Book around your close date",
-        "text": "Call or send the quote form with your closing or walkthrough date and the community you are moving into."
+        "type": "list",
+        "eyebrow": "Window film",
+        "heading": "From the first day of sun.",
+        "items": [
+          { "title": "UV", "text": "Helps cut the UV that fades new flooring, cabinets and furniture." },
+          { "title": "Heat and glare", "text": "Helps turn away desert heat at the glass, so sunny rooms stay more comfortable, and cuts glare on screens." },
+          { "title": "Privacy", "text": "Adds privacy without giving up the view." }
+        ]
       },
       {
-        "title": "We measure and install",
-        "text": "We come to the empty home, measure for your blinds, and install computer-cut film and blinds with no furniture to work around."
+        "type": "list",
+        "eyebrow": "Blinds and shades",
+        "heading": "Bare new windows.",
+        "items": [
+          { "title": "Measured for your home", "text": "Roller, cellular and Roman shades, measured at your new windows and ordered to fit." },
+          { "title": "Motorized", "text": "For tall or hard to reach windows." }
+        ]
       },
       {
-        "title": "Move in protected",
-        "text": "Your floors, furnishings and comfort are covered from the first box you carry through the door."
-      }
-    ]
-  },
-  "needs": {
-    "heading": "Everything a New Homeowner <span>Needs</span>",
-    "sub": "Windows inside and out, plus protection for the new vehicles in the driveway.",
-    "cards": [
-      {
-        "href": "/home-tint",
-        "icon": "i-house",
-        "title": "Home / Residential Tint",
-        "text": "Protect new floors and furnishings"
+        "type": "steps",
+        "eyebrow": "Timing",
+        "heading": "Before you move in.",
+        "items": [
+          { "title": "Book around your close date", "text": "Call, text or request a time with your closing or walkthrough date and the community you are moving into." },
+          { "title": "We measure and install", "text": "We come to the empty home, measure for your blinds, and install film and blinds with no furniture to work around." },
+          { "title": "Move in", "text": "Your windows are done from the first box you carry through the door." }
+        ]
       },
       {
-        "href": "/blinds",
-        "icon": "i-blinds",
-        "title": "Blinds &amp; Window Treatments",
-        "text": "Dress bare new windows"
-      },
-      {
-        "href": "/auto-tint",
-        "icon": "i-car",
-        "title": "Auto / Vehicle Tint",
-        "text": "Keep the new car cooler"
-      },
-      {
-        "href": "/ceramic-coating",
-        "icon": "i-spark",
-        "title": "Ceramic Coating",
-        "text": "Lasting gloss and protection"
-      },
-      {
-        "href": "/clear-bra",
-        "icon": "i-shield",
-        "title": "Clear Bra / Paint Protection",
-        "text": "Guard new paint from rock chips"
-      },
-      {
-        "href": "/commercial-film",
-        "icon": "i-building",
-        "title": "Commercial Window Film",
-        "text": "For new offices and storefronts"
-      }
-    ]
-  },
-  "communities": {
-    "heading": "Serving Boulder City <span>New Builds</span>",
-    "sub": "Boulder City new build neighborhoods, and we are right down the road.",
-    "items": [
-      {
-        "name": "Liberty Ridge",
-        "builder": "Toll Brothers",
-        "text": "New single- and two-story homes off Adams Boulevard. Larger windows and open layouts make residential film and blinds a first-week priority."
-      },
-      {
-        "name": "Iron Pointe",
-        "builder": "StoryBook Homes",
-        "text": "New homes next to the golf club with covered patios and RV garage options. We help new owners cut heat and glare and dress every window before move-in."
-      },
-      {
-        "name": "Boulder Hills Estates",
-        "builder": "StoryBook Homes",
-        "text": "An established Boulder City community near the same corridor. Whether your home is brand new or a few years in, we bring film and blinds to your door."
+        "type": "list",
+        "eyebrow": "Communities",
+        "heading": "Boulder City new builds.",
+        "lede": "BC Glass and Tint is not affiliated with, endorsed by, or working on behalf of any homebuilder named here.",
+        "items": [
+          { "title": "Liberty Ridge", "text": "Single and two-story homes off Adams Boulevard, with larger windows and open layouts." },
+          { "title": "Iron Pointe", "text": "Homes next to the golf club with covered patios." },
+          { "title": "Boulder Hills Estates", "text": "An established community near the same corridor. New or a few years in, we bring film and blinds to your door." }
+        ]
       }
     ],
-    "closing": "Building somewhere else in Boulder City, Henderson or Southern Nevada? We cover the whole area from our Boulder City shop. BC Glass and Tint is not affiliated with, endorsed by, or working on behalf of any homebuilder named here."
-  },
-  "why": {
-    "heading": "Why New Owners <span>Choose Us</span>",
-    "sub": "Three decades of computer-cut precision and a lifetime warranty behind every job.",
-    "items": [
-      {
-        "icon": "i-pin",
-        "title": "Local to Boulder City",
-        "text": "We are minutes from the new communities, not driving in from across the valley. Fast scheduling and easy follow-up."
-      },
-      {
-        "icon": "i-sun",
-        "title": "Built for the desert",
-        "text": "Every film choice is matched to Nevada heat and sun, so your new home stays cool and your finishes last."
-      },
-      {
-        "icon": "i-cut",
-        "title": "Computer-cut precision",
-        "text": "Films are cut to a factory-perfect fit with a lifetime manufacturer warranty on the material."
-      },
-      {
-        "icon": "i-check",
-        "title": "Everything in one stop",
-        "text": "Home film, blinds, auto tint, ceramic coating and clear bra from a single trusted local shop."
-      }
-    ]
-  },
-  "reviews": {
-    "heading": "What Homeowners <span>Say</span>",
-    "sub": "Real reviews from homeowners we have tinted and shaded. Rated {google_rating} on Google.",
-    "items": [
-      {
-        "quote": "They have tinted and installed window coverings for my home, and every one of my cars has been tinted by them. I drive 40 minutes each way because I trust this amazing family-owned shop.",
-        "name": "Maureen Springer"
-      },
-      {
-        "quote": "Outstanding job. Tinted my home windows. Very professional and very informative. Would recommend to everyone.",
-        "name": "Gregory Hill"
-      },
-      {
-        "quote": "They tinted my wife's Equinox and it looks amazing. We have them scheduled to come tint the windows in our house to help with energy costs as well.",
-        "name": "Sean Rush"
-      }
-    ],
-    "more_link": "Read more of our reviews",
-    "label": "Google review"
-  },
-  "faq": {
-    "heading": "New Construction <span>Questions</span>",
-    "sub_lead": "Quick answers for new Boulder City homeowners. For anything else, call or text ",
-    "sub_tail": ".",
-    "items": [
-      {
-        "question": "When is the best time to tint a new home?",
-        "answer": "As soon as you take possession, ideally before you move in. An empty home is the fastest, cleanest install and the film protects your new flooring and furnishings from the very first day of sun."
-      },
-      {
-        "question": "Can you finish film and blinds before move-in?",
-        "answer": "Yes. Coordinate with us around your closing or walkthrough date and we can have film and blinds handled before the moving truck arrives."
-      },
-      {
-        "question": "Do you serve Liberty Ridge, Iron Pointe and Boulder Hills Estates?",
-        "answer": "Yes. We are the local Boulder City shop and we cover all of Boulder City, Henderson and Southern Nevada."
-      },
-      {
-        "question": "Does window film really protect new floors and furniture?",
-        "answer": "Yes. Film cuts the UV that fades floors, cabinets and furnishings, which is what our ceramic films do, helping keep new finishes from fading in the desert sun."
-      },
-      {
-        "question": "Can you protect the new car in the driveway too?",
-        "answer": "Absolutely. New homes usually mean new vehicles. We add auto tint, ceramic coating and clear bra so your car is protected the same week as your windows."
-      }
-    ],
-    "more_label": "View all questions and answers"
-  },
-  "quote": {
-    "source": "New Construction",
-    "order": [
-      "Home / Residential Tint",
-      "Blinds / Window Treatments",
-      "Auto / Vehicle Tint",
-      "Ceramic Coating",
-      "Clear Bra / PPF",
-      "Headlight Restoration",
-      "Headlight / Taillight Film",
-      "Smoked / Tinted Lights",
-      "Boat / RV Tint",
-      "Commercial Window Film",
-      "Windshield Replacement",
-      "Windshield Chip Repair"
-    ],
-    "details_placeholder": "Community, address or details (optional) - no medical, insurance or license numbers",
-    "details_label": "New home details",
-    "sub_intro": "Tell us about your new home and we will call you back within one business day, or call now at "
+    "review": "g-gregory-hill",
+    "faq": {
+      "items": [
+        { "question": "When is the best time to tint a new home?", "answer": "As soon as you take possession, ideally before you move in. An empty home is the fastest, cleanest install." },
+        { "question": "Can you finish film and blinds before move-in?", "answer": "Yes. Coordinate with us around your closing or walkthrough date and we can plan film and blinds before the moving truck arrives. Blinds are ordered to your measurements, so there is a wait between the measure and the install." },
+        { "question": "Do you serve Liberty Ridge, Iron Pointe and Boulder Hills Estates?", "answer": "Yes. Our shop is in Boulder City and we cover all of Boulder City, Henderson and Southern Nevada." },
+        { "question": "Can you do the new car in the driveway too?", "answer": "Yes. Car tint, ceramic coating and clear bra are done at the shop." }
+      ]
+    }
   },
   "schema": {
     "date_modified": "2026-10-29",
     "breadcrumb_name": "New Construction",
     "service": {
       "name": "New Construction Window Film and Blinds",
-      "service_type": "Residential window film, tint and blinds for new construction homes",
-      "area_served": [
-        "Boulder City",
-        "Henderson",
-        "Las Vegas"
-      ]
+      "service_type": "Residential window film and blinds for new construction homes",
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
     }
-  },
-  "contact": {
-    "heading": "Talk to a person.",
-    "closed_prefix": "Closed"
   }
 }

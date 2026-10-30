@@ -1,44 +1,37 @@
 ---
-# Privacy policy, v2 (website overhaul, 2026-10-29). Layout: _includes/layouts/v2.njk. Styles:
-# assets/v2/v2.css plus assets/v2/pages.css. Wording is in _data/pages/privacy_policy.json and is
-# the approved C-028 text: restyle only, no wording change. No quote form on this page (the
-# policy says the form is on the other pages). Analytics events come from the layout's
-# js/gtag-events.njk. JSON-LD: privacy-policy.11tydata.js.
-layout: layouts/v2.njk
-extra_css: ["/assets/v2/pages.css"]
+# Privacy policy, overhaul v3 (WS5; art direction 3.7: reading column, H2 per topic). Wording is in
+# _data/pages/privacy_policy.json and is the approved C-028 text: restyle only, no wording change.
+# No request form on this page (the policy describes the form on the other pages). The call and
+# text routes come from the WS2 action macro. JSON-LD: privacy-policy.11tydata.js.
+layout: layouts/v3.njk
 permalink: privacy-policy.html
 slug: privacy-policy
 page_key: privacy_policy
-og_image: images/hero.jpg
+og_image: logo.png
+bundles: ["service"]
 ---
+{%- from "v3/actions.njk" import action with context -%}
 {%- set pg = pages.privacy_policy -%}
-{%- set sh = pages.shared -%}
-{%- set tel = site.phone.tel -%}
-{%- set callText = sh.v2.call + " " + site.phone.display_call -%}
-
-<section class="pg-head pg-head--solo pg-head--tight" aria-labelledby="pg-h1">
-  <div class="v2-wrap pg-head__in">
-    <div class="pg-head__copy">
-      <h1 class="pg-h1" id="pg-h1">{{ pg.hero.heading | safe }}</h1>
-      <div class="pg-actions">
-        <a class="v2-btn v2-btn--gold v2-btn--xl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
-        <a class="v2-textlink" href="/#quote">{{ sh.buttons.free_quote | safe }}</a>
-      </div>
-      <p class="v2-small pg-updated">{{ pg.updated.effective | safe }}<br>{{ pg.updated.previous_note | safe }}</p>
+<section class="ws5-hero ws5-hero--page ws5-hero--solo bg-ink-0" aria-labelledby="hero-h">
+  <div class="ws5-hero__in">
+    <div class="ws5-hero__copy">
+      <h1 id="hero-h">{{ pg.hero.heading | safe }}</h1>
+      <p class="t-label fg-2">{{ pg.updated.effective | safe }}<br>{{ pg.updated.previous_note | safe }}</p>
+      <div class="ws5-hero__act">{{ action({ slot: "hero", service: "any" }) }}</div>
     </div>
   </div>
 </section>
 
-<section class="v2-section pg-legalwrap">
-  <div class="v2-wrap">
-    <div class="pg-legal">
-      <p class="pg-legal__intro">{{ pg.intro | safe }}</p>
+<section class="ws5-read bg-ink-0" aria-label="{{ pg.hero.heading | safe }}">
+  <div class="wrap">
+    <div class="ws5-read__col">
+      <p class="t-lead">{{ pg.intro | safe }}</p>
 {%- for s in pg.sections %}
-      <h2 class="pg-h2">{{ s.heading | safe }}</h2>
-{%- for b in s.blocks %}{% if b.type == "p" %}
-      <p>{{ b.text | safe }}</p>
-{%- elif b.type == "ul" %}
-      <ul>{% for li in b.items %}<li>{{ li | safe }}</li>{% endfor %}</ul>
+      <h2>{{ s.heading | safe }}</h2>
+{%- for blk in s.blocks %}{% if blk.type == "p" %}
+      <p>{{ blk.text | safe }}</p>
+{%- elif blk.type == "ul" %}
+      <ul>{% for li in blk.items %}<li>{{ li | safe }}</li>{% endfor %}</ul>
 {%- endif %}{% endfor %}
 {%- endfor %}
     </div>

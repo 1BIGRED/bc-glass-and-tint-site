@@ -1,0 +1,131 @@
+/* BC Glass & Tint v3, homepage bundle (WS5): the hero, the router and the three buyer lanes.
+   Loaded by front matter bundles: ["home"] (the homepage and the city pages, which reuse the lanes).
+   Source: overhaul-v3\03-ART-DIRECTION-visual.md 2.3 (HL1 to HL8), 1.4 router tiles (R-a to R-d),
+   3.1 rows 1 to 4. */
+
+/* Homepage hero at desktop (HL2, HL3): copy columns 1 to 6, media bleeding to the right edge.
+   The shared hero shell is in the core 60-sections.css. */
+@media (min-width: 1024px) {
+  .ws5-hero--home .ws5-hero__in {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    min-height: calc(min(75svh, 760px));
+    max-width: none;
+    padding-left: max(var(--margin), calc((100vw - var(--content-max)) / 2));
+  }
+  .ws5-hero--home .ws5-hero__copy {
+    grid-column: 1 / span 6;
+    align-self: center;
+    padding: var(--sp-64) 0 var(--sp-64);
+  }
+  .ws5-hero--home .ws5-hero__media {
+    grid-column: 8 / -1;
+    padding: 0;
+    display: flex;
+  }
+  .ws5-hero--home .ws5-hero__media > figure { flex: 1 1 auto; display: flex; flex-direction: column; margin: 0; }
+  .ws5-hero--home .v3-hero-media--ramp .v3-ramp { flex: 1 1 auto; height: auto; min-height: 480px; border-radius: 0; }
+  .ws5-hero--home .v3-hero-media__note { padding: 0 var(--margin) var(--sp-16) 0; }
+  .ws5-hero--home .v3-hero-media--storefront img { aspect-ratio: auto; height: 100%; border-radius: 0; }
+}
+
+.ws5-hero__status { display: none; }
+
+/* ---------- Router tiles (R-a to R-d): three equal tiles, the main control of screen 1 ---------- */
+.ws5-router { display: grid; gap: var(--sp-8); margin-top: var(--sp-24) !important; }
+.ws5-route {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 16px;
+  grid-template-rows: auto auto;
+  column-gap: var(--sp-12);
+  align-items: center;
+  min-height: 72px;
+  padding: var(--sp-16) var(--sp-16) var(--sp-12);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out);
+}
+.ws5-route:hover { background-color: var(--ink-2); border-color: rgba(237, 233, 224, 0.7); }
+.ws5-route:active { transform: scale(0.98); transition-duration: var(--dur-press); }
+.ws5-route__strip { position: absolute; left: 0; right: 0; top: 0; height: 4px; }
+.ws5-route__strip--car { background-color: var(--glare); background-image: linear-gradient(rgba(11, 11, 12, 0.75), rgba(11, 11, 12, 0.75)); }
+.ws5-route__strip--home { background-color: var(--paper); }
+.ws5-route__strip--windshield { background-color: var(--glare); }
+.ws5-route__t {
+  grid-column: 1;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  letter-spacing: var(--tr-h3);
+  text-transform: uppercase;
+}
+.ws5-route__m { grid-column: 1; font-size: 0.875rem; line-height: 1.4; color: var(--text-2); }
+.ws5-route__chev { grid-column: 2; grid-row: 1 / span 2; color: var(--text-2); }
+@media (prefers-reduced-motion: reduce) { .ws5-route:active { transform: none; } }
+@media (min-width: 1024px) {
+  .ws5-router { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-12); margin-top: var(--sp-32) !important; }
+  .ws5-route { min-height: 112px; padding: var(--sp-24) var(--sp-16) var(--sp-16) 20px; align-content: start; }
+}
+
+/* ---------- Buyer lanes ---------- */
+.ws5-lane__grid { row-gap: var(--sp-48); }
+.ws5-lane__copy > .ws5-quote { margin-top: var(--sp-48); }
+.ws5-lane--car { padding-top: var(--sp-64); }
+.ws5-lane--car .ws5-lane__copy::before {
+  /* the hairline at column 1 only, never full width (art direction 3.1 row 2) */
+  content: "";
+  display: block;
+  width: 96px;
+  border-top: 1px solid var(--line);
+  margin-bottom: var(--sp-48);
+}
+.ws5-lane__media .ws5-fig { margin-inline: calc(-1 * var(--margin)); }
+.ws5-lane__media .ws5-fig__img { border-radius: 0; }
+.ws5-lane__media figcaption { padding-inline: var(--margin); }
+@media (min-width: 1024px) {
+  .ws5-lane--car .ws5-lane__copy { grid-column: 1 / span 5; }
+  .ws5-lane--car .ws5-lane__side { grid-column: 7 / span 6; align-self: start; position: sticky; top: calc(var(--header-h) + var(--sp-32)); }
+  .ws5-lane__grid--mirror .ws5-lane__media { grid-column: 1 / span 6; grid-row: 1; align-self: start; position: sticky; top: calc(var(--header-h) + var(--sp-32)); }
+  .ws5-lane__grid--mirror .ws5-lane__copy { grid-column: 8 / span 5; grid-row: 1; }
+  .ws5-lane__grid--mirror .ws5-lane__media .ws5-fig { margin-inline: 0; margin-left: calc(-1 * max(var(--margin), (100vw - var(--content-max)) / 2)); }
+  .ws5-lane__grid--mirror .ws5-lane__media figcaption { padding-inline: 0; padding-left: max(var(--margin), calc((100vw - var(--content-max)) / 2)); }
+  .ws5-lane__grid--mirror:not(:has(.ws5-lane__media)) .ws5-lane__copy { grid-column: 1 / span 7; }
+}
+
+/* ---------- Phone compaction (art direction 3 estimate: about 8.5 screens; engineering WS5
+   acceptance: "Your home or office." by screen 3, "How booking works." by screen 5). On phones the
+   lane reviews give way to "In their words." below (each review still prints once there), lane
+   photos take a wider crop, and section padding steps down one size on the 8 px scale. ---------- */
+@media (max-width: 639px) {
+  .ws5-hero--home .ws5-hero__copy { padding-bottom: var(--sp-16); }
+  .ws5-hero--home .ws5-hero__media .v3-hero-media--ramp .v3-ramp { height: 72px; }
+  .ws5-hero--home .v3-hero-media__note { display: none; }
+  /* HL6, HL7: on phones the pinned call bar is the screen's action; the hero shows the status chip
+     above the router instead of a second booking control. */
+  .ws5-hero--home .ws5-hero__act { display: none; }
+  .ws5-hero--home .ws5-hero__status { display: flex; margin-top: var(--sp-16) !important; }
+  .ws5-lane { padding-block: var(--sp-48); }
+  .ws5-lane--car .ws5-lane__copy::before { margin-bottom: var(--sp-32); }
+  .ws5-lane .ws5-head { margin-bottom: var(--sp-16); }
+  .ws5-lane .ws5-head > * + * { margin-top: var(--sp-12); }
+  .ws5-lane__copy > .ws5-quote { display: none; }
+  .ws5-lane__grid { row-gap: var(--sp-24); }
+  .ws5-lane .ws5-actrow { margin-top: var(--sp-16); }
+  .ws5-lane .ws5-prices { margin: var(--sp-16) 0 var(--sp-8); }
+  .ws5-lane .ws5-prices .v3-prow { min-height: 48px; padding: var(--sp-8) 0; }
+  .ws5-lane__media .ws5-fig--54 .ws5-fig__img,
+  .ws5-lane__media .ws5-fig--43 .ws5-fig__img { aspect-ratio: 16 / 9; }
+  .ws5-lane__media figcaption { margin-top: var(--sp-8); }
+  .ws5-pair { gap: var(--sp-24); }
+  .ws5-while { margin-top: var(--sp-16); }
+}
+
+@media (min-width: 1024px) {
+  .ws5-hero--home .ws5-hero__media picture { display: flex; flex: 1 1 auto; }
+  .ws5-hero--home .ws5-hero__media picture img { width: 100%; height: 100%; object-fit: cover; }
+}

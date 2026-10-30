@@ -1,0 +1,87 @@
+/* BC Glass & Tint v3, gallery bundle (WS5). Front matter bundles: ["gallery"].
+   Source: overhaul-v3\03-ART-DIRECTION-visual.md 3.5 and the gallery tile GT-a to GT-d.
+   Filters are 44 px chips, radius 2, selection inverts (never gold); filter changes are instant. */
+.ws5-gal-head { padding-block: var(--sp-48) var(--sp-32); }
+.ws5-gal-head .wrap > * + * { margin-top: var(--sp-16); }
+.ws5-gal-head .t-eyebrow a { color: inherit; }
+@media (min-width: 1024px) { .ws5-gal-head { padding-block: var(--sp-96) var(--sp-48); } }
+
+.ws5-gal { padding-top: 0; }
+.ws5-gal__tools { display: grid; gap: var(--sp-16); margin-bottom: var(--sp-32); }
+.ws5-gal__search label { display: block; font-weight: 600; font-size: var(--t-label); color: var(--fg-2); margin-bottom: var(--sp-8); }
+.ws5-gal__searchrow { display: flex; gap: var(--sp-8); max-width: 35rem; }
+.ws5-gal__searchrow input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 var(--sp-16);
+  font-size: 1rem;
+  background: var(--ink-2);
+  color: var(--text);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+}
+.ws5-gal__searchrow input:focus-visible { border-color: var(--text); }
+.ws5-gal__clear { min-height: 52px; }
+.ws5-gal__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-8); }
+.ws5-gal__row[hidden] { display: none !important; }
+.ws5-gal__lab { flex: 0 0 4.75rem; text-transform: uppercase; letter-spacing: var(--tr-caps); font-weight: 600; }
+@media (min-width: 640px) { .ws5-gal__lab { flex: 0 0 6.5rem; } }
+.ws5-gchip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--sp-16);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.ws5-gchip:hover { background: var(--ink-2); }
+.ws5-gchip[aria-current="page"],
+.ws5-gchip[aria-pressed="true"] { background: var(--text); color: var(--ink-0); border-color: var(--text); }
+.ws5-gal__status { margin-top: var(--sp-8); }
+.ws5-gal__lnote[hidden] { display: none; }
+
+.ws5-gal__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-24) var(--sp-8); }
+@media (min-width: 640px) { .ws5-gal__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .ws5-gal__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-32) var(--sp-16); } }
+.ws5-gt[hidden] { display: none; }
+.ws5-gt figure { margin: 0; }
+.ws5-gt__img { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); background: var(--ink-2); }
+.ws5-gt__img picture { display: block; height: 100%; }
+.ws5-gt__img img { aspect-ratio: auto !important; width: 100%; height: 100%; object-fit: cover; transition: opacity var(--dur-ui) var(--ease-out); }
+.ws5-gt:hover .ws5-gt__img picture { display: block; height: 100%; }
+.ws5-gt__img img { aspect-ratio: auto !important; opacity: 0.96; }
+.ws5-gt figcaption { display: grid; gap: var(--sp-4); margin-top: var(--sp-8); }
+.ws5-gt__t { font-weight: 600; font-size: 0.9375rem; line-height: 1.35; }
+.ws5-gt__a { justify-self: start; color: var(--text); padding: var(--sp-8) 0; }
+
+.ws5-gal__strip {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: var(--sp-16);
+  align-items: center;
+  padding: var(--sp-24);
+  background: var(--ink-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.ws5-gal__stripact { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-16); }
+.ws5-gal__strip--wide { display: none; }
+@media (min-width: 1024px) {
+  .ws5-gal__strip { grid-template-columns: minmax(0, 1fr) auto; min-height: 96px; padding: var(--sp-16) var(--sp-32); }
+  .ws5-gal__strip--phone { display: none; }
+  .ws5-gal__strip--wide { display: grid; }
+}
+.ws5-gal__strip[hidden] { display: none !important; }
+.ws5-gal__empty { margin-top: var(--sp-24); }
+.ws5-gal__empty[hidden] { display: none; }
+.ws5-linkbtn { padding: var(--sp-8) 0; border: 0; background: none; color: var(--fg); text-decoration: underline; text-underline-offset: 4px; font: inherit; min-height: 44px; }
+.ws5-linkbtn[hidden] { display: none; }

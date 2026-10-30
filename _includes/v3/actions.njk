@@ -1,26 +1,128 @@
-{# STUB: owned by WS2, replace #}
-{#- The action system's one macro (engineering 3.2.2). EVERY booking control on every page is
-    rendered by this macro.
+{#- The action system (WS2). EVERY booking control on every v3 page is rendered by `action`, and every
+    status word by `statusChip`. Import with context so they read site.json and the shared labels:
 
-    Import (with context, so the macro reads site.json and the shared labels):
-      {% from "v3/actions.njk" import action with context %}
-    Call:
-      {{ action({ slot: "hero", service: "car", build: false }) }}
-    Parameters (one object):
-      slot     "hero" | "lane" | "price" | "builder" | "contact" | "bar" | "header"
-      service  "car" | "home" | "chip" | "any"        (default "any")
-      build    false, or true on the builder result   (default false)
+      {% from "v3/actions.njk" import action, statusChip with context %}
 
-    Contract for the real macro (WS2): the server renders the no-JS state (Call and Text both
-    visible, hours printed, no status word); each slot holds every variant (Call primary, Text
-    primary, Request primary, the quiet secondary) in one fixed-size cell swapped by visibility on
-    data-state, so swapping never shifts layout; actions.js paints every [data-bc-act] from one
-    statusAt() call. Primary by state per blueprint 5.2.
+      {{ action({ slot: "hero", service: "car" }) }}
+      {{ action({ slot: "lane", service: "home" }) }}
+      {{ action({ slot: "builder", service: "car", build: true }) }}
+      {{ statusChip({ form: "long" }) }}        long text "Open now until 5 PM"; default form "short" is "Open"
 
-    THIS STUB renders one plain tel: link carrying the data attributes the real one will carry. -#}
+    action options (one object)
+      slot     "hero" | "lane" | "price" | "builder" | "contact" | "bar" | "header" | "drawer"
+      service  "car" | "home" | "chip" | "any"      default "any"
+      on_book  true on /book itself (book.njk): no Request a time variant anywhere (it would link to the
+               page you are on) and no Text variant while site.texts_confirmed is false; a cell with nothing
+               to show prints nothing and takes no room. Default false.
+      build    true on the builder result: labels read "with this build" and the links take the
+               build code when builder.js dispatches the bc:build event (contract in the file
+               assets/v3/js/30-actions.js)
+
+    What it prints. Server side it prints the NO-JS state: Call is the primary, Text the secondary
+    and the printed hours sit under them, with no status word. Every variant a slot can ever show is
+    already in the markup, stacked in one grid cell per role (primary cell, secondary cell), so the
+    cell is as wide and as tall as its biggest variant and swapping never moves anything. 30-actions.js
+    reads ONE statusAt() result every 60 s and sets data-state / data-primary / data-secondary /
+    data-note on each [data-bc-act]; 30-actions.css shows the variant that matches. Hidden variants
+    are visibility:hidden, so they are out of the tab order and the accessibility tree.
+
+    Primary by state (blueprint 5.2, decided in assets/v3/js/00-status-core.js plan()):
+      open                     Call primary, Text secondary
+      closed, holiday          Text primary ONLY IF site.texts_confirmed, else Request a time; the other
+                               one is the secondary; a plain "Calls open Tuesday at 9 AM" note
+      unknown day              same primary as closed; the note is the printed hours, never "open"
+      service home             "Book a free in-home measure" in every state; call (open) or text secondary
+      build                    open: Call with this build, secondary Request a time; closed: Text this build
+                               if texts are confirmed, else Request a time
+      bar                      same primary; when the shop is not open the secondary cell is the plain note
+    The header slot is the one exception: its call control stays a tel: link in every state (engineering
+    3.2.2), so it carries data-fixed and the script leaves it alone. -#}
+
+{% macro statusChip(opts) -%}
+{%- set o = opts or {} -%}
+{%- set form = o.form or "short" -%}
+<span class="v3-status{% if form == "long" %} v3-status--long{% endif %}" data-bc-status data-form="{{ form }}"><span class="v3-status__dot" aria-hidden="true"></span><span class="v3-status__txt"></span></span>
+{%- endmacro %}
+
 {% macro action(opts) -%}
 {%- set o = opts or {} -%}
 {%- set sl = o.slot or "lane" -%}
 {%- set sv = o.service or "any" -%}
-<a class="v3-act" href="tel:{{ site.phone.tel | safe }}" data-bc-act data-slot="{{ sl }}" data-service="{{ sv }}"{% if o.build %} data-build="true"{% endif %}>{{ pages.shared.v2.call | safe }} <span class="tnum">{{ site.phone.display_call | safe }}</span></a>
+{%- set onBook = o.on_book or false -%}
+{%- set showReq = not onBook -%}
+{%- set showTxt = (not onBook) or site.texts_confirmed -%}
+{%- set A = pages.shared.v3.actions -%}
+{%- set tel = site.phone.tel -%}
+{%- set num = site.phone.display_call -%}
+{%- if sl == "header" -%}
+{%- set H = A.header -%}
+<span class="v3-act v3-act--header" data-bc-act data-slot="header" data-service="any" data-fixed="true" data-primary="call"><a class="v3-header__call" data-v="call" data-act="call" href="tel:{{ tel | safe }}" aria-label="{{ H.call_aria | safe }} {{ num | safe }}">{{ H.call | safe }}</a><a class="v3-header__icall" data-v="call" data-act="call" href="tel:{{ tel | safe }}" aria-label="{{ H.call_aria | safe }} {{ num | safe }}"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a></span>
+{%- else -%}
+{%- set kind = "build" if o.build else ("home" if sv == "home" else ("chip" if sv == "chip" else "generic")) -%}
+{%- set hours = site.hours | bcHoursLine -%}
+{%- set hoursText = A.hours_call | replace("{hours}", hours.short) -%}
+{%- set reqHref = "/book" + ("?s=" + sv if sv != "any" else "") -%}
+{%- set smsHref = "sms:" + tel -%}
+{%- if kind == "chip" %}{% set smsHref = "sms:" + tel + "?&body=" + (A.chip_body | urlencode) %}{% endif -%}
+{%- set numHtml = '<span class="tnum">' + num + '</span>' -%}
+{%- set photo = site.chip_photo_assess -%}
+{#- labels, primary role -#}
+{%- set pCall = (A.p_call_build | replace("{number}", numHtml)) if kind == "build" else (A.p_call + " " + numHtml) -%}
+{%- if kind == "chip" -%}{%- set pText = A.p_text_chip_photo if photo else A.p_text_chip_plain -%}
+{%- elif kind == "build" -%}{%- set pText = A.p_text_build -%}
+{%- else -%}{%- set pText = A.p_text + " " + numHtml -%}{%- endif -%}
+{#- labels, secondary role -#}
+{%- set sCall = A.s_call + " " + numHtml -%}
+{%- if kind == "chip" -%}{%- set sText = A.s_text_chip_photo if photo else A.s_text_chip_plain -%}
+{%- elif kind == "build" -%}{%- set sText = A.s_text_build -%}
+{%- else -%}{%- set sText = A.s_text -%}{%- endif -%}
+{%- set gold = (sl == "hero" or sl == "lane" or sl == "contact" or sl == "builder") -%}
+{#- no-JS plan: Call primary, Text secondary, hours printed (home: the measure primary, Call secondary) -#}
+{%- set p0 = "measure" if kind == "home" else "call" -%}
+{%- set s0 = "call" if kind == "home" else ("text" if showTxt else "none") -%}
+<div class="v3-act v3-act--{{ sl }}" data-bc-act data-slot="{{ sl }}" data-service="{{ sv }}" data-kind="{{ kind }}" data-state="nojs" data-primary="{{ p0 }}" data-secondary="{{ s0 }}" data-note="hours"{% if onBook %} data-on-book="true"{% endif %}{% if gold %} data-gold-zone{% endif %}{% if o.build %} data-build="true" data-build-body="{{ A.build_body }}"{% endif %}>
+  <div class="v3-act__p">
+{%- if kind == "home" %}
+    <a class="v3-act__btn" data-v="measure" data-act="measure" href="{{ reqHref }}"><span>{{ A.p_measure | safe }}</span></a>
+{%- else %}
+    <a class="v3-act__btn" data-v="call" data-act="call" href="tel:{{ tel | safe }}"><span>{{ pCall | safe }}</span></a>
+{%- if showTxt %}
+    <a class="v3-act__btn" data-v="text" data-act="text" href="{{ smsHref | safe }}"><span>{{ pText | safe }}</span></a>
+{%- endif %}
+{%- if showReq %}
+    <a class="v3-act__btn" data-v="request" data-act="request" href="{{ reqHref }}"><span>{{ A.p_request | safe }}</span></a>
+{%- endif %}
+{%- endif %}
+  </div>
+{%- if sl == "bar" %}
+  <div class="v3-act__s v3-act__s--bar">
+{%- if showTxt %}
+    <a class="v3-act__btn v3-act__btn--ghost" data-v="text" data-act="text" href="{{ smsHref | safe }}"><span>{{ A.bar_text | safe }}</span></a>
+{%- endif %}
+    <span class="v3-act__note" data-v="note-calls"></span>
+    <span class="v3-act__note" data-v="note-hours">{{ hoursText | safe }}</span>
+  </div>
+{%- else %}
+  <div class="v3-act__s">
+{%- if kind == "home" %}
+    <a class="v3-act__link" data-v="call" data-act="call" href="tel:{{ tel | safe }}"><span>{{ sCall | safe }}</span></a>
+{%- if showTxt %}
+    <a class="v3-act__link" data-v="text" data-act="text" href="{{ smsHref | safe }}"><span>{{ sText | safe }}</span></a>
+{%- endif %}
+{%- else %}
+{%- if showTxt %}
+    <a class="v3-act__link" data-v="text" data-act="text" href="{{ smsHref | safe }}"><span>{{ sText | safe }}</span></a>
+{%- endif %}
+{%- if showReq %}
+    <a class="v3-act__link" data-v="request" data-act="request" href="{{ reqHref }}"><span>{{ A.s_request | safe }}</span></a>
+{%- endif %}
+{%- endif %}
+  </div>
+  <p class="v3-act__n">
+    <span class="v3-act__note" data-v="note-calls"></span>
+    <span class="v3-act__note" data-v="note-hours">{{ hoursText | safe }}</span>
+  </p>
+{%- endif %}
+</div>
+{%- endif -%}
 {%- endmacro %}

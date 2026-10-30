@@ -1,142 +1,81 @@
 {
+  "_note": "Car tint page, overhaul v3 (WS5). Template: layouts/service-v3.njk. Copy: blueprint 3.2 and 4.1; FAQ answers carried from the live Q&A page (_data/pages/qa.json) with the claims table 6.2 applied. Legacy v1 and v2 keys (hero, band, content, v2, price, reviews, also, quote) removed 2026-10-29.",
   "meta": {
-    "title": "Auto Window Tinting, Boulder City to Henderson NV | BC Glass",
-    "description": "Computer-cut auto window tint from our Boulder City shop, serving Henderson and Las Vegas drivers. Lifetime warranty. Call 702-550-8840 for a free quote.",
-    "image_alt": "Ceramic window tint on the rear windows of a Ford F-150, installed at our Boulder City shop"
+    "title": "Car Window Tint in Boulder City, NV | BC Glass &amp; Tint",
+    "description": "Ceramic car window tint, computer-cut, at our Boulder City shop for Henderson and Las Vegas drivers too. Lifetime manufacturer warranty on the film.",
+    "image_alt": "BC Glass and Tint logo"
   },
-  "hero": {
-    "crumb": "Auto / Vehicle Tint",
-    "heading": "Auto Window Tinting in Boulder City, NV",
-    "intro": "You climb into a parked car in July and the wheel is too hot to hold, the seat stings through your jeans, and the AC needs half the drive just to catch up. Ceramic auto tint stops that heat at the glass instead of fighting it afterward, and blocks up to 99 percent of UV rays that fade your dash and upholstery. Every film is computer-cut to your exact vehicle, backed by a lifetime manufacturer warranty, and installed at our Boulder City shop for drivers from Henderson to Las Vegas. Vehicles always come to the shop for this work."
-  },
-  "band": [
-    "XPEL &amp; ASWF Film",
-    "Computer-Cut Film",
-    "Lifetime Film Warranty",
-    "Most Tint Work Same Day",
-    "Free Quotes"
-  ],
-  "content": {
-    "image_alt": "Auto Window Tinting in Boulder City, NV",
-    "heading": "Auto / Vehicle Tint",
-    "intro": "Keep your car cooler, block UV rays, and protect your interior with computer-cut film that fits perfectly with no trimming on your glass, backed by a lifetime warranty and Nevada-legal shades.",
-    "bullets": [
-      "Ceramic film blocks up to 99% of UV rays",
-      "Helps keep the cabin cooler",
-      "Nevada-legal shade options",
-      "Computer-cut, no trimming on your glass",
-      "Lifetime warranty on all films"
-    ],
-    "footnote": "Not sure what shade is legal on your vehicle? <a href=\"/nevada-tint-law\">See Nevada window tint law, explained</a>."
-  },
-  "v2": {
-    "eyebrow": "Auto window tint",
-    "work": {
+  "v3": {
+    "crumb": "Car window tint",
+    "service": "car",
+    "form_service": "car",
+    "source": "Car tint",
+    "eyebrow": "Car tint. Boulder City shop.",
+    "h1": "Car window tint.",
+    "lede": "Ceramic film, computer-cut for your glass. It helps keep the cabin cooler, cuts glare, and blocks up to 99 percent of UV. Most vehicles are done the same day.",
+    "hero_ramp": true,
+    "hero_note": "Shades shown on screen. Ask to hold real film against your glass at the shop.",
+    "build_price": "Build your tint and see the price",
+    "build_plain": "Build your tint and see it on screen",
+    "build_href": "/build-your-tint",
+    "proof": "Lifetime manufacturer warranty on the film.",
+    "prices": {
+      "eyebrow": "Price",
+      "h2": "Starting prices.",
+      "lede": "Pick your vehicle type. We confirm the exact price before anything is booked.",
+      "car": true,
+      "shade": true,
+      "moves": "What moves the price: the size and shape of your glass, which windows, and whether old tint has to come off first.",
+      "build_price": "Build your tint and see the price",
+      "build_plain": "Build your tint and see it on screen",
+      "links": [
+        { "build": true, "href": "/build-your-tint" },
+        { "label": "All prices", "href": "/prices" }
+      ]
+    },
+    "looks": {
       "eyebrow": "Recent work",
-      "heading": "Recent BC jobs",
-      "note": "Photos and screens differ from real life."
+      "h2": "What it looks like.",
+      "service": "auto-tint",
+      "count": 4,
+      "note": "Real BC jobs. Photos and screens differ from real life; ask to hold the film against your glass at the shop.",
+      "link": { "label": "See the gallery", "href": "/gallery/auto-tint" }
+    },
+    "gets": {
+      "eyebrow": "What you get",
+      "h2": "Two things we can prove.",
+      "items": [
+        { "title": "Lifetime manufacturer warranty on the film.", "text": "The film is backed by its manufacturer, not only by our word. Every film we install is ceramic." },
+        { "title": "Computer-cut for your vehicle.", "text": "The film is cut to your glass before it goes on, so there is no trimming on your car." }
+      ]
+    },
+    "review": "g-steven-hamberg",
+    "while": {
+      "eyebrow": "While you are here",
+      "h2": "Worth asking about.",
+      "items": [
+        { "title": "Windshield top strip", "text": "Cuts glare at the visor line. Nevada allows film on the top strip of the windshield only." },
+        { "title": "Sunroof", "text": "Ask when you book; it is priced separately from the side and back glass." },
+        { "title": "Headlight restoration", "text": "Clearer, better-looking lenses.", "link": "Headlights and taillights", "href": "/headlight-taillight" }
+      ]
+    },
+    "faq": {
+      "items": [
+        { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. Film on your front side windows has to let through not less than 35 percent of light, with a 7 percent tolerance, counting the glass and the film together, and it has to be nonreflective. The windshield can only carry a strip across the very top, and that strip cannot be red or amber. Your back side windows and rear window can be tinted as long as the vehicle has outside mirrors on both sides. Source: Nevada Revised Statutes 484D.440." },
+        { "question": "What does a tint percentage like 35 percent mean?", "answer": "It is how much visible light comes through the glass and the film together. A higher number is lighter, a lower number is darker. It measures light only, not heat." },
+        { "question": "Is darker tint always better at blocking heat?", "answer": "No. How dark a film looks is about visible light. How much heat it turns away depends on how it handles infrared, which your eye cannot see. That matters here because Nevada limits how dark your front side windows may be." },
+        { "question": "How long until I can roll my windows down?", "answer": "Give the film a few days to fully cure before lowering your windows. In summer heat about 24 hours is usually enough, and on cooler days give it longer." },
+        { "question": "Why does my new tint look hazy?", "answer": "That is curing, and it is normal. Some of the water used to position the film has to work its way out afterward. As it evaporates the haze clears. Give it a few days." },
+        { "question": "How do I care for my tint?", "answer": "Do not roll the windows down for the first few days. After that, wait about a week before cleaning the film, then use a soft cloth and a mild, ammonia-free cleaner." }
+      ]
     }
-  },
-  "price": {
-    "eyebrow": "Price",
-    "heading": "Know the price before you call.",
-    "text": "The price depends on your vehicle and which windows you tint. Build your tint to see where it lands, or call and we will go over it with you.",
-    "note": "Your vehicle and the windows you choose set the final price.",
-    "cards": [
-      { "kind": "coverage", "key": "two_front_doors", "title": "Front doors", "sub": "Price by vehicle type" },
-      { "kind": "coverage", "key": "rear_doors_and_back_glass", "title": "Rear doors and back glass", "sub": "Price by vehicle type" },
-      { "kind": "coverage", "key": "full_vehicle", "title": "Full vehicle", "sub": "Side and back glass, price by vehicle type" }
-    ],
-    "links": [
-      { "label": "Build your tint and see the price", "href": "/build-your-tint" },
-      { "label": "All prices", "href": "/prices" }
-    ]
-  },
-  "reviews": {
-    "heading": "What <span>Auto Tint</span> Customers Say",
-    "sub": "Real reviews from BC Glass and Tint customers.",
-    "label": "Google review",
-    "items": [
-      {
-        "platform": "google",
-        "quote": "Fast, friendly and did an amazing job. I've had multiple vehicles tinted here and will never go anywhere else.",
-        "name": "Kristie Bergman"
-      },
-      {
-        "platform": "google",
-        "quote": "Great prices and amazing work. Would highly recommend to anyone looking for window tinting in Boulder City.",
-        "name": "Steven Hamberg"
-      }
-    ]
-  },
-  "also": {
-    "links": [
-      {
-        "href": "/home-tint",
-        "icon": "i-house",
-        "label": "Home / Residential Tint"
-      },
-      {
-        "href": "/commercial-film",
-        "icon": "i-building",
-        "label": "Commercial Window Film"
-      },
-      {
-        "href": "/windshield",
-        "icon": "i-windshield",
-        "label": "Windshield Replacement"
-      },
-      {
-        "href": "/chip-repair",
-        "icon": "i-chip",
-        "label": "Windshield Chip Repair"
-      },
-      {
-        "href": "/clear-bra",
-        "icon": "i-shield",
-        "label": "Clear Bra / Paint Protection"
-      },
-      {
-        "href": "/ceramic-coating",
-        "icon": "i-spark",
-        "label": "Ceramic Coating"
-      },
-      {
-        "href": "/headlight-taillight",
-        "icon": "i-shield",
-        "label": "Headlight Restoration"
-      },
-      {
-        "href": "/blinds",
-        "icon": "i-blinds",
-        "label": "Blinds &amp; Window Treatments"
-      },
-      {
-        "href": "/henderson",
-        "icon": "i-pin",
-        "label": "Auto window tinting for Henderson"
-      },
-      {
-        "href": "/las-vegas",
-        "icon": "i-pin",
-        "label": "Auto window tinting for Las Vegas"
-      }
-    ]
-  },
-  "quote": {
-    "source": "Auto / Vehicle Tint",
-    "preselect": "Auto / Vehicle Tint"
   },
   "schema": {
     "date_modified": "2026-10-29",
     "service": {
       "service_type": "Auto Window Tinting",
-      "name": "Auto Window Tinting in Boulder City, NV",
-      "area_served": [
-        "Boulder City",
-        "Henderson",
-        "Las Vegas"
-      ]
+      "name": "Car Window Tint in Boulder City, NV",
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
     }
   }
 }

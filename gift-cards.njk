@@ -1,0 +1,37 @@
+---
+# Gift cards, overhaul v3 (WS5; new page, blueprint 2 "ADD"; art direction 3.7): Warm Gallery,
+# type only, one ink primary to the shop's Square order page (decisions-and-rules: the link to use
+# everywhere) and a 13 px line saying it opens Square. Gift cards are only ever sold; no amount,
+# term or expiry is stated (none is recorded). The studio never touches payments: this is a link
+# out, nothing more. Wording: _data/pages/gift_cards.json. JSON-LD: gift-cards.11tydata.js.
+layout: layouts/v3.njk
+theme: warm
+permalink: gift-cards.html
+slug: gift-cards
+page_key: gift_cards
+og_image: logo.png
+bundles: ["service"]
+---
+{%- import "v3-service/blocks.njk" as b with context -%}
+{%- set pg = pages.gift_cards -%}
+{%- set V = pg.v3 -%}
+<section class="ws5-hero ws5-hero--page ws5-hero--solo bg-paper-2" aria-labelledby="hero-h">
+  <div class="ws5-hero__in">
+    <div class="ws5-hero__copy">
+      <p class="t-eyebrow">{{ V.eyebrow | safe }}</p>
+      <h1 id="hero-h">{{ V.h1 | safe }}</h1>
+      <p class="t-lead fg-2 measure">{{ V.lede | safe }}</p>
+      <div class="ws5-hero__act"><a class="ws5-btn ws5-btn--ink" href="{{ pg.order_url | safe }}" target="_blank" rel="noopener" data-ev="gift_card_click">{{ V.buy | safe }}</a></div>
+      <p class="t-label fg-2">{{ V.buy_note | safe }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section--minor bg-paper" aria-labelledby="shop-h">
+  <div class="wrap">
+    <h2 id="shop-h">{{ V.shop_h2 | safe }}</h2>
+    <p class="t-body measure ws5-mt-24">{{ V.shop_text | safe }}<br>{{ site.address.display | safe }}</p>
+  </div>
+</section>
+
+{{ b.talk({ id: "quote", source: "Gift cards", service: "any", uid: "talk", mood: "warm" }) }}

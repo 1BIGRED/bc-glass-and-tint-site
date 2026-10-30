@@ -1,0 +1,116 @@
+---
+layout: layouts/v3.njk
+---
+{#- Service page template, overhaul v3 (WS5). Blueprint 4.1 order, each block switched by data:
+      1 hero (eyebrow with place, one H1 in the homepage system, one outcome line, the ONE booking
+        action for this buyer by hours through the WS2 action macro, the proof token)
+      2 price block (WS4 priceRow through the gate; car pages get the class switch and the shade
+        preview)
+      3 what it looks like (real BC job photos from _data/gallery.json, captions under images)
+        + page blocks (v3.blocks: list, prose, statute, steps) + the page's own content
+      4 what you get (at most two provable claims)
+      5 one matched verbatim Google review
+      6 how booking works for this service
+      7 while you are here (unchecked mentions, no prices unless signed)
+      8 FAQ (visible items = FAQPage items, built in lib/eleventy-ws5.js servicePageGraph)
+      9 contact block with the short request form pre-set to this service
+    Data: pages[page_key].v3 (the page's own _data/pages/<key>.json). Mood: front matter theme
+    "warm" gives Warm Gallery (home, office, blinds pages); default Showroom Black. -#}
+{%- import "v3-service/blocks.njk" as b with context -%}
+{%- from "v3/hero.njk" import pageHero with context -%}
+{%- from "v3/actions.njk" import action with context -%}
+{%- set pg = pages[page_key] -%}
+{%- set V = pg.v3 -%}
+{%- set mood = "warm" if (theme == "warm" or mood == "warm") else "dark" -%}
+{%- set anyPrice = pricing | anyAutoPrice(price_mode) -%}
+{%- set sv = V.service or "any" -%}
+{%- set alt1 = "bg-paper" if mood == "warm" else "bg-ink-0" -%}
+{%- set alt2 = "bg-paper-2" if mood == "warm" else "bg-ink-1" -%}
+
+{#- The drive-time eyebrow (chip page, ad landing) renders only once the owner approves it. -#}
+{%- set eyebrow = pg.drive_time.eyebrow if (pg.drive_time and pg.drive_time.approved) else V.eyebrow -%}
+{{ pageHero({ eyebrow: eyebrow, h1: V.h1, lede: V.lede, service: sv, photo: V.hero_photo, ramp: V.hero_ramp, strip: V.hero_strip, build_link: ((V.build_price if anyPrice else V.build_plain) if V.build_price else null), build_href: V.build_href, proof: V.proof, mood: mood, note: V.hero_note, ground: (alt2 if mood == "warm" else "bg-ink-0") }) }}
+
+{%- if V.prices %}
+{%- set P = V.prices %}
+<section class="ws5-svc-prices section {{ alt1 }}" aria-labelledby="pr-h" id="{{ P.id or 'prices' }}">
+  <div class="wrap grid ws5-lane__grid">
+    <div class="ws5-svc-prices__copy">
+      {{ b.head(P.eyebrow, P.h2, "pr-h", { lede: P.lede }) }}
+      {%- if P.car %}{{ b.carPrices("pr") }}{% else %}{{ b.prices(P.rows, P.fallback) }}{% endif %}
+      {%- if P.moves %}<p class="t-label fg-2 measure">{{ P.moves | safe }}</p>{% endif %}
+      {%- if P.after %}<p class="t-body measure ws5-svc-prices__after">{{ P.after | safe }}</p>{% endif %}
+      <p class="t-body ws5-svc-prices__links">{% for l in P.links %}{% if not l.build %}<a href="{{ l.href }}">{{ l.label | safe }}</a>{% if not loop.last %} <span class="fg-2" aria-hidden="true">&middot;</span> {% endif %}{% endif %}{% endfor %}</p>
+      <div class="ws5-actrow">
+        {%- for l in P.links %}{% if l.build %}<a class="ws5-btn" href="{{ l.href }}">{{ (P.build_price if anyPrice else P.build_plain) | safe }}</a>{% endif %}{% endfor %}
+        {{ action({ slot: "price", service: sv }) }}
+      </div>
+    </div>
+    {%- if P.shade %}
+    <div class="ws5-svc-prices__side">{{ b.shadePreview("pr") }}</div>
+    {%- elif P.photo and ws5photos[P.photo] %}
+    <div class="ws5-svc-prices__side">{{ b.photo(P.photo, "(min-width: 1024px) 45vw, 100vw", { ratio: P.photo_ratio or "43" }) }}</div>
+    {%- endif %}
+  </div>
+</section>
+{%- endif %}
+
+{%- if V.looks %}
+{%- set L = V.looks %}
+{%- set jobs = gallery | ws5jobs(L.service, L.count or 4) %}
+{%- if jobs.length or (L.photo and ws5photos[L.photo]) %}
+<section class="ws5-looks section--minor {{ alt2 }}" aria-labelledby="lk-h">
+  <div class="wrap">
+    {{ b.head(L.eyebrow, L.h2, "lk-h", { lede: L.lede }) }}
+    {%- if jobs.length %}{{ b.work(jobs) }}{% endif %}
+    {%- if L.photo and ws5photos[L.photo] %}<div class="ws5-looks__photo">{{ b.photo(L.photo, "(min-width: 1024px) 50vw, 100vw", { ratio: L.photo_ratio or "32" }) }}</div>{% endif %}
+    <p class="t-label fg-2 ws5-looks__note">{{ L.note | safe }}{% if L.link %} <a href="{{ L.link.href }}">{{ L.link.label | safe }}</a>{% endif %}</p>
+  </div>
+</section>
+{%- endif %}
+{%- endif %}
+
+{%- if V.blocks %}{{ b.blocks(V.blocks, mood, "bk") }}{% endif %}
+
+{{ content | safe }}
+
+{%- if V.gets %}
+<section class="ws5-gets section--minor {{ alt1 }}" aria-labelledby="gt-h">
+  <div class="wrap">
+    {{ b.head(V.gets.eyebrow, V.gets.h2, "gt-h") }}
+    <ul class="ws5-list list-plain">
+{%- for it in V.gets.items %}
+      <li class="ws5-list__i"><h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ it.text | safe }}</p></li>
+{%- endfor %}
+    </ul>
+{%- if V.review %}
+    {{ b.quote(reviews | ws5review(V.review)) }}
+{%- endif %}
+  </div>
+</section>
+{%- elif V.review %}
+<section class="ws5-gets section--minor {{ alt1 }}" aria-label="Review">
+  <div class="wrap">{{ b.quote(reviews | ws5review(V.review)) }}</div>
+</section>
+{%- endif %}
+
+{{ b.howBooking(sv, { uid: "how", mood: mood, steps: V.how_steps, fear: V.how_fear }) }}
+
+{%- if V.while %}
+<section class="ws5-whilesec section--minor {{ alt1 }}" aria-labelledby="wh-h">
+  <div class="wrap">
+    {{ b.head(V.while.eyebrow, V.while.h2, "wh-h") }}
+    <ul class="ws5-list list-plain">
+{%- for it in V.while.items %}
+      <li class="ws5-list__i"><h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ it.text | safe }}</p>{% if it.href %}<a href="{{ it.href }}">{{ it.link | safe }}</a>{% endif %}</li>
+{%- endfor %}
+    </ul>
+  </div>
+</section>
+{%- endif %}
+
+{%- if V.faq and V.faq.items.length %}
+{{ b.faq(V.faq.items, { uid: "faq", mood: mood, ground: alt2, h2: V.faq.h2, eyebrow: V.faq.eyebrow }) }}
+{%- endif %}
+
+{{ b.talk({ id: "quote", source: pg.v3.source or page_key, service: sv, form_service: V.form_service, uid: "talk", mood: mood, h2: V.talk_h2 }) }}

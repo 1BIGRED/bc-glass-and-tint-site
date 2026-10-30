@@ -17,7 +17,16 @@
   (1BIGRED/bc-glass-and-tint-site) is linked to the shop's own Netlify and the
   GitHub OAuth app is registered there. config.yml has no base_url on purpose;
   leaving it out is what makes the editor sign in through Netlify.
+
+  VERSION PIN: the editor is loaded at one exact version, 0.244.0 (published to npm
+  2026-10-15, at least 14 days old when chosen on 2026-10-29). Do not change this to
+  a floating address such as .../@sveltia/cms/dist/... or @latest: a new release
+  could change how a saved field behaves without anyone testing it on this site.
+  To upgrade: pick a release that is at least two weeks old, change the number in
+  the one script address below, run Scripts\Test-CmsConfig.ps1, then open the editor
+  on a test branch and save one entry before it goes to main. Record the number and
+  the date in overhaul-v3\build-logs\WS7.md.
 -->
-<script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+<script src="https://unpkg.com/@sveltia/cms@0.244.0/dist/sveltia-cms.js"></script>
 </body>
 </html>

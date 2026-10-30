@@ -3,7 +3,7 @@
   "currency": "USD",
   "notes": [
     "This file holds every price the website can show. Every entry has a status: \"confirmed\" (the owner gave this exact number), \"draft\" (taken from old quote history, NOT signed off by the owner) or \"unknown\" (no number yet).",
-    "THE PUBLIC SITE shows a price ONLY when status is \"confirmed\" AND publish is true. Everything else shows \"Call for a quote\". Draft prices never appear on the public site.",
+    "THE PUBLIC SITE shows a price ONLY when status is \"confirmed\" AND publish is true. Everything else shows plain words instead of a number (\"Price confirmed on the call\" for car tint, \"Priced after a free in-home measure\" for home film and blinds; older pages say \"Call for a quote\"). Draft prices never appear on the public site.",
     "PREVIEW builds (Netlify deploy previews and branch deploys, or a build with BC_PRICE_MODE=preview) also show draft prices and confirmed prices that are not yet approved to publish, each with a small \"Draft price\" tag, so the site can be reviewed with prices in place.",
     "To make a price public: the owner confirms the number, then set status to \"confirmed\", fill amount (a plain number, no dollar sign), display (the words the site prints, for example \"$80\" or \"From $350\"), confirmed_by (who) and confirmed_on (YYYY-MM-DD), and set publish to true.",
     "A confirmed price can stay private: leave publish false and the public site keeps saying \"Call for a quote\".",
@@ -13,7 +13,55 @@
     "Auto tint packages follow the quote history: \"Front doors\" (Front/Sides in the worksheet), \"Rear doors and back glass\" (Rear/Sides) and \"Full vehicle\" (side and back glass; the worksheet's full vehicle is front plus rear on every row and does NOT include the windshield or sunroof). The windshield top strip and the sunroof are separate lines.",
     "The Build Your Tint tool prices a build only when the windows picked can be covered exactly by packages and separate lines that are allowed to show. If any window cannot be priced, it shows \"Call for a quote\" instead of a partial total.",
     "film_tiers and shades_installed are empty until the owner names the film lines and lists the shades the shop stocks. Until shades_installed has values, the tool shows example_shades with the label \"Example shades; the shop confirms what it stocks\".",
-    "Front door shades darker than 35 percent never get a price on the site. Nevada law, NRS 484D.440."
+    "Front door shades darker than 35 percent never get a price on the site. Nevada law, NRS 484D.440.",
+    "shades_installed holds plain numbers. A number in that list counts as owner-confirmed, so the site prints it as a percentage. While the list is empty the site shows the example shades as an unnumbered light-to-dark scale.",
+    "reviewed_on is the date the owner last reviewed these prices (YYYY-MM-DD). The prices page prints \"Prices reviewed\" with it; while it is null that line does not print.",
+    "presets are the Build Your Tint starting points. They follow the same gate as a price: the public site shows a preset only when status is \"confirmed\" AND publish is true; preview builds also show drafts, tagged. A preset names panels from auto_tint.panels with a shade, or null for a shade the owner has not named yet (the window is picked with no shade chosen). A front-door shade below 35 makes the whole preset invalid and it never shows.",
+    "default_preset is the id of the preset the builder opens on. Leave it null until the owner names the shop's most common build; with null, no preset is picked when the builder opens.",
+    "addons are the unchecked extras on the builder result. price_ref points at the price entry. When that price can show, the add-on is priced and adds to the total; when the entry has a number that cannot show yet, it becomes an \"Also ask about\" toggle with \"price on the call\"; when the vehicle class has no number at all, it is hidden for that class.",
+    "also_ask items never carry a price and never change the total. They ride along in the build code so the shop sees them.",
+    "No package here is a discount. Full vehicle equals front doors plus rear doors and back glass on every quote row, so the site never says save, bundle or deal."
+  ],
+  "reviewed_on": null,
+  "front_min_vlt": 35,
+  "front_min_vlt_source": "NRS 484D.440: front side windows not less than 35 percent light transmission, with a 7 percent tolerance, film plus glass, nonreflective (area-profile.md legal.nevada_tint_law, verified 2026-07-14). This is the law, not a stocked shade.",
+  "presets": [
+    {
+      "id": "front-match",
+      "label": "Front doors to match the back",
+      "description": "Front doors only, at Nevada's front-door line. For vehicles whose rear glass is already dark from the factory.",
+      "panels": { "front-doors": 35 },
+      "status": "draft",
+      "publish": false,
+      "source": "overhaul-v3 01-BLUEPRINT-psychology.md section 4.5 draft set; the owner confirms this is a common real job"
+    },
+    {
+      "id": "full",
+      "label": "Full sides and back",
+      "description": "Front doors at Nevada's front-door line, plus the rear doors and back glass.",
+      "panels": { "front-doors": 35, "rear-doors": null, "back-glass": null },
+      "status": "draft",
+      "publish": false,
+      "source": "overhaul-v3 01-BLUEPRINT-psychology.md section 4.5 draft set; rear shade null until the owner names the usual rear shade (owner question 7)"
+    },
+    {
+      "id": "rear-privacy",
+      "label": "Rear privacy only",
+      "description": "Rear doors and back glass. The front doors stay as they are.",
+      "panels": { "rear-doors": null, "back-glass": null },
+      "status": "draft",
+      "publish": false,
+      "source": "overhaul-v3 01-BLUEPRINT-psychology.md section 4.5 draft set"
+    }
+  ],
+  "default_preset": null,
+  "addons": [
+    { "id": "top-strip", "label": "Windshield top strip", "benefit": "Cuts glare at the visor line.", "price_ref": "auto_tint.panels.windshield-strip" },
+    { "id": "sunroof", "label": "Sunroof", "benefit": null, "price_ref": "auto_tint.panels.sunroof" }
+  ],
+  "also_ask": [
+    { "id": "ws-coating", "label": "Windshield ceramic coating", "benefit": "Rain and bugs come off easier." },
+    { "id": "headlights", "label": "Headlight restoration", "benefit": null }
   ],
   "gate": {
     "production": "status is confirmed AND publish is true AND legal_hold is not true",

@@ -1,0 +1,95 @@
+/* BC Glass & Tint v3, service, city and info page bundle (WS5). Front matter bundles: ["service"].
+   Source: overhaul-v3\03-ART-DIRECTION-visual.md 3.2 (service template), 3.3 (city), 3.7 (other
+   templates). Hero height min(60svh, 600px) on desktop; copy left, image right, never under text. */
+
+@media (min-width: 1024px) {
+  .ws5-hero--page .ws5-hero__in {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    min-height: min(60svh, 600px);
+    max-width: none;
+    padding-left: max(var(--margin), calc((100vw - var(--content-max)) / 2));
+  }
+  .ws5-hero--page .ws5-hero__copy { grid-column: 1 / span 6; align-self: center; padding: var(--sp-64) 0; }
+  .ws5-hero--page .ws5-hero__media { grid-column: 8 / -1; padding: 0; display: flex; }
+  .ws5-hero--page .ws5-hero__media > figure { flex: 1 1 auto; display: flex; flex-direction: column; margin: 0; }
+  .ws5-hero--page .ws5-hero__media img { flex: 1 1 auto; aspect-ratio: auto !important; height: 100% !important; min-height: 420px; border-radius: 0 !important; }
+  .ws5-hero--page .v3-hero-media--ramp .v3-ramp { flex: 1 1 auto; height: auto; min-height: 420px; border-radius: 0; }
+  .ws5-hero--page .v3-hero-media__note { padding: var(--sp-8) var(--margin) var(--sp-16) 0; }
+  .ws5-hero--solo .ws5-hero__in { min-height: 0; }
+  .ws5-hero--solo .ws5-hero__copy { grid-column: 1 / span 8; padding: var(--sp-96) 0 var(--sp-64); }
+}
+
+/* Service price block: copy columns 1 to 6, the shade preview or a photo on the right. */
+.ws5-svc-prices__after { margin-top: var(--sp-16); }
+@media (min-width: 1024px) {
+  .ws5-svc-prices__copy { grid-column: 1 / span 6; }
+  .ws5-svc-prices__side { grid-column: 8 / span 5; align-self: start; }
+  .ws5-svc-prices .ws5-lane__grid:not(:has(.ws5-svc-prices__side)) .ws5-svc-prices__copy { grid-column: 1 / span 7; }
+}
+
+/* What it looks like */
+.ws5-looks__photo { margin-top: var(--sp-32); max-width: 48rem; }
+.ws5-looks__note { margin-top: var(--sp-24); }
+
+/* Reading pages (Q&A, law, privacy, reviews, gift cards): a 66 ch column, 17 px body */
+.ws5-read { padding-block: var(--sp-48) var(--sp-96); }
+.ws5-read__col { max-width: 42rem; }
+.ws5-read__col > * + * { margin-top: var(--sp-16); }
+.ws5-read__col h2 { margin-top: var(--sp-64); }
+.ws5-read__col h2 + * { margin-top: var(--sp-24); }
+.ws5-read__col p,
+.ws5-read__col li { font-size: 1.0625rem; }
+.ws5-read__col ul { padding-left: var(--sp-24); }
+.ws5-read__col li + li { margin-top: var(--sp-8); }
+.ws5-read__col a { color: var(--fg); }
+.ws5-topics { display: flex; flex-wrap: wrap; gap: var(--sp-8); margin-top: var(--sp-32); }
+.ws5-topics a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--sp-16);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.ws5-topics a:hover { background: var(--surface); }
+.ws5-qa-group { scroll-margin-top: calc(var(--header-h) + 16px); }
+.ws5-qa-group + .ws5-qa-group { margin-top: var(--sp-64); }
+.ws5-search { margin-top: var(--sp-32); max-width: 35rem; }
+.ws5-search label { display: block; font-weight: 600; font-size: var(--t-label); color: var(--fg-2); margin-bottom: var(--sp-8); }
+.ws5-search input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 var(--sp-16);
+  font-size: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  color: var(--fg);
+}
+.ws5-search p { margin-top: var(--sp-8); }
+
+/* City: getting to the shop band */
+.ws5-getting { display: grid; gap: var(--sp-24); }
+.ws5-getting__i { padding-top: var(--sp-16); border-top: 1px solid var(--hair); }
+.ws5-getting__i > * + * { margin-top: var(--sp-8); }
+@media (min-width: 1024px) { .ws5-getting { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); } }
+
+/* About: the map embed (privacy policy says it loads with this page) */
+.ws5-map { margin-top: var(--sp-32); aspect-ratio: 16 / 9; border: 1px solid var(--hair); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+.ws5-map iframe { width: 100%; height: 100%; border: 0; display: block; }
+.ws5-fact-h { font-family: var(--font-display); font-weight: 300; font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); text-transform: uppercase; }
+
+/* Spacing helpers for the info pages (8 px scale, G2) */
+.ws5-mt-24 { margin-top: var(--sp-24); }
+.ws5-mt-32 { margin-top: var(--sp-32); }
+.ws5-svc-prices__links { margin-top: var(--sp-16); }
+
+/* Page hero photo fills the media column at desktop (WS6's <picture> wraps the img) */
+@media (min-width: 1024px) {
+  .ws5-hero--page .ws5-hero__media picture { display: flex; flex: 1 1 auto; min-height: 420px; }
+  .ws5-hero--page .ws5-hero__media picture img { width: 100%; }
+}

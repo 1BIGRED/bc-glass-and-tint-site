@@ -1,21 +1,13 @@
-// Structured data for nevada-tint-law.html, built from _data/pages/nevada_tint_law.json and
-// site.json. Live node order: FAQPage, BreadcrumbList, Business, WebSite, WebPage. The FAQPage
-// is generated from the SAME faq.items the page shows (lib/schema.js faqPlain), so the visible
-// answers and the structured data cannot drift apart.
-const S = require("./lib/schema");
-
+// Structured data and Open Graph image for /nevada-tint-law (v3, WS5). Graph: Breadcrumb, business,
+// Service (when the page names one), FAQPage built from the same v3.faq.items the page prints,
+// WebSite, WebPage (lib/eleventy-ws5.js servicePageGraph). og_image: the page's hero photo from
+// WS6's images, else the logo.
+const W5 = require("./lib/eleventy-ws5").helpers;
 module.exports = {
   eleventyComputed: {
-    schema_ld: (data) => {
-      const pg = data.pages.nevada_tint_law;
-      const sc = pg.schema;
-      return S.graph([
-        S.faqPageNode(pg.faq.items, { slug: data.slug }),
-        S.breadcrumbNode({ slug: data.slug, name: S.plain(pg.hero.crumb) }),
-        S.businessNode(data.site),
-        S.websiteNode(data.site),
-        S.webpageNode({ slug: data.slug, name: S.plain(pg.meta.title), dateModified: sc.date_modified })
-      ]);
-    }
+    og_image: (data) => W5.ogImage(data).path,
+    og_image_width: (data) => W5.ogImage(data).width,
+    og_image_height: (data) => W5.ogImage(data).height,
+    schema_ld: (data) => W5.servicePageGraph(data, data.pages[data.page_key])
   }
 };

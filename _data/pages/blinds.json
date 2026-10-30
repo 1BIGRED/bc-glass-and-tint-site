@@ -1,176 +1,72 @@
 {
+  "_note": "Blinds and shades page, overhaul v3 (WS5), Warm Gallery. Blinds get their own story (light, privacy, feel of the room, custom fit, motorization), never framed relative to film; copy routes, never deters (decisions-and-rules). No real BC blinds photo exists, so the page is type only (CEO ruling; art direction 3.2). Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "Custom Blinds, Boulder City to Henderson NV | BC Glass",
-    "description": "Custom blinds and window treatments for Boulder City and Henderson. Roller, cellular and Roman shades, professional installation. Call 702-550-8840.",
-    "image_alt": "Custom blinds and window treatments installed in a Boulder City home"
+    "title": "Blinds and Shades in Boulder City, NV | BC Glass &amp; Tint",
+    "description": "Roller, cellular and Roman shades, motorized if you want it, measured at your home in Boulder City, Henderson or Las Vegas. Free in-home measure and quote.",
+    "image_alt": "BC Glass and Tint logo"
   },
-  "hero": {
-    "crumb": "Blinds &amp; Window Treatments",
-    "heading": "Blinds &amp; Window Treatments in Boulder City, NV",
-    "intro": "A good blind or shade changes how a room feels: soft light in the morning, real privacy at night, no gap of exposed glass staring back at the street. We measure every window by hand and build to that exact opening, so nothing looks stretched or bought off a shelf, with roller, cellular and Roman shades and motorized options for windows nobody wants to reach by a step stool. Family owned since 1994, we install for homes and businesses across Boulder City, Henderson and Las Vegas."
-  },
-  "band": [
-    "Measured At Your Windows",
-    "Made To Fit",
-    "Motorized Options",
-    "We Fix What Is Not Right",
-    "Free Quotes"
-  ],
-  "content": {
-    "image_alt": "Blinds &amp; Window Treatments in Boulder City, NV",
-    "heading": "Blinds &amp; Window Treatments",
-    "intro": "Expertly installed blinds and soft window treatments for homes and businesses across Clark County, sized for the Nevada climate.",
-    "note": "New blinds and shades are what we install. If something you already own needs fixing and you are not sure where to start, call us anyway and we will help you work out the right next step.",
-    "bullets": [
-      "Cellular shades for insulation",
-      "Roller, cellular and Roman shades",
-      "Motorized options available",
-      "Style, privacy and heat control",
-      "Professional install, and we fix what is not right"
-    ]
-  },
-  "v2": {
-    "eyebrow": "Blinds and window treatments"
-  },
-  "extra": {
-    "shades": {
-      "heading": "Find the Right <span>Window Treatment</span>",
-      "sub": "Every room handles light differently. We help you pick the treatment that fits the space, then build it to fit your windows.",
-      "cards": [
-        {
-          "title": "Roller Shades",
-          "text": "Clean and simple. A smooth fabric panel rolls away for the full view and drops for instant privacy. A great fit for living areas and offices."
-        },
-        {
-          "title": "Cellular Shades",
-          "text": "Honeycomb cells trap a layer of air at the glass, helping insulate your rooms against Nevada summer heat and winter cold."
-        },
-        {
-          "title": "Roman Shades",
-          "text": "Soft fabric folds that give bedrooms and living rooms a warm, finished look while still controlling light and privacy."
-        },
-        {
-          "title": "Motorized Blinds &amp; Shades",
-          "text": "Raise and lower at the touch of a button. The answer for tall windows, stairwells and hard-to-reach glass."
-        }
+  "v3": {
+    "crumb": "Blinds and shades",
+    "service": "home",
+    "form_service": "blinds",
+    "source": "Blinds",
+    "eyebrow": "Blinds and shades. Measured at your home.",
+    "h1": "Blinds and shades.",
+    "lede": "Light, privacy and the feel of the room. Every blind and shade is measured at your windows and built to fit, motorized if you want it.",
+    "proof": "Family owned since 1994.",
+    "prices": {
+      "eyebrow": "Price",
+      "h2": "Free in-home measure and quote.",
+      "lede": "The style and the size of each window set the price, so we measure first. The measure and the quote are free.",
+      "rows": [ { "label": "Blinds and shades", "ref": "services.blinds_from" } ],
+      "fallback": "home",
+      "links": [ { "label": "All prices", "href": "/prices" } ]
+    },
+    "blocks": [
+      {
+        "type": "list",
+        "eyebrow": "Styles",
+        "heading": "Find the right shade.",
+        "lede": "Every room handles light differently. We help you pick the shade that fits the room, then build it to fit your windows.",
+        "items": [
+          { "title": "Roller shades", "text": "A smooth fabric panel that rolls away for the full view and drops for privacy. A tighter weave blocks more glare; a more open weave keeps your view." },
+          { "title": "Cellular shades", "text": "Honeycomb cells hold a layer of air at the glass, which helps insulate a room against summer heat and winter cold." },
+          { "title": "Roman shades", "text": "Soft fabric that gathers into folds as it lifts, for a warm, finished look in bedrooms and living rooms." },
+          { "title": "Motorized", "text": "Available on any of the above. No cords, and tall or hard to reach windows go on a remote or a schedule." }
+        ]
+      }
+    ],
+    "gets": {
+      "eyebrow": "What you get",
+      "h2": "Built to your windows.",
+      "items": [
+        { "title": "Measured at your windows.", "text": "Every blind and shade is ordered to the measurements taken at your home, never pulled off a shelf." },
+        { "title": "Installed and checked.", "text": "We install every unit and check how it works before we leave. If anything is not right, tell us and we fix it." }
       ]
     },
-    "steps": {
-      "heading": "How It <span>Works</span>",
-      "sub": "From first call to finished windows, the process is simple.",
+    "review": "g-db-realty",
+    "while": {
+      "eyebrow": "While we are there",
+      "h2": "Window film.",
       "items": [
-        {
-          "title": "1. Get a free quote",
-          "text": "Call, text or send the form below. Tell us about your windows and the rooms you want to improve."
-        },
-        {
-          "title": "2. Made to fit",
-          "text": "Your blinds and shades are sized to your windows for a clean, custom fit. No off-the-shelf guesswork."
-        },
-        {
-          "title": "3. Professional installation",
-          "text": "Our team installs every unit and checks its operation before we leave. If anything is not right, tell us and we fix it."
-        },
-        {
-          "title": "4. Enjoy the room",
-          "text": "Better light control, more privacy and a more comfortable home, fitted and finished by one local shop."
-        }
+        { "title": "Home window film", "text": "Keeps your view and helps cut glare and heat on sun-facing glass.", "link": "Home window film", "href": "/home-tint" }
+      ]
+    },
+    "faq": {
+      "items": [
+        { "question": "What kinds of blinds do you install?", "answer": "Roller, cellular and Roman shades, plus motorized options on any of them. Everything is measured at your windows and ordered to those measurements." },
+        { "question": "Are custom blinds done the same day?", "answer": "No, and it is worth knowing up front. Blinds and shades are measured at your windows and then ordered to those measurements, so there is a wait between the measure and the install. We will tell you the expected timing when we measure." },
+        { "question": "I already have blinds that need fixing. Can you help?", "answer": "New blinds and shades are what we install. If something you already own needs work and you are not sure where to start, call us anyway and we will help you work out the right next step." },
+        { "question": "Do you come to my house?", "answer": "Yes. We measure and install at your home or office." }
       ]
     }
-  },
-  "price": {
-    "eyebrow": "Price",
-    "heading": "Priced to your windows.",
-    "text": "Blinds and shades depend on the treatment, the size of each window and how many you want. Call or send the form and we will quote it.",
-    "note": "The treatment and the size of your windows set the final price.",
-    "cards": [
-      { "kind": "service", "key": "blinds_from", "title": "Blinds and window treatments" }
-    ],
-    "links": [
-      { "label": "All prices", "href": "/prices" }
-    ]
-  },
-  "reviews": {
-    "heading": "What <span>Customers</span> Say",
-    "sub": "Real reviews from BC Glass and Tint customers.",
-    "label": "Google review",
-    "items": [
-      {
-        "platform": "google",
-        "quote": "They have tinted and installed window coverings for my home, and every one of my cars has been tinted by them. I always recommend them to anyone who gets a new house.",
-        "name": "Maureen Springer"
-      },
-      {
-        "platform": "google",
-        "quote": "Very pleased with the service and communication. I'll be setting an appointment for them to do the windows at my home as well. Support local businesses!",
-        "name": "DB Realty"
-      }
-    ]
-  },
-  "also": {
-    "links": [
-      {
-        "href": "/auto-tint",
-        "icon": "i-car",
-        "label": "Auto / Vehicle Tint"
-      },
-      {
-        "href": "/home-tint",
-        "icon": "i-house",
-        "label": "Home / Residential Tint"
-      },
-      {
-        "href": "/commercial-film",
-        "icon": "i-building",
-        "label": "Commercial Window Film"
-      },
-      {
-        "href": "/windshield",
-        "icon": "i-windshield",
-        "label": "Windshield Replacement"
-      },
-      {
-        "href": "/chip-repair",
-        "icon": "i-chip",
-        "label": "Windshield Chip Repair"
-      },
-      {
-        "href": "/clear-bra",
-        "icon": "i-shield",
-        "label": "Clear Bra / Paint Protection"
-      },
-      {
-        "href": "/ceramic-coating",
-        "icon": "i-spark",
-        "label": "Ceramic Coating"
-      },
-      {
-        "href": "/henderson",
-        "icon": "i-pin",
-        "label": "Blinds and window treatments for Henderson"
-      },
-      {
-        "href": "/las-vegas",
-        "icon": "i-pin",
-        "label": "Blinds and window treatments for Las Vegas"
-      }
-    ]
-  },
-  "quote": {
-    "source": "Blinds &amp; Window Treatments",
-    "preselect": "Blinds / Window Treatments",
-    "details_placeholder": "Rooms or windows (optional) - no medical, insurance or license numbers"
   },
   "schema": {
     "date_modified": "2026-10-29",
     "service": {
-      "service_type": "Blinds & Window Treatments",
-      "name": "Blinds & Window Treatments in Boulder City, NV",
-      "area_served": [
-        "Boulder City",
-        "Henderson",
-        "Las Vegas"
-      ]
+      "service_type": "Blinds and Window Treatments",
+      "name": "Blinds and Shades in Boulder City, NV",
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
     }
   }
 }

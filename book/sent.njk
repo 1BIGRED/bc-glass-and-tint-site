@@ -1,0 +1,29 @@
+---
+# /book/sent/, the no-JavaScript landing page for the request form (overhaul v3, WS3). The form's
+# action points here, so a browser without scripts (or with fetch missing) that posts natively
+# lands on a real page, and Netlify records the submission. noindex, not in collections, and
+# robots_noindex also keeps analytics off this page: it fires no event (engineering 3.4).
+# Netlify drops the posted fields on this redirect, so a static page cannot restate the request
+# or the reference code; it says only what is true for every request.
+layout: layouts/v3.njk
+permalink: book/sent/index.html
+slug: book/sent
+meta_title: "Request received | BC Glass &amp; Tint"
+meta_description: "Your request reached BC Glass and Tint. Someone from the shop confirms your time by call or text."
+robots_noindex: true
+eleventyExcludeFromCollections: true
+mood: dark
+header_raised: true
+---
+{%- set pg = pages.book.sent -%}
+<section class="section section--minor rq-page" aria-labelledby="rq-sent-h1" data-section="request-sent">
+  <div class="wrap">
+    <div class="rq-col stack stack-24">
+      <h1 id="rq-sent-h1">{{ pg.heading | safe }}</h1>
+      <p class="t-lead">{{ pg.lead | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
+      <p class="t-body">{{ pg.not_booked | safe }}</p>
+      <p class="t-body">{{ pg.talk | rqFill(site) | safe }}</p>
+      <p class="t-body"><a href="/">{{ pg.home_link | safe }}</a></p>
+    </div>
+  </div>
+</section>

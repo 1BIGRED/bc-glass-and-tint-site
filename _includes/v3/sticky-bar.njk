@@ -1,12 +1,17 @@
-{# STUB: owned by WS2, replace #}
-{#- Phone call and text bar, every page (art direction CB-a to CB-e, blueprint 3.10). Included once by
-    layouts/v3.njk after the footer:  {% include "v3/sticky-bar.njk" %}
-    Contract for the real bar (WS2): driven by the action macro with slot "bar"; position fixed at
-    the bottom under 768px only; ink-1 ground, 1px line hairline on top; 56px control row plus
-    8px above and calc(8px + env(safe-area-inset-bottom)) below, which is the --scb height that
-    00-tokens.css reserves for scroll padding; cells at least 48px tall; stacks under the cookie bar.
-    THIS STUB prints the bar's container and one plain call link, unstyled, in the page flow. -#}
+{#- Phone call and text bar, every page (art direction CB-a to CB-e, blueprint 3.10). Owner: WS2.
+    Included once by layouts/v3.njk after the footer:  {% include "v3/sticky-bar.njk" %}
+
+    Shown under 768px only (30-actions.css), position fixed at the bottom, ink-1 ground, 1px line
+    hairline on top, 8px above and calc(8px + env(safe-area-inset-bottom)) below a 56px control row,
+    which is the height --scb reserves for scroll padding. Content is the action macro, slot "bar":
+    the gold primary takes two thirds; the right third is the Text button while the shop is open and
+    the plain "Calls open Tue 9 AM" words while it is not. data-bc-sticky is the container the script
+    marks with data-state (open, closed, holiday, unknown). On /book (slug book, or the page variable
+    on_book) the bar drops Request a time (it links to the page you are on) and Text until texts are
+    confirmed, like the action macro's on_book option. data-test-clock is printed on every build
+    except Netlify CONTEXT=production (lib/eleventy-ws2.js bcClockHook) and is what lets 30-actions.js
+    honor the BC_NOW / ?bcnow= test clock. A production build never carries it. -#}
 {%- from "v3/actions.njk" import action with context -%}
-<div class="v3-bar" data-bc-sticky data-state="open">
-  {{ action({ slot: "bar", service: "any", build: false }) }}
+<div class="v3-bar" data-bc-sticky data-state="nojs" role="group" aria-label="{{ pages.shared.v3.actions.group_aria | safe }}"{% if bcClockHook %} data-test-clock{% endif %}>
+  {{ action({ slot: "bar", service: "any", on_book: (slug == "book" or on_book) }) }}
 </div>

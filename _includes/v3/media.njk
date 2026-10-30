@@ -1,31 +1,73 @@
-{# STUB: owned by WS6, replace #}
-{#- v3 image macros (engineering 3.9). Import:
+{#- v3 image macros (WS6, engineering 3.9). Import:
       {% from "v3/media.njk" import picture, preload %}
 
     picture(item, sizes, opts)
-      item   one entry of _data/images.json (WS6; same shape as _data/v2images.json today):
-             { width, height, fallback, avif, webp, jpeg, alt? }  avif, webp and jpeg are srcset strings
-      sizes  the honest sizes attribute, for example "(min-width: 1024px) 50vw, 100vw"
-      opts   { alt, decorative, high, eager, cls }
-             alt         required (or item.alt); the build stops with a named error without it
+      item   one entry of _data/images.json, for example images["storefront-hero"]:
+             { width, height, fallback, avif, webp, jpeg, alt, pos, phone? } where avif, webp and
+             jpeg are srcset strings. Two other shapes are accepted:
+               art directed   item.phone = { avif, webp, jpeg, sizes, aspect, width, height }, a
+                              different crop served below 1024px (change with opts.phoneMedia)
+               CMS upload     { cdn: true, src: "/images/uploads/x.jpg", width, height, alt }:
+                              AVIF and WebP come through Netlify Image CDN with explicit fm=
+                              (the CDN prefers WebP when fm is left out), the JPEG original is the
+                              <img>. Never mix both pipelines on one image.
+      sizes  the honest sizes attribute for the desktop crop, for example "(min-width: 1024px) 50vw, 100vw"
+      opts   { alt, decorative, high, eager, cls, phoneMedia, phoneSizes }
+             alt         required (or item.alt). The build stops with a named error without it, or
+                         when it carries an em dash, an en dash or an emoji
              decorative  true prints alt="" on purpose (no error)
              high        true = above-the-fold hero: fetchpriority="high", no loading attribute
              eager       true = no lazy loading (without high)
              cls         class for the <img>
+    Output: <picture> with AVIF then WebP <source> elements (phone sources first when art directed),
+    then an <img> with src (JPEG 960), srcset, sizes, width, height, alt, decoding="async" and
+    loading="lazy" unless high or eager. An art directed img carries data-art and the two aspect ratios as
+    custom properties (80-media.css turns them into aspect-ratio per breakpoint, so the box is
+    reserved at the right shape and nothing shifts). object-position comes from the data focal point, so a
+    CSS object-fit: cover box keeps the subject in view.
+
     preload(item, sizes)
       the one hero preload per page: <link rel="preload" as="image" type="image/avif" imagesrcset
-      imagesizes fetchpriority="high">, where imagesizes must equal the <img> sizes.
-
-    Contract for the real macro (WS6): every photo is a <picture> with AVIF then WebP sources then
-    an <img> with src (JPEG 960), srcset, sizes, width, height, alt and decoding="async"; below
-    the fold loading="lazy".
-    THIS STUB prints a plain <img> with the same attributes, no <picture>. -#}
+      imagesizes fetchpriority="high"> where imagesizes equals the <img> sizes. For an art directed
+      item it prints two links, one per media query (the browser fetches only the one that matches),
+      so the phone crop is preloaded on phones and the desktop crop on desktops. -#}
 {% macro picture(item, sizes, opts) -%}
 {%- set o = opts or {} -%}
-{%- if o.decorative %}{% set altText = "" %}{% else %}{% set altText = (o.alt or item.alt) | requireValue("v3/media.njk picture(): alt text is required for " + (item.fallback or "an image")) %}{% endif -%}
-<img{% if o.cls %} class="{{ o.cls }}"{% endif %} src="{{ item.fallback }}"{% if item.jpeg %} srcset="{{ item.jpeg }}"{% endif %} sizes="{{ sizes or '100vw' }}" width="{{ item.width }}" height="{{ item.height }}" alt="{{ altText | safe }}"{% if o.high %} fetchpriority="high"{% elif not o.eager %} loading="lazy"{% endif %} decoding="async">
+{%- set altText = item | picAlt(o) -%}
+{%- set sz = sizes or "100vw" -%}
+{%- set ph = item.phone -%}
+{%- set pm = o.phoneMedia or "(max-width: 1023px)" -%}
+{%- set pz = o.phoneSizes or (ph.sizes if ph else "100vw") -%}
+{%- if item.cdn -%}
+{%- set avifSet = item.src | cdnSet("avif", item.width) -%}
+{%- set webpSet = item.src | cdnSet("webp", item.width) -%}
+{%- else -%}
+{%- set avifSet = item.avif -%}
+{%- set webpSet = item.webp -%}
+{%- endif -%}
+<picture>
+{%- if ph %}
+<source media="{{ pm }}" type="image/avif" srcset="{{ ph.avif }}" sizes="{{ pz }}">
+<source media="{{ pm }}" type="image/webp" srcset="{{ ph.webp }}" sizes="{{ pz }}">
+<source media="{{ pm }}" srcset="{{ ph.jpeg }}" sizes="{{ pz }}">
+{%- endif %}
+{%- if avifSet %}
+<source type="image/avif" srcset="{{ avifSet }}" sizes="{{ sz }}">
+{%- endif %}
+{%- if webpSet %}
+<source type="image/webp" srcset="{{ webpSet }}" sizes="{{ sz }}">
+{%- endif %}
+<img{% if o.cls %} class="{{ o.cls }}"{% endif %} src="{{ item.src if item.cdn else item.fallback }}"{% if item.jpeg and not item.cdn %} srcset="{{ item.jpeg }}" sizes="{{ sz }}"{% endif %} width="{{ item.width }}" height="{{ item.height }}" alt="{{ altText }}"{% if ph %} data-art style="{% if item.pos %}object-position:{{ item.pos }};{% endif %}--ar-d:{{ item.width }}/{{ item.height }};--ar-m:{{ ph.width }}/{{ ph.height }}"{% elif item.pos %} style="object-position:{{ item.pos }}"{% endif %}{% if o.high %} fetchpriority="high"{% elif not o.eager %} loading="lazy"{% endif %} decoding="async">
+</picture>
 {%- endmacro %}
 
 {% macro preload(item, sizes) -%}
-{%- if item and item.avif %}<link rel="preload" as="image" type="image/avif" imagesrcset="{{ item.avif }}" imagesizes="{{ sizes or '100vw' }}" fetchpriority="high">{% endif -%}
+{%- if item and item.avif -%}
+{%- if item.phone -%}
+<link rel="preload" as="image" type="image/avif" media="(max-width: 1023px)" imagesrcset="{{ item.phone.avif }}" imagesizes="{{ item.phone.sizes or '100vw' }}" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" media="(min-width: 1024px)" imagesrcset="{{ item.avif }}" imagesizes="{{ sizes or '100vw' }}" fetchpriority="high">
+{%- else -%}
+<link rel="preload" as="image" type="image/avif" imagesrcset="{{ item.avif }}" imagesizes="{{ sizes or '100vw' }}" fetchpriority="high">
+{%- endif -%}
+{%- endif -%}
 {%- endmacro %}

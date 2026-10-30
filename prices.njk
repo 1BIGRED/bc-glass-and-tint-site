@@ -1,169 +1,187 @@
 ---
-# Prices, the full price guide (Showroom Black). Layout: layouts/v2.njk. Wording:
+# Prices, v3 (WS4; blueprint 4.3 and 6.1, art direction 3.4). Layout: layouts/v3.njk. Wording:
 # _data/pages/prices.json. Every price: _data/pricing.json through lib/pricing.js in
-# prices.11tydata.js (pr_cards, pr_auto, pr_rows). A price that does not pass the gate prints
-# "Call for a quote"; a preview draft carries the "Draft price" tag. Full windshield film is on
-# legal hold and has no row anywhere. FAQ: pr_faq, the same list the FAQPage JSON-LD is built from.
-layout: layouts/v2.njk
+# prices.11tydata.js (pr_car, pr_home, pr_ws). A price that does not pass the gate prints the
+# blueprint 6.1 words for its context; a preview draft carries the "Draft price" tag. Full windshield
+# film is on legal hold and has no row anywhere. Below 560px the car table is one class at a time
+# (CSS radio switch, works without JavaScript); every table is real <table> markup.
+layout: layouts/v3.njk
 permalink: prices.html
 slug: prices
 page_key: prices
 og_image: images/hero.jpg
-extra_css: ["/assets/v2/prices.css"]
+bundles: ["prices"]
 ---
+{%- from "v3/actions.njk" import action with context -%}
+{%- from "v3/price.njk" import priceRow, priceValue with context -%}
 {%- set pg = pages.prices -%}
-{%- set tel = site.phone.tel -%}
-{%- macro cell(q) -%}
-{%- if q.show %}<span class="v2-num">{{ q.display | safe }}</span>{% if q.draft %} <span class="v2-draft">{{ pg.draft_tag | safe }}</span>{% endif %}{% else %}<span class="pr-cfq">{{ pg.price_fallback | safe }}</span>{% endif -%}
+{%- set sc = pg.sections.car -%}
+{%- set sh = pg.sections.home -%}
+{%- set sw = pg.sections.windshield -%}
+{%- macro cell(q, fallback) -%}
+{%- if q.show %}<span class="v3-price">{% if q.from %}<span class="v3-price__from t-label fg-2">From</span> {% endif %}<span class="t-price tnum">{{ q.value | safe }}</span>{% if q.draft %} <span class="v3-price__draft t-label">{{ pg.draft_tag | safe }}</span>{% endif %}</span>{% else %}<span class="v3-price__fallback fg-2">{{ fallback | safe }}</span>{% endif -%}
 {%- endmacro -%}
 
-<section class="pr-hero" aria-labelledby="pr-h">
-  <div class="v2-wrap pr-hero__in">
-    <nav class="pr-crumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{{ pg.hero.crumb | safe }}</span></nav>
-    <p class="v2-eyebrow">{{ pg.hero.eyebrow | safe }}</p>
-    <h1 class="pr-h1" id="pr-h">{{ pg.hero.heading | safe }}</h1>
-    <p class="v2-lead">{% if pr_any %}{{ pg.hero.intro | safe }}{% else %}{{ pg.hero.intro_without_prices | safe }}{% endif %}</p>
-  </div>
-  <div class="v2-wrap">
-    <ul class="pr-proof">
-{%- for p in pg.proof %}
-      <li><span class="pr-proof__t">{{ p.title | safe }}</span><span class="pr-proof__s">{{ p.text | safe }}</span></li>
-{%- endfor %}
-    </ul>
+<section class="pr-top" aria-labelledby="pr-h">
+  <div class="wrap stack-16">
+    <nav class="pr-crumb t-label fg-2" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">{{ pg.hero.crumb | safe }}</span></nav>
+    <p class="t-eyebrow">{{ pg.hero.eyebrow | safe }}</p>
+    <h1 id="pr-h">{{ pg.hero.heading | safe }}</h1>
+    <p class="t-lead measure">{% if pr_any %}{{ pg.hero.intro | safe }}{% else %}{{ pg.hero.intro_without_prices | safe }}{% endif %}</p>
   </div>
 </section>
 
-<section class="v2-section pr-cardsec" aria-labelledby="pr-cards-h">
-  <div class="v2-wrap v2-stack v2-stack--lg">
-    <div class="v2-intro">
-      <p class="v2-eyebrow">{{ pg.cards.eyebrow | safe }}</p>
-      <h2 class="v2-h2" id="pr-cards-h">{{ pg.cards.heading | safe }}</h2>
+<section class="pr-sec" id="{{ sc.id }}" aria-labelledby="pr-car-h" data-section="prices-car">
+  <div class="wrap pr-sec__in">
+    <div class="pr-sec__head stack-16">
+      <h2 id="pr-car-h">{{ sc.heading | safe }}</h2>
+      <p class="t-body fg-2 measure">{{ sc.lede | safe }}</p>
     </div>
-    <div class="v2-pcards">
-{%- for c in pr_cards %}
-      <article class="v2-pc">
-        <p class="v2-pc__eb">{{ c.eyebrow | safe }}</p>
-        <h3 class="v2-h3">{{ c.title | safe }}</h3>
-        <p class="v2-pc__price">
-{%- if c.p.show and c.parts.num %}
-          {% if c.parts.from %}<span class="v2-pc__from">{{ pg.cards.from_word | safe }}</span>{% endif %}<span class="v2-numeral v2-pc__num"><span class="v2-pc__cur">{{ c.parts.cur }}</span>{{ c.parts.num }}</span><a class="v2-pc__ast" href="#price-note" aria-label="{{ pg.cards.note_link_label | safe }}">*</a>
-{%- elif c.p.show %}
-          <span class="v2-pc__unknown">{{ c.p.display | safe }}</span>
-{%- else %}
-          <span class="v2-pc__unknown">{{ pg.price_fallback | safe }}</span>
-{%- endif %}
-{%- if c.p.draft %}<span class="v2-draft">{{ pg.draft_tag | safe }}</span>{% endif %}
-{%- if c.note %}<span class="v2-pc__note">{{ c.note | safe }}</span>{% endif %}
-        </p>
-        <ul class="v2-pc__inc">
-{%- for line in c.includes %}
-          <li>{{ line | safe }}</li>
-{%- endfor %}
-        </ul>
-        <p class="v2-pc__acts">{% if c.build_href %}<a href="{{ c.build_href | safe }}">{{ pg.cards.build_link | safe }}</a>{% endif %}<a href="tel:{{ tel | safe }}">{{ pg.cards.call_link | safe }}</a></p>
-      </article>
-{%- endfor %}
-    </div>
-    <ul class="v2-pstrip">
-{%- for s in pg.promise.items %}
-      <li>{{ s | safe }}</li>
-{%- endfor %}
-      <li><a href="tel:{{ tel | safe }}">{{ site.phone.display_call | safe }}</a></li>
-      <li><span class="v2-status" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span></li>
-    </ul>
-  </div>
-</section>
-
-{%- set sa = pg.sections.auto_tint %}
-<section class="v2-section v2-band" id="auto-tint" aria-labelledby="pr-auto-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="pr-headrow">
-      <div class="v2-intro">
-        <h2 class="v2-h2" id="pr-auto-h">{{ sa.heading | safe }}</h2>
-        <p class="v2-body">{{ sa.sub | safe }}</p>
-      </div>
-      <a class="v2-textlink" href="/build-your-tint">{{ pg.promise.builder_link | safe }}</a>
-    </div>
-    <table class="pr-table pr-table--grid">
-      <caption class="v2-sr">{{ sa.heading | safe }}</caption>
-      <thead><tr><th scope="col">{{ sa.column_coverage | safe }}</th>{% for c in pr_auto.classes %}<th scope="col">{{ c.label | safe }}</th>{% endfor %}</tr></thead>
-      <tbody>
-{%- for r in pr_auto.rows %}
-        <tr><th scope="row">{{ r.label | safe }}</th>{% for q in r.cells %}<td data-label="{{ pr_auto.classes[loop.index0].label | safe }}">{{ cell(q) }}</td>{% endfor %}</tr>
-{%- endfor %}
-      </tbody>
-      <tbody class="pr-addon">
-        <tr class="pr-subhead"><th scope="rowgroup" colspan="{{ pr_auto.classes.length + 1 }}">{{ sa.line_rows_heading | safe }}</th></tr>
-{%- for r in pr_auto.lines %}
-        <tr><th scope="row">{{ r.label | safe }}</th>{% for q in r.cells %}<td data-label="{{ pr_auto.classes[loop.index0].label | safe }}">{{ cell(q) }}</td>{% endfor %}</tr>
-{%- endfor %}
-      </tbody>
-    </table>
-    <p class="v2-small">{{ sa.footnote | safe }}</p>
-  </div>
-</section>
-
-<section class="v2-section" aria-label="{{ pg.sections.chip_repair.heading | safe }}, {{ pg.sections.home_office.heading | safe }}, {{ pg.sections.vehicle_care.heading | safe }}, {{ pg.sections.blinds.heading | safe }}">
-  <div class="v2-wrap pr-grid">
-{%- for key in ["chip_repair", "home_office", "vehicle_care", "blinds"] %}
-{%- set sec = pg.sections[key] %}
-    <div class="pr-block" id="{{ key | replace('_', '-') }}">
-      <h2 class="v2-h3">{{ sec.heading | safe }}</h2>
-      <p class="v2-body">{{ sec.sub | safe }}</p>
-      <table class="pr-table">
-        <caption class="v2-sr">{{ sec.heading | safe }}</caption>
+    <div class="pr-sec__body stack-24">
+{%- if pr_car.any_shown %}
+      <table class="pr-table pr-table--grid" data-price-block>
+        <caption class="vh">{{ sc.heading | safe }}</caption>
+        <thead><tr><th scope="col">{{ sc.column_label | safe }}</th>{% for c in pr_car.classes %}<th scope="col">{{ c.label | safe }}</th>{% endfor %}</tr></thead>
         <tbody>
-{%- for r in pr_rows[key] %}
-          <tr><th scope="row">{{ r.label | safe }}</th><td>{{ cell(r.price) }}</td></tr>
+{%- for r in pr_car.rows %}
+          <tr><th scope="row">{{ r.label | safe }}</th>{% for q in r.cells %}<td>{{ cell(q, sc.fallback) }}</td>{% endfor %}</tr>
 {%- endfor %}
         </tbody>
       </table>
-    </div>
+      <div class="pr-phone" role="radiogroup" aria-label="{{ sc.switch_label | safe }}">
+{%- for c in pr_car.classes %}
+        <input class="vh pr-phone__in" type="radio" name="pr-class" id="pr-c-{{ c.id }}" value="{{ c.id }}"{% if loop.first %} checked{% endif %}>
 {%- endfor %}
+        <div class="pr-seg" aria-hidden="true">
+{%- for c in pr_car.classes %}
+          <label class="pr-seg__opt" for="pr-c-{{ c.id }}">{{ c.label | safe }}</label>
+{%- endfor %}
+        </div>
+        <div class="pr-ctables">
+{%- for c in pr_car.classes %}
+{%- set ci = loop.index0 %}
+          <table class="pr-table pr-ct" data-c="{{ c.id }}">
+            <caption class="vh">{{ sc.heading | safe }}, {{ c.label | safe }}</caption>
+            <thead><tr><th scope="col">{{ sc.column_label | safe }}</th><th scope="col">{{ c.label | safe }}</th></tr></thead>
+            <tbody>
+{%- for r in pr_car.rows %}
+              <tr><th scope="row">{{ r.label | safe }}</th><td>{{ cell(r.cells[ci], sc.fallback) }}</td></tr>
+{%- endfor %}
+            </tbody>
+          </table>
+{%- endfor %}
+        </div>
+      </div>
+{%- if pr_car.fvp.length %}
+      <div class="pr-arith t-body">
+        <p>{{ sc.arithmetic_intro | safe }}</p>
+{%- for x in pr_car.fvp %}
+        <p class="tnum">{{ sc.arithmetic_class | replace("{class}", x.label) | replace("{front}", x.f.front.money) | replace("{rear}", x.f.rear.money) | replace("{full}", x.f.full.money) | safe }}{% if x.f.draft %} <span class="v3-price__draft t-label">{{ pg.draft_tag | safe }}</span>{% endif %}</p>
+{%- endfor %}
+      </div>
+{%- endif %}
+{%- else %}
+      <dl class="v3-prices">
+{%- for r in pr_car.rows %}
+        <div class="v3-prow" data-price-block><dt class="v3-prow__label t-body">{{ r.label | safe }}</dt><dd class="v3-prow__value"><span class="v3-price__fallback fg-2">{{ sc.fallback | safe }}</span></dd></div>
+{%- endfor %}
+      </dl>
+      <p class="t-body fg-2 measure">{{ sc.no_prices_note | safe }}</p>
+{%- endif %}
+      <p class="t-label fg-2 measure">{{ sc.footnote | safe }}</p>
+      <div class="pr-moves">
+        <h3 class="t-label pr-moves__h">{{ sc.moves_heading | safe }}</h3>
+        <ul class="list-plain pr-moves__list t-body">
+{%- for m in sc.moves %}
+          <li>{{ m | safe }}</li>
+{%- endfor %}
+        </ul>
+      </div>
+      <div class="pr-acts">
+        <a class="pr-btn" href="/build-your-tint">{% if pr_has_auto %}{{ sc.builder_link | safe }}{% else %}{{ sc.builder_link_without_prices | safe }}{% endif %}</a>
+        {{ action({ slot: "price", service: "car" }) }}
+      </div>
+{%- if pr_reviewed %}
+      <p class="t-label fg-2">{{ pr_reviewed }}</p>
+{%- endif %}
+    </div>
   </div>
 </section>
 
-<section class="v2-section v2-band" aria-labelledby="pr-moves-h">
-  <div class="v2-wrap pr-moves">
-    <h2 class="v2-h2" id="pr-moves-h">{{ pg.moves_the_price.heading | safe }}</h2>
-    <ol class="pr-moves__list">
-{%- for it in pg.moves_the_price.items %}
-      <li><span class="v2-numeral pr-moves__n" aria-hidden="true">{{ loop.index }}</span><span>{{ it | safe }}</span></li>
+<section class="pr-sec pr-sec--home mood-warm" id="{{ sh.id }}" aria-labelledby="pr-home-h" data-section="prices-home">
+  <div class="wrap pr-sec__in">
+    <div class="pr-sec__head stack-16">
+      <h2 id="pr-home-h">{{ sh.heading | safe }}</h2>
+      <p class="t-body fg-2 measure">{{ sh.lede | safe }}</p>
+    </div>
+    <div class="pr-sec__body stack-24">
+      <dl class="v3-prices">
+{%- for r in pr_home %}
+        <div class="v3-prow" data-price-block><dt class="v3-prow__label t-body">{{ r.label | safe }}</dt><dd class="v3-prow__value">{{ cell(r.cell, r.fallback) }}</dd></div>
 {%- endfor %}
-    </ol>
+      </dl>
+      <div class="pr-moves">
+        <h3 class="t-label pr-moves__h">{{ sh.moves_heading | safe }}</h3>
+        <ul class="list-plain pr-moves__list t-body">
+{%- for m in sh.moves %}
+          <li>{{ m | safe }}</li>
+{%- endfor %}
+        </ul>
+      </div>
+      <div class="pr-acts">{{ action({ slot: "price", service: "home" }) }}</div>
+{%- if pr_reviewed %}
+      <p class="t-label fg-2">{{ pr_reviewed }}</p>
+{%- endif %}
+    </div>
   </div>
 </section>
 
-<section class="v2-section" aria-labelledby="pr-faq-h">
-  <div class="v2-wrap v2-faq">
-    <div class="v2-intro">
-      <h2 class="v2-h2" id="pr-faq-h">{{ pg.faq.heading | safe }}</h2>
+<section class="pr-sec" id="{{ sw.id }}" aria-labelledby="pr-ws-h" data-section="prices-windshield">
+  <div class="wrap pr-sec__in">
+    <div class="pr-sec__head stack-16">
+      <h2 id="pr-ws-h">{{ sw.heading | safe }}</h2>
+      <p class="t-body fg-2 measure">{{ sw.lede | safe }}</p>
     </div>
-    <div class="v2-faq__list">
+    <div class="pr-sec__body stack-24">
+      <dl class="v3-prices">
+{%- for r in pr_ws %}
+        <div class="v3-prow" data-price-block><dt class="v3-prow__label t-body">{{ r.label | safe }}</dt><dd class="v3-prow__value">{{ cell(r.cell, r.fallback) }}</dd></div>
+{%- endfor %}
+{%- for r in sw.text_rows %}
+        <div class="v3-prow"><dt class="v3-prow__label t-body">{{ r.label | safe }}</dt><dd class="v3-prow__value"><span class="v3-price__fallback fg-2">{{ r.text | safe }}</span></dd></div>
+{%- endfor %}
+      </dl>
+      <div class="pr-moves">
+        <h3 class="t-label pr-moves__h">{{ sw.moves_heading | safe }}</h3>
+        <ul class="list-plain pr-moves__list t-body">
+{%- for m in sw.moves %}
+          <li>{{ m | safe }}</li>
+{%- endfor %}
+        </ul>
+      </div>
+      <div class="pr-acts">{{ action({ slot: "price", service: "chip" }) }}</div>
+{%- if pr_reviewed %}
+      <p class="t-label fg-2">{{ pr_reviewed }}</p>
+{%- endif %}
+    </div>
+  </div>
+</section>
+
+<section class="pr-sec pr-sec--faq bg-band" aria-labelledby="pr-faq-h">
+  <div class="wrap pr-sec__in">
+    <div class="pr-sec__head">
+      <h2 id="pr-faq-h">{{ pg.faq.heading | safe }}</h2>
+    </div>
+    <div class="pr-sec__body">
+      <div class="pr-faq">
 {%- for it in pr_faq %}
-      <details class="v2-faq__item">
-        <summary><span class="v2-faq__q">{{ it.question | safe }}</span><span class="v2-faq__plus" aria-hidden="true"></span></summary>
-        <p class="v2-faq__a">{{ it.answer | safe }}</p>
-      </details>
+        <details class="pr-faq__item">
+          <summary><span class="pr-faq__q">{{ it.question | safe }}</span><span class="pr-faq__plus" aria-hidden="true"></span></summary>
+          <p class="pr-faq__a t-body measure">{{ it.answer | safe }}</p>
+        </details>
 {%- endfor %}
-    </div>
-  </div>
-</section>
-
-<section class="v2-section v2-band pr-call" aria-labelledby="pr-call-h">
-  <div class="v2-wrap pr-call__in" data-gold-zone>
-    <h2 class="v2-h2" id="pr-call-h">{{ pg.call_block.heading | safe }}</h2>
-    <a class="pr-call__num v2-numeral" href="tel:{{ tel | safe }}">{{ site.phone.display_call | safe }}</a>
-    <div class="pr-call__acts">
-      <a class="v2-btn v2-btn--gold v2-gold-desk" href="tel:{{ tel | safe }}">{{ pages.shared.v2.call | safe }} <span class="v2-num">{{ site.phone.display_call | safe }}</span></a>
-      <a class="v2-textlink" href="/build-your-tint">{{ pg.promise.builder_link | safe }}</a>
-    </div>
-    <span class="v2-status" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span>
-    <div class="pr-notes" id="price-note">
-{%- for f in pg.footnotes %}
-      <p class="v2-small">{% if loop.first %}* {% endif %}{{ f | safe }}</p>
-{%- endfor %}
-      <p class="v2-small">{{ pg.legal_footer | safe }}</p>
+      </div>
+      <p class="t-label fg-2 pr-legal">{{ pg.legal_footer | safe }}</p>
     </div>
   </div>
 </section>

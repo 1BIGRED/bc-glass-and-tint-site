@@ -1,140 +1,74 @@
 {
+  "_note": "Home and office window film page, overhaul v3 (WS5), Warm Gallery. Booking unit: the free in-home measure (decisions-and-rules Voice: free estimates including a free consultation with measurements). No warranty-safety reassurance (area-profile banned_claims). FAQ answers carried from the live Q&A (_data/pages/qa.json) with the claims table applied. Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "Home Window Tinting, Boulder City &amp; Henderson NV | BC Glass",
-    "description": "Residential window film for Boulder City and Henderson homes. Mobile installation, computer-cut ceramic film, lifetime warranty. Call 702-550-8840.",
-    "image_alt": "Before and after ceramic window film on a patio window, Boulder City NV"
+    "title": "Home Window Film in Boulder City, NV | BC Glass &amp; Tint",
+    "description": "Home and office window film for Boulder City, Henderson and Las Vegas. Helps cut glare and heat, helps protect floors from UV fading. Free in-home measure.",
+    "image_alt": "Sliding home window with film installed, looking out to a backyard"
   },
-  "hero": {
-    "crumb": "Home / Residential Tint",
-    "heading": "Home &amp; Residential Window Tinting in Boulder City, NV",
-    "intro": "The west-facing room that turns into an oven by mid-afternoon. The couch cushion that faded a shade lighter than the rest. The habit of keeping the blinds shut on a bright day just to keep the room usable. Residential window film solves exactly this, protecting floors, art and furniture from the UV that fades them, installed on site at your Boulder City, Henderson or Las Vegas home. Just moved into a <a href=\"/new-construction\">new Boulder City community</a>? We tint new homes before move-in day."
-  },
-  "band": [
-    "XPEL &amp; ASWF Film",
-    "Computer-Cut Film",
-    "Lifetime Film Warranty",
-    "Installed On Site",
-    "Free Quotes"
-  ],
-  "content": {
-    "image_alt": "Home &amp; Residential Window Tinting in Boulder City, NV",
-    "heading": "Home / Residential Tint",
-    "intro": "Stop your furniture and floors from fading, cut glare, and take the edge off west-facing afternoon sun, all without losing your view or natural light.",
-    "bullets": [
-      "Takes the edge off west-facing afternoon sun",
-      "Protects furniture, flooring and art",
-      "Reduces glare on TVs and screens",
-      "Adds privacy while keeping the light",
-      "Mobile service available"
-    ]
-  },
-  "v2": {
-    "eyebrow": "Home and residential film",
-    "work": {
+  "v3": {
+    "crumb": "Home window film",
+    "service": "home",
+    "form_service": "home",
+    "source": "Home film",
+    "eyebrow": "Home and office film. We come to you.",
+    "h1": "Home window film.",
+    "lede": "Window film keeps your view and helps cut glare and heat on sun-facing glass. It helps protect floors and furniture from UV fading.",
+    "hero_photo": "home-lane",
+    "proof": "Lifetime manufacturer warranty on the film.",
+    "prices": {
+      "eyebrow": "Price",
+      "h2": "Free in-home measure and quote.",
+      "lede": "Every house is different, so we measure first. The measure and the quote are free, and nothing is booked until we confirm a time with you.",
+      "rows": [
+        { "label": "Home windows", "ref": "services.home_film_per_window" },
+        { "label": "Sliding glass doors", "ref": "services.sliding_door" }
+      ],
+      "fallback": "home",
+      "links": [ { "label": "All prices", "href": "/prices" } ],
+      "photo": "home-privacy",
+      "photo_ratio": "32"
+    },
+    "looks": {
       "eyebrow": "Recent work",
-      "heading": "Recent BC jobs",
-      "note": "Photos and screens differ from real life."
+      "h2": "What it looks like.",
+      "service": "home-film",
+      "count": 4,
+      "note": "Real BC jobs. Photos and screens differ from real life.",
+      "link": { "label": "See home film jobs", "href": "/gallery/home-film" }
+    },
+    "gets": {
+      "eyebrow": "What you get",
+      "h2": "Light stays. Glare goes.",
+      "items": [
+        { "title": "Light, nearly clear films.", "text": "Films are available that keep your view and your natural light, so a room does not go dark." },
+        { "title": "Lifetime manufacturer warranty on the film.", "text": "The film is backed by its manufacturer. We measure and install at your home or office." }
+      ]
+    },
+    "review": "g-gregory-hill",
+    "while": {
+      "eyebrow": "While we are there",
+      "h2": "Blinds and shades.",
+      "items": [
+        { "title": "Blinds and shades", "text": "Light, privacy and the feel of the room. Measured at your home, motorized if you want it.", "link": "Blinds and shades", "href": "/blinds" },
+        { "title": "Window film and your HOA", "text": "Visible film usually needs your association's approval first. Here is what Nevada law says.", "link": "Window film and your HOA", "href": "/hoa-window-film" }
+      ]
+    },
+    "faq": {
+      "items": [
+        { "question": "Will film make my house or office too dark?", "answer": "No. Light, nearly clear films are available that keep your view and natural light while cutting glare and UV." },
+        { "question": "Does sunlight through my windows really fade furniture and flooring?", "answer": "Yes. The same rays that fade furnishings, flooring and fabric keep working on a mild day, not only a hot one. Cutting that exposure is one of the main reasons people put film on a west-facing room. Source: The Skin Cancer Foundation." },
+        { "question": "Can it help lower cooling bills?", "answer": "It can help. Film turns away part of the sun's heat at the glass, so a sunny room stays more comfortable and your air conditioning does not have to fight the sun as hard. We do not promise a number on your bill, because what you see depends on your home and your glass." },
+        { "question": "How does the process work?", "answer": "Call, text or request a time. We come to measure and give you a free quote, walk you through the film options, then book your install date. On that day the work is usually done in a single visit." },
+        { "question": "Do you come to my house?", "answer": "Yes. For home and office film and blinds we come to you to measure and install. Vehicles come to the shop." }
+      ]
     }
-  },
-  "price": {
-    "eyebrow": "Price",
-    "heading": "Know the price before you call.",
-    "text": "Home film depends on the windows and doors you want done. Call or send the form and we will quote your house.",
-    "note": "The windows and doors you choose set the final price.",
-    "cards": [
-      { "kind": "service", "key": "home_film_per_window", "title": "Home window film" },
-      { "kind": "service", "key": "sliding_door", "title": "Sliding glass door film" }
-    ],
-    "links": [
-      { "label": "All prices", "href": "/prices" }
-    ]
-  },
-  "reviews": {
-    "heading": "What <span>Home Tint</span> Customers Say",
-    "sub": "Real reviews from Boulder City homeowners.",
-    "label": "Google review",
-    "items": [
-      {
-        "platform": "google",
-        "quote": "They have tinted and installed window coverings for my home, and every one of my cars has been tinted by them. I drive 40 minutes each way because I trust this amazing family-owned shop.",
-        "name": "Maureen Springer"
-      },
-      {
-        "platform": "google",
-        "quote": "Outstanding job. Tinted my home windows. Very professional and very informative. Would recommend to everyone.",
-        "name": "Gregory Hill"
-      },
-      {
-        "platform": "google",
-        "quote": "They tinted my wife's Equinox and it looks amazing. We have them scheduled to come tint the windows in our house to help with energy costs as well.",
-        "name": "Sean Rush"
-      }
-    ]
-  },
-  "also": {
-    "links": [
-      {
-        "href": "/auto-tint",
-        "icon": "i-car",
-        "label": "Auto / Vehicle Tint"
-      },
-      {
-        "href": "/commercial-film",
-        "icon": "i-building",
-        "label": "Commercial Window Film"
-      },
-      {
-        "href": "/windshield",
-        "icon": "i-windshield",
-        "label": "Windshield Replacement"
-      },
-      {
-        "href": "/chip-repair",
-        "icon": "i-chip",
-        "label": "Windshield Chip Repair"
-      },
-      {
-        "href": "/clear-bra",
-        "icon": "i-shield",
-        "label": "Clear Bra / Paint Protection"
-      },
-      {
-        "href": "/ceramic-coating",
-        "icon": "i-spark",
-        "label": "Ceramic Coating"
-      },
-      {
-        "href": "/blinds",
-        "icon": "i-blinds",
-        "label": "Blinds &amp; Window Treatments"
-      },
-      {
-        "href": "/henderson",
-        "icon": "i-pin",
-        "label": "Home tint for Henderson"
-      },
-      {
-        "href": "/las-vegas",
-        "icon": "i-pin",
-        "label": "Home tint for Las Vegas"
-      }
-    ]
-  },
-  "quote": {
-    "source": "Home / Residential Tint",
-    "preselect": "Home / Residential Tint",
-    "details_placeholder": "Rooms or windows (optional) - no medical, insurance or license numbers"
   },
   "schema": {
     "date_modified": "2026-10-29",
     "service": {
-      "service_type": "Residential Window Tinting",
-      "name": "Residential Window Tinting in Boulder City, NV",
-      "area_served": [
-        "Boulder City",
-        "Henderson",
-        "Las Vegas"
-      ]
+      "service_type": "Residential Window Film",
+      "name": "Home Window Film in Boulder City, NV",
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
     }
   }
 }

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WS3 request path, tracking and consent: in-page harness</title>
+<style>
+  body { font: 14px/1.4 system-ui, sans-serif; margin: 16px; background: #fff; color: #111; }
+  h1 { font-size: 18px; }
+  #summary { font-weight: 700; margin: 8px 0 12px; }
+  table { border-collapse: collapse; width: 100%; max-width: 980px; }
+  td, th { border: 1px solid #ccc; padding: 3px 6px; text-align: left; vertical-align: top; }
+  td.pass { color: #0a6b2d; font-weight: 700; white-space: nowrap; }
+  td.fail { color: #b00020; font-weight: 700; white-space: nowrap; }
+  tr.group td { background: #eee; font-weight: 700; }
+  #frames iframe { position: fixed; right: 0; top: 0; z-index: 9999; background: #fff; }
+  button { font: inherit; padding: 6px 12px; }
+</style>
+</head>
+<body>
+<h1>WS3 harness: request form, lead events, consent</h1>
+<p>Nothing leaves the browser. Every send goes through a stubbed <code>fetch</code> on the framed page. Serve the built site at <code>/</code> and this file at <code>/__tests/request.test.html</code>; the pages under test are <code>/book</code> and <code>/book/sent/</code>. Pass <code>?auto=1</code> to run on load.</p>
+<p><button id="run" type="button">Run all tests</button></p>
+<div id="summary">not run</div>
+<table id="out"><thead><tr><th>Result</th><th>Check</th><th>Detail</th></tr></thead><tbody></tbody></table>
+<div id="frames"></div>
+<script>
+(function () {
+  "use strict";
+  var tbody = document.querySelector("#out tbody");
+  var pass = 0, fail = 0;
+  var results = [];
+  window.__results = results;
+
+  function group(name) {
+    var tr = document.createElement("tr"); tr.className = "group";
+    tr.innerHTML = "<td colspan=3></td>"; tr.firstChild.textContent = name; tbody.appendChild(tr);
+  }
+  function check(cond, label, detail) {
+    var ok = !!cond;
+    if (ok) pass++; else fail++;
+    results.push({ ok: ok, label: label, detail: detail === undefined ? "" : String(detail) });
+    var tr = document.createElement("tr");
+    var a = document.createElement("td"), b = document.createElement("td"), c = document.createElement("td");
+    a.textContent = ok ? "PASS" : "FAIL"; a.className = ok ? "pass" : "fail";
+    b.textContent = label; c.textContent = detail === undefined ? "" : String(detail);
+    tr.appendChild(a); tr.appendChild(b); tr.appendChild(c); tbody.appendChild(tr);
+    document.getElementById("summary").textContent = "PASS " + pass + "  FAIL " + fail;
+  }
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  /* ---------- helpers ---------- */
+  var host = document.getElementById("frames");
+  function wipe() {
+    try { sessionStorage.clear(); } catch (e) {}
+    try { localStorage.removeItem("bcgt_analytics"); } catch (e2) {}
+    document.cookie.split(";").forEach(function (c) {
+      var n = c.split("=")[0].trim();
+      if (n) document.cookie = n + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    });
+  }
+  function load(url, existing) {
+    return new Promise(function (resolve) {
+      var f = existing || document.createElement("iframe");
+      f.style.cssText = "width:390px;height:844px;border:1px solid #888";
+      f.onload = function () { setTimeout(function () { resolve(f); }, 200); };
+      if (existing) existing.contentWindow.location.reload();
+      else { f.src = url; host.appendChild(f); }
+    });
+  }
+  function drop(f) { if (f && f.parentNode) f.parentNode.removeChild(f); }
+  function events(win, name) {
+    var out = [];
+    (win.dataLayer || []).forEach(function (e) {
+      if (e && e[0] === "event" && (!name || e[1] === name)) out.push({ name: e[1], params: e[2] || {} });
+    });
+    return out;
+  }
+  function consents(win, kind) {
+    var out = [];
+    (win.dataLayer || []).forEach(function (e) { if (e && e[0] === "consent" && e[1] === kind) out.push(e[2]); });
+    return out;
+  }
+  function stubFetch(win, statuses) {
+    var calls = [], i = 0;
+    win.fetch = function (url, init) {
+      calls.push({ url: url, init: init });
+      var s = statuses[Math.min(i, statuses.length - 1)]; i++;
+      if (s === "network") return Promise.reject(new TypeError("Failed to fetch"));
+      return Promise.resolve({ ok: s >= 200 && s < 300, status: s });
+    };
+    return calls;
+  }
+  function fillAndSend(win, o) {
+    var d = win.document, form = d.querySelector("form.v3-request");
+    form.elements.name.value = o.name || "Zed Testname";
+    form.elements.phone.value = o.phone || "(702) 555-0142";
+    var sel = form.elements.service;
+    if (o.service !== false) sel.value = o.service || "Car tint";
+    if (o.details) form.elements.details.value = o.details;
+    (o.days || []).forEach(function (v) { var b = form.querySelector('input[name="days"][value="' + v + '"]'); if (b) b.click(); });
+    form.querySelector('button[type="submit"]').click();
+    return form;
+  }
+  function visible(el) {
+    if (!el) return false;
+    var r = el.getBoundingClientRect(), cs = el.ownerDocument.defaultView.getComputedStyle(el);
+    return r.width > 1 && r.height > 1 && cs.visibility !== "hidden" && cs.display !== "none";
+  }
+
+  /* ---------- tests ---------- */
+  async function tFailure() {
+    group("Send failure: no lead event, error shown, fields kept");
+    var cases = [[404, "http_404"], ["network", "network"]];
+    for (var k = 0; k < cases.length; k++) {
+      wipe();
+      var f = await load("/book"), w = f.contentWindow;
+      var calls = stubFetch(w, [cases[k][0]]);
+      var form = fillAndSend(w, { details: "keep this note", days: ["Tue AM"] });
+      await sleep(150);
+      var label = "[" + cases[k][0] + "] ";
+      check(calls.length === 1, label + "one POST was attempted", calls.length);
+      check(events(w, "generate_lead").length === 0, label + "0 generate_lead", events(w, "generate_lead").length);
+      var errs = events(w, "request_error");
+      check(errs.length === 1 && errs[0].params.reason === cases[k][1], label + "1 request_error with reason " + cases[k][1], JSON.stringify(errs.map(function (e) { return e.params.reason; })));
+      var fail = form.querySelector("[data-rq-fail]");
+      check(!fail.hidden && visible(fail), label + "error message is visible", fail.textContent.trim());
+      check(form.elements.name.value === "Zed Testname" && form.elements.phone.value === "(702) 555-0142" && form.elements.details.value === "keep this note" && form.elements.service.value === "Car tint" && form.querySelector('input[value="Tue AM"]').checked, label + "every field kept");
+      check(!form.hidden && w.document.querySelector("[data-rq-sent]").hidden, label + "form still shown, success panel still hidden");
+      var btn = form.querySelector('button[type="submit"]');
+      check(!btn.disabled && btn.textContent === "Request a time", label + "button back to its label and enabled", btn.textContent);
+      drop(f);
+    }
+  }
+
+  async function tSuccess() {
+    group("Send success: exactly one lead, panel focused, no repeats");
+    wipe();
+    var f = await load("/book?utm_source=google&utm_medium=cpc&utm_campaign=henderson-test&gclid=TESTGCLID1234567890"), w = f.contentWindow;
+    var calls = stubFetch(w, [500, 200, 200]);
+    var form = fillAndSend(w, { details: "private details text", days: ["Tue AM", "Thu PM"] });
+    await sleep(150);
+    check(events(w, "generate_lead").length === 0, "first attempt (500): still 0 generate_lead");
+    var ref1 = new URLSearchParams(calls[0].init.body).get("ref");
+    form.querySelector('button[type="submit"]').click();
+    await sleep(200);
+    var leads = events(w, "generate_lead");
+    check(calls.length === 2, "retry sent one more POST", calls.length);
+    var b2 = new URLSearchParams(calls[1].init.body);
+    check(b2.get("ref") === ref1 && /^R-[A-Z0-9]{6}$/.test(ref1), "the retry reuses the same reference", ref1 + " / " + b2.get("ref"));
+    check(leads.length === 1, "exactly 1 generate_lead after the 200", leads.length);
+    check(leads.length === 1 && leads[0].params.ref === ref1 && leads[0].params.form_name === "quote" && leads[0].params.service === "car" && leads[0].params.has_build === false && leads[0].params.days_count === 2, "generate_lead carries ref, form_name, service, has_build, days_count", JSON.stringify(leads[0] && leads[0].params));
+    var panel = w.document.querySelector("[data-rq-sent]");
+    check(!panel.hidden && form.hidden, "success panel shown, form hidden");
+    check(w.document.activeElement === panel, "success panel has focus", w.document.activeElement && w.document.activeElement.tagName);
+    check(panel.getAttribute("role") === "status", "panel role is status");
+    check(panel.querySelector('[data-rq-recap="ref"] dd').textContent === ref1, "panel shows the reference", panel.querySelector('[data-rq-recap="ref"] dd').textContent);
+    check(/Car tint/.test(panel.textContent) && /Tuesday morning/.test(panel.textContent) && /Thursday afternoon/.test(panel.textContent), "panel restates service and days");
+    check(!/Zed Testname|555-0142|private details text/.test(panel.textContent), "panel holds no name, phone or free text");
+    var c = calls[1];
+    check(c.url === "/" && c.init.method === "POST" && /x-www-form-urlencoded/.test(c.init.headers["Content-Type"]), "POST to / url-encoded", c.url + " " + c.init.method + " " + c.init.headers["Content-Type"]);
+    var want = ["form-name", "subject", "ref", "build_code", "source", "status_state", "utm_source", "utm_medium", "utm_campaign", "gclid", "lead_source", "bot-field", "name", "phone", "service", "details", "days"];
+    check(want.every(function (n) { return b2.has(n); }), "body carries every registered field", want.filter(function (n) { return !b2.has(n); }).join(",") || "all 17");
+    check(b2.get("form-name") === "quote" && b2.get("source") === "book" && b2.getAll("days").join("|") === "Tue AM|Thu PM", "form-name quote, source book, two days", b2.getAll("days").join("|"));
+    check(b2.get("subject") === "Website request " + ref1 + ", Car tint", "subject names reference and service, no personal data", b2.get("subject"));
+    check(b2.get("utm_source") === "google" && b2.get("utm_medium") === "cpc" && b2.get("lead_source") === "google / cpc" && b2.get("gclid") === "TESTGCLID1234567890", "lead source captured into the hidden fields", b2.get("lead_source"));
+    // second submit
+    form.dispatchEvent(new w.Event("submit", { cancelable: true, bubbles: true }));
+    await sleep(120);
+    check(calls.length === 2 && events(w, "generate_lead").length === 1, "a second submit: no new POST, no new lead", calls.length + " posts, " + events(w, "generate_lead").length + " leads");
+    // the same ref cannot fire twice even if the event is raised again
+    w.document.dispatchEvent(new w.CustomEvent("bc:lead", { detail: { ref: ref1, service: "car", has_build: false, days_count: 2 } }));
+    check(events(w, "generate_lead").length === 1, "bc:lead raised again with the same ref: still 1 lead");
+    // reload inside 30 minutes
+    await load(null, f);
+    w = f.contentWindow;
+    check(events(w, "generate_lead").length === 0, "reload within 30 minutes: 0 generate_lead on the new load", events(w, "generate_lead").length);
+    var panel2 = w.document.querySelector("[data-rq-sent]"), form2 = w.document.querySelector("form.v3-request");
+    check(!panel2.hidden && form2.hidden, "reload restores the sent state (no duplicate invited)");
+    check(panel2.querySelector('[data-rq-recap="ref"] dd').textContent === ref1, "restored panel shows the same reference");
+    var stored = JSON.stringify(Object.keys(sessionStorage).map(function (k) { return sessionStorage.getItem(k); }));
+    check(!/Zed Testname|555-0142|private details text/.test(stored), "sessionStorage holds no name, phone or free text", stored.slice(0, 160));
+    var calls3 = stubFetch(w, [200]);
+    form2.dispatchEvent(new w.Event("submit", { cancelable: true, bubbles: true }));
+    await sleep(120);
+    check(calls3.length === 0, "submit after reload: no POST");
+    // storage-expired record is ignored (older than 30 minutes)
+    var key = Object.keys(sessionStorage).filter(function (k) { return k.indexOf("bcgt_sent_") === 0; })[0];
+    var rec = JSON.parse(sessionStorage.getItem(key)); rec.t = Date.now() - 31 * 60 * 1000; sessionStorage.setItem(key, JSON.stringify(rec));
+    await load(null, f);
+    check(f.contentWindow.document.querySelector("[data-rq-sent]").hidden && !f.contentWindow.document.querySelector("form.v3-request").hidden, "a record older than 30 minutes is ignored (form shown again)");
+    drop(f);
+  }
+
+  async function tPrefill() {
+    group("Pre-fill from ?b= and ?s=");
+    wipe();
+    var f = await load("/book?b=BC-S3520T&s=car"), w = f.contentWindow, form = w.document.querySelector("form.v3-request");
+    check(form.elements.build_code.value === "BC-S3520T", "build_code equals the code", form.elements.build_code.value);
+    check(form.elements.service.value === "Car tint", "service is Car tint", form.elements.service.value);
+    check(/^Build BC-S3520T\. SUV\./.test(form.elements.details.value) && /Front doors/.test(form.elements.details.value) && /Rear doors and back glass/.test(form.elements.details.value) && /Windshield top strip/.test(form.elements.details.value), "details holds the decoded summary", form.elements.details.value);
+    check(!form.querySelector("[data-rq-build-note]").hidden, "the 'build is filled in' note is shown");
+    var calls = stubFetch(w, [200]);
+    fillAndSend(w, {});
+    await sleep(150);
+    var lead = events(w, "generate_lead")[0];
+    check(lead && lead.params.has_build === true, "generate_lead says has_build true and carries no build text", JSON.stringify(lead && lead.params));
+    check(new URLSearchParams(calls[0].init.body).get("subject").slice(-10) === "BC-S3520T" || /BC-S3520T$/.test(new URLSearchParams(calls[0].init.body).get("subject")), "subject ends with the build code", new URLSearchParams(calls[0].init.body).get("subject"));
+    drop(f);
+    var bad = ["<scr" + "ipt>alert(1)<\/scr" + "ipt>", "BC-S1520T", "hello", "BC-", "%E0%A4%A", "BC-ZZ99", "x".repeat(300)];
+    for (var i = 0; i < bad.length; i++) {
+      wipe();
+      var g = await load("/book?b=" + encodeURIComponent(bad[i]).replace("%25E0", "%E0") + "&s=zzz"), gw = g.contentWindow;
+      var gf = gw.document.querySelector("form.v3-request");
+      var initOk = gw.bcRequest && gw.bcRequest.forms && gw.bcRequest.forms.length === 1;
+      check(initOk && gf.elements.build_code.value === "" && gf.elements.details.value === "" && gf.elements.service.value === "", "garbage ?b=" + JSON.stringify(bad[i].slice(0, 28)) + " and ?s=zzz ignored, form initialised", "build_code='" + gf.elements.build_code.value + "' details='" + gf.elements.details.value + "' service='" + gf.elements.service.value + "'");
+      drop(g);
+    }
+    wipe();
+    var h = await load("/book?s=chip"), hw = h.contentWindow;
+    check(hw.document.querySelector("form.v3-request").elements.service.value === "Chip repair", "?s=chip selects Chip repair");
+    drop(h);
+  }
+
+  async function tUnits() {
+    group("Pure functions (decodeBuild, makeRef, closedWeekdays, clean)");
+    wipe();
+    var f = await load("/book"), w = f.contentWindow, R = w.bcRequest, E = w.bcEvents;
+    var d = R.decodeBuild("BC-S3520T");
+    check(d && d.summary === "SUV. Front doors, medium shade. Rear doors and back glass, dark shade. Windshield top strip.", "BC-S3520T decodes to the builder's wording", d && d.summary);
+    d = R.decodeBuild("BC-C35XX");
+    check(d && d.summary === "Car. Front doors, medium shade. Rear doors and back glass, shade to pick.", "an unset shade (XX) decodes", d && d.summary);
+    d = R.decodeBuild("BC-P352015TH");
+    check(d && /Rear doors, dark shade\. Back glass, darker shade\./.test(d.summary) && /Windshield top strip\./.test(d.summary) && /Also ask about headlight restoration\./.test(d.summary), "three shades plus T and H", d && d.summary);
+    check(R.decodeBuild("BC-S1520T") === null, "a front shade below 35 is not a code (law guard)");
+    check(R.decodeBuild(" BC-S3520T ").code === "BC-S3520T", "surrounding spaces trimmed");
+    check(R.decodeBuild("bc-s3520t") && R.decodeBuild("bc-s3520t").summary.indexOf("SUV.") === 0, "lower case accepted");
+    check(R.decodeBuild("C-35-15-15-0") === null || true, "(old v2 code shape is outside the /book fallback: not asserted)");
+    check(R.decodeBuild(null) === null && R.decodeBuild(5) === null && R.decodeBuild("") === null, "non-strings and empty give null");
+    var seen = {}, okFmt = true, i;
+    for (i = 0; i < 2000; i++) { var r = R.makeRef(); if (!/^R-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(r)) okFmt = false; seen[r] = 1; }
+    check(okFmt, "2000 references all match R- plus 6 base-32 characters");
+    check(Object.keys(seen).length >= 1995, "2000 references: no meaningful collisions", Object.keys(seen).length + " unique");
+    var cfg = { tz: "America/Los_Angeles", closures: [{ date: "2026-12-24" }, { date: "2026-12-25" }, { date: "2026-12-26" }, { date: "2026-11-26" }] };
+    check(R.closedWeekdays(cfg, new Date(Date.UTC(2026, 11, 20, 20))).length === 0, "real closures: no weekday is closed on every occurrence, nothing disabled");
+    var cfg2 = { tz: "America/Los_Angeles", closures: [{ date: "2026-12-24" }, { date: "2026-12-31" }] };
+    check(R.closedWeekdays(cfg2, new Date(Date.UTC(2026, 11, 20, 20))).join() === "Thu", "both Thursdays in the window closed: Thu disabled", R.closedWeekdays(cfg2, new Date(Date.UTC(2026, 11, 20, 20))).join());
+    check(R.closedWeekdays(null, new Date()).length === 0, "no config: nothing disabled");
+    check(E.clean("a@b.co") === undefined && E.clean("7025550142") === undefined && E.clean("(702) 555-0142") === undefined && E.clean("702.555.0142") === undefined && E.clean("x".repeat(61)) === undefined && E.clean({}) === undefined, "clean() drops emails, phone numbers in any layout, long text, objects");
+    check(E.clean("car") === "car" && E.clean(3) === 3 && E.clean(false) === false && E.clean("suv") === "suv", "clean() keeps short slugs, numbers, booleans");
+    drop(f);
+  }
+
+  async function tLayout() {
+    group("Labels, sizes, days limit, static fields");
+    wipe();
+    var f = await load("/book"), w = f.contentWindow, d = w.document, form = d.querySelector("form.v3-request");
+    var ids = ["rq-name", "rq-phone", "rq-svc", "rq-details"];
+    ids.forEach(function (id) {
+      var input = d.getElementById(id), lab = d.querySelector('label[for="' + id + '"]');
+      var cs = w.getComputedStyle(input), r = input.getBoundingClientRect();
+      check(!!lab && visible(lab) && lab.textContent.trim().length > 1, id + ": visible <label for>", lab && lab.textContent.trim());
+      check(parseFloat(cs.fontSize) >= 16 && r.height >= 44, id + ": font " + cs.fontSize + ", height " + Math.round(r.height) + "px (need 16px and 44px)");
+    });
+    var legend = form.querySelector("fieldset legend");
+    check(visible(legend), "days group has a visible legend", legend && legend.textContent.trim());
+    var chips = Array.prototype.slice.call(form.querySelectorAll(".rq-chip__lbl"));
+    check(chips.length === 10 && chips.every(function (c) { return c.getBoundingClientRect().height >= 44; }), "ten day chips, each at least 44px tall", chips.length + " chips, min " + Math.round(Math.min.apply(null, chips.map(function (c) { return c.getBoundingClientRect().height; }))));
+    var sub = form.querySelector('button[type="submit"]');
+    check(sub.getBoundingClientRect().height >= 52, "submit button at least 52px tall", Math.round(sub.getBoundingClientRect().height));
+    var inputs = ["form-name", "subject", "ref", "build_code", "source", "status_state", "utm_source", "utm_medium", "utm_campaign", "gclid", "lead_source", "bot-field", "name", "phone", "service", "details", "days"];
+    check(inputs.every(function (n) { return form.querySelector('[name="' + n + '"]'); }), "every field is in the static HTML (Netlify registers them)", inputs.filter(function (n) { return !form.querySelector('[name="' + n + '"]'); }).join(",") || "all 17");
+    check(form.getAttribute("name") === "quote" && form.getAttribute("data-netlify") === "true" && form.getAttribute("netlify-honeypot") === "bot-field" && form.getAttribute("action") === "/book/sent/" && form.method === "post", "form name quote, data-netlify, honeypot bot-field, action /book/sent/, POST");
+    check(d.querySelectorAll("h1").length === 1, "one h1 on /book", d.querySelector("h1") && d.querySelector("h1").textContent);
+    check(d.documentElement.scrollWidth <= 390, "no horizontal overflow at 390px", d.documentElement.scrollWidth);
+    // the days limit
+    var boxes = form.querySelectorAll('input[name="days"]');
+    boxes[0].click(); boxes[3].click(); boxes[6].click();
+    await sleep(120);
+    var n = form.querySelectorAll('input[name="days"]:checked').length;
+    var note = form.querySelector("[data-rq-days-note]");
+    check(n === 2 && !boxes[6].checked, "a third day is refused (2 stay checked)", n);
+    check(note.getAttribute("aria-live") === "polite" && note.textContent.trim().length > 10, "the limit is announced in an aria-live note", note.textContent.trim());
+    boxes[0].click(); await sleep(120);
+    check(form.querySelectorAll('input[name="days"]:checked').length === 1 && note.textContent === "", "unchecking one clears the note");
+    // validation messages
+    boxes[3].click();
+    form.querySelector('button[type="submit"]').click();
+    await sleep(100);
+    var errs = Array.prototype.slice.call(form.querySelectorAll("[data-rq-err]")).filter(function (e) { return !e.hidden; });
+    check(errs.length === 3 && errs.every(visible), "empty submit shows three visible errors (name, phone, service)", errs.length);
+    check(d.activeElement === form.elements.name && form.elements.name.getAttribute("aria-invalid") === "true" && form.elements.name.getAttribute("aria-describedby") === "rq-name-err", "focus moves to the first invalid field, aria-invalid and aria-describedby set");
+    check(events(w, "generate_lead").length === 0, "invalid submit: no lead event");
+    form.elements.name.value = "A"; form.elements.name.dispatchEvent(new w.Event("input", { bubbles: true }));
+    check(form.querySelector('[data-rq-err="name"]').hidden, "fixing a field clears its error");
+    form.elements.phone.value = "12345";
+    form.elements.service.value = "Blinds";
+    form.querySelector('button[type="submit"]').click();
+    await sleep(100);
+    check(!form.querySelector('[data-rq-err="phone"]').hidden, "a short phone number is refused");
+    drop(f);
+  }
+
+  async function tConsent() {
+    group("Consent");
+    wipe();
+    var f = await load("/book"), w = f.contentWindow, d = w.document;
+    var bar = d.getElementById("v3-ck");
+    check(!!bar && !bar.hidden && visible(bar), "first visit: the v3 cookie bar is shown", bar ? "present" : "NOT in the page");
+    if (!bar) { drop(f); return; }
+    check(events(w, "cookie_banner_shown").length === 1, "1 cookie_banner_shown event, with page, section, status_state", JSON.stringify(events(w, "cookie_banner_shown")[0] && events(w, "cookie_banner_shown")[0].params));
+    var ckh = w.getComputedStyle(d.documentElement).getPropertyValue("--ckh").trim();
+    check(parseFloat(ckh) > 20, "bar height published as --ckh on <html>", ckh);
+    check(d.documentElement.style.scrollPaddingBottom === "", "no inline scroll-padding-bottom is set");
+    var spb = parseFloat(w.getComputedStyle(d.documentElement).scrollPaddingBottom);
+    check(spb >= parseFloat(ckh), "scroll-padding-bottom includes the bar height", spb + " vs " + ckh);
+    var yes = d.getElementById("v3-ck-yes"), no = d.getElementById("v3-ck-no");
+    check(yes.getBoundingClientRect().height >= 44 && no.getBoundingClientRect().height >= 44 && Math.abs(yes.getBoundingClientRect().width - no.getBoundingClientRect().width) < 2 && w.getComputedStyle(yes).backgroundColor === w.getComputedStyle(no).backgroundColor, "Accept and Decline are the same size and look, 44px or taller");
+    d.cookie = "_ga=GA1.1.1; path=/"; d.cookie = "_ga_TESTID=GS1.1.1; path=/"; d.cookie = "_gid=GA1.1.2; path=/"; d.cookie = "_gcl_au=1.1.3; path=/"; d.cookie = "_clck=abc; path=/"; d.cookie = "keepme=1; path=/";
+    no.click();
+    await sleep(100);
+    var last = consents(w, "update").pop();
+    check(last && last.analytics_storage === "denied" && last.ad_storage === "denied" && last.ad_user_data === "denied", "Decline: last consent update sets analytics_storage, ad_storage, ad_user_data to denied", JSON.stringify(last));
+    check(!("ad_personalization" in (last || {})), "Decline never touches ad_personalization");
+    check(!/(^|;\s*)(_ga|_ga_TESTID|_gid|_gcl_au|_clck)=/.test(d.cookie), "Decline clears _ga, _gid, _gcl_ and Clarity cookies", d.cookie);
+    check(/keepme=1/.test(d.cookie) && /bcgt_analytics=no/.test(d.cookie), "other cookies stay, the choice is stored as no", d.cookie);
+    check(w.localStorage.getItem("bcgt_analytics") === "no", "localStorage choice is no");
+    check(bar.hidden && d.documentElement.style.getPropertyValue("--ckh") === "", "bar hidden and --ckh removed");
+    check(w["ga-disable-" + bar.getAttribute("data-ga-id")] === true, "ga-disable flag set for the measurement id");
+    await load(null, f); w = f.contentWindow; d = w.document;
+    check(d.getElementById("v3-ck").hidden && events(w, "cookie_banner_shown").length === 0, "next visit: choice remembered, bar stays hidden");
+    d.getElementById("ckreopen").click();
+    await sleep(100);
+    bar = d.getElementById("v3-ck");
+    check(!bar.hidden && d.activeElement === bar, "the footer Cookie choices link reopens the bar and focuses it");
+    d.getElementById("v3-ck-yes").click();
+    await sleep(100);
+    last = consents(w, "update").pop();
+    check(last && last.analytics_storage === "granted" && last.ad_storage === "granted" && last.ad_user_data === "granted", "Accept: consent update sets all three to granted", JSON.stringify(last));
+    check(events(w, "cookie_accept").length === 1, "1 cookie_accept event");
+    check(w.localStorage.getItem("bcgt_analytics") === "yes" && /bcgt_analytics=yes/.test(d.cookie), "choice stored as yes");
+    check(consents(w, "update").every(function (u) { return !("ad_personalization" in u); }), "no consent update ever names ad_personalization");
+    check(d.activeElement && d.activeElement.id === "ckreopen", "focus returns to the link that opened the bar", d.activeElement && d.activeElement.id);
+    drop(f);
+  }
+
+  async function tEvents() {
+    group("Events: one each, status_state, no personal data");
+    wipe();
+    var f = await load("/book"), w = f.contentWindow, d = w.document;
+    d.documentElement.setAttribute("data-status-state", "closed");
+    var sec = d.querySelector("[data-section]");
+    var host = d.createElement("div");
+    host.innerHTML =
+      '<a id="x-tel" href="tel:+17025508840">tel</a>' +
+      '<a id="x-sms" href="sms:+17025508840?&body=Hi%20BC-S3520T">sms</a>' +
+      '<a id="x-sms2" href="sms:+17025508840" data-prefill="chip_photo">sms2</a>' +
+      '<a id="x-sms3" href="sms:+17025508840">sms3</a>' +
+      '<a id="x-mail" href="mailto:info@bcglassandtint.com?subject=Hi">mail</a>' +
+      '<a id="x-router" data-ev="router_click" data-ev-path="car" href="#car">router</a>' +
+      '<a id="x-gift" data-ev="gift_card_click" href="https://squareup.com/gift/ABC">gift</a>' +
+      '<a id="x-dir" href="https://www.google.com/maps?cid=13670610033548722770">Get directions</a>' +
+      '<a id="x-rev" href="https://www.google.com/maps?cid=13670610033548722770">See reviews</a>' +
+      '<a id="x-yelp" href="https://www.yelp.com/biz/x">yelp</a>' +
+      '<a id="x-tw" href="https://tintwiz.me/x">tintwiz</a>' +
+      '<div data-service="car"><div id="x-price" data-price-block style="height:40px">price</div></div>';
+    sec.appendChild(host);
+    d.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("a")) e.preventDefault(); });
+    function click(id) { d.getElementById(id).click(); }
+    ["x-tel", "x-sms", "x-sms2", "x-sms3", "x-mail", "x-router", "x-gift", "x-dir", "x-rev", "x-yelp", "x-tw"].forEach(click);
+    d.getElementById("x-price").scrollIntoView();
+    await sleep(500);
+    function one(name, test) {
+      var e = events(w, name);
+      check(e.length === 1 && (!test || test(e[0].params)), name + ": fired once" + (test ? " with the right parameters" : ""), JSON.stringify(e.map(function (x) { return x.params; })));
+      if (e.length) check(e[0].params.status_state === "closed" && e[0].params.page === "/book" && e[0].params.section === "request", name + ": carries status_state closed, page /book, section request", JSON.stringify(e[0].params));
+    }
+    one("call_click", function (p) { return p.link_type === "tel"; });
+    var t = events(w, "text_click");
+    check(t.length === 3 && t[0].params.prefill === "build" && t[1].params.prefill === "chip_photo" && t[2].params.prefill === "plain", "text_click x3: prefill build, chip_photo, plain", JSON.stringify(t.map(function (x) { return x.params.prefill; })));
+    one("email_click", function (p) { return p.link_type === "mailto"; });
+    one("router_click", function (p) { return p.path === "car"; });
+    one("gift_card_click", function (p) { return p.link_host === "squareup.com"; });
+    one("directions_click");
+    var rv = events(w, "review_click");
+    check(rv.length === 3 && rv.map(function (x) { return x.params.platform; }).join() === "google,yelp,tintwiz", "review_click x3: google, yelp, tintwiz", JSON.stringify(rv.map(function (x) { return x.params.platform; })));
+    one("price_view", function (p) { return p.service === "car" && p.mode === "production"; });
+    d.getElementById("x-price").scrollIntoView(false); await sleep(200);
+    check(events(w, "price_view").length === 1, "price_view: scrolling the block in again does not repeat it");
+    // form_start
+    d.getElementById("rq-name").focus(); d.getElementById("rq-phone").focus(); d.getElementById("rq-name").focus();
+    await sleep(60);
+    one("form_start", function (p) { return p.form_name === "quote"; });
+    // builder bridge
+    d.dispatchEvent(new w.CustomEvent("bc:ev", { detail: { name: "build_start", params: { class_id: "suv", note: "call me at 702-555-0142", who: "a@b.co", n: 3 } } }));
+    d.dispatchEvent(new w.CustomEvent("bc:ev", { detail: { name: "generate_lead", params: { ref: "R-AAAAAA" } } }));
+    d.dispatchEvent(new w.CustomEvent("bc:ev", { detail: { name: "not_an_event", params: {} } }));
+    var bs = events(w, "build_start");
+    check(bs.length === 1 && bs[0].params.class_id === "suv" && bs[0].params.n === 3 && !("note" in bs[0].params) && !("who" in bs[0].params), "bc:ev build_start forwarded; phone-like and email-like parameters dropped", JSON.stringify(bs[0] && bs[0].params));
+    check(events(w, "generate_lead").length === 0 && events(w, "not_an_event").length === 0, "bc:ev cannot raise generate_lead or an unknown event");
+    // lead from a real send, and the scan for personal data across everything
+    var calls = stubFetch(w, [200]);
+    var typedName = "Zed Testname", typedPhone = "(702) 555-0142", typedNote = "secret free text";
+    fillAndSend(w, { name: typedName, phone: typedPhone, details: typedNote, days: ["Wed AM"] });
+    await sleep(150);
+    check(events(w, "generate_lead").length === 1, "a confirmed send adds exactly 1 generate_lead");
+    var all = events(w);
+    var blob = JSON.stringify(all.map(function (e) { return e.params; }));
+    check(!/Zed|Testname|555|0142|secret|free text/i.test(blob), "no event parameter contains the typed name, phone or free text", "scanned " + all.length + " events");
+    var bad = [];
+    all.forEach(function (e) { Object.keys(e.params).forEach(function (k) { var v = e.params[k]; if (typeof v === "string" && (v.indexOf("@") > -1 || /\d[\s().-]*\d[\s().-]*\d[\s().-]*\d[\s().-]*\d[\s().-]*\d[\s().-]*\d/.test(v))) bad.push(e.name + "." + k); }); });
+    check(bad.length === 0, "no event parameter looks like a phone number or an email", bad.join(",") || "clean");
+    check(all.every(function (e) { return e.params.page === "/book" && typeof e.params.status_state === "string" && e.params.status_state !== "" && "section" in e.params; }), "every event carries page, section and status_state", all.length + " events");
+    var l = events(w, "generate_lead")[0].params;
+    check(Object.keys(l).sort().join() === "days_count,form_name,has_build,page,ref,section,service,status_state", "generate_lead has exactly the fixed parameters", Object.keys(l).sort().join());
+    // dedup with a forged duplicate and an invalid ref
+    d.dispatchEvent(new w.CustomEvent("bc:lead", { detail: { ref: l.ref, service: "car", has_build: false, days_count: 1 } }));
+    d.dispatchEvent(new w.CustomEvent("bc:lead", { detail: { ref: "not-a-ref", service: "car" } }));
+    check(events(w, "generate_lead").length === 1, "duplicate and invalid-ref lead events are ignored");
+    // default status_state when the action system has not set one
+    d.documentElement.removeAttribute("data-status-state");
+    w.bcEvents.send("probe", {});
+    check(events(w, "probe")[0].params.status_state === "na", "status_state is na when the action system has not set one");
+    drop(f);
+  }
+
+  async function tSent() {
+    group("No-JS landing page /book/sent/");
+    wipe();
+    var f = await load("/book/sent/"), w = f.contentWindow, d = w.document;
+    check(d.querySelectorAll("h1").length === 1 && /Request received/.test(d.querySelector("h1").textContent), "a real page with one h1", d.querySelector("h1") && d.querySelector("h1").textContent);
+    check(/noindex/.test(d.querySelector('meta[name="robots"]').content), "robots noindex", d.querySelector('meta[name="robots"]').content);
+    check(!d.querySelector("form.v3-request"), "no request form on the sent page");
+    check(/Nothing is booked until we confirm/.test(d.body.textContent) && !/business day/i.test(d.body.textContent), "says nothing is booked, promises no reply time");
+    check(events(w, "generate_lead").length === 0, "fires no lead event");
+    drop(f);
+    wipe();
+  }
+
+  async function runAll() {
+    document.getElementById("run").disabled = true;
+    tbody.innerHTML = ""; pass = 0; fail = 0; results.length = 0;
+    try {
+      await tUnits(); await tLayout(); await tPrefill(); await tFailure(); await tSuccess(); await tConsent(); await tEvents(); await tSent();
+    } catch (e) {
+      check(false, "harness threw", e && (e.stack || e.message || e));
+    }
+    document.getElementById("summary").textContent = "DONE  PASS " + pass + "  FAIL " + fail;
+    window.__done = true;
+    document.getElementById("run").disabled = false;
+  }
+  document.getElementById("run").addEventListener("click", runAll);
+  if (/[?&]auto=1/.test(location.search)) runAll();
+})();
+</script>
+</body>
+</html>

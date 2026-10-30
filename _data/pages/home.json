@@ -1,335 +1,51 @@
 {
+  "_note": "Homepage wording, overhaul v3 (WS5). The legacy v1 and v2 keys (hero, ratings, band, services, new_construction, why, reviews, areas, quote, v2) were removed 2026-10-29 (engineering E9): none rendered, several carried banned claims. Section copy shared with the service and city pages lives in pages/sections.json. The FAQPage JSON-LD is built from v3.faq.items, the same list the page prints.",
   "meta": {
-    "title": "Window Tinting Boulder City NV | BC Glass &amp; Tint Since 1994",
-    "description": "Family-owned window tinting and auto glass in Boulder City, NV since 1994. Auto, home & commercial tint, windshields and more. Call 702-550-8840.",
-    "image_alt": "BC Glass and Tint branded box truck in the Boulder City parade"
+    "title": "Window Tint in Boulder City, NV | BC Glass &amp; Tint, Since 1994",
+    "description": "Window tint and film for cars, homes and offices, and windshield chip repair, in Boulder City since 1994. Family owned. Call or text (702) 550-8840.",
+    "image_alt": "BC Glass and Tint logo"
   },
-  "hero": {
-    "badge": "FAMILY-OWNED SINCE 1994 · BOULDER CITY, NV",
-    "logo_alt": "BC Glass &amp; Tint logo",
-    "heading": "Window Tinting, Auto Glass &amp; Blinds in Boulder City, NV",
-    "svc_line": "Blinds · Auto · Residential · Commercial · Windshield",
-    "area_line": "Serving Henderson, Las Vegas &amp; all of Southern Nevada",
-    "text_label": "Text",
-    "stats": [
-      { "n": "30+", "l": "YEARS IN BUSINESS" },
-      { "n": "{google_rating}★", "l": "{google_count} GOOGLE REVIEWS" },
-      { "n": "3", "l": "FIVE-STAR PLATFORMS" },
-      { "n": "Lifetime", "l": "FILM WARRANTY" }
-    ]
-  },
-  "ratings": {
-    "heading": "Five Stars on <span>Every Platform</span>",
-    "sub": "Three places customers can review us. All three say the same thing. Counts as of August 2026.",
-    "cards": [
-      { "key": "google", "name": "Google" },
-      { "key": "yelp", "name": "Yelp" },
-      { "key": "tintwiz", "name": "Tint Wiz" }
-    ],
-    "note": "Every rating above is counted and hosted by that platform, not by us. Click any card to read the reviews at the source."
-  },
-  "band": [
-    "XPEL &amp; ASWF Film",
-    "Computer-Cut Film",
-    "Lifetime Film Warranty",
-    "Most Tint Work Same Day",
-    "Free Quotes"
-  ],
-  "services": {
-    "heading": "Our <span>Services</span>",
-    "sub": "Computer-cut precision and a lifetime manufacturer's warranty on every window film.",
-    "quote_btn": "Get a Quote",
-    "learn_btn": "Learn More",
-    "items": [
-      {
-        "icon": "i-blinds",
-        "href": "/blinds",
-        "title": "Blinds &amp; Window Treatments",
-        "image": { "alt": "Window blinds and shades installation Boulder City NV", "src": "images/blinds.webp", "width": 1000, "height": 667 },
-        "desc": "Expertly installed blinds and soft window treatments for homes and businesses across Clark County.",
-        "bullets": ["Cellular shades for insulation", "Roller, cellular and Roman shades", "Motorized options available", "Professional install, and we fix what is not right"],
-        "svc": "Blinds / Window Treatments",
-        "learn_aria": "Learn more about blinds and window treatments"
-      },
-      {
-        "icon": "i-car",
-        "href": "/auto-tint",
-        "title": "Auto / Vehicle Tint",
-        "image": { "alt": "Auto window tinting in Boulder City NV", "src": "images/auto.webp", "width": 1000, "height": 652 },
-        "extra_slides": [
-          { "alt": "Window tint on a Ford Raptor truck", "src": "images/auto-2.webp", "width": 1000, "height": 805 },
-          { "alt": "Window tint on a Dodge Charger", "src": "images/auto-3.webp", "width": 1000, "height": 795 },
-          { "alt": "Window tint on a Rivian electric truck", "src": "images/auto-4.webp", "width": 1000, "height": 719 },
-          { "alt": "Window tint on a Jeep Grand Cherokee", "src": "images/auto-5.webp", "width": 1000, "height": 449 },
-          { "alt": "Window tint on a Toyota Tacoma truck", "src": "images/auto-6.webp", "width": 1000, "height": 680 }
-        ],
-        "desc": "Keep your car cooler, block UV rays, and protect your interior. Computer-cut films give a factory-perfect fit with no trimming on your glass.",
-        "bullets": ["Blocks up to 99% of UV rays", "Cuts interior heat dramatically", "Nevada-legal shade options", "Lifetime warranty on all films"],
-        "svc": "Auto / Vehicle Tint",
-        "learn_aria": "Learn more about auto and vehicle tint"
-      },
-      {
-        "icon": "i-house",
-        "href": "/home-tint",
-        "title": "Home / Residential Tint",
-        "image": { "alt": "Home residential window tinting Henderson Las Vegas NV", "src": "images/residential.webp", "width": 1000, "height": 667 },
-        "desc": "Lower your cooling bills, stop your furniture and floors from fading, and cut glare, all without losing your view.",
-        "bullets": ["Cuts cooling costs in Nevada summers", "Protects furniture, flooring and art", "Reduces glare on TVs and screens", "Mobile service available"],
-        "svc": "Home / Residential Tint",
-        "learn_aria": "Learn more about home and residential tint"
-      },
-      {
-        "icon": "i-building",
-        "href": "/commercial-film",
-        "title": "Commercial Window Film",
-        "image": { "alt": "Commercial window film Las Vegas NV", "src": "images/commercial.webp", "width": 1000, "height": 666 },
-        "desc": "Improve comfort, add privacy, and cut energy costs. By blocking the sun's heat your HVAC works less, so bills drop.",
-        "bullets": ["Lowers HVAC load year round", "Reduces glare for employees", "Privacy and security film options", "Free estimates for any space"],
-        "svc": "Commercial Window Film",
-        "learn_aria": "Learn more about commercial window film"
-      },
-      {
-        "icon": "i-windshield",
-        "href": "/windshield",
-        "title": "Windshield Repair &amp; Replacement",
-        "image": { "alt": "Windshield replacement Boulder City NV", "src": "images/windshield.webp", "width": 900, "height": 592 },
-        "desc": "Chips and small cracks only get worse in the desert heat. Chip repair we handle in our own shop, and when a windshield is too far gone to repair safely, we subcontract the replacement to a glass specialist and order OEM-spec glass to your VIN.",
-        "bullets": ["Chips and small cracks, repaired in most cases", "OEM-spec glass for full replacements", "Insurance claim assistance", "Restores the windshield structural role"],
-        "svc": "Windshield Replacement",
-        "learn_aria": "Learn more about windshield replacement and chip repair"
-      },
-      {
-        "icon": "i-shield",
-        "href": "/clear-bra",
-        "title": "Clear Bra / Paint Protection",
-        "image": { "alt": "Clear bra paint protection film Boulder City NV", "src": "images/clearbra.webp", "width": 900, "height": 675 },
-        "desc": "Clear, self-healing film across the front end so Nevada rock chips and highway debris hit the film instead of your paint.",
-        "bullets": ["Absorbs rock chips and road debris", "Self-healing with heat", "Nearly invisible once applied", "Partial or full coverage"],
-        "svc": "Clear Bra / PPF",
-        "learn_aria": "Learn more about clear bra"
-      },
-      {
-        "icon": "i-spark",
-        "href": "/ceramic-coating",
-        "title": "Ceramic Coating",
-        "image": { "alt": "Ceramic coating applied at BC Glass and Tint, Boulder City NV", "src": "images/ceramic.webp", "width": 1000, "height": 666 },
-        "desc": "A liquid polymer bonded to your paint by hand, so water and dirt slide off instead of baking on in the desert sun.",
-        "bullets": ["Water and dirt slide right off", "UV protection against the Nevada sun", "Easier washes, no monthly waxing", "Protects paint, glass and trim"],
-        "svc": "Ceramic Coating",
-        "learn_aria": "Learn more about ceramic coating"
-      },
-      {
-        "icon": "i-spark",
-        "href": "/headlight-taillight",
-        "title": "Headlights &amp; Taillights",
-        "image": { "alt": "Headlight lens masked with tape and machine polished during a headlight restoration", "src": "images/headlight.webp", "width": 900, "height": 600 },
-        "desc": "Cloudy, yellowed lenses restored back to clear, plus protection film and legal-depth tinting for headlights and taillights.",
-        "bullets": ["Clears yellowing and oxidation", "More light back on the road at night", "Protection film stops it coming back", "Most vehicles done same day"],
-        "svc": "Headlight / Taillight Film",
-        "learn_aria": "Learn more about headlight restoration"
-      }
-    ]
-  },
-  "new_construction": {
-    "badge": "NEW CONSTRUCTION",
-    "heading": "Building a New Home Near <span>Boulder Creek Golf Club?</span>",
-    "text": "We install window film and blinds for new homeowners in <strong style=\"color:#fff\">Liberty Ridge</strong>, <strong style=\"color:#fff\">Heritage Peak</strong>, <strong style=\"color:#fff\">Iron Pointe</strong> and <strong style=\"color:#fff\">Boulder Hills Estates</strong>, before you even move in. Protect your new floors and cut the desert heat from day one.",
-    "cta": "See New Construction Tint &amp; Blinds"
-  },
-  "why": {
-    "heading": "Why Choose <span>BC Glass &amp; Tint</span>",
-    "sub": "Three decades of computer-cut precision and a lifetime warranty behind every job.",
-    "items": [
-      { "icon": "i-award", "title": "Family-Owned Since 1994", "text": "Three decades serving the community. We treat every customer like a neighbor." },
-      { "icon": "i-cut", "title": "Computer-Cut Precision", "text": "A factory-perfect fit, cut from a pattern before the film ever touches your glass." },
-      { "icon": "i-shield", "title": "Lifetime Film Warranty", "text": "Every window film is backed by a lifetime manufacturer's warranty." },
-      { "icon": "i-clock", "title": "Most Tint Work Done Same Day", "text": "Most vehicles are tinted the same day. Windshield replacements are subcontracted to a glass specialist and booked in once your glass arrives." }
-    ]
-  },
-  "reviews": {
-    "heading": "What Customers <span>Say</span>",
-    "sub": "Rated {google_rating} on Google and {yelp_rating} on Yelp. Real customers, real words.",
-    "more_google": "Read more on Google",
-    "more_yelp": "Read more on Yelp",
-    "items": [
-      { "platform": "google", "quote": "Amazing prices and attention to detail. 100% worth the drive from Vegas. Will definitely be back.", "name": "Payne Fordham" },
-      { "platform": "yelp", "quote": "This is my 3rd amazing tint installation by BC tint on my new pickup. Matched the factory tint perfectly. Highly recommended this family owned business.", "name": "Scott F." },
-      { "platform": "google", "quote": "Fast, friendly and did an amazing job. I've had multiple vehicles tinted here and will never go anywhere else.", "name": "Kristie Bergman" },
-      { "platform": "yelp", "quote": "I have been going to BC Glass and Tint for over 23 years since 2002, and they are simply the best! I drive 40 minutes each way because I trust this amazing family-owned shop.", "name": "Maureen S." },
-      { "platform": "google", "quote": "Best price I could find anywhere in the valley. Quality work done fast and the staff were super helpful.", "name": "Dennis Wolcott" },
-      { "platform": "yelp", "quote": "I would highly recommend BC Glass &amp; Tint! They tinted my new Silverado and the entire process was super easy and everyone was super friendly. They did a great job!", "name": "Cynthia S." },
-      { "platform": "google", "quote": "Great customer service, fast, and efficient! They offered the most affordable price for my particular service!", "name": "Ashley Watson" },
-      { "platform": "yelp", "quote": "Very professional service. Ceramic coating turned out perfect, on time and reasonable price. Would highly recommend!", "name": "Marc W." },
-      { "platform": "google", "quote": "We had our windshield replaced. Customer service was great and they had the best price! And they vacuumed my car! A+++ Highly recommend!", "name": "Andrea Whitmeyer" },
-      { "platform": "yelp", "quote": "They answered all our questions. They got us in quickly. The prices were reasonable, and the final product was gorgeous.", "name": "Denise A." },
-      { "platform": "google", "quote": "Top notch service and fair pricing. These guys know what they're doing. Been coming here for years and will keep coming back.", "name": "John S." },
-      { "platform": "yelp", "quote": "Got me in fast and did great work replacing my windshield. Couldn't have been better, and couldn't beat the price.", "name": "Francis S." },
-      { "platform": "google", "quote": "Great prices, speed, and quality. Highly recommend BC Glass &amp; Tint to anyone in the area.", "name": "Carol Broadbent" },
-      { "platform": "yelp", "quote": "Had my windshield tinted, at a competitive price, and they did a fantastic job! Thank you!", "name": "Ryan S." },
-      { "platform": "google", "quote": "Excellent service and very reasonable prices. My car looks great and I couldn't be happier!", "name": "Jessica Harrison" },
-      { "platform": "yelp", "quote": "Justin and his crew do incredible work. Always top notch and perfect. True perfectionist.", "name": "Brandon L." },
-      { "platform": "google", "quote": "Great prices and amazing work. Would highly recommend to anyone looking for window tinting in Boulder City.", "name": "Steven Hamberg" },
-      { "platform": "yelp", "quote": "I really appreciated the friendly customer service, quality of work, and affordable pricing. I highly recommend this family business.", "name": "Kenneth C." },
-      { "platform": "google", "quote": "The window tint job works and looks great. Thanks for a good job.", "name": "Marty Rihel" },
-      { "platform": "yelp", "quote": "Highly recommend! I was very pleased with the window tint job on my car. The team was friendly and efficient, completing the job quickly. The price was very reasonable.", "name": "Jzus M." },
-      { "platform": "google", "quote": "Great prices and service! Highly recommend.", "name": "rylen reid" }
-    ]
-  },
-  "areas": {
-    "heading": "Areas We <span>Serve</span>",
-    "sub": "We work out of one shop at 1633 Boulder City Pkwy in Boulder City and serve Boulder City, Henderson, Las Vegas and the rest of Southern Nevada. Vehicles come to the shop. For homes and commercial buildings we come to you.",
-    "chip_city": { "href": "/about", "label": "Boulder City" },
-    "chip_henderson": { "href": "/henderson", "label": "Window tinting in Henderson" },
-    "chip_las_vegas": { "href": "/las-vegas", "label": "Window tint and auto glass in Las Vegas" },
-    "chips_plain": ["Summerlin", "Anthem", "North Las Vegas", "Spring Valley"],
-    "notes": [
-      { "text": "Building or moving into a new Boulder City home near Boulder Creek Golf Club? ", "href": "/new-construction", "link_text": "See our new construction window film and blinds page." },
-      { "text": "Boating on Lake Mead? ", "href": "/boat-rv-tint", "link_text": "See boat and RV window tint." },
-      { "text": "Wondering what shade is legal? ", "href": "/nevada-tint-law", "link_text": "Read Nevada window tint law, explained." }
-    ]
-  },
-  "faq": {
-    "heading": "Frequently Asked <span>Questions</span>",
-    "sub": "Quick answers. For anything else, call or text 702-550-8840.",
-    "items": [
-      { "question": "How much does window tinting cost?", "answer": "It depends on the vehicle or rooms, which windows and the film you choose. See our <a href=\"/prices\">price guide</a>, or <a href=\"/build-your-tint\">build your tint</a> to see the options on your type of vehicle, then call us and we confirm your exact price." },
-      { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. In Nevada, front side windows must let through not less than 35 percent of light, counting the glass and the film together, the windshield can only carry a strip across the very top, and your back and rear windows can be tinted as long as the vehicle has outside mirrors on both sides. We install fully legal tint and can recommend the darkest legal shade. Source: Nevada Revised Statutes 484D.440." },
-      { "question": "How long does an install take?", "answer": "Most vehicles are done same-day." },
-      { "question": "Is there a warranty?", "answer": "Yes. Every window film carries a lifetime manufacturer's warranty." },
-      { "question": "What areas do you serve?", "answer": "Boulder City, Henderson, Las Vegas, and all of Southern Nevada." }
-    ],
-    "more_link": "View all questions and answers"
-  },
-  "quote": {
-    "source": "Homepage",
-    "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers",
-    "details_label": "Vehicle, rooms or other details",
-    "sub_full": "Tell us what you need and we will call you back within one business day. Prefer to talk now? Call or text 702-550-8840."
-  },
-  "v2": {
+  "v3": {
     "hero": {
       "eyebrow": "Boulder City, Nevada. Family owned since 1994.",
-      "heading": "Window tint for the desert sun.",
-      "lede": "Cars, homes and offices. Lifetime manufacturer warranty on the film.",
-      "build_link": "Build your tint and see the price",
-      "build_href": "/build-your-tint",
-      "image": "hero-taycan",
-      "image_alt": "Black Porsche Taycan with tinted side windows, parked in the desert sun outside a stucco building"
+      "h1": "Window tint for the desert sun.",
+      "sub": "Window tint and film for cars, homes and offices, plus windshield chip repair.",
+      "router_label": "Pick what you need",
+      "proof": "Lifetime manufacturer warranty on the film.",
+      "media_mode": "ramp",
+      "media_note": "Shades shown on screen. Ask to hold real film against your glass at the shop.",
+      "storefront_photo": "storefront-hero"
     },
-    "quote1": {
-      "name": "Steven Hamberg",
-      "label": "Google review",
-      "link": "Read the reviews",
-      "href": "/reviews"
-    },
-    "meter": {
-      "eyebrow": "Build your tint",
-      "heading": "Pick a shade. See it on your car.",
-      "text": "The number is how much light gets through, so lower is darker. Try any shade on your type of vehicle in the builder, then call with your build.",
-      "selected": 35,
-      "unit": "light in",
-      "darkest": "Darkest",
-      "lightest": "Lightest",
-      "chip_aria": "Try {n} percent in the builder",
-      "legal": "Nevada front side windows: film and glass together must let in at least 35% of light, with a 7% tolerance.",
-      "legal_cite": "NRS 484D.440",
-      "sim_note": "Simulation on screen, not real film.",
-      "cta": "Open the builder",
-      "href": "/build-your-tint"
-    },
-    "prices": {
-      "eyebrow": "Prices",
-      "heading": "Know the price before you call.",
-      "unknown": "Call for a quote",
-      "from_word": "From",
-      "cards": [
-        { "eyebrow": "Auto tint", "title": "Front doors", "price": "auto_tint.coverage.two_front_doors", "includes": ["Both front side windows", "Match the factory rear glass"], "build": true },
-        { "eyebrow": "Auto tint", "title": "Full vehicle", "price": "auto_tint.coverage.full_vehicle", "includes": ["Side windows and back glass", "Windshield strip and sunroof priced separately"], "build": true },
-        { "eyebrow": "Windshield", "title": "Chip repair", "price": "services.chip_repair_first", "note_price": "services.chip_repair_additional", "note": "First chip. {price} each chip after that.", "note_alone": "First chip.", "includes": ["Done in our own shop", "Most chips, same day"], "build": false }
-      ],
-      "build_link": "Build this",
-      "build_href": "/build-your-tint",
-      "call_link": "Call about this",
-      "strip": ["Lifetime manufacturer warranty on the film", "Exact price confirmed by phone, no surprises"],
-      "footnote": "A From price is where that job starts. Your exact price depends on the vehicle and is confirmed by phone.",
-      "all_link": "All prices",
-      "href": "/prices"
-    },
-    "gallery": {
-      "eyebrow": "Recent work",
-      "heading": "Every car, the same standard.",
-      "honest": "Photos and screens differ from real life. Ask to hold the film against your glass at the shop.",
-      "strip_label": "Recent auto tint jobs, scroll sideways for more",
-      "service_tag": "Auto tint",
-      "link": "See the gallery",
-      "href": "/gallery",
-      "count": 8
-    },
-    "services": {
-      "eyebrow": "What we do",
-      "heading": "Tint, film and shades.",
-      "tiles": [
-        { "title": "Auto tint", "text": "Ceramic film, computer-cut, most vehicles same day.", "link": "Auto tint", "href": "/auto-tint", "image": "colorado" },
-        { "title": "Home and office film", "text": "Keep the view, cut the glare on west-facing glass.", "link": "Home and office film", "href": "/home-tint", "gallery_id": "home-sliding-window-backyard-tree", "cream": true },
-        { "title": "Blinds and shades", "text": "Light, privacy and the feel of the room. Measured at your home, motorized if you want it.", "link": "Blinds and shades", "href": "/blinds", "slats": "Blinds", "cream": true }
-      ],
-      "chip_row": {
-        "title": "Windshield chip repair.",
-        "text": "Done in our own shop, most chips same day. Replacements are arranged with a glass specialist we work with.",
-        "link": "Chip repair",
-        "href": "/chip-repair"
-      },
-      "more_label": "Also",
-      "more": [
-        { "label": "Clear bra", "href": "/clear-bra" },
-        { "label": "Ceramic coating", "href": "/ceramic-coating" },
-        { "label": "Headlights and taillights", "href": "/headlight-taillight" },
-        { "label": "Boat and RV tint", "href": "/boat-rv-tint" },
-        { "label": "Gift cards", "href": "https://app.squareup.com/gift/ML2SD9F302V17/order", "external": true }
-      ]
-    },
-    "reviews": {
-      "eyebrow": "Reviews",
-      "heading": "In their words",
-      "label": "Google review",
-      "names": ["Kristie Bergman", "Payne Fordham", "Jessica Harrison"],
-      "link": "Read more reviews",
-      "href": "/reviews"
-    },
-    "how": {
-      "eyebrow": "No surprises",
-      "heading": "What happens when you call",
-      "steps": [
-        { "title": "Call or text", "text": "Tell us the vehicle and which windows. Ask anything." },
-        { "title": "Pick your shade", "text": "Name the shade, or read us the build code from Build Your Tint." },
-        { "title": "We book a time", "text": "Most vehicles are done the same day." }
-      ]
-    },
+    "router": [
+      { "id": "car", "label": "My car", "href": "#car", "price_ref": "auto_tint.coverage.two_front_doors", "price_tpl": "Ceramic tint. Front doors from ${amount}.", "fallback": "Ceramic tint. See prices and shades." },
+      { "id": "home", "label": "My home or office", "href": "#home", "micro": "Window film and blinds. Free in-home measure." },
+      { "id": "windshield", "label": "My windshield", "href": "#windshield", "price_ref": "services.chip_repair_first", "price_tpl": "Chip repair, ${amount} first chip.", "fallback": "Most chips fixed the same day." }
+    ],
     "faq": {
-      "eyebrow": "Questions",
-      "heading": "Before you call"
-    },
-    "contact": {
-      "eyebrow": "Call the shop",
-      "heading": "Talk to a person.",
-      "closed_prefix": "Closed",
-      "callback_link": "Rather have us call you?"
+      "items": [
+        { "question": "How much does window tint cost?", "answer": "It depends on the vehicle or the rooms, which windows, and whether old film has to come off first. See the <a href=\"/prices\">price guide</a>, or <a href=\"/build-your-tint\">build your tint</a> to see the options on your type of vehicle. We confirm your exact price before anything is booked." },
+        { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. Film on your front side windows has to let through not less than 35 percent of light, with a 7 percent tolerance, counting the glass and the film together, and it has to be nonreflective. The windshield can only carry a strip across the very top, and that strip cannot be red or amber. Your back side windows and rear window can be tinted as long as the vehicle has outside mirrors on both sides. Source: Nevada Revised Statutes 484D.440." },
+        { "question": "How long does it take?", "answer": "Most vehicles are done the same day. Most chips are repaired the same day too." },
+        { "question": "Is there a warranty?", "answer": "Yes. Lifetime manufacturer warranty on the window film." },
+        { "question": "What if my chip cannot be repaired?", "answer": "We look at the chip first, because its size, location and condition decide whether it can be repaired. If it cannot, we can arrange a replacement with a glass specialist, with the glass ordered to your VIN and help with the insurance claim." },
+        { "question": "Do you come to my house?", "answer": "For home and office film and blinds, yes, we come to you to measure. Vehicles come to the shop." }
+      ]
     }
   },
   "schema": {
     "date_modified": "2026-10-29",
     "offer_catalog": {
-      "name": "Window film, auto glass and window treatments",
+      "name": "Window tint, window film, window treatments and windshield chip repair",
       "area_served": ["Boulder City", "Henderson", "Las Vegas"],
       "items": [
         { "name": "Auto Window Tinting", "path": "/auto-tint" },
         { "name": "Residential Window Film", "path": "/home-tint" },
         { "name": "Commercial Window Film", "path": "/commercial-film" },
-        { "name": "Windshield Replacement", "path": "/windshield" },
+        { "name": "Blinds and Motorized Window Treatments", "path": "/blinds" },
         { "name": "Windshield Chip Repair", "path": "/chip-repair" },
+        { "name": "Windshield Replacement, arranged with a glass specialist", "path": "/windshield" },
         { "name": "Clear Bra Paint Protection Film", "path": "/clear-bra" },
         { "name": "Ceramic Coating", "path": "/ceramic-coating" },
-        { "name": "Blinds and Motorized Window Treatments", "path": "/blinds" },
         { "name": "New Construction Window Film and Blinds", "path": "/new-construction" },
         { "name": "Boat and RV Window Tint", "path": "/boat-rv-tint" },
         { "name": "Headlight Restoration", "path": "/headlight-taillight", "id_suffix": "headlight-restoration" },

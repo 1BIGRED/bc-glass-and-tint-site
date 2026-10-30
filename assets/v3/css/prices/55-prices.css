@@ -1,0 +1,286 @@
+/* BC Glass & Tint v3, prices page (WS4). Art direction 3.4 (the prices page), P-a to P-f (price
+   rows, From, fallback words, draft tag, the class switch), B-b (secondary button), accordion
+   (1.4). Page bundle /assets/h/prices.<hash>.css, front matter bundles: ["prices"].
+   The .v3-prices / .v3-prow / .v3-price rules are the price-row macro's styles
+   (_includes/v3/price.njk). They live here until the CEO rules where a core copy goes (WS4 log). */
+
+/* ---------- Price rows (P-a to P-e): a definition list, hairlines, no boxes ---------- */
+.v3-prices {
+  margin: 0;
+}
+.v3-prow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-8) var(--sp-16);
+  min-height: 56px;
+  padding-block: var(--sp-12);
+  border-bottom: 1px solid var(--hair);
+}
+.v3-prow:first-child {
+  border-top: 1px solid var(--hair);
+}
+.v3-prow__label {
+  min-width: 0;
+}
+.v3-prow__note {
+  display: block;
+}
+.v3-prow__value {
+  flex: 0 1 auto;
+  max-width: 60%;
+  margin: 0;
+  text-align: right;
+  text-wrap: balance;
+}
+.v3-price {
+  white-space: nowrap;
+}
+.v3-price__from {
+  margin-right: var(--sp-4);
+}
+/* P-c: unconfirmed price words, Poppins 400 15px text-2, right aligned */
+.v3-price__fallback {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  line-height: var(--lh-text);
+}
+/* P-d: preview builds only; never pushes a row past 375px (it wraps under the number) */
+.v3-price__draft {
+  display: inline-block;
+  padding: 0 var(--sp-4);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  color: var(--fg-2);
+  font-weight: 600;
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* ---------- Page frame ---------- */
+.pr-top {
+  padding-block: var(--sp-48) var(--sp-32);
+}
+.pr-crumb a {
+  color: inherit;
+}
+.pr-sec {
+  padding-block: var(--section-pad);
+}
+.pr-sec + .pr-sec:not(.pr-sec--home):not(.pr-sec--faq) {
+  border-top: 1px solid var(--hair);
+}
+/* The home and blinds section is the Warm Gallery inset band inside the black page (3.4) */
+.pr-sec--home {
+  background-color: var(--paper-2);
+}
+.pr-sec__in {
+  display: grid;
+  gap: var(--sp-32);
+}
+
+/* ---------- The car table ---------- */
+.pr-table {
+  width: 100%;
+}
+.pr-table th,
+.pr-table td {
+  padding: var(--sp-12) var(--sp-8);
+  border-bottom: 1px solid var(--hair);
+  text-align: right;
+  vertical-align: baseline;
+}
+.pr-table th:first-child {
+  padding-left: 0;
+  text-align: left;
+}
+.pr-table td:last-child,
+.pr-table th:last-child {
+  padding-right: 0;
+}
+.pr-table thead th {
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+.pr-table tbody th {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-body);
+}
+.pr-table td .v3-price__draft {
+  display: block;
+  width: max-content;
+  margin-left: auto;
+  margin-top: var(--sp-4);
+}
+.pr-table td .v3-price__fallback {
+  display: inline-block;
+  max-width: 12em;
+}
+
+/* P-f: one class at a time below 560px, a 44px segmented switch; no JavaScript needed */
+.pr-table--grid { display: none; }
+.pr-seg {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: var(--sp-16);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+}
+.pr-seg__opt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--dur-ui) var(--ease-out), color var(--dur-ui) var(--ease-out);
+}
+.pr-seg__opt + .pr-seg__opt {
+  border-left: 1px solid var(--ctl-line);
+}
+.pr-ct { display: none; }
+#pr-c-car:checked ~ .pr-ctables .pr-ct[data-c="car"],
+#pr-c-suv:checked ~ .pr-ctables .pr-ct[data-c="suv"],
+#pr-c-pickup:checked ~ .pr-ctables .pr-ct[data-c="pickup"],
+#pr-c-van:checked ~ .pr-ctables .pr-ct[data-c="van"] {
+  display: table;
+}
+#pr-c-car:checked ~ .pr-seg .pr-seg__opt[for="pr-c-car"],
+#pr-c-suv:checked ~ .pr-seg .pr-seg__opt[for="pr-c-suv"],
+#pr-c-pickup:checked ~ .pr-seg .pr-seg__opt[for="pr-c-pickup"],
+#pr-c-van:checked ~ .pr-seg .pr-seg__opt[for="pr-c-van"] {
+  background-color: var(--text);
+  color: var(--ink-0);
+}
+#pr-c-car:focus-visible ~ .pr-seg .pr-seg__opt[for="pr-c-car"],
+#pr-c-suv:focus-visible ~ .pr-seg .pr-seg__opt[for="pr-c-suv"],
+#pr-c-pickup:focus-visible ~ .pr-seg .pr-seg__opt[for="pr-c-pickup"],
+#pr-c-van:focus-visible ~ .pr-seg .pr-seg__opt[for="pr-c-van"] {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+@media (min-width: 560px) {
+  .pr-table--grid { display: table; }
+  .pr-phone { display: none; }
+}
+
+.pr-arith > * + * {
+  margin-top: var(--sp-4);
+}
+
+/* ---------- What moves the price, actions ---------- */
+.pr-moves__h {
+  font-weight: 600;
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-bottom: var(--sp-8);
+}
+.pr-moves__list li {
+  padding-block: var(--sp-4);
+}
+.pr-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-12);
+}
+.pr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 var(--sp-24);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-button);
+  line-height: var(--lh-button);
+  text-decoration: none;
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out);
+}
+.pr-btn:hover {
+  background-color: var(--ink-2);
+  border-color: var(--text);
+}
+
+/* ---------- Accordion (1.4): hairlines, the whole row is the button, 56px min ---------- */
+.pr-faq__item {
+  border-bottom: 1px solid var(--hair);
+}
+.pr-faq__item:first-child {
+  border-top: 1px solid var(--hair);
+}
+.pr-faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-16);
+  min-height: 56px;
+  padding-block: var(--sp-12);
+  cursor: pointer;
+  list-style: none;
+}
+.pr-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.pr-faq__q {
+  font-weight: 600;
+  font-size: 1.0625rem;
+}
+.pr-faq__plus {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.pr-faq__plus::before,
+.pr-faq__plus::after {
+  content: "";
+  position: absolute;
+  background-color: currentColor;
+}
+.pr-faq__plus::before { left: 0; right: 0; top: 7px; height: 2px; }
+.pr-faq__plus::after { top: 0; bottom: 0; left: 7px; width: 2px; }
+.pr-faq__item[open] .pr-faq__plus {
+  transform: rotate(45deg);
+}
+.pr-faq__a {
+  padding-bottom: var(--sp-16);
+}
+.pr-legal {
+  margin-top: var(--sp-24);
+}
+
+/* ---------- Desktop: heading column left, body right (G5 one alignment line) ---------- */
+@media (min-width: 1024px) {
+  .pr-top {
+    padding-block: var(--sp-96) var(--sp-48);
+  }
+  .pr-sec__in {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+  }
+  .pr-sec__head { grid-column: 1 / span 4; }
+  .pr-sec__body { grid-column: 5 / span 8; }
+  .pr-btn { min-height: 52px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-faq__plus,
+  .pr-seg__opt,
+  .pr-btn {
+    transition: none;
+  }
+}

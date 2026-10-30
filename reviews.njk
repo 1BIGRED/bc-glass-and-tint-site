@@ -1,84 +1,49 @@
 ---
-# Reviews page, v2 (website overhaul, 2026-10-29). Layout: _includes/layouts/v2.njk. Styles:
-# assets/v2/v2.css plus assets/v2/pages.css. Wording: _data/pages/reviews.json. Only Google
-# review text is reproduced (verbatim, from google_block.items, which the homepage also reads by
-# name); Yelp review text is never reproduced here (Yelp's terms), only a plain link to the
-# profile. Counts and ratings print only through the site.json tokens (the fill filter).
-# JSON-LD: reviews.11tydata.js (business, WebSite, WebPage; no aggregateRating).
-layout: layouts/v2.njk
-extra_css: ["/assets/v2/pages.css"]
+# Reviews, overhaul v3 (WS5). Art direction 3.7: the V-a review block repeated in one column, the
+# platform line at the top (only from a fresh live read), no filters, no stars, no platform logos.
+# Only featurable Google reviews from _data/reviews.json print (lib/eleventy-ws5.js ws5featured).
+# Wording: _data/pages/reviews.json v3. JSON-LD: reviews.11tydata.js (no rating markup, ever).
+layout: layouts/v3.njk
 permalink: reviews.html
 slug: reviews
 page_key: reviews
-og_image: images/hero.jpg
+og_image: logo.png
+bundles: ["service"]
 ---
-{%- set pg = pages.reviews -%}
-{%- set v = pg.v2 -%}
-{%- set sh = pages.shared -%}
-{%- set tel = site.phone.tel -%}
-{%- set callText = sh.v2.call + " " + site.phone.display_call -%}
-
-<section class="pg-head" aria-labelledby="pg-h1">
-  <div class="v2-wrap pg-head__in">
-    <div class="pg-head__copy">
-      <p class="v2-eyebrow">{{ v.eyebrow | safe }}</p>
-      <h1 class="pg-h1" id="pg-h1">What Our Customers Say</h1>
-      <p class="pg-lede">{{ pg.hero.sub | fill | safe }}</p>
-      <div class="pg-actions">
-        <a class="v2-btn v2-btn--gold v2-btn--xl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
-        <a class="v2-textlink" href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ v.leave_link | safe }}</a>
-      </div>
-    </div>
-    <div class="pg-meter pg-meter--rating">
-      <p class="pg-meter__num v2-num">{{ pg.ratings.google.score | fill | safe }}</p>
-      <p class="pg-meter__label">{{ pg.ratings.google.label | safe }}</p>
-      <p class="pg-meter__text">{{ pg.ratings.google.count | fill | safe }}</p>
-      <a class="v2-link" href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ pg.ratings.google.cta | safe }}</a>
+{%- import "v3-service/blocks.njk" as b with context -%}
+{%- set V = pages.reviews.v3 -%}
+{%- set rv = site.reviews or {} -%}
+<section class="ws5-hero ws5-hero--page ws5-hero--solo bg-ink-0" aria-labelledby="hero-h">
+  <div class="ws5-hero__in">
+    <div class="ws5-hero__copy">
+      <p class="t-eyebrow">{{ V.eyebrow | safe }}</p>
+      <h1 id="hero-h">{{ V.h1 | safe }}</h1>
+      <p class="t-lead fg-2 measure">{{ V.lede | safe }}</p>
+      <p class="t-label fg-2">{% if rv.google_as_of and (rv.google_as_of | ws5fresh(14)) %}Google: {{ rv.google_rating }} from {{ rv.google_count }} reviews, read {{ (rv.google_as_of_label or rv.google_as_of) | safe }}. {% endif %}<a href="{{ reviews.listing_url | safe }}" target="_blank" rel="noopener">{{ V.google_link | safe }}</a></p>
     </div>
   </div>
 </section>
 
-<section class="v2-section" aria-labelledby="quotes-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="quotes-h">{{ v.list_heading | safe }}</h2>
-    </div>
-    <div class="pg-quotes">
-{%- for r in pg.google_block.items %}
-      <blockquote class="pg-quote"><p>"{{ r.quote | safe }}"</p><footer>{{ r.name | safe }}, {{ v.list_label | safe }}</footer></blockquote>
+<section class="ws5-read bg-ink-0" aria-label="Selected reviews">
+  <div class="wrap">
+    <div class="ws5-read__col ws5-revlist">
+{%- for r in reviews | ws5featured(null, 50) %}
+      {{ b.quote(r) }}
 {%- endfor %}
     </div>
-    <p><a class="v2-link" href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ pg.google_block.all_link | fill | safe }}</a></p>
   </div>
 </section>
 
-<section class="v2-band v2-section" aria-labelledby="source-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="source-h">{{ v.other_heading | safe }}</h2>
-      <p class="v2-body">{{ pg.ratings.note | safe }}</p>
-    </div>
-    <ul class="v2-svcchips">
-      <li><a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ pg.ratings.google.cta | safe }}</a></li>
-      <li><a href="{{ site.social.yelp | safe }}" target="_blank" rel="noopener">{{ pg.yelp_block.link_text | safe }}</a></li>
-      <li><a href="{{ site.social.tintwiz | safe }}" target="_blank" rel="noopener">{{ pg.yelp_block.tintwiz_link_text | safe }}</a></li>
+<section class="section--minor bg-ink-1" aria-labelledby="other-h">
+  <div class="wrap">
+    {{ b.head(null, V.other_h2, "other-h") }}
+    <ul class="ws5-list list-plain">
+      <li class="ws5-list__i"><a href="{{ reviews.listing_url | safe }}" target="_blank" rel="noopener">{{ V.leave | safe }}</a></li>
+{%- for o in V.other %}
+      <li class="ws5-list__i"><a href="{{ site.social[o.key] | safe }}" target="_blank" rel="noopener">{{ o.label | safe }}</a></li>
+{%- endfor %}
     </ul>
   </div>
 </section>
 
-{%- set week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] %}
-{%- set closedDays = [] %}
-{%- for d in week %}{% if not (d in site.hours.days) %}{% set _n = closedDays.push(d) %}{% endif %}{% endfor %}
-<section class="v2-band v2-section v2-contactwrap" aria-labelledby="contact-h">
-  <div class="v2-wrap v2-contact">
-    <div class="v2-contact__talk">
-      <h2 class="v2-h2 v2-h2--xl" id="contact-h">{{ v.contact.heading | safe }}</h2>
-      <a class="v2-btn v2-btn--gold v2-btn--xxl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
-      <span class="v2-status v2-status--lg" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span>
-      <p class="v2-body">{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}.{% if closedDays.length %} {{ v.contact.closed_prefix | safe }} {{ closedDays | join(" and ") }}.{% endif %}</p>
-    </div>
-    <div class="v2-contact__form">
-{% include "quote.njk" %}
-    </div>
-  </div>
-</section>
+{{ b.talk({ id: "quote", source: "Reviews", service: "any", uid: "talk" }) }}

@@ -1,153 +1,108 @@
 {
   "meta": {
     "title": "Window Tint and Glass Prices, Boulder City NV | BC Glass &amp; Tint",
-    "description": "Window tint and glass prices at BC Glass & Tint in Boulder City: starting prices by vehicle, what moves a quote, and your exact number with one short call.",
+    "description": "Window tint and glass prices at BC Glass & Tint in Boulder City: starting prices by vehicle, what moves a price, and your exact price confirmed before anything is booked.",
     "image_alt": "Price list from BC Glass and Tint, Boulder City, NV"
   },
   "hero": {
     "crumb": "Prices",
     "eyebrow": "PRICES",
-    "heading": "Honest prices. Exact numbers by phone.",
-    "intro": "Starting prices by vehicle, in plain numbers. Your vehicle and your glass can move a quote, so the exact number is confirmed on a short call. No surprises.",
-    "intro_without_prices": "Where the shop has posted a price, you see it here. Everything else gets an exact number on a short call, for your vehicle or your home. No surprises."
+    "heading": "Prices.",
+    "intro": "Real starting prices. The exact price is confirmed before anything is booked.",
+    "intro_without_prices": "Where the shop has posted a price, you see it here. Everything else is confirmed with you before anything is booked."
   },
   "schema": {
     "date_modified": "2026-10-29",
     "service_name": "Window tint, glass and film services"
   },
-  "proof": [
-    { "title": "Since 1994", "text": "Family owned, on Boulder City Pkwy" },
-    { "title": "Lifetime warranty", "text": "On window film, from the manufacturer" },
-    { "title": "Free quotes", "text": "Call or text Tuesday to Saturday, 9 to 5" }
-  ],
-  "cards": {
-    "eyebrow": "STARTING PRICES",
-    "heading": "Where most jobs start.",
-    "from_word": "From",
-    "note_link_label": "See the price notes",
-    "build_link": "Build this",
-    "call_link": "Call about this",
-    "items": [
-      {
-        "eyebrow": "Auto tint, cars",
-        "title": "Full vehicle",
-        "price": "auto_tint.coverage.full_vehicle.car",
-        "includes": ["Front doors, rear doors and back glass", "Windshield top strip and sunroof are their own lines", "Front doors follow Nevada's 35% rule"],
-        "build_href": "/build-your-tint?b=C-35-15-15-0"
-      },
-      {
-        "eyebrow": "Windshield",
-        "title": "Chip repair",
-        "price": "services.chip_repair_first",
-        "note_price": "services.chip_repair_additional",
-        "note": "first chip, {price} each after",
-        "note_alone": "first chip",
-        "includes": ["Done in our own shop", "We check the chip before we repair it", "Most chips, same day"]
-      },
-      {
-        "eyebrow": "Home and office",
-        "title": "Window film",
-        "price": "services.home_film_per_window",
-        "note_alone": "per window",
-        "includes": ["Free quote", "Lifetime manufacturer warranty on the film", "Homes and offices"]
-      }
-    ]
-  },
-  "row_labels": {
-    "blinds_from": "Blinds and window treatments"
-  },
-  "price_fallback": "Call for a quote",
   "draft_tag": "Draft price",
-  "cell_format": "{display} for {class_plural}",
-  "cell_format_note": "Reads like \"From $350 for cars\". Use it where a price stands on its own (cards, the homepage, schema-free summaries). Inside the table the column header already names the class, so print the display alone.",
-  "confirmed_line": "Prices confirmed {month_year}.",
-  "template_rules": "Every price cell goes through priceFor() in lib/pricing.js with the build's price mode. When draft is true, print the draft_tag beside the price. A cell that does not show prints price_fallback. full_windshield_film is never printed (legal_hold).",
+  "reviewed_line": "Prices reviewed {date}.",
+  "reviewed_rule": "Prints only when pricing.json reviewed_on is a real YYYY-MM-DD date. Never type a date the owner did not give.",
   "sections": {
-    "auto_tint": {
-      "heading": "Auto window tint",
-      "sub": "Starting prices by how much glass you cover and the size of your vehicle.",
-      "column_coverage": "Coverage",
+    "car": {
+      "id": "car-tint",
+      "heading": "Car tint",
+      "lede": "Starting prices by vehicle and by how much glass you cover.",
+      "column_label": "Coverage",
+      "switch_label": "Vehicle",
       "class_order": ["car", "suv", "pickup", "van"],
-      "row_order": ["two_front_doors", "rear_doors_and_back_glass", "full_vehicle"],
-      "line_rows": ["windshield-strip", "sunroof"],
-      "line_rows_heading": "Add to any build",
-      "footnote": "Full vehicle means the side and back glass. The windshield top strip and the sunroof are separate lines. Front doors darker than 35% are not offered. Nevada law, NRS 484D.440."
+      "rows": [
+        { "key": "two_front_doors", "label": "Front doors" },
+        { "key": "rear_doors_and_back_glass", "label": "Rear doors and back glass" },
+        { "key": "full_vehicle", "label": "Full sides and back" }
+      ],
+      "lines": [
+        { "key": "windshield-strip", "label": "Windshield top strip" },
+        { "key": "sunroof", "label": "Sunroof" }
+      ],
+      "fallback": "Price confirmed on the call",
+      "no_prices_note": "The shop confirms your exact price on the call, for your vehicle and the windows you pick.",
+      "arithmetic_intro": "Full sides and back is the front doors plus the rear doors and back glass.",
+      "arithmetic_class": "{class}: {front} plus {rear} is {full}.",
+      "footnote": "Full sides and back covers the side and back glass. The windshield top strip and the sunroof are their own lines. Front doors darker than Nevada's line are not offered. NRS 484D.440.",
+      "moves_heading": "What moves the price",
+      "moves": ["The size and shape of your vehicle", "How much glass you cover", "Old film to remove"],
+      "builder_link": "Build your tint and see the price",
+      "builder_link_without_prices": "Build your tint and see it on screen"
     },
-    "chip_repair": {
-      "heading": "Windshield chip repair",
-      "sub": "We check the chip first, then fill and seal what we can, usually the same day.",
-      "rows": ["chip_repair_first", "chip_repair_additional"]
+    "home": {
+      "id": "home-and-office",
+      "heading": "Home and office film, and blinds",
+      "lede": "Measured for your windows. Free estimates.",
+      "rows": [
+        { "price": "services.home_film_per_window", "label": "Home window film", "fallback": "Priced after a free in-home measure" },
+        { "price": "services.office_glass", "label": "Office and storefront film", "fallback": "Priced after a free measure on site" },
+        { "price": "services.blinds_from", "label": "Blinds and window treatments", "fallback": "Priced after a free in-home measure" }
+      ],
+      "moves_heading": "What moves the price",
+      "moves": ["How many windows, and how big", "The glass, and any coating already on it", "Access and height"]
     },
-    "home_office": {
-      "heading": "Home and office film",
-      "sub": "Windows, sliding doors, office glass and exterior film.",
-      "rows": ["home_film_per_window", "sliding_door", "office_glass", "turf_protection_film"]
-    },
-    "vehicle_care": {
-      "heading": "Vehicle care",
-      "sub": "Paint, finish and lights.",
-      "rows": ["ceramic_coating", "clear_bra", "headlight_restoration"]
-    },
-    "blinds": {
-      "heading": "Blinds and window treatments",
-      "sub": "Measured for your windows.",
-      "rows": ["blinds_from"]
+    "windshield": {
+      "id": "windshield",
+      "heading": "Windshield",
+      "lede": "Chip repair is done in our own shop, usually the same day. We look at every chip before we repair it.",
+      "rows": [
+        { "price": "services.chip_repair_first", "label": "Chip repair, first chip", "fallback": "Price confirmed on the call" },
+        { "price": "services.chip_repair_additional", "label": "Each additional chip", "fallback": "Price confirmed on the call" }
+      ],
+      "text_rows": [
+        { "label": "Small cracks", "text": "Price after we see it" },
+        { "label": "Replacement", "text": "Priced for your vehicle, glass ordered to your VIN" }
+      ],
+      "moves_heading": "What moves the price",
+      "moves": ["How many chips", "Their size, and where they sit on the glass"]
     }
-  },
-  "moves_the_price": {
-    "heading": "What moves the price",
-    "items": [
-      "How much glass you cover",
-      "The size and shape of your vehicle",
-      "Extra glass, like a windshield top strip or a sunroof, priced as its own line",
-      "Old film to remove, tricky rear glass, convertible tops and damaged defroster lines"
-    ]
-  },
-  "promise": {
-    "items": [
-      "Lifetime manufacturer warranty on window film.",
-      "Exact price confirmed by phone, no surprises.",
-      "Call Tuesday to Saturday, 9 to 5."
-    ],
-    "builder_link": "Build your tint and see the price"
   },
   "faq": {
     "heading": "How pricing works",
     "items": [
       {
         "question": "Is the price on this page what I will pay?",
-        "answer": "It is where your job starts. Your vehicle and your glass can move it, so we confirm the exact price with you on a short call."
+        "answer": "It is where your job starts. Your vehicle and your glass can move it, so the shop confirms your exact price before anything is booked."
       },
       {
-        "question": "Why do some prices say Call for a quote?",
-        "answer": "We only post a price the shop has confirmed. Where a number is not posted yet, one short call gets you the exact price for your vehicle or home."
+        "question": "Why do some rows have no number?",
+        "answer": "The site only shows a price the shop has confirmed. Where a number is not posted yet, the shop gives you the exact price for your vehicle or your home."
       },
       {
         "question": "What changes the price of car tint?",
-        "answer": "Mostly how much glass you cover and the size of your vehicle. Old film to remove, tricky rear glass, convertible tops and damaged defroster lines can move it too. A windshield top strip or a sunroof is priced as its own line."
+        "answer": "Mostly how much glass you cover and the size and shape of your vehicle. Old film to remove can move it too. A windshield top strip or a sunroof is priced as its own line."
       },
       {
         "question": "How much is windshield chip repair?",
-        "answer": "Call us with the number of chips and where they sit on the glass, and we will give you the price. We check every chip before we repair it.",
-        "answer_when_published": "The first chip is {chip_repair_first} and each additional chip is {chip_repair_additional}. We check every chip before we repair it.",
-        "template_note": "Use answer_when_published ONLY when both chip prices pass priceFor() in production mode (status confirmed AND publish true). Fill the tokens from each entry's display field. The FAQPage JSON-LD must carry the same answer the page shows."
+        "answer": "Call Tuesday to Saturday, 9 to 5, with the number of chips and where they sit on the glass, and we will give you the price. We look at every chip before we repair it.",
+        "answer_when_published": "The first chip is {chip_repair_first} and each additional chip is {chip_repair_additional}. We look at every chip before we repair it.",
+        "template_note": "Use answer_when_published ONLY when both chip prices pass priceFor() in production mode (status confirmed AND publish true). Fill the tokens from each entry's display field. The FAQPage JSON-LD carries the same answer the page shows."
       },
       {
         "question": "Do you charge for a quote?",
-        "answer": "No. Quotes are free. Call or text us Tuesday to Saturday, 9 to 5."
+        "answer": "No. Estimates are free, including a free consultation with measurements for homes and offices."
       },
       {
         "question": "Can I see the shade before I decide?",
         "answer": "Yes. Build your tint on this site to see each window on screen, then ask to see the film on your glass at the shop. Light, interior color and factory glass all change the real look."
       }
     ]
-  },
-  "footnotes": [
-    "Starting prices. Your exact price is confirmed by phone.",
-    "Where you see Call for a quote, the shop has not posted a price yet."
-  ],
-  "call_block": {
-    "heading": "Call the shop."
   },
   "legal_footer": "Tint law: rules can change; check the current statute. This is not legal advice. NRS 484D.440."
 }

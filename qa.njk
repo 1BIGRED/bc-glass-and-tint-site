@@ -1,143 +1,54 @@
 ---
-# Questions and answers, v2 (website overhaul, 2026-10-29). Layout: _includes/layouts/v2.njk.
-# Styles: assets/v2/v2.css plus assets/v2/pages.css. All wording is in _data/pages/qa.json.
-# Every question and answer prints in the page (closed <details>, so the text is in the HTML for
-# search engines) and the FAQPage JSON-LD (qa.11tydata.js) is built from the same items. The
-# search box is progressive enhancement: it is rendered hidden and the small script at the
-# bottom reveals it. One conversion path per page: no per-answer calls to action.
-layout: layouts/v2.njk
-extra_css: ["/assets/v2/pages.css"]
+# Questions and answers, overhaul v3 (WS5; art direction 3.7): a reading column, H2 per topic,
+# accordion rows. Every question and answer prints in the page (closed details) and the FAQPage
+# JSON-LD (qa.11tydata.js) is built from the same items. The search box is progressive enhancement
+# (rendered hidden; assets/v3/js/60-moments.js reveals it). One conversion path: no per-answer
+# calls to action. Wording: _data/pages/qa.json v3.
+layout: layouts/v3.njk
 permalink: qa.html
 slug: qa
 page_key: qa
-og_image: images/hero.jpg
+og_image: logo.png
+bundles: ["service"]
 ---
-{%- set pg = pages.qa -%}
-{%- set v = pg.v2 -%}
-{%- set sh = pages.shared -%}
-{%- set tel = site.phone.tel -%}
-{%- set callText = sh.v2.call + " " + site.phone.display_call -%}
-
-<section class="pg-head pg-head--solo" aria-labelledby="pg-h1">
-  <div class="v2-wrap pg-head__in">
-    <div class="pg-head__copy">
-      <p class="v2-eyebrow">{{ v.eyebrow | safe }}</p>
-      <h1 class="pg-h1" id="pg-h1">{{ pg.hero.heading | safe }}</h1>
-      <p class="pg-lede">{{ pg.hero.intro_lead | safe }}<a href="tel:{{ tel | safe }}">{{ site.phone.display | safe }}</a>{{ pg.hero.intro_tail | safe }}</p>
-      <div class="pg-actions">
-        <a class="v2-btn v2-btn--gold v2-btn--xl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
-        <a class="v2-textlink" href="#quote">{{ sh.buttons.free_quote | safe }}</a>
+{%- import "v3-service/blocks.njk" as b with context -%}
+{%- set V = pages.qa.v3 -%}
+{%- set total = qa_total -%}
+<section class="ws5-hero ws5-hero--page ws5-hero--solo bg-ink-0" aria-labelledby="hero-h">
+  <div class="ws5-hero__in">
+    <div class="ws5-hero__copy">
+      <p class="t-eyebrow">{{ V.eyebrow | safe }}</p>
+      <h1 id="hero-h">{{ V.h1 | safe }}</h1>
+      <p class="t-lead fg-2 measure">{{ V.lede | safe }}</p>
+      <nav class="ws5-topics" aria-label="{{ V.topics_label | safe }}">{% for g in V.groups %}<a href="#{{ g.id }}">{{ g.heading | safe }}</a>{% endfor %}</nav>
+      <div class="ws5-search" data-qa-search hidden>
+        <label for="qa-q">{{ V.search.label | safe }}</label>
+        <input id="qa-q" type="search" placeholder="{{ V.search.placeholder }}" autocomplete="off">
+        <p class="t-label fg-2" aria-live="polite" data-qa-count data-tpl="{{ V.search.count_some }}" data-total="{{ total }}"></p>
+        <p class="t-body" data-qa-empty hidden>{{ V.search.empty | safe }}</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="v2-section pg-qa" aria-label="{{ pg.hero.heading | safe }}">
-  <div class="v2-wrap v2-stack v2-stack--lg">
-    <div class="pg-search" id="qa-search" hidden data-all="{{ v.search.count_all | safe }}" data-some="{{ v.search.count_some | safe }}">
-      <label class="pg-search__label" for="qa-q">{{ v.search.label | safe }}</label>
-      <input type="search" id="qa-q" name="q" placeholder="{{ v.search.placeholder | safe }}" autocomplete="off" enterkeyhint="search">
-      <p class="pg-search__count v2-small" id="qa-count" role="status" aria-live="polite"></p>
-      <p class="pg-search__none" id="qa-none" hidden>{{ v.search.empty | safe }}</p>
-    </div>
-
-    <nav aria-label="{{ v.topics_label | safe }}">
-      <ul class="v2-svcchips">
-{%- for g in pg.faq_main %}
-        <li><a href="#{{ g.id or v.general_id }}">{{ g.heading | striptags | safe }}</a></li>
-{%- endfor %}
-        <li><a href="#{{ v.more_id }}">{{ pg.faq_more.heading | striptags | safe }}</a></li>
-      </ul>
-    </nav>
-
-    <div class="v2-stack v2-stack--lg">
-{%- for g in pg.faq_main %}
-      <div class="pg-qa__cat" id="{{ g.id or v.general_id }}">
-        <h2 class="pg-h2">{{ g.heading | safe }}</h2>
-        <div class="v2-faq__list">
-{%- for item in g.items %}
-          <details class="v2-faq__item">
-            <summary><h3 class="v2-faq__q">{{ item.question | safe }}</h3><span class="v2-faq__plus" aria-hidden="true"></span></summary>
-            <div class="v2-faq__a">{{ item.answer | safe }}</div>
+<section class="ws5-read bg-ink-0" aria-label="{{ V.h1 | safe }}">
+  <div class="wrap">
+    <div class="ws5-read__col">
+{%- for g in V.groups %}
+      <div class="ws5-qa-group" id="{{ g.id }}" data-qa-group>
+        <h2>{{ g.heading | safe }}</h2>
+        <div class="ws5-acc">
+{%- for it in g.items %}
+          <details class="ws5-acc__i" data-qa-item>
+            <summary><span>{{ it.question | safe }}</span><i aria-hidden="true"></i></summary>
+            <div class="ws5-acc__a">{{ it.answer | safe }}</div>
           </details>
 {%- endfor %}
         </div>
       </div>
 {%- endfor %}
-      <div class="pg-qa__cat" id="{{ v.more_id }}">
-        <h2 class="pg-h2">{{ pg.faq_more.heading | safe }}</h2>
-        <div class="v2-faq__list">
-{%- for item in pg.faq_more.items %}
-          <details class="v2-faq__item">
-            <summary><h3 class="v2-faq__q">{{ item.question | safe }}</h3><span class="v2-faq__plus" aria-hidden="true"></span></summary>
-            <div class="v2-faq__a">{{ item.answer | safe }}</div>
-          </details>
-{%- endfor %}
-        </div>
-      </div>
     </div>
   </div>
 </section>
 
-{%- set week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] %}
-{%- set closedDays = [] %}
-{%- for d in week %}{% if not (d in site.hours.days) %}{% set _n = closedDays.push(d) %}{% endif %}{% endfor %}
-<section class="v2-band v2-section v2-contactwrap" aria-labelledby="contact-h">
-  <div class="v2-wrap v2-contact">
-    <div class="v2-contact__talk">
-      <h2 class="v2-h2 v2-h2--xl" id="contact-h">{{ pg.cta.heading | safe }}</h2>
-      <p class="v2-body">{{ pg.cta.text | safe }}</p>
-      <a class="v2-btn v2-btn--gold v2-btn--xxl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
-      <span class="v2-status v2-status--lg" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span>
-      <p class="v2-body">{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}.{% if closedDays.length %} Closed {{ closedDays | join(" and ") }}.{% endif %}</p>
-    </div>
-    <div class="v2-contact__form">
-{% include "quote.njk" %}
-    </div>
-  </div>
-</section>
-
-<script>
-(function () {
-  "use strict";
-  var box = document.getElementById("qa-search");
-  var input = document.getElementById("qa-q");
-  if (!box || !input) return;
-  var items = [].slice.call(document.querySelectorAll(".pg-qa .v2-faq__item"));
-  var cats = [].slice.call(document.querySelectorAll(".pg-qa__cat"));
-  var count = document.getElementById("qa-count");
-  var none = document.getElementById("qa-none");
-  var total = items.length;
-  var textAll = box.getAttribute("data-all") || "";
-  var textSome = box.getAttribute("data-some") || "";
-  var haystack = items.map(function (el) { return (el.textContent || "").toLowerCase().replace(/\s+/g, " "); });
-  var timer = null;
-  function say(shown, active) {
-    var s = active ? textSome : textAll;
-    count.textContent = s.replace("{total}", total).replace("{shown}", shown);
-  }
-  function run() {
-    var q = input.value.toLowerCase().replace(/\s+/g, " ").trim();
-    var words = q ? q.split(" ") : [];
-    var shown = 0;
-    items.forEach(function (el, i) {
-      var ok = true;
-      for (var w = 0; w < words.length; w++) { if (haystack[i].indexOf(words[w]) === -1) { ok = false; break; } }
-      el.hidden = !ok;
-      if (ok) shown++;
-      if (words.length && ok) { if (!el.open) { el.open = true; el.setAttribute("data-s", "1"); } }
-      else if (el.getAttribute("data-s")) { el.open = false; el.removeAttribute("data-s"); }
-    });
-    cats.forEach(function (c) {
-      var any = c.querySelector(".v2-faq__item:not([hidden])");
-      c.hidden = !any;
-    });
-    none.hidden = shown !== 0;
-    say(shown, words.length > 0);
-  }
-  input.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(run, 80); });
-  input.addEventListener("keydown", function (e) { if (e.key === "Escape" && input.value) { input.value = ""; run(); } });
-  box.hidden = false;
-  say(total, false);
-})();
-</script>
+{{ b.talk({ id: "quote", source: "Questions and answers", service: "any", uid: "talk", ground: "bg-ink-1" }) }}

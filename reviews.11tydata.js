@@ -1,17 +1,8 @@
-// Structured data for reviews.html, built from _data/pages/reviews.json and site.json.
-// Live node order: business, WebSite, WebPage. No breadcrumb, no FAQ, no aggregateRating.
-const S = require("./lib/schema");
-const { fill } = require("./lib/filters");
-
+// Structured data for /reviews (v3, WS5): business, WebSite, WebPage. No Review, no rating and no
+// count markup, ever (AP-28; decisions-and-rules).
+const W5 = require("./lib/eleventy-ws5").helpers;
 module.exports = {
   eleventyComputed: {
-    schema_ld: (data) => {
-      const pg = data.pages.reviews;
-      return S.graph([
-        S.businessNode(data.site),
-        S.websiteNode(data.site),
-        S.webpageNode({ slug: data.slug, name: S.plain(fill(pg.meta.title)), dateModified: pg.schema.date_modified })
-      ]);
-    }
+    schema_ld: (data) => W5.simplePageGraph(data, data.pages.reviews)
   }
 };

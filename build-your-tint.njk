@@ -1,241 +1,213 @@
 ---
-# Build Your Tint, "The Showroom" (CREATIVE-DIRECTION.md moments 2 and 3). Layout: layouts/v2.njk.
-# Wording: _data/pages/build_your_tint.json. Data, the gated price copy, the first state and the
-# SVG geometry: build-your-tint.11tydata.js. Behavior: assets/v2/builder.js (markup contract in its
-# header). Styles: assets/v2/builder.css. Prices only through lib/pricing.js; no number is typed here.
-# Without JavaScript the tool is hidden and the table version in <noscript> shows instead.
-layout: layouts/v2.njk
+# Build Your Tint, v3 (WS4; blueprint 4.5, art direction 3.6 "the stage", engineering 3.2.3 and 3.2.5).
+# Layout: layouts/v3.njk. Wording: _data/pages/build_your_tint.json. Data: build-your-tint.11tydata.js
+# (bt_config, gated for this build's price mode). Behavior: assets/v3/js/builder/50-builder.js.
+# Styles: assets/v3/css/builder/50-builder.css. No number is typed here: prices reach the page only
+# through lib/pricing.js. Front-door shades darker than the legal line are not in the markup at all.
+# Without JavaScript the tool is hidden and the rules table in <noscript> shows instead.
+layout: layouts/v3.njk
 permalink: build-your-tint.html
 slug: build-your-tint
 page_key: build_your_tint
 og_image: images/hero.jpg
-extra_css: ["/assets/v2/builder.css"]
-extra_js: ["/assets/v2/builder.js"]
+bundles: ["builder"]
 ---
+{%- from "v3/actions.njk" import action with context -%}
 {%- set pg = pages.build_your_tint -%}
-{%- set b = pg.builder -%}
-{%- set I = bt_init -%}
-{%- set tel = site.phone.tel -%}
-{%- set hasPrice = pricing | anyAutoPrice(price_mode) -%}
+{%- set C = bt_config -%}
+{%- set steps = pg.steps.with_presets if C.presets.length else pg.steps.without_presets -%}
 <noscript><style>.bt-app,.bt-bar{display:none !important}</style></noscript>
 
-<section class="bt-hero" aria-labelledby="bt-h">
-  <div class="v2-wrap bt-hero__in">
-    <nav class="bt-crumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{{ pg.hero.crumb | safe }}</span></nav>
-    <p class="v2-eyebrow">{{ pg.hero.eyebrow | safe }}</p>
-    <h1 class="bt-h1" id="bt-h">{% if hasPrice %}{{ pg.hero.heading | safe }}{% else %}{{ pg.hero.heading_without_prices | safe }}{% endif %}</h1>
-    <p class="v2-body">{{ pg.hero.intro | safe }}</p>
+<section class="bt-top" aria-labelledby="bt-h">
+  <div class="wrap stack-16">
+    <nav class="bt-crumb t-label fg-2" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">{{ pg.hero.crumb | safe }}</span></nav>
+    <p class="t-eyebrow">{{ pg.hero.eyebrow | safe }}</p>
+    <h1 id="bt-h">{% if bt_has_price %}{{ pg.hero.heading | safe }}{% else %}{{ pg.hero.heading_without_prices | safe }}{% endif %}</h1>
+    <p class="t-lead measure">{{ pg.hero.intro | safe }}</p>
   </div>
 </section>
 
-<section class="bt" id="build" data-bt data-price-mode="{{ price_mode }}" aria-label="{{ pg.hero.crumb | safe }}">
+<section class="bt" id="build" data-bt data-kind="empty" data-price-mode="{{ C.mode }}" aria-label="{{ pg.hero.crumb | safe }}">
 
-  <div class="bt-bar" role="region" aria-label="{{ pg.bar.label | safe }}">
-    <div class="v2-wrap bt-bar__in">
-      <p class="bt-bar__item"><span class="bt-bar__k">{{ pg.bar.price_label | safe }}</span><span class="bt-bar__v v2-num" data-bt-price>{{ I.price.display | safe }}</span><span class="v2-draft" data-bt-draft{% if not I.price.draft %} hidden{% endif %}>{{ pg.result.draft_tag | safe }}</span></p>
-      <p class="bt-bar__item"><span class="bt-bar__k">{{ pg.bar.code_label | safe }}</span><code class="bt-bar__code v2-num" data-bt-code>{{ I.code }}</code></p>
+  <div class="bt-bar" data-bt-bar role="region" aria-label="{{ pg.bar.label | safe }}">
+    <div class="wrap bt-bar__in">
+      <p class="bt-bar__total"><span class="vh">{{ pg.bar.total_label | safe }}: </span><span class="bt-bar__v t-price tnum" data-bt-total>{{ C.text.empty | safe }}</span>{% if C.mode == "preview" %}<span class="bt-draft t-label" data-bt-draft hidden>{{ pg.result.draft_tag | safe }}</span>{% endif %}</p>
+      <p class="bt-bar__code t-label"><span class="fg-2">{{ pg.bar.code_label | safe }}</span> <code class="tnum" data-bt-code>{{ pg.result.code_empty | safe }}</code></p>
     </div>
   </div>
 
-  <div class="v2-wrap bt-app">
+  <div class="wrap bt-app">
+    <ol class="bt-steps t-label" aria-label="{{ pg.steps.label | safe }}" data-bt-steps>
+{%- for s in steps %}
+      <li data-step="{{ loop.index }}"{% if loop.first %} aria-current="step"{% endif %}><span class="tnum">{{ loop.index }}</span> {{ s | safe }}</li>
+{%- endfor %}
+    </ol>
 
-    <div class="bt-stagecol">
-      <figure class="bt-stage" data-bt-stage data-scene="{{ I.scene }}">
+    <div class="bt-resume" data-bt-resume hidden>
+      <p class="t-body">{{ pg.result.resume_text | safe }}</p>
+      <button type="button" class="bt-btn" data-bt-resume-go>{{ pg.result.resume_label | safe }}</button>
+      <button type="button" class="bt-link" data-bt-resume-clear>{{ pg.result.start_over_label | safe }}</button>
+    </div>
+
+    <div class="bt-grid">
+      <figure class="bt-stage" data-bt-stage>
         <div class="bt-stage__view">
-          <div class="bt-sky bt-sky--noon" aria-hidden="true"></div>
-          <div class="bt-sky bt-sky--dusk" aria-hidden="true"></div>
-          <div class="bt-sky bt-sky--night" aria-hidden="true"></div>
-          <div class="bt-pool" aria-hidden="true"></div>
-          <svg class="bt-svg" data-bt-svg viewBox="0 0 800 360" width="800" height="360" aria-hidden="true" focusable="false">
+          <svg class="bt-svg" data-bt-svg viewBox="40 44 730 262" width="730" height="262" aria-hidden="true" focusable="false">
             <defs>
-              <linearGradient id="bt-paint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="bt-st-paint1"/><stop offset=".5" class="bt-st-paint2"/><stop offset="1" class="bt-st-paint3"/></linearGradient>
-              <linearGradient id="bt-refl" x1="0" y1="0" x2="1" y2="1"><stop offset=".18" class="bt-st-refl0"/><stop offset=".34" class="bt-st-refl1"/><stop offset=".46" class="bt-st-refl0"/><stop offset=".62" class="bt-st-refl0"/><stop offset=".68" class="bt-st-refl2"/><stop offset=".74" class="bt-st-refl0"/></linearGradient>
-              <radialGradient id="bt-rim" cx=".4" cy=".35" r=".75"><stop offset="0" class="bt-st-rim1"/><stop offset="1" class="bt-st-rim2"/></radialGradient>
-              <radialGradient id="bt-shadow" cx=".5" cy=".5" r=".5"><stop offset="0" class="bt-st-shadow1"/><stop offset=".6" class="bt-st-shadow2"/><stop offset="1" class="bt-st-shadow0"/></radialGradient>
-              <linearGradient id="bt-fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-              <mask id="bt-mask" maskUnits="userSpaceOnUse" x="0" y="290" width="800" height="70"><rect x="0" y="290" width="800" height="56" fill="url(#bt-fade)"/></mask>
 {%- for bd in bt_bodies %}
               <path id="btb-{{ bd.id }}" d="{{ bd.body }}"/>
-{%- for p, d in bd.glass %}
-              <path id="btg-{{ bd.id }}-{{ p }}" d="{{ d }}"/>
-{%- endfor %}
 {%- endfor %}
             </defs>
-
-            <g class="bt-inset" transform="translate(26 16)">
-              <rect class="bt-inset__plate" x="-10" y="-8" width="176" height="86" rx="2"/>
-              <text class="bt-inset__t" x="0" y="6">{{ pg.stage.windshield_label | safe }}</text>
-              <g data-glass="strip" class="bt-glassgrp">
-                <path class="bt-gl-base" d="M10 68L26 22L130 22L146 68Z"/>
-                <path class="bt-gl-dim" d="M10 68L26 22L130 22L146 68Z"/>
-                <path class="bt-gl-tint" data-tint="strip" d="M22 34L26 22L130 22L134 34Z" style="opacity:{{ I.tint.strip }}"/>
-                <path class="bt-gl-refl" d="M10 68L26 22L130 22L146 68Z"/>
-                <path class="bt-gl-edge" d="M10 68L26 22L130 22L146 68Z"/>
-              </g>
-            </g>
-
-            <g transform="translate(0 30)">
-              <ellipse class="bt-shadow" cx="402" cy="290" rx="356" ry="16"/>
+            <ellipse class="bt-floor" cx="405" cy="294" rx="330" ry="9"/>
 {%- for bd in bt_bodies %}
-              <g data-body="{{ bd.id }}"{% if bd.id != I.vehicle %} display="none"{% endif %}>
-                <g mask="url(#bt-mask)"><g class="bt-mirror" transform="translate(0 580) scale(1 -1)">
-{%- for wd in bd.wells %}
-                  <path class="bt-well" d="{{ wd }}"/>
-{%- endfor %}
-                  <use href="#btb-{{ bd.id }}" class="bt-paint"/>
-{%- for w in bd.wheels %}
-                  <circle class="bt-tire" cx="{{ w[0] }}" cy="{{ w[1] }}" r="{{ bd.r }}"/>
-{%- endfor %}
-                </g></g>
-{%- for wd in bd.wells %}
-                <path class="bt-well" d="{{ wd }}"/>
-{%- endfor %}
-                <use href="#btb-{{ bd.id }}" class="bt-paint"/>
-                <path class="bt-shoulder" d="{{ bd.shoulder }}"/>
-{%- for s in bd.seams %}
-                <path class="bt-seam" d="{{ s }}"/>
-{%- endfor %}
-{%- for h in bd.handles %}
-                <path class="bt-handle" d="{{ h }}"/>
-{%- endfor %}
-                <path class="bt-head" d="{{ bd.head }}"/>
-                <path class="bt-tail" d="{{ bd.tail }}"/>
-{%- for p in ["front", "rear", "back"] %}
-                <g data-glass="{{ p }}" class="bt-glassgrp">
-                  <use href="#btg-{{ bd.id }}-{{ p }}" class="bt-gl-base"/>
-                  <use href="#btg-{{ bd.id }}-{{ p }}" class="bt-gl-dim"/>
-                  <use href="#btg-{{ bd.id }}-{{ p }}" class="bt-gl-warm"/>
-                  <use href="#btg-{{ bd.id }}-{{ p }}" class="bt-gl-tint" data-tint="{{ p }}" style="opacity:{{ I.tint[p] }}"/>
-                  <use href="#btg-{{ bd.id }}-{{ p }}" class="bt-gl-refl"/>
-                  <use href="#btg-{{ bd.id }}-{{ p }}" class="bt-gl-edge"/>
-                </g>
-{%- endfor %}
-                <path class="bt-trim" d="{{ bd.mirror }}"/>
-{%- for w in bd.wheels %}
-                <g class="bt-wheel">
-                  <circle class="bt-tire" cx="{{ w[0] }}" cy="{{ w[1] }}" r="{{ bd.r }}"/>
-                  <circle class="bt-rim" cx="{{ w[0] }}" cy="{{ w[1] }}" r="{{ bd.r * 0.64 }}"/>
-                  <circle class="bt-rimlip" cx="{{ w[0] }}" cy="{{ w[1] }}" r="{{ bd.r * 0.64 - 3 }}"/>
-                  <circle class="bt-hub" cx="{{ w[0] }}" cy="{{ w[1] }}" r="{{ bd.r * 0.16 }}"/>
-                </g>
-{%- endfor %}
+            <g class="bt-body" data-body="{{ bd.id }}"{% if not loop.first %} hidden{% endif %}>
+{%- for w in ["front", "rear", "back"] %}
+              <g class="bt-win" data-win="{{ w }}">
+                <path class="bt-win__glass" d="{{ bd.glass[w] }}"/>
+                <path class="bt-win__tint" d="{{ bd.glass[w] }}" data-tint="{{ w }}"/>
+                <path class="bt-win__edge" d="{{ bd.glass[w] }}"/>
               </g>
 {%- endfor %}
+              <use href="#btb-{{ bd.id }}" class="bt-line"/>
+{%- for s in bd.seams %}
+              <path class="bt-line bt-line--seam" d="{{ s }}"/>
+{%- endfor %}
+{%- for wh in bd.wheels %}
+              <circle class="bt-line" cx="{{ wh[0] }}" cy="{{ wh[1] }}" r="{{ bd.r }}"/>
+              <circle class="bt-line bt-line--seam" cx="{{ wh[0] }}" cy="{{ wh[1] }}" r="{{ bd.r * 0.6 }}"/>
+{%- endfor %}
             </g>
+{%- endfor %}
           </svg>
-
-          <fieldset class="bt-scene">
-            <legend class="v2-sr">{{ pg.stage.scene_legend | safe }}</legend>
-{%- for s in pg.stage.scenes %}
-            <label class="bt-scene__opt"><input type="radio" name="bt-t" value="{{ s.id }}"{% if s.id == I.scene %} checked{% endif %}><span>{{ s.label | safe }}</span></label>
-{%- endfor %}
-          </fieldset>
         </div>
-        <figcaption class="bt-cap">{{ pg.figure.label | safe }}</figcaption>
+        <figcaption class="bt-cap t-label fg-2">{{ pg.stage.caption | safe }}</figcaption>
       </figure>
-    </div>
 
-    <div class="bt-controls">
-
-      <fieldset class="bt-step bt-vehicles">
-        <legend class="bt-step__h">{{ pg.steps.vehicle | safe }}</legend>
-        <div class="bt-vgrid">
-{%- for id, v in b.vehicles %}
-{%- set bd = bt_body_ids[id] %}
-          <label class="bt-veh"><input type="radio" name="bt-v" value="{{ id }}"{% if id == I.vehicle %} checked{% endif %}><span class="bt-veh__box">{% if bd %}<svg class="bt-veh__svg" viewBox="56 70 704 222" aria-hidden="true" focusable="false"><use href="#btb-{{ id }}"/>{% for w in bd.wheels %}<circle cx="{{ w[0] }}" cy="{{ w[1] }}" r="{{ bd.r }}"/>{% endfor %}</svg>{% endif %}<span class="bt-veh__t">{{ v.label | safe }}</span></span></label>
-{%- endfor %}
-        </div>
-      </fieldset>
-
-      <fieldset class="bt-step bt-panels" data-bt-panels>
-        <legend class="bt-step__h">{{ pg.steps.panel | safe }}</legend>
-        <div class="bt-plist">
-{%- for p in b.panel_order %}
-          <label class="bt-prow"><input type="radio" name="bt-p" value="{{ p }}"{% if p == I.current %} checked{% endif %}><span class="bt-prow__box"><span class="bt-prow__name">{{ b.panels[p].label | safe }}</span><span class="bt-prow__val"><b class="v2-num" data-bt-pval="{{ p }}">{{ I.shade_text[p] }}</b><span class="bt-tone" data-bt-plegal="{{ p }}" data-tone="{{ I.legal[p].tone }}">{{ I.legal[p].short | safe }}</span></span></span></label>
-{%- endfor %}
-        </div>
-      </fieldset>
-
-      <div class="bt-step bt-meter" data-bt-meter data-none="{{ '1' if not I.meter.v else '0' }}" data-blocked="0">
-        <p class="bt-step__h"><span>{{ pg.steps.shade | safe }}</span> <span data-bt-mpanel>{{ b.panels[I.current].label | safe }}</span></p>
-        <div class="bt-meter__read" aria-hidden="true"><span class="v2-numeral bt-meter__num"><span data-bt-mnum>{{ I.meter.v if I.meter.v else b.text["none"] }}</span><small data-bt-mpct{% if not I.meter.v %} hidden{% endif %}>%</small></span><span class="bt-meter__unit" data-bt-mlabel>{{ pg.meter.label if I.meter.v else pg.meter.label_none }}</span></div>
-        <div class="bt-meter__bar" aria-hidden="true"><span data-bt-mbar style="transform:scaleX({{ I.meter.v / 100 }})"></span></div>
-{%- for p in b.panel_order %}
-        <fieldset class="bt-shades" data-bt-shade="{{ p }}"{% if p != I.current %} hidden{% endif %}>
-          <legend class="v2-sr">{{ pg.steps.shade | safe }} {{ b.panels[p].label | lower | safe }}</legend>
-          <div class="bt-chips">
-{%- for s in bt_shades.items %}
-{%- set off = (p == "front" and s.below_front) %}
-            <label class="bt-chip{% if not s.v %} is-none{% endif %}{% if off %} is-off{% endif %}"><input type="radio" name="bt-s-{{ p }}" value="{{ s.v }}"{% if s.v == I.shade[p] %} checked{% endif %}><span class="bt-chip__sw" style="--o:{{ s.a }}" aria-hidden="true"></span><span class="bt-chip__n v2-num">{% if s.v %}{{ s.v }}%{% else %}{{ b.text["none"] | safe }}{% endif %}</span>{% if off %}<span class="v2-sr">, {{ pg.meter.chip_offlimits | safe }}</span>{% endif %}</label>
+      <div class="bt-side stack-48">
+        <fieldset class="bt-step" data-bt-vehicles>
+          <legend class="t-h3">{{ pg.vehicle.heading | safe }}</legend>
+          <div class="bt-vgrid">
+{%- for c in C.classes %}
+{%- set bd = bt_body_ids[c.id] %}
+            <label class="bt-tile bt-veh"><input class="vh" type="radio" name="bt-v" value="{{ c.id }}"><span class="bt-tile__box">{% if bd %}<svg class="bt-veh__svg" viewBox="56 56 704 240" aria-hidden="true" focusable="false"><use href="#btb-{{ c.id }}"/>{% for wh in bd.wheels %}<circle cx="{{ wh[0] }}" cy="{{ wh[1] }}" r="{{ bd.r }}"/>{% endfor %}</svg>{% endif %}<span class="bt-tile__t">{{ c.label | safe }}</span></span></label>
 {%- endfor %}
           </div>
+          <div class="bt-model">
+            <label class="bt-model__l t-label" for="bt-model">{{ pg.vehicle.model_label | safe }}</label>
+            <input class="bt-input" id="bt-model" name="bt-model" type="text" maxlength="60" autocomplete="off" aria-describedby="bt-model-hint" data-bt-model>
+            <p class="t-label fg-2" id="bt-model-hint">{{ pg.vehicle.model_hint | safe }}</p>
+          </div>
+        </fieldset>
+
+{%- if C.presets.length %}
+        <fieldset class="bt-step" data-bt-presets>
+          <legend class="t-h3">{{ pg.presets.heading | safe }}</legend>
+          <div class="bt-plist">
+{%- for p in C.presets %}
+            <label class="bt-tile bt-preset"><input class="vh" type="radio" name="bt-preset" value="{{ p.id }}"><span class="bt-tile__box"><span class="bt-tile__t">{{ p.label | safe }}</span>{% if p.description %}<span class="bt-tile__d t-label fg-2">{{ p.description | safe }}</span>{% endif %}{% if p.draft %}<span class="bt-draft t-label">{{ pg.result.draft_tag | safe }}</span>{% endif %}</span></label>
+{%- endfor %}
+          </div>
+{%- if bt_examples.length %}
+          <div class="bt-examples">
+            <p class="t-label fg-2">{{ pg.presets.examples_heading | safe }}</p>
+            <ul class="list-plain bt-examples__list">
+{%- for ex in bt_examples %}
+              <li><button type="button" class="bt-link" data-bt-example data-vehicle="{{ ex.vehicle }}" data-preset="{{ ex.preset }}">{{ ex.label | safe }}</button>{% if ex.price.show %} <span class="t-label fg-2 tnum">{{ ex.price.display | safe }}</span>{% if ex.price.draft %} <span class="bt-draft t-label">{{ pg.result.draft_tag | safe }}</span>{% endif %}{% endif %}</li>
+{%- endfor %}
+            </ul>
+          </div>
+{%- endif %}
+        </fieldset>
+{%- endif %}
+      </div>
+
+      <div class="bt-tune" data-bt-tune>
+        <h2 class="t-h3">{% if C.presets.length %}{{ pg.windows.heading_with_presets | safe }}{% else %}{{ pg.windows.heading_without_presets | safe }}{% endif %}</h2>
+        <p class="t-body fg-2">{{ pg.windows.intro | safe }}</p>
+{%- for w in C.windows %}
+        <fieldset class="bt-wrow" data-bt-window="{{ w.id }}">
+          <legend class="bt-wrow__h"><span class="bt-wrow__name">{{ w.label | safe }}</span> <span class="bt-wrow__val t-label fg-2" data-bt-wval>{{ pg.windows.no_film | safe }}</span></legend>
+          <div class="bt-scale">
+            <label class="bt-pane bt-pane--none"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="0" checked><span class="bt-pane__glass" aria-hidden="true"></span><span class="bt-pane__t t-label">{{ pg.windows.no_film | safe }}</span></label>
+{%- for s in C.shades[w.id] %}
+            <label class="bt-pane"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="{{ s.v }}"><span class="bt-pane__glass" style="--a:{{ s.a }}" aria-hidden="true"></span>{% if s.num %}<span class="bt-pane__t t-label tnum">{{ s.name }}</span>{% else %}<span class="vh">{{ s.name | safe }}</span>{% endif %}</label>
+{%- endfor %}
+          </div>
+          <p class="bt-scale__ends t-label fg-2" aria-hidden="true"><span>{{ pg.windows.lighter | safe }}</span><span>{{ pg.windows.darker | safe }}</span></p>
+          <p class="bt-wrow__legal t-label fg-2">{{ w.legal | safe }}</p>
         </fieldset>
 {%- endfor %}
-        <p class="bt-legal"><span class="bt-tone" data-bt-mlegal data-tone="{{ I.meter.legal.tone }}">{{ I.meter.legal.short | safe }}</span> <span class="bt-legal__long" data-bt-note data-tone="{{ I.meter.legal.tone }}">{{ I.meter.legal.long | safe }}</span></p>
-        <p class="v2-small">{% if bt_shades.example and bt_shades.label %}{{ bt_shades.label | safe }}. {% endif %}{{ pg.figure.note | safe }}</p>
+{%- if not C.shades.rear[0].num %}
+        <p class="t-label fg-2">{{ pricing.example_shades.label | safe }}. {{ pg.stage.note | safe }}</p>
+{%- else %}
+        <p class="t-label fg-2">{{ pg.stage.note | safe }}</p>
+{%- endif %}
       </div>
 
-      <div class="bt-result" data-gold-zone>
-        <h2 class="bt-result__h">{{ pg.result.heading | safe }}</h2>
-        <div class="bt-result__price">
-          <span class="bt-k">{{ pg.result.price_label | safe }}</span>
-          <span class="bt-result__fig"><strong class="v2-numeral bt-price" data-bt-price>{{ I.price.display | safe }}</strong><span class="v2-draft" data-bt-draft{% if not I.price.draft %} hidden{% endif %}>{{ pg.result.draft_tag | safe }}</span></span>
-          <span class="v2-small" data-bt-pricenote{% if not I.price.show %} hidden{% endif %}>{{ pg.result.price_note | safe }}</span>
-          <span class="bt-blocked" data-bt-blocked hidden></span>
+      <div class="bt-result" data-bt-result aria-labelledby="bt-result-h">
+        <h2 class="t-h2" id="bt-result-h">{{ pg.result.heading | safe }}</h2>
+        <dl class="bt-total">
+          <div class="bt-total__row">
+            <dt class="t-body">{{ pg.result.total_label | safe }}</dt>
+            <dd><span class="t-price tnum" data-bt-total>{{ C.text.empty | safe }}</span>{% if C.mode == "preview" %}<span class="bt-draft t-label" data-bt-draft hidden>{{ pg.result.draft_tag | safe }}</span>{% endif %}</dd>
+          </div>
+        </dl>
+        <p class="t-label fg-2" data-bt-pricenote hidden>{{ pg.result.price_note | safe }}</p>
+        <p class="t-label fg-2" data-bt-fallbacknote hidden>{{ pg.result.fallback_note | safe }}</p>
+        <p class="t-body bt-summary" data-bt-summary hidden></p>
+        <p class="t-label"><span class="fg-2">{{ pg.result.code_label | safe }}</span> <code class="tnum bt-code" data-bt-code>{{ pg.result.code_empty | safe }}</code></p>
+        <p class="t-label fg-2">{{ pg.result.code_hint | safe }}</p>
+        <div data-bt-parts-wrap hidden>
+          <p class="t-label fg-2">{{ pg.result.parts_label | safe }}</p>
+          <dl class="bt-parts" data-bt-parts></dl>
         </div>
-        <div class="bt-result__code"><span class="bt-k">{{ pg.result.code_label | safe }}</span><code class="bt-code v2-num" data-bt-code>{{ I.code }}</code></div>
-        <p class="bt-summary" data-bt-summary>{{ I.summary | safe }}</p>
-        <div class="bt-acts" data-bt-actions data-lead="call">
-          <a class="bt-act is-primary" href="tel:{{ tel | safe }}" data-bt-call>{{ pg.result.call_label | safe }}</a>
-          <a class="bt-act" href="sms:{{ tel | safe }}" data-bt-text>{{ pg.result.text_label | safe }}</a>
-        </div>
-        <p class="v2-small bt-closed" data-bt-closed hidden>{{ pg.result.closed_hint | safe }}</p>
-        <p class="v2-small">{{ pg.result.promise | safe }} {{ pg.result.hours | safe }} {{ pg.result.warranty | safe }}</p>
-        <p class="v2-small">{{ pg.result.form_text | safe }} <a class="bt-quiet" href="{{ pg.result.form_href | safe }}">{{ pg.result.form_link | safe }}</a></p>
-        <p class="v2-sr" data-bt-live aria-live="polite" role="status"></p>
-      </div>
+        <p class="t-body bt-fvp" data-bt-fvp hidden></p>
 
+        <fieldset class="bt-extras" data-bt-addons hidden>
+          <legend class="t-label bt-extras__h">{{ pg.result.addons_heading | safe }}</legend>
+          <div data-bt-addon-list></div>
+        </fieldset>
+        <fieldset class="bt-extras" data-bt-ask>
+          <legend class="t-label bt-extras__h">{{ pg.result.ask_heading | safe }}</legend>
+          <div data-bt-ask-dyn></div>
+{%- for a in C.also_ask %}
+          <label class="bt-check"><input type="checkbox" name="bt-ask" value="{{ a.id }}"><span class="bt-check__box" aria-hidden="true"></span><span class="bt-check__t"><span>{{ a.label | safe }}</span> <span class="fg-2">({{ pg.result.ask_price | safe }}){% if a.benefit %}: {{ a.benefit | safe }}{% endif %}</span></span></label>
+{%- endfor %}
+          <p class="t-label fg-2">{{ pg.result.ask_note | safe }}</p>
+        </fieldset>
+        <ul class="list-plain bt-legal t-label fg-2" data-bt-legal></ul>
+
+        <div class="bt-acts" data-bt-actions>
+          {#- The WS2 action macro renders every booking control here by the hours (Call with this
+              build / Text this build / Request a time); builder.js hands it the code through the
+              bc:build event, and it links Request a time to /book?s=car&b=<code>. -#}
+          <div class="bt-acts__primary" data-bt-primary>{{ action({ slot: "builder", service: "car", build: true }) }}</div>
+        </div>
+        <p class="t-label fg-2">{{ pg.result.request_note | safe }} {{ pg.result.warranty | safe }}</p>
+        <p class="vh" data-bt-live aria-live="polite" role="status"></p>
+      </div>
     </div>
+
+    <p class="bt-foot t-label fg-2">{{ pg.legal_footer | safe }}</p>
   </div>
 
   <noscript>
-    <div class="v2-wrap bt-nojs">
-      <h2 class="v2-h3">{{ pg.noscript.heading | safe }}</h2>
-      <p class="v2-body">{{ pg.noscript.intro | safe }}</p>
+    <div class="wrap bt-nojs stack-24">
+      <h2 class="t-h3">{{ pg.noscript.heading | safe }}</h2>
+      <p class="t-body">{{ pg.noscript.intro | safe }}</p>
       <table class="bt-table">
         <thead><tr><th scope="col">{{ pg.noscript.columns[0] | safe }}</th><th scope="col">{{ pg.noscript.columns[1] | safe }}</th></tr></thead>
         <tbody>
-          <tr><th scope="row">{{ b.panels.front.label | safe }}</th><td>{{ b.legal.front_ok.long | safe }} {{ b.legal.front_blocked.long | safe }}</td></tr>
-          <tr><th scope="row">{{ b.panels.rear.label | safe }}, {{ b.panels.back.label | lower | safe }}</th><td>{{ b.legal.rear.long | safe }}</td></tr>
-          <tr><th scope="row">{{ b.panels.strip.label | safe }}</th><td>{{ b.legal.strip.long | safe }}</td></tr>
-        </tbody>
-      </table>
-      <h2 class="v2-h3">{{ pg.noscript.prices_heading | safe }}</h2>
-      <table class="bt-table">
-        <thead><tr><th scope="col">{{ pg.noscript.prices_columns[0] | safe }}</th>{% for c in bt_noscript.classes %}<th scope="col">{{ c.label | safe }}</th>{% endfor %}</tr></thead>
-        <tbody>
-{%- for r in bt_noscript.rows %}
-          <tr><th scope="row">{{ r.label | safe }}</th>{% for q in r.cells %}<td class="v2-num">{{ q.display | safe }}{% if q.draft %} <span class="v2-draft">{{ pg.result.draft_tag | safe }}</span>{% endif %}</td>{% endfor %}</tr>
+{%- for r in bt_noscript %}
+          <tr><th scope="row">{{ r.label | safe }}</th><td>{{ r.legal | safe }}</td></tr>
 {%- endfor %}
         </tbody>
       </table>
-      <p class="v2-small">{{ pg.result.promise | safe }} {{ pg.result.hours | safe }}</p>
-      <p class="bt-acts"><a class="bt-act is-primary" href="tel:{{ tel | safe }}">{{ pages.shared.v2.call | safe }} {{ site.phone.display_call | safe }}</a><a class="bt-act" href="sms:{{ tel | safe }}">{{ pg.result.text_label | safe }}</a></p>
+      <p class="t-body"><a href="/prices">{{ pg.noscript.prices_link | safe }}</a></p>
+      <div class="bt-acts">{{ action({ slot: "builder", service: "car" }) }}</div>
+      <p class="t-label fg-2">{{ pg.legal_footer | safe }}</p>
     </div>
   </noscript>
 
-  <script type="application/json" data-bt-config>{{ b | jsonld | replace("<", "\\u003c") | safe }}</script>
-  <script type="application/json" data-bt-pricing>{{ bt_pricing | jsonld | replace("<", "\\u003c") | safe }}</script>
-</section>
-
-<section class="v2-section v2-band" aria-labelledby="bt-how">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <h2 class="v2-h2" id="bt-how">{{ pg.how_it_works.heading | safe }}</h2>
-    <ol class="v2-steps">
-{%- for it in pg.how_it_works.items %}
-      <li><span class="v2-numeral v2-steps__n" aria-hidden="true">{{ loop.index }}</span><span class="v2-steps__t">{{ it.title | safe }}</span><span class="v2-steps__s">{{ it.text | safe }}</span></li>
-{%- endfor %}
-    </ol>
-    <p class="v2-small">{{ pg.legal_footer | safe }}</p>
-  </div>
+  <script type="application/json" data-bt-config>{{ C | jsonld | replace("<", "\\u003c") | safe }}</script>
 </section>

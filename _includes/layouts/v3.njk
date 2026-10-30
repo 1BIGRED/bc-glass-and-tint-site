@@ -25,16 +25,20 @@
                         with image and sizes; storefront mode adds the image preload here
       bundles           page bundles to add, e.g. ["builder"] (assets/v3/css/builder/, js/builder/)
       schema_ld         JSON-LD object built in the page's .11tydata.js (lib/schema.js)
-    Globals kept from v2: noindex (BC_NOINDEX=1: robots noindex and analytics stubbed by
-    head/ga4.njk and head/clarity.njk), price_mode (printed on <html data-price-mode>),
-    assetsHash (the hashed bundle paths, .eleventy.js). -#}
+    Globals (WS1, lib/platform.js): noindex (BC_NOINDEX=1, or a Netlify CONTEXT that is set and is
+    not production; prints exactly one robots meta, noindex, nofollow), analytics (true only in a
+    production build; head/ga4.njk and head/clarity.njk are stubbed otherwise), buildEnv (the whole
+    answer), price_mode (printed on <html data-price-mode>), assetsHash (the hashed bundle paths,
+    .eleventy.js). A page with robots_noindex is noindex, sends no analytics and prints no
+    canonical tag. -#}
 {%- from "v3/media.njk" import preload -%}
 {%- set noindex = noindex or robots_noindex -%}
 {%- set fr = frame[slug] or {} -%}
 {%- set m = (pages[page_key].meta if (page_key and pages[page_key] and pages[page_key].meta) else {}) -%}
 {%- set metaTitle = m.title or meta_title or site.name_html -%}
 {%- set metaDesc = m.description or meta_description or "" -%}
-{%- set url = site.url if slug == "index" else site.origin + "/" + (slug or "") -%}
+{#- canonical path: the same function the sitemap uses (lib/filters.js canonicalPath), so the two cannot disagree -#}
+{%- set url = site.origin + (page.url | canonicalPath) -%}
 {%- set heroMode = "storefront" if (hero and hero.mode == "storefront" and hero.image) else "ramp" -%}
 {%- set moodName = "warm" if (theme == "warm" or mood == "warm") else "dark" -%}
 <!DOCTYPE html>
@@ -42,6 +46,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0B0C">
 <title>{{ metaTitle | fill | safe }}</title>
 {% include "head/ga4.njk" %}
 <link rel="preload" href="/assets/v3/fonts/barlow-condensed-v5.3.0-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -54,7 +59,8 @@
 {% endif %}{% endfor %}<meta name="robots" content="{% if noindex %}noindex, nofollow{% else %}index, follow{% endif %}">
 {% if fr.gsv %}<meta name="google-site-verification" content="{{ site.google_site_verification | safe }}" />
 {% endif %}{% if metaDesc %}<meta name="description" content="{{ metaDesc | fill | safe }}">
-{% endif %}<link rel="canonical" href="{{ url | safe }}">
+{% endif %}{% if not robots_noindex %}<link rel="canonical" href="{{ url | safe }}">
+{% endif %}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{% if fr.og_site_name_raw %}{{ site.name | safe }}{% else %}{{ site.name_html | safe }}{% endif %}">
 <meta property="og:locale" content="en_US">
@@ -82,7 +88,7 @@
 </main>
 {% include "v3/footer.njk" %}
 {% include "v3/sticky-bar.njk" %}
-{% include "cookie-bar.njk" %}
+{% include "v3/cookie-bar.njk" %}
 {%- set statusLabels = (pages.shared.v3.status if (pages.shared.v3 and pages.shared.v3.status) else pages.shared.v2.status) %}
 {%- set hoursCfg = {
   "tz": site.hours.timezone or "America/Los_Angeles",
@@ -95,6 +101,5 @@
   "labels": statusLabels
 } %}
 <script type="application/json" id="bc-hours">{{ hoursCfg | jsonld | replace("<", "\\u003c") | safe }}</script>
-{% include "js/cookie.njk" %}
 </body>
 </html>

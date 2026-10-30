@@ -1,65 +1,21 @@
 {
+  "_note": "Reviews page wording, overhaul v3 (WS5). The review texts live in _data/reviews.json (featurable Google reviews only, verbatim). No count or rating in the title or meta (C15); a platform line prints only from a fresh live read (site.json reviews.google_as_of within 14 days). Yelp review text is never reproduced; Yelp gets a plain link only, no logo, no stars (decisions-and-rules). Legacy v1 and v2 keys removed 2026-10-29.",
   "meta": {
-    "title": "Reviews - {google_rating} Stars, {google_count} Google Reviews | BC Glass &amp; Tint",
-    "description": "Read {google_count} five-star Google reviews for BC Glass and Tint in Boulder City, NV. Family-owned window tinting and auto glass since 1994.",
-    "image_alt": "BC Glass and Tint branded box truck in the Boulder City parade"
+    "title": "Reviews | BC Glass &amp; Tint, Boulder City, NV",
+    "description": "Read what customers say about BC Glass &amp; Tint in Boulder City, NV: verbatim Google reviews, plus links to read every review at the source.",
+    "image_alt": "BC Glass and Tint logo"
   },
-  "hero": {
-    "sub": "{google_count} Google reviews and a {google_rating} star average across Southern Nevada."
-  },
-  "ratings": {
-    "heading": "Read them <span>at the source</span>",
-    "sub": "Customers review us in a few places. Each platform counts and hosts its own reviews.",
-    "note": "Every rating is counted and hosted by that platform, not by us. Each link opens the reviews at the source.",
-    "google": {
-      "label": "on Google",
-      "score": "{google_rating}",
-      "count": "{google_count} reviews",
-      "cta": "Read them on Google"
-    },
-    "yelp": {
-      "cta": "Read them on Yelp"
-    },
-    "tintwiz": {
-      "cta": "Read them on Tint Wiz"
-    }
-  },
-  "google_block": {
-    "count_label": "({google_count} reviews)",
-    "score": "{google_rating}",
-    "items": [
-      { "quote": "Amazing prices and attention to detail. 100% worth the drive from Vegas. Will definitely be back.", "name": "Payne Fordham" },
-      { "quote": "Fast, friendly and did an amazing job. I've had multiple vehicles tinted here and will never go anywhere else.", "name": "Kristie Bergman" },
-      { "quote": "Best price I could find anywhere in the valley. Quality work done fast and the staff were super helpful.", "name": "Dennis Wolcott" },
-      { "quote": "Great customer service, fast, and efficient! They offered the most affordable price for my particular service!", "name": "Ashley Watson" },
-      { "quote": "We had our windshield replaced. Customer service was great and they had the best price! And they vacuumed my car! A+++ Highly recommend!", "name": "Andrea Whitmeyer" },
-      { "quote": "Top notch service and fair pricing. These guys know what they're doing. Been coming here for years and will keep coming back.", "name": "John S." },
-      { "quote": "Great prices and amazing work. Would highly recommend to anyone looking for window tinting in Boulder City.", "name": "Steven Hamberg" },
-      { "quote": "Excellent service and very reasonable prices. My car looks great and I couldn't be happier!", "name": "Jessica Harrison" },
-      { "quote": "Great prices, speed, and quality. Highly recommend BC Glass &amp; Tint to anyone in the area.", "name": "Carol Broadbent" }
-    ],
-    "all_link": "Read all {google_count} reviews on Google"
-  },
-  "yelp_block": {
-    "link_text": "Read our reviews on Yelp",
-    "tintwiz_link_text": "Read our reviews on Tint Wiz"
-  },
-  "v2": {
+  "v3": {
     "eyebrow": "Reviews",
-    "leave_link": "Leave us a Google review",
-    "list_heading": "In their words",
-    "list_label": "Google review",
-    "other_heading": "More places to read about us",
-    "contact": {
-      "heading": "Talk to a person.",
-      "closed_prefix": "Closed"
-    }
+    "h1": "In their words.",
+    "lede": "Selected reviews, copied word for word from Google. Read every review at the source.",
+    "google_link": "Read all reviews on Google",
+    "other_h2": "More places to read about us.",
+    "other": [
+      { "label": "Reviews on Yelp", "key": "yelp" },
+      { "label": "Reviews on Tint Wiz", "key": "tintwiz" }
+    ],
+    "leave": "Leave us a Google review"
   },
-  "quote": {
-    "source": "Reviews",
-    "details_placeholder": "Vehicle, rooms or details (optional) - no medical, insurance or license numbers"
-  },
-  "schema": {
-    "date_modified": "2026-10-29"
-  }
+  "schema": { "date_modified": "2026-10-29" }
 }

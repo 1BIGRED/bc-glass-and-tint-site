@@ -1,14 +1,10 @@
 ---
-# Service page, v2 look. All wording is in _data/pages/windshield.json; this file only holds the
-# page's structure. Layout: _includes/layouts/service-v2.njk. JSON-LD: windshield.11tydata.js.
-# No real replacement photo exists (replacement is subcontracted), so the hero is type only; the
-# page leads with chip repair (pg.lead, real chip photo). The story heading keeps id "replacement"
-# because the hero chooser links to #replacement.
-layout: layouts/service-v2.njk
+# Windshield chip repair and replacement, arranged (never the labour). Keeps id "replacement".
+# Overhaul v3 (WS5). Template: layouts/service-v3.njk (blueprint 4.1). Wording and blocks:
+# _data/pages/windshield.json v3. JSON-LD: windshield.11tydata.js (FAQPage from the same items shown).
+layout: layouts/service-v3.njk
 permalink: windshield.html
 slug: windshield
 page_key: windshield
-og_image: images/hero.jpg
-content_heading_id: replacement
-schema_order: business-first
+bundles: ["service"]
 ---

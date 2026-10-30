@@ -1,0 +1,58 @@
+---
+layout: layouts/v3.njk
+---
+{#- City page template, overhaul v3 (WS5): /henderson and /las-vegas (blueprint 4.2, art direction 3.3).
+      1 hero: H1 names the city and what out-of-town buyers come for (residential film and windshield
+        chip repair lead, decisions-and-rules Markets); the storefront crop as "where you are driving to"
+      2 getting to the shop: address and map, hours, "Vehicles come to the shop. For homes we come to
+        you."; the drive time renders only once the owner approves it (data drive_time.approved)
+      3 three lanes in the homepage pattern with the same price rows: home first, then windshield,
+        then car (compact)
+      4 proof: verbatim Google reviews only, under "What Our Customers Say" (kept on city pages)
+      5 FAQ (visible items = FAQPage items) and the booking block pre-set to the city
+    Data: pages[page_key].v3. Bundles: ["home", "service"]. -#}
+{%- import "v3-service/blocks.njk" as b with context -%}
+{%- from "v3/hero.njk" import pageHero with context -%}
+{%- set pg = pages[page_key] -%}
+{%- set V = pg.v3 -%}
+{%- set dt = pg.drive_time if (pg.drive_time and pg.drive_time.approved) else null -%}
+
+{{ pageHero({ eyebrow: V.eyebrow, h1: V.h1, lede: V.lede, service: "any", photo: V.hero_photo, proof: V.proof, ground: "bg-ink-0" }) }}
+
+<section class="ws5-getting-sec section--minor bg-ink-1" aria-labelledby="get-h">
+  <div class="wrap">
+    {{ b.head(V.getting.eyebrow, V.getting.h2, "get-h") }}
+    <div class="ws5-getting">
+      <div class="ws5-getting__i">
+        <h3 class="t-h3">{{ V.getting.where | safe }}</h3>
+        <p>{{ site.address.display | safe }}</p>
+        <p><a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ pages.sections.talk.map_link | safe }}</a></p>
+      </div>
+      <div class="ws5-getting__i">
+        <h3 class="t-h3">{{ V.getting.when | safe }}</h3>
+        <p>{{ pages.sections.talk.hours | safe }}</p>
+        {%- if dt %}<p class="fg-2">{{ dt.line | safe }}</p>{% endif %}
+      </div>
+      <div class="ws5-getting__i">
+        <h3 class="t-h3">{{ V.getting.how | safe }}</h3>
+        <p>{{ pages.sections.talk.where | safe }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ b.homeLane({ uid: "home", compact: true }) }}
+
+{{ b.chipLane({ uid: "ws", compact: true, ground: "bg-ink-0" }) }}
+
+{{ b.carLane({ uid: "car", compact: true, ground: "bg-ink-1" }) }}
+
+{{ b.words({ h2: V.reviews_h2, ids: V.review_ids, no_shop: true }) }}
+
+{{ b.howBooking("any", { uid: "how" }) }}
+
+{%- if V.faq and V.faq.items.length %}
+{{ b.faq(V.faq.items, { uid: "faq", ground: "bg-ink-0" }) }}
+{%- endif %}
+
+{{ b.talk({ id: "quote", source: V.source, service: "any", uid: "talk", ground: "bg-ink-1" }) }}

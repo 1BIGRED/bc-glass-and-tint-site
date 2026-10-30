@@ -507,3 +507,19 @@ main:focus {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- 404 page (404.njk, WS1) ---------- */
+.v3-404 {
+  min-height: 60vh;
+  min-height: 60svh;
+}
+.v3-404__links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--sp-8) var(--gutter);
+}
+.v3-404__links a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}

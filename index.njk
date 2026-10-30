@@ -1,286 +1,39 @@
 ---
-# Homepage, v2. Creative direction "Glare to Calm" (2026-10-29):
-# 06 - Aesthetic References/website-moodboard-2026-10-29/CREATIVE-DIRECTION.md section 11.
-# Layout: _includes/layouts/v2.njk. Styles: assets/v2/v2.css. Moments: assets/v2/moments.js.
-# Wording: _data/pages/home.json (pg.v2 for the sections; pg.faq for the FAQ; pg.quote for the
-# quote form). Phone, hours, address: _data/site.json. Prices: only _data/pricing.json, through
-# the gate in index.11tydata.js (v2_prices -> resolvePrice -> lib/pricing.js priceFor): production
-# shows a number only when the entry is confirmed AND publish AND not legal_hold; preview builds
-# also show drafts with the "Draft price" tag; anything else prints the quiet "Call for a quote".
-# Reviews: picked by name from the verbatim quotes in _data/pages/reviews.json. Truck Wall strip:
-# _data/gallery.json (v2_gallery). Shade chips: pricing.json example_shades (v2_shades), labeled.
-# JSON-LD: index.11tydata.js; its FAQPage is built from the same pg.faq.items printed below.
-# Moment 5 (the Film Edge drag) is OMITTED on purpose: no tripod-locked before and after pair of
-# the same glass exists in the photo library yet (checked by eye 2026-10-29), and the doc says the
-# section is omitted, not faked, until one does.
-layout: layouts/v2.njk
+# Homepage, overhaul v3 (WS5). The routed spine of blueprint section 3:
+#   hero (H1 + router "My car / My home or office / My windshield" + status + one action + proof),
+#   Your car., Your home or office., Your windshield., In their words., How booking works.,
+#   Also done at the shop. (id="services", the /services redirect target), Before you book.,
+#   Talk to a person. (id="quote", the request form anchor).
+# Layout: layouts/v3.njk. Look: overhaul-v3/03-ART-DIRECTION-visual.md 2 and 3.1. Section macros:
+# _includes/v3-service/blocks.njk. Wording: _data/pages/home.json v3 and pages/sections.json.
+# Booking controls: the WS2 action macro only. Prices: the WS4 priceRow macro only (gate in
+# lib/pricing.js). Reviews: featurable Google reviews only (_data/reviews.json).
+# Hero mode: home.json v3.hero.media_mode, "ramp" (default) or "storefront" (index.11tydata.js).
+layout: layouts/v3.njk
 permalink: index.html
 slug: index
 page_key: home
-og_image: images/hero.jpg
-hero_preload: hero-taycan
-hero_sizes: "(max-width: 1023px) 100vw, 66vw"
-header_over: true
-lightdown: true
-extra_js: ["/assets/v2/moments.js"]
+og_image: logo.png
+bundles: ["home"]
 ---
-{%- from "v2/macros.njk" import pic, galleryPic -%}
-{%- set pg = pages.home -%}
-{%- set v = pg.v2 -%}
-{%- set tel = site.phone.tel -%}
-{%- set callText = pages.shared.v2.call + " " + site.phone.display_call -%}
-{%- set draftTag = pricing.gate.draft_tag or "Draft price" -%}
-{%- set phoneSvg -%}<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>{%- endset -%}
+{%- import "v3-service/blocks.njk" as b with context -%}
+{%- from "v3/hero.njk" import homeHero with context -%}
+{%- set H = pages.home.v3 -%}
+{%- set heroData = { eyebrow: H.hero.eyebrow, h1: H.hero.h1, sub: H.hero.sub, router_label: H.hero.router_label, proof: H.hero.proof, media: hero } -%}
+{{ homeHero(heroData, ws5_router) }}
 
-{#- 1. Moment 1, the Light-Down. The photo is the LCP and never fades; only the light layers move. -#}
-<section class="v2-hero" id="top" data-hero data-lightdown data-gold-zone>
-  <div class="v2-hero__media">
-    {{ pic(v2images[v.hero.image], v.hero.image_alt, hero_sizes or "(max-width: 1023px) 100vw, 66vw", "v2-hero__img", { eager: true, high: true }) | safe }}
-  </div>
-  <div class="ld-glare" aria-hidden="true"></div>
-  <div class="ld-scrim" aria-hidden="true"></div>
-  <div class="ld-calm" aria-hidden="true"></div>
-  <div class="v2-wrap v2-hero__in">
-    <div class="v2-hero__copy ld-copy">
-      <p class="v2-eyebrow">{{ v.hero.eyebrow | safe }}</p>
-      <h1 class="v2-h1">{{ v.hero.heading | safe }}</h1>
-      <p class="v2-lead">{{ v.hero.lede | safe }}</p>
-      <div class="v2-hero__actions">
-        <a class="v2-btn v2-btn--gold v2-gold-desk" href="tel:{{ tel | safe }}">{{ phoneSvg | safe }}<span>{{ pages.shared.v2.call | safe }} <span class="v2-num">{{ site.phone.display_call | safe }}</span></span></a>
-        <a class="v2-textlink" href="{{ v.hero.build_href | safe }}">{{ v.hero.build_link | safe }}</a>
-      </div>
-    </div>
-  </div>
-  <div class="v2-hero__foot">
-    <div class="v2-wrap"><span>{{ site.hours.display | safe }}</span><span class="v2-status" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span></div>
-  </div>
-</section>
+{{ b.carLane({ uid: "car" }) }}
 
-{#- 2. One real quote, verbatim. -#}
-{%- if v2_quote1 %}
-<section class="v2-quote1" aria-label="{{ v.quote1.label | safe }}">
-  <figure class="v2-wrap">
-    <blockquote><p>&ldquo;{{ v2_quote1.quote | safe }}&rdquo;</p></blockquote>
-    <figcaption><span>{{ v2_quote1.short | safe }}, {{ v.quote1.label | safe }}</span><a href="{{ v.quote1.href | safe }}">{{ v.quote1.link | safe }}</a></figcaption>
-  </figure>
-</section>
-{%- endif %}
+{{ b.homeLane({ uid: "home" }) }}
 
-{#- 3. Moment 2 teaser, the Light Meter. Static example chips; every chip opens the builder. -#}
-{%- set m = v.meter %}
-<section class="v2-section v2-band v2-meter" id="build" aria-labelledby="build-h">
-  <div class="v2-wrap v2-meter__grid">
-    <div class="v2-meter__intro">
-      <p class="v2-eyebrow">{{ m.eyebrow | safe }}</p>
-      <h2 class="v2-h2" id="build-h">{{ m.heading | safe }}</h2>
-      <p class="v2-body">{{ m.text | safe }}</p>
-      <a class="v2-btn v2-btn--outline" href="{{ m.href | safe }}">{{ m.cta | safe }}</a>
-    </div>
-    <div class="v2-meter__dial">
-      <div class="v2-lm__read" aria-hidden="true"><span class="v2-numeral v2-lm__num">{{ m.selected }}<small>%</small></span><span class="v2-lm__unit">{{ m.unit | safe }}</span></div>
-      <div class="v2-lm__bar" aria-hidden="true"><span style="--vlt:{{ m.selected / 100 }}"></span></div>
-      <ul class="v2-lm__chips">
-{%- for s in v2_shades.items %}
-        <li><a class="v2-shade{% if s.vlt == m.selected %} is-on{% endif %}" href="{{ m.href | safe }}" style="--o:{{ s.opacity }}" aria-label="{{ m.chip_aria | replace('{n}', s.vlt) | safe }}"{% if s.vlt == m.selected %} aria-current="true"{% endif %}><span class="v2-shade__sw" aria-hidden="true"></span><span>{{ s.vlt }}%</span></a></li>
-{%- endfor %}
-      </ul>
-      <p class="v2-lm__ends" aria-hidden="true"><span>{{ m.darkest | safe }}</span><span>{{ m.lightest | safe }}</span></p>
-      <p class="v2-legal">{{ m.legal | safe }} <span>{{ m.legal_cite | safe }}</span></p>
-      <p class="v2-small">{{ m.sim_note | safe }}{% if v2_shades.example and v2_shades.label %} {{ v2_shades.label | safe }}.{% endif %}</p>
-    </div>
-  </div>
-</section>
+{{ b.chipLane({ uid: "ws" }) }}
 
-{#- 4. Prices: three "From" cards through the price gate. -#}
-{%- set pr = v.prices %}
-{%- set shown = [] %}
-<section class="v2-section" id="prices" aria-labelledby="prices-h">
-  <div class="v2-wrap v2-stack v2-stack--lg">
-    <div class="v2-headrow">
-      <div class="v2-intro">
-        <p class="v2-eyebrow">{{ pr.eyebrow | safe }}</p>
-        <h2 class="v2-h2" id="prices-h">{{ pr.heading | safe }}</h2>
-      </div>
-      <a class="v2-textlink" href="{{ pr.href | safe }}">{{ pr.all_link | safe }}</a>
-    </div>
-    <div class="v2-pcards">
-{%- for c in pr.cards %}
-{%- set p = v2_prices[c.price] %}
-{%- set np = v2_prices[c.note_price] %}
-      <article class="v2-pc">
-        <p class="v2-pc__eb">{{ c.eyebrow | safe }}</p>
-        <h3 class="v2-h3">{{ c.title | safe }}</h3>
-        <p class="v2-pc__price">
-{%- if p %}{% set _s = shown.push(1) %}
-{%- if p.parts.num %}
-          {% if p.parts.from %}<span class="v2-pc__from">{{ pr.from_word | safe }}</span>{% endif %}<span class="v2-numeral v2-pc__num"><span class="v2-pc__cur">{{ p.parts.cur }}</span>{{ p.parts.num }}</span><a class="v2-pc__ast" href="#price-note" aria-label="See the price note">*</a>
-{%- else %}
-          <span class="v2-pc__unknown">{{ p.display | safe }}</span>
-{%- endif %}
-{%- if p.draft %}<span class="v2-draft">{{ draftTag | safe }}</span>{% endif %}
-{%- if np and c.note %}<span class="v2-pc__note">{{ c.note | replace("{price}", np.display) | safe }}</span>{% elif c.note_alone %}<span class="v2-pc__note">{{ c.note_alone | safe }}</span>{% endif %}
-{%- else %}
-          <span class="v2-pc__unknown">{{ pr.unknown | safe }}</span>
-{%- endif %}
-        </p>
-        <ul class="v2-pc__inc">
-{%- for line in c.includes %}
-          <li>{{ line | safe }}</li>
-{%- endfor %}
-        </ul>
-        <p class="v2-pc__acts">{% if c.build %}<a href="{{ pr.build_href | safe }}">{{ pr.build_link | safe }}</a>{% endif %}<a href="tel:{{ tel | safe }}">{{ pr.call_link | safe }}</a></p>
-      </article>
-{%- endfor %}
-    </div>
-    <ul class="v2-pstrip">
-{%- for s in pr.strip %}
-      <li>{{ s | safe }}</li>
-{%- endfor %}
-      <li><a href="tel:{{ tel | safe }}">{{ site.phone.display_call | safe }}</a></li>
-      <li><span class="v2-status" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span></li>
-    </ul>
-{%- if shown.length %}
-    <p class="v2-small" id="price-note">* {{ pr.footnote | safe }}</p>
-{%- endif %}
-  </div>
-</section>
+{{ b.words() }}
 
-{#- 5. Moment 4 strip, the Truck Wall: real jobs, 4:3, scroll snap. -#}
-{%- if v2_gallery.length %}
-{%- set g = v.gallery %}
-<section class="v2-section v2-band v2-wall" id="gallery" aria-labelledby="gallery-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-headrow">
-      <div class="v2-intro">
-        <p class="v2-eyebrow">{{ g.eyebrow | safe }}</p>
-        <h2 class="v2-h2" id="gallery-h">{{ g.heading | safe }}</h2>
-      </div>
-      <a class="v2-textlink" href="{{ g.href | safe }}">{{ g.link | safe }}</a>
-    </div>
-    <p class="v2-small">{{ g.honest | safe }}</p>
-  </div>
-  <ul class="v2-wall__strip" role="list" tabindex="0" aria-label="{{ g.strip_label | safe }}">
-{%- for it in v2_gallery %}
-    <li class="v2-wtile">
-      <figure>
-        <div class="v2-wtile__ph"><img src="{{ it.src640 }}" srcset="{{ it.src640 }} {{ it.w640 }}w, {{ it.src1280 }} {{ it.w }}w" sizes="(max-width: 767px) 76vw, (max-width: 1407px) 27vw, 380px" width="{{ it.w }}" height="{{ it.h }}" alt="{{ it.alt | safe }}" loading="lazy" decoding="async"></div>
-        <figcaption class="v2-wtile__cap">
-          <span class="v2-wtile__v">{{ it.title | safe }}</span>
-          <span class="v2-wtile__tags"><span class="v2-tag">{{ g.service_tag | safe }}</span>{% for pnl in it.panels %}{% if v2_panel_labels[pnl] %}<span class="v2-tag">{{ v2_panel_labels[pnl] | safe }}</span>{% endif %}{% endfor %}{% if it.shade %}<span class="v2-tag">{{ it.shade }}%</span>{% endif %}{% if it.city %}<span class="v2-tag">{{ it.city | safe }}</span>{% endif %}</span>
-        </figcaption>
-      </figure>
-    </li>
-{%- endfor %}
-  </ul>
-</section>
-{%- endif %}
+{{ b.howBooking("any", { uid: "how" }) }}
 
-{#- 6. Three services: auto (dark), home and office (cream preview), blinds (cream, type-led). -#}
-{%- set sv = v.services %}
-<section class="v2-section" id="services" aria-labelledby="services-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-intro">
-      <p class="v2-eyebrow">{{ sv.eyebrow | safe }}</p>
-      <h2 class="v2-h2" id="services-h">{{ sv.heading | safe }}</h2>
-    </div>
-    <div class="v2-svc">
-{%- for t in sv.tiles %}
-      <a class="v2-svct{% if t.cream %} v2-svct--cream{% endif %}" href="{{ t.href | safe }}">
-        <div class="v2-svct__ph{% if t.slats %} v2-svct__ph--slats{% endif %}">
-{%- if t.image and v2images[t.image] %}{{ pic(v2images[t.image], "", "(max-width: 767px) 38vw, (max-width: 1407px) 31vw, 420px", "") | safe }}
-{%- elif t.gallery_id and v2_gallery_by_id[t.gallery_id] %}{{ galleryPic(v2_gallery_by_id[t.gallery_id], "(max-width: 767px) 38vw, (max-width: 1407px) 31vw, 420px", "", "") | safe }}
-{%- elif t.slats %}<span aria-hidden="true">{{ t.slats | safe }}</span>{% endif %}
-        </div>
-        <div class="v2-svct__body">
-          <h3 class="v2-h3">{{ t.title | safe }}</h3>
-          <p class="v2-svct__s">{{ t.text | safe }}</p>
-          <span class="v2-svct__go" aria-hidden="true">{{ t.link | safe }}</span>
-        </div>
-      </a>
-{%- endfor %}
-    </div>
-    <div class="v2-svcrow">
-      <p><strong>{{ sv.chip_row.title | safe }}</strong> {{ sv.chip_row.text | safe }}</p>
-      <a href="{{ sv.chip_row.href | safe }}">{{ sv.chip_row.link | safe }}</a>
-    </div>
-    <p class="v2-svcmore"><span class="v2-sr">{{ sv.more_label | safe }}:</span>{% for c in sv.more %}<a href="{{ c.href | safe }}"{% if c.external %} rel="noopener"{% endif %}>{{ c.label | safe }}</a>{% endfor %}</p>
-  </div>
-</section>
+{{ b.alsoDone({ id: "services" }) }}
 
-{#- 8. Reviews, verbatim, hairline row. (7, the Film Edge, is omitted: see the front matter.) -#}
-{%- if v2_reviews.length %}
-<section class="v2-section v2-band" aria-labelledby="reviews-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-headrow">
-      <div class="v2-intro">
-        <p class="v2-eyebrow">{{ v.reviews.eyebrow | safe }}</p>
-        <h2 class="v2-h2" id="reviews-h">{{ v.reviews.heading | safe }}</h2>
-      </div>
-      <a class="v2-textlink" href="{{ v.reviews.href | safe }}">{{ v.reviews.link | safe }}</a>
-    </div>
-    <div class="v2-quotes">
-{%- for r in v2_reviews %}
-      <blockquote class="v2-quote"><p>&ldquo;{{ r.quote | safe }}&rdquo;</p><footer>{{ r.short | safe }}, {{ v.reviews.label | safe }}</footer></blockquote>
-{%- endfor %}
-    </div>
-  </div>
-</section>
-{%- endif %}
+{{ b.faq(H.faq.items, { uid: "faq", ground: "bg-ink-1" }) }}
 
-{#- 9. What happens when you call. -#}
-<section class="v2-section" aria-labelledby="how-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-intro">
-      <p class="v2-eyebrow">{{ v.how.eyebrow | safe }}</p>
-      <h2 class="v2-h2" id="how-h">{{ v.how.heading | safe }}</h2>
-    </div>
-    <ol class="v2-steps">
-{%- for s in v.how.steps %}
-      <li><span class="v2-numeral v2-steps__n" aria-hidden="true">{{ loop.index }}</span><span class="v2-steps__t"><span class="v2-sr">{{ loop.index }}. </span>{{ s.title | safe }}</span><span class="v2-steps__s">{{ s.text | safe }}</span></li>
-{%- endfor %}
-    </ol>
-  </div>
-</section>
-
-{#- 10. FAQ: the same pg.faq.items feed the FAQPage JSON-LD (index.11tydata.js). -#}
-<section class="v2-section v2-band" id="faq" aria-labelledby="faq-h">
-  <div class="v2-wrap v2-faq">
-    <div class="v2-intro">
-      <p class="v2-eyebrow">{{ v.faq.eyebrow | safe }}</p>
-      <h2 class="v2-h2" id="faq-h">{{ v.faq.heading | safe }}</h2>
-      <p class="v2-small"><a href="/qa">{{ pg.faq.more_link | safe }}</a></p>
-    </div>
-    <div class="v2-faq__list">
-{%- for f in pg.faq.items %}
-      <details class="v2-faq__item">
-        <summary><h3 class="v2-faq__q">{{ f.question | safe }}</h3><span class="v2-faq__plus" aria-hidden="true"></span></summary>
-        <div class="v2-faq__a"><p>{{ f.answer | safe }}</p></div>
-      </details>
-{%- endfor %}
-    </div>
-  </div>
-</section>
-
-{#- 11. Final call, "Dusk": talk to a person, then the existing quote form behind
-    "Rather have us call you?" (open when the address ends in #quote; moments.js). -#}
-{%- set week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] %}
-{%- set closedDays = [] %}
-{%- for d in week %}{% if not (d in site.hours.days) %}{% set _n = closedDays.push(d) %}{% endif %}{% endfor %}
-<section class="v2-section v2-dusk" id="contact" aria-labelledby="contact-h">
-  <div class="v2-wrap v2-dusk__grid">
-    <div class="v2-dusk__talk" data-gold-zone>
-      <p class="v2-eyebrow">{{ v.contact.eyebrow | safe }}</p>
-      <h2 class="v2-h2" id="contact-h">{{ v.contact.heading | safe }}</h2>
-      <a class="v2-numeral v2-dusk__num" href="tel:{{ tel | safe }}">{{ site.phone.display_call | safe }}</a>
-      <a class="v2-btn v2-btn--gold v2-gold-desk" href="tel:{{ tel | safe }}">{{ phoneSvg | safe }}<span>{{ callText | safe }}</span></a>
-      <span class="v2-status v2-status--lg" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span>
-    </div>
-    <div class="v2-dusk__aside">
-      <p class="v2-dusk__facts">{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}.{% if closedDays.length %} {{ v.contact.closed_prefix | safe }} {{ closedDays | join(" and ") }}.{% endif %}</p>
-      <details class="v2-callback" id="callback">
-        <summary><span>{{ v.contact.callback_link | safe }}</span><span class="v2-faq__plus" aria-hidden="true"></span></summary>
-{% include "quote.njk" %}
-      </details>
-    </div>
-  </div>
-</section>
+{{ b.talk({ id: "quote", source: "Homepage", uid: "talk" }) }}

@@ -1,6 +1,49 @@
+# Netlify build and headers for bcglassandtint.com (overhaul v3, WS1 Platform; engineering 3.7).
+#
+# Staging (BC_NOINDEX=1) and every non-production Netlify context also get a generated _headers
+# file with X-Robots-Tag: noindex (.eleventy.js). The headers below apply everywhere.
+#
+# Content-Security-Policy is REPORT-ONLY for the first 14 days after launch. There is no report
+# endpoint; the check is the browser console on every page template, consent accepted and declined.
+# Switch to an enforcing Content-Security-Policy only after a clean console. No HSTS preload.
+
 [build]
   command = "npm run build"
   publish = "_site"
 
 [build.environment]
   NODE_VERSION = "22"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=(), payment=(), usb=()"
+    X-Frame-Options = "DENY"
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.clarity.ms https://*.g.doubleclick.net https://www.google.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+
+# The CMS at /admin/ loads Sveltia from unpkg.com and talks to GitHub.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; connect-src 'self' https://api.github.com https://github.com https://*.githubusercontent.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://unpkg.com; font-src 'self' data: https:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+
+# Hashed bundles from the asset step in .eleventy.js (name carries a content hash): cache forever.
+[[headers]]
+  for = "/assets/h/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Self-hosted fonts (file names carry the font version).
+[[headers]]
+  for = "/assets/v3/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images: one week, then revalidate (names carry the width, not a content hash).
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"

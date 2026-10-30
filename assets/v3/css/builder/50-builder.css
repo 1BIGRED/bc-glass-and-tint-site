@@ -1,0 +1,643 @@
+/* BC Glass & Tint v3, Build Your Tint (WS4). Art direction 3.6 (the stage, B1 to B9), components
+   1.4 (tiles R-b, price rows P-a to P-d, buttons B-b and B-c, forms F-a), motion 4.3 (builder panel
+   shade 240ms ease-out, instant under reduced motion). Tokens only from 00-tokens.css. Page bundle:
+   /assets/h/builder.<hash>.css, loaded by front matter bundles: ["builder"]. */
+
+/* ---------- Top band ---------- */
+.bt-top {
+  padding-block: var(--sp-48) var(--sp-32);
+}
+.bt-crumb a { color: inherit; }
+
+/* ---------- B8: the 48px running total, pinned directly under the header ---------- */
+.bt-bar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: calc(var(--z-header) - 1);
+  height: 48px;
+  background-color: var(--ink-head);
+  border-bottom: 1px solid var(--line);
+}
+.bt-bar__in {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-16);
+}
+.bt-bar__total {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-8);
+  min-width: 0;
+  white-space: nowrap;
+}
+.bt-bar__v {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 2rem; /* B8: 32px at every width */
+}
+/* Words in the total (empty, fallback) read as text, not as a giant numeral */
+.bt:not([data-kind="price"]) .bt-bar__v {
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-body);
+  line-height: var(--lh-text);
+}
+.bt-from {
+  font-family: var(--font-text);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-2);
+  vertical-align: middle;
+}
+.bt-bar__code {
+  flex: none;
+  white-space: nowrap;
+  text-align: right;
+}
+/* Phones: the code alone on the right; its label stays for screen readers */
+@media (max-width: 479px) {
+  .bt-bar__code .fg-2 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+.bt-bar__code code,
+.bt-code {
+  font-family: var(--font-text);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ---------- Draft tag (P-d), preview builds only ---------- */
+.bt-draft {
+  display: inline-block;
+  margin-left: var(--sp-8);
+  padding: 0 var(--sp-4);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  font-family: var(--font-text);
+  font-weight: 600;
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* ---------- App frame ---------- */
+.bt-app {
+  padding-block: var(--sp-32) var(--sp-64);
+}
+.bt-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-8) var(--sp-24);
+  list-style: none;
+  color: var(--text-2);
+}
+.bt-steps [aria-current="step"] {
+  color: var(--text);
+  font-weight: 600;
+}
+.bt-resume {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-12) var(--sp-24);
+  margin-top: var(--sp-24);
+  padding-block: var(--sp-16);
+  border-block: 1px solid var(--line);
+}
+.bt-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-48);
+  margin-top: var(--sp-24);
+}
+.bt-foot {
+  margin-top: var(--sp-48);
+  max-width: var(--measure);
+}
+
+/* ---------- B1, B2: the stage ---------- */
+.bt-stage__view {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-16);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: var(--ink-2);
+  /* ONE overhead light pool: ink-2 lifted at top center, falling to ink-0 at the edges */
+  background-image: radial-gradient(ellipse 70% 80% at 50% 0%, color-mix(in srgb, var(--ink-2) 90%, var(--text) 10%) 0%, var(--ink-2) 45%, var(--ink-0) 100%);
+}
+.bt-svg {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+.bt-floor {
+  fill: var(--ink-0);
+  opacity: 0.7;
+}
+.bt-line {
+  fill: none;
+  stroke: var(--text-2);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.bt-line--seam {
+  stroke-opacity: 0.45;
+}
+.bt-win {
+  cursor: pointer;
+}
+.bt-win__glass {
+  fill: var(--glare);
+}
+/* LR-a: ink-0 at alpha 1 - (VLT/100)^(1/2.2) over the glare "outside" */
+.bt-win__tint {
+  fill: var(--ink-0);
+  fill-opacity: 0;
+}
+.bt-anim .bt-win__tint {
+  transition: fill-opacity var(--dur-raise) var(--ease-out);
+}
+.bt-win__edge {
+  fill: none;
+  stroke: var(--text-2);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.bt-win.is-unset .bt-win__edge {
+  stroke-dasharray: 4 3;
+}
+/* B6: the selected window carries the 2px gold ring (the selected-shade ring rule, extended) */
+.bt-win.is-current .bt-win__edge {
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-dasharray: none;
+}
+.bt-svg.is-empty .bt-line {
+  stroke-opacity: 0.7;
+}
+.bt-cap {
+  margin-top: var(--sp-8);
+}
+
+/* ---------- Tiles (R-b): vehicle and starting point ---------- */
+.bt-step {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.bt-side > .bt-step + .bt-step {
+  margin-top: var(--sp-48);
+}
+.bt-step > legend {
+  padding: 0;
+  margin-bottom: var(--sp-16);
+}
+.bt-tile {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+.bt-tile__box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  height: 100%;
+  padding: var(--sp-12);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  color: var(--text);
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out), color var(--dur-ui) var(--ease-out);
+}
+.bt-tile:hover .bt-tile__box {
+  background-color: var(--ink-2);
+}
+.bt-tile input:focus-visible + .bt-tile__box {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+/* P-f, B4: selection inverts (text fill, ink-0 label); gold is kept for the shade ring */
+.bt-tile input:checked + .bt-tile__box {
+  background-color: var(--text);
+  border-color: var(--text);
+  color: var(--ink-0);
+}
+.bt-tile input:checked + .bt-tile__box .fg-2,
+.bt-tile input:checked + .bt-tile__box .bt-draft {
+  color: var(--ink-0);
+  border-color: var(--ink-0);
+}
+.bt-tile__box .bt-draft,
+.bt-examples__list .bt-draft {
+  align-self: flex-start;
+  margin-left: 0;
+}
+.bt-tile__t {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--tr-h3);
+  text-transform: uppercase;
+}
+.bt-vgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-8);
+}
+.bt-veh .bt-tile__box {
+  aspect-ratio: 1 / 1;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-8);
+}
+.bt-veh .bt-tile__t {
+  font-size: 1.125rem;
+}
+.bt-veh__svg {
+  width: 100%;
+  height: auto;
+}
+.bt-veh__svg use,
+.bt-veh__svg circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.bt-model {
+  margin-top: var(--sp-24);
+}
+.bt-model__l {
+  display: block;
+  margin-bottom: var(--sp-8);
+  font-weight: 600;
+  color: var(--text-2);
+}
+/* F-a */
+.bt-input {
+  display: block;
+  width: 100%;
+  height: 52px;
+  padding: 0 var(--sp-16);
+  margin-bottom: var(--sp-8);
+  background-color: var(--ink-2);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 1rem;
+}
+.bt-input:focus-visible {
+  border-color: var(--text);
+}
+.bt-plist {
+  display: grid;
+  gap: var(--sp-8);
+}
+.bt-preset .bt-tile__box {
+  min-height: 72px;
+  padding: var(--sp-16) var(--sp-24);
+  justify-content: center;
+}
+.bt-examples {
+  margin-top: var(--sp-24);
+}
+.bt-examples__list {
+  margin-top: var(--sp-8);
+}
+.bt-examples__list li {
+  min-height: 44px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-8);
+}
+
+/* ---------- B6: fine-tune, one row per window, a Light Ramp scale of panes ---------- */
+.bt-tune > * + * {
+  margin-top: var(--sp-16);
+}
+.bt-wrow {
+  margin: 0;
+  padding: var(--sp-24) 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  min-width: 0;
+}
+.bt-wrow + .bt-wrow {
+  margin-top: var(--sp-24);
+}
+/* The legend floats so it sits in the flow under the hairline instead of on it */
+.bt-wrow__h {
+  float: left;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-8) var(--sp-16);
+  padding: 0;
+  margin-bottom: var(--sp-12);
+}
+.bt-wrow__h + * {
+  clear: both;
+}
+.bt-wrow__name {
+  font-weight: 600;
+  font-size: var(--t-body);
+}
+.bt-wrow.is-current .bt-wrow__name {
+  color: var(--text);
+}
+.bt-scale {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--sp-8);
+}
+.bt-pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  cursor: pointer;
+  min-width: 0;
+}
+.bt-pane__glass {
+  position: relative;
+  display: block;
+  height: 56px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: var(--glare);
+  overflow: hidden;
+}
+.bt-pane__glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--ink-0);
+  opacity: var(--a, 0);
+}
+.bt-pane__t {
+  text-align: center;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+/* C2: the selected shade carries the gold ring; the focus ring is the same 2px gold (radio groups
+   move focus with the selection) */
+.bt-pane input:checked + .bt-pane__glass,
+.bt-pane input:focus-visible + .bt-pane__glass {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.bt-pane input:checked ~ .bt-pane__t {
+  color: var(--text);
+  font-weight: 600;
+}
+.bt-scale__ends {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--sp-8);
+}
+.bt-wrow__legal {
+  margin-top: var(--sp-8);
+  max-width: var(--measure);
+}
+
+/* ---------- B9: the result ---------- */
+.bt-result > * + * {
+  margin-top: var(--sp-16);
+}
+.bt-result > h2 + * {
+  margin-top: var(--sp-24);
+}
+.bt-total__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-8) var(--sp-16);
+  min-height: 56px;
+  padding-block: var(--sp-12);
+  border-block: 1px solid var(--line);
+}
+.bt-total dd {
+  text-align: right;
+}
+.bt:not([data-kind="price"]) .bt-total .t-price {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-body);
+  line-height: var(--lh-text);
+  color: var(--text-2);
+}
+.bt-summary {
+  max-width: var(--measure);
+}
+.bt-parts__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-16);
+  padding-block: var(--sp-8);
+  border-bottom: 1px solid var(--line);
+}
+.bt-parts__row dd {
+  margin: 0;
+  white-space: nowrap;
+}
+.bt-result > .bt-extras {
+  margin-top: var(--sp-32);
+}
+.bt-fvp {
+  max-width: var(--measure);
+}
+.bt-extras {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.bt-extras__h {
+  padding: 0;
+  margin-bottom: var(--sp-8);
+  font-weight: 600;
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.bt-check {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-12);
+  min-height: 44px;
+  padding-block: var(--sp-8);
+  cursor: pointer;
+}
+.bt-check input {
+  position: absolute;
+  opacity: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+.bt-check__box {
+  flex: none;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+}
+.bt-check input:checked + .bt-check__box {
+  background-color: var(--text);
+  border-color: var(--text);
+}
+.bt-check input:checked + .bt-check__box::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid var(--ink-0);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.bt-check input:focus-visible + .bt-check__box {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.bt-check__t {
+  padding-top: 1px;
+}
+.bt-legal li + li {
+  margin-top: var(--sp-4);
+}
+.bt-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-12);
+  margin-top: var(--sp-24);
+}
+
+/* B-b secondary button and B-c text-link button */
+.bt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 var(--sp-24);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-button);
+  line-height: var(--lh-button);
+  text-decoration: none;
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out);
+}
+.bt-btn:hover {
+  background-color: var(--ink-2);
+  border-color: var(--text);
+}
+.bt-link {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: var(--t-body);
+  text-align: left;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.bt-link:hover {
+  text-decoration-color: var(--gold);
+}
+
+/* ---------- No JavaScript ---------- */
+.bt-nojs {
+  padding-block: var(--sp-32) var(--sp-64);
+}
+.bt-table {
+  width: 100%;
+  max-width: 48rem;
+}
+.bt-table th,
+.bt-table td {
+  padding: var(--sp-12) var(--sp-16) var(--sp-12) 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+.bt-table thead th {
+  font-weight: 600;
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+/* ---------- Tablet and desktop ---------- */
+@media (min-width: 640px) {
+  .bt-top {
+    padding-block: var(--sp-64) var(--sp-32);
+  }
+  .bt-plist {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .bt-top {
+    padding-block: var(--sp-96) var(--sp-48);
+  }
+  .bt-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: var(--sp-64);
+    align-items: start;
+  }
+  .bt-stage { grid-column: 1 / span 8; grid-row: 1; }
+  .bt-side { grid-column: 9 / span 4; grid-row: 1; }
+  .bt-tune { grid-column: 1 / span 7; grid-row: 2; }
+  .bt-result { grid-column: 9 / span 4; grid-row: 2; }
+  .bt-stage__view {
+    aspect-ratio: 16 / 9;
+    padding: var(--sp-32) var(--sp-48);
+  }
+  .bt-plist {
+    grid-template-columns: 1fr;
+  }
+  .bt-btn {
+    min-height: 52px;
+  }
+}
+
+/* ---------- Reduced motion: the light change is instant (motion 4.3) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .bt-win__tint,
+  .bt-tile__box,
+  .bt-btn {
+    transition: none;
+  }
+}

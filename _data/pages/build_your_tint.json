@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Build Your Tint, See Your Shade | BC Glass &amp; Tint",
-    "description": "Pick your vehicle, tap a window and choose a shade to see it on screen, with Nevada's tint rule shown on every window. Then call or text us your build code.",
+    "description": "Pick your vehicle and windows and see each shade on screen, with Nevada's tint rule shown on every window. Your build gets a short code to share with the shop.",
     "image_alt": "Build Your Tint tool from BC Glass and Tint, Boulder City, NV"
   },
   "schema": {
@@ -10,117 +10,96 @@
   "hero": {
     "crumb": "Build Your Tint",
     "eyebrow": "BUILD YOUR TINT",
-    "heading": "Pick the windows. Pick the shade. See the price.",
-    "heading_without_prices": "Pick the windows. Pick the shade. See it on screen.",
+    "heading": "Build your tint. See the price.",
+    "heading_without_prices": "Build your tint. See it on screen.",
     "heading_rule": "Use heading when anyAutoPrice(pricing, mode) in lib/pricing.js is true; otherwise heading_without_prices.",
-    "intro": "Three taps and you have a build. Choose your vehicle, pick a window, pick a shade. Every window shows what Nevada allows, and your build gets a short code to read us when you call."
+    "intro": "Pick your vehicle and the windows you want. Every window shows what Nevada allows."
+  },
+  "steps": {
+    "label": "Steps",
+    "with_presets": ["Vehicle", "Starting point", "Fine-tune"],
+    "without_presets": ["Vehicle", "Windows and shades"]
   },
   "bar": {
     "label": "Your build so far",
-    "price_label": "Estimate",
+    "total_label": "Total",
     "code_label": "Build code"
   },
-  "steps": {
-    "vehicle": "1. Your vehicle",
-    "panel": "2. Tap a window",
-    "shade": "3. Shade for",
-    "step_of": "Step {n} of 3"
+  "vehicle": {
+    "heading": "Your vehicle",
+    "model_label": "Year, make and model (optional)",
+    "model_hint": "Goes with your request so the shop knows the vehicle. Never required."
+  },
+  "presets": {
+    "heading": "Pick a starting point",
+    "examples_heading": "Or start from an example",
+    "examples": [
+      { "label": "Car, full sides and back", "vehicle": "car", "preset": "full" },
+      { "label": "Pickup, front doors to match the back", "vehicle": "pickup", "preset": "front-match" }
+    ]
+  },
+  "windows": {
+    "heading_with_presets": "Fine-tune any window",
+    "heading_without_presets": "Pick your windows",
+    "intro": "Tap a window on the car or below, then pick a shade.",
+    "no_film": "No film",
+    "unset": "Pick a shade",
+    "lighter": "Lighter",
+    "darker": "Darker",
+    "words": { "70": "Lightest shade", "50": "Light shade", "35": "Medium shade", "20": "Dark shade", "15": "Darker shade", "5": "Darkest shade" },
+    "word_fallback": "Shade",
+    "panels": {
+      "front": { "label": "Front doors", "key": "front-doors", "legal": "Front doors stop at Nevada's line: at least 35 percent of light, with a 7 percent tolerance, nonreflective. NRS 484D.440." },
+      "rear": { "label": "Rear doors", "key": "rear-doors", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." },
+      "back": { "label": "Back glass", "key": "back-glass", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." }
+    },
+    "strip_legal": "Windshield film: the top strip only, never red or amber. NRS 484D.440."
   },
   "stage": {
-    "scene_legend": "Time of day",
-    "scenes": [
-      { "id": "noon", "label": "Noon" },
-      { "id": "dusk", "label": "Dusk" },
-      { "id": "night", "label": "Night" }
-    ],
-    "default_scene": "dusk",
-    "windshield_label": "WINDSHIELD, TOP STRIP"
-  },
-  "meter": {
-    "label": "light in",
-    "label_none": "no film on this window",
-    "chip_offlimits": "not for road use"
-  },
-  "figure": {
-    "label": "Illustration, not a photo of your vehicle.",
-    "note": "Light, interior color and factory glass change the real look. Ask to see the film on your glass at the shop.",
-    "full_windshield_note": "Full windshield film: ask us. Nevada's statute lists only a top strip as an exception.",
-    "full_windshield_note_status": "NOT RENDERED (2026-10-29 build worker): full windshield film is on legal hold until Chase rules (overhaul brief section 9 item 2), and \"ask us\" invites it. Restore only after that ruling."
+    "caption": "Illustration, not a photo of your vehicle.",
+    "note": "Light, interior color and factory glass change the real look. Ask to see the film on your glass at the shop."
   },
   "result": {
     "heading": "Your build",
-    "price_label": "Estimate for this build",
-    "price_note": "Starting price for this build. Your vehicle can move it; the exact price is confirmed by phone.",
+    "total_label": "Total",
     "draft_tag": "Draft price",
-    "code_label": "Build code, read it when you call",
-    "call_label": "Call with this build",
-    "text_label": "Text it to us",
-    "promise": "Exact price confirmed by phone, no surprises.",
-    "hours": "Open Tuesday to Saturday, 9 to 5.",
-    "closed_hint": "Closed right now. Text your build, or call during hours: Tuesday to Saturday, 9 to 5.",
+    "fallback": "Price confirmed on the call",
+    "price_note": "Starting price for this build. The exact price is confirmed before anything is booked.",
+    "fallback_note": "The shop confirms your exact price before anything is booked.",
+    "empty_presets": "Pick a starting point",
+    "empty_windows": "Pick your windows",
+    "empty_vehicle": "Pick your vehicle",
+    "code_label": "Build code",
+    "code_empty": "None yet",
+    "code_hint": "It sums up your vehicle and every window you picked, in one line.",
+    "parts_label": "What the total covers",
+    "part_labels": { "two_front_doors": "Front doors", "rear_doors_and_back_glass": "Rear doors and back glass", "full_vehicle": "Full sides and back", "windshield-strip": "Windshield top strip", "sunroof": "Sunroof" },
+    "fronts_vs_full": "Want the whole {vehicle}? Rear doors and back glass for {article} add {rear}. Full sides and back is {full}.",
+    "addons_heading": "Add if you like",
+    "ask_heading": "Also ask about",
+    "ask_price": "price on the call",
+    "ask_note": "These never change the total. They go with your build so the shop sees them.",
+    "request_note": "Nothing is booked until the shop confirms.",
     "warranty": "Lifetime manufacturer warranty on window film.",
-    "form_text": "Rather we call you?",
-    "form_link": "Send a short request",
-    "form_href": "/#quote"
+    "resume_text": "You have a build from your last visit.",
+    "resume_label": "Resume your build",
+    "start_over_label": "Start over"
+  },
+  "vehicles": {
+    "car": { "label": "Car", "article": "a car", "noun": "car" },
+    "suv": { "label": "SUV", "article": "an SUV", "noun": "SUV" },
+    "pickup": { "label": "Pickup", "article": "a pickup", "noun": "pickup" },
+    "van": { "label": "Van", "article": "a van", "noun": "van" }
+  },
+  "live": {
+    "total": "Total: {total}.",
+    "code": "Build code {code}."
   },
   "noscript": {
-    "heading": "Windows and Nevada rules",
-    "intro": "Pick a shade for each window below, then call or text us and tell us your picks.",
+    "heading": "What Nevada allows on each window",
+    "intro": "This tool needs JavaScript to draw your build. Here are the rules it shows, and the full price list is one tap away.",
     "columns": ["Window", "What Nevada allows"],
-    "prices_heading": "Starting prices by vehicle",
-    "prices_columns": ["Coverage"]
+    "prices_link": "See the price list"
   },
-  "how_it_works": {
-    "heading": "How it works",
-    "items": [
-      { "title": "Build it", "text": "Pick your vehicle, then a shade for each window. Change anything as often as you like." },
-      { "title": "Read us the code", "text": "Your build code tells us the vehicle and every shade you picked, so the call is short." },
-      { "title": "See it for real", "text": "At the shop, ask to see the film on your glass before we start." }
-    ]
-  },
-  "legal_footer": "Illustration only. Rules can change; check the current statute. This is not legal advice. NRS 484D.440.",
-  "builder": {
-    "vehicles": {
-      "car": { "label": "Car", "code": "C", "price_class": "car" },
-      "suv": { "label": "SUV", "code": "S", "price_class": "suv" },
-      "pickup": { "label": "Pickup", "code": "P", "price_class": "pickup" },
-      "van": { "label": "Van", "code": "V", "price_class": "van" }
-    },
-    "panels": {
-      "front": { "label": "Front doors", "price_key": "front-doors" },
-      "rear": { "label": "Rear doors", "price_key": "rear-doors" },
-      "back": { "label": "Back glass", "price_key": "back-glass" },
-      "strip": { "label": "Windshield top strip", "price_key": "windshield-strip" }
-    },
-    "panel_order": ["front", "rear", "back", "strip"],
-    "front_min_vlt": 35,
-    "legal": {
-      "none": { "short": "No film", "long": "No film on this window.", "tone": "muted" },
-      "front_ok": { "short": "Nevada 35% rule", "long": "Nevada requires film plus factory glass to let through at least 35% of light, with a 7% tolerance, and the film must be nonreflective. Factory glass lowers the total, so the shop checks your car. NRS 484D.440.", "tone": "ok" },
-      "front_blocked": { "short": "Not for road use", "long": "Below Nevada's front-door limit. Not available for road use.", "tone": "stop", "price_row": "Not offered" },
-      "rear": { "short": "No limit with mirrors", "long": "Nevada sets no darkness limit here if both outside mirrors show at least 200 feet behind you. NRS 484D.440.", "tone": "ok" },
-      "strip": { "short": "Top strip only", "long": "Nevada allows windshield tint on the top strip only, above a bottom-edge height the statute sets, and the strip cannot be red or amber. NRS 484D.440.", "tone": "caution" },
-      "strip_with_29_inch_figure": { "short": "Top strip only", "long": "Nevada allows windshield tint on the top strip only. The bottom edge must be at least 29 inches above the driver's seat, and the strip cannot be red or amber. NRS 484D.440.", "tone": "caution", "status": "PENDING CHASE RULING: overhaul brief section 9 item 9. The 29 inch figure is not yet in the verified list in area-profile.md, so customer copy may not use it until Chase adds it. When he does, copy this long text into strip.long above." }
-    },
-    "text": {
-      "none": "None",
-      "step_of": "Step {n} of 3",
-      "draft_tag": "Draft price",
-      "price_fallback": "Call for a quote",
-      "price_empty": "Pick a shade to start",
-      "price_from": "From ${n}",
-      "price_blocked": "Call for a quote",
-      "front_blocked_note": "Front doors darker than 35% are not offered.",
-      "summary_intro": "{vehicle}.",
-      "summary_panel": "{panel} {shade}.",
-      "summary_no_film": "{panel}: no film.",
-      "summary_blocked": "{panel} {shade}: not offered for road use.",
-      "live_change": "{panel} set to {shade}. {legal} Price: {price}.",
-      "live_vehicle": "Vehicle set to {vehicle}. Price: {price}.",
-      "live_scene": "Stage light set to {scene}.",
-      "meter_label": "light in",
-      "meter_none": "no film on this window",
-      "sms_body": "Hi BC Glass & Tint, here is my build {code}. {summary} {url}"
-    }
-  }
+  "legal_footer": "Illustration only. Rules can change; check the current statute. This is not legal advice. NRS 484D.440."
 }

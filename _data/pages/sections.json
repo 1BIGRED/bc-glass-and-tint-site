@@ -1,0 +1,205 @@
+{
+  "_note": "WS5 shared section wording for the v3 homepage, service, city and info pages (overhaul v3). Copy sources: overhaul-v3/01-BLUEPRINT-psychology.md sections 3 to 5 (draft copy), with every bracketed owner fact left out or replaced by its safe fallback; facts from decisions-and-rules.md (Identity and facts, Voice and copy). Strings are HTML source (entities allowed). No em dashes, en dashes or emojis. Booking controls are never written here: they come from the WS2 action macro and pages.shared.v3.actions.",
+
+  "photos": {
+    "_note": "Photo keys used by WS5 templates, resolved by lib/eleventy-ws5.js (global ws5photos) to WS6's _data/images.json entries (the ws6 list is tried in order). No key may resolve to stock, AI art, a customer car as a brand image, or a do-not-use file (the build stops). alts and captions are written to the photo actually shown. home-patio (patio doors 2026-07-26-1) is the BEFORE frame with no visible tint difference, so it is never used as a filmed window (WS6, 2026-10-29).",
+    "storefront-hero": { "ws6": ["storefront-hero"], "captions": { "ws6": "" } },
+    "storefront-wide": { "ws6": ["storefront-wide", "storefront-hero"], "captions": { "ws6": "The shop at 1633 Boulder City Pkwy." } },
+    "storefront-small": { "ws6": ["storefront-small", "storefront-wide"], "captions": { "ws6": "" } },
+    "chip-bridge": { "ws6": ["windshield-lane", "chip-bridge-1"], "captions": { "ws6": "Chip repair at the shop." } },
+    "chip-bridge-2": { "ws6": ["windshield-hero", "chip-bridge-2"], "captions": { "ws6": "Chip repair at the shop." } },
+    "chip-bridge-portrait": { "ws6": ["chip-repair-hero", "chip-bridge-portrait"], "captions": { "ws6": "Chip repair at the shop." } },
+    "home-lane": { "ws6": ["home-sliding-window-backyard-tree"], "captions": { "ws6": "Window film on a home's sliding window." } },
+    "home-privacy": { "ws6": ["home-privacy-film", "residential-frosted-privacy"], "alts": { "ws6": "A three-pane window covered in frosted privacy film." }, "captions": { "ws6": "Frosted privacy film." } },
+    "home-living": { "ws6": ["home-living-room", "residential-living-room-desert"], "captions": { "ws6": "Living room windows looking out to the desert." } },
+    "commercial": { "ws6": ["office-window-maroon-awning", "commercial-maroon-awning-2"], "captions": { "ws6": "Window film on a storefront window." } }
+  },
+
+  "price_fallback": {
+    "auto": "Price confirmed on the call",
+    "home": "Priced after a free in-home measure",
+    "crack": "Price after we see it",
+    "replace": "Priced for your vehicle",
+    "service": "Price confirmed on the call"
+  },
+  "draft_label": "Draft price",
+
+  "classes_label": "Vehicle type",
+
+  "car": {
+    "id": "car",
+    "eyebrow": "Car tint",
+    "h2": "Your car.",
+    "lede": "Ceramic film, computer-cut for your glass. It helps keep the cabin cooler, cuts glare, and blocks up to 99 percent of UV. Most vehicles are done the same day.",
+    "rows": [
+      { "label": "Front doors", "ref": "auto_tint.coverage.two_front_doors" },
+      { "label": "Full sides and back glass", "ref": "auto_tint.coverage.full_vehicle" },
+      { "label": "Windshield top strip", "ref": "auto_tint.panels.windshield-strip", "note": "Cuts glare at the visor line." }
+    ],
+    "arith": "Full sides and back is the front doors plus the rear doors and back glass: {front} plus {rear} is {full}.",
+    "moves": "What moves the price: the size and shape of your glass, which windows, and whether old tint has to come off first.",
+    "build_link_price": "Build your tint and see the price",
+    "build_link_plain": "Build your tint and see it on screen",
+    "build_href": "/build-your-tint",
+    "all_prices": "All prices",
+    "all_prices_href": "/prices",
+    "review": "g-kristie-bergman"
+  },
+
+  "shade": {
+    "heading": "How dark is that?",
+    "unit": "% light in",
+    "caption": "The number is how much light gets through. Nevada front side windows: at least 35 percent, with a 7 percent tolerance. NRS 484D.440.",
+    "sim": "Simulation on screen, not real film.",
+    "chip_aria": "{vlt} percent light in",
+    "front_ok": "Legal on front doors",
+    "front_no": "Rear doors and back glass only",
+    "group_aria": "Pick a shade to preview"
+  },
+
+  "home": {
+    "id": "home",
+    "eyebrow": "Home and office",
+    "h2": "Your home or office.",
+    "film": {
+      "h3": "Window film",
+      "text": "Window film keeps your view and helps cut glare and heat on sun-facing glass. It helps protect floors and furniture from UV fading.",
+      "row_label": "Home window film",
+      "ref": "services.home_film_per_window",
+      "link": "Home and office film",
+      "href": "/home-tint"
+    },
+    "blinds": {
+      "h3": "Blinds and shades",
+      "text": "Blinds and shades for light, privacy and the feel of the room. Measured at your home, motorized if you want it.",
+      "row_label": "Blinds and shades",
+      "ref": "services.blinds_from",
+      "link": "Blinds and shades",
+      "href": "/blinds"
+    },
+    "commercial_link": "Office and storefront film",
+    "commercial_href": "/commercial-film",
+    "confirm_fallback": "Nothing is booked until we confirm a time with you.",
+    "photo": "home-lane",
+    "review": "g-gregory-hill"
+  },
+
+  "chip": {
+    "id": "windshield",
+    "eyebrow": "Windshield",
+    "h2": "Your windshield.",
+    "lede": "Chip and small crack repair at our Boulder City shop. Most chips are fixed the same day. Vehicles come to the shop.",
+    "rows": [
+      { "label": "First chip", "ref": "services.chip_repair_first" },
+      { "label": "Each chip after that", "ref": "services.chip_repair_additional" },
+      { "label": "Small cracks", "ref": null, "fallback_key": "crack" }
+    ],
+    "bigger": "Too far gone to repair? We arrange a replacement with a glass specialist, glass ordered to your VIN, and help with the insurance claim.",
+    "bigger_link": "Windshield replacement, arranged",
+    "bigger_href": "/windshield",
+    "photo_line": "We look at the photo and tell you what we see. The final call is made at the shop.",
+    "while_heading": "While you are here",
+    "while": [
+      { "title": "Windshield ceramic coating", "text": "Rain and bugs come off easier." },
+      { "title": "Headlight restoration", "text": "Clearer, better-looking lenses." }
+    ],
+    "link": "Chip repair",
+    "href": "/chip-repair",
+    "photo": "chip-bridge",
+    "review": "g-dakota-gleason"
+  },
+
+  "words": {
+    "eyebrow": "Reviews",
+    "h2": "In their words.",
+    "label": "Selected reviews",
+    "platform_line": "Google: {rating} from {count} reviews, read {month}",
+    "all_link": "Read all reviews on Google",
+    "page_link": "More reviews",
+    "page_href": "/reviews",
+    "attribution": "Google review",
+    "ids": ["g-steven-hamberg", "g-sean-rush", "g-john-s"],
+    "shop_line": "1633 Boulder City Pkwy. Family owned since 1994. Licensed and insured.",
+    "shop_photo": "storefront-small"
+  },
+
+  "how": {
+    "eyebrow": "No surprises",
+    "h2": "How booking works.",
+    "steps": [
+      { "title": "Tell us what you need.", "text": "Call, text, or request a time. If you built your tint, read us the code." },
+      { "title": "Get your price.", "text": "We confirm the exact price before anything is booked." },
+      { "title": "Pick a time.", "text": "Tuesday to Saturday, 9 to 5. Most vehicles are done the same day. For homes, we come to you to measure." },
+      { "title": "See it first.", "text": "At the shop, ask to hold the film against your glass before we start." }
+    ],
+    "fear": "Tell us your vehicle and which windows, or the rooms you want done. Just questions? That's fine."
+  },
+
+  "also": {
+    "eyebrow": "More services",
+    "h2": "Also done at the shop.",
+    "items": [
+      { "title": "Clear bra", "text": "Paint protection film that takes rock chips and road debris instead of your paint.", "link": "Clear bra", "href": "/clear-bra" },
+      { "title": "Ceramic coating", "text": "A bonded coating, so water and dirt slide off the paint.", "link": "Ceramic coating", "href": "/ceramic-coating" },
+      { "title": "Headlights and taillights", "text": "Cloudy lenses restored, plus protection film and legal-depth smoke.", "link": "Headlights and taillights", "href": "/headlight-taillight" },
+      { "title": "Boat and RV tint", "text": "Window tint for boats and RVs.", "link": "Boat and RV tint", "href": "/boat-rv-tint" },
+      { "title": "Windshield replacement, arranged", "text": "We arrange it with a glass specialist: glass ordered to your VIN, with help on the insurance claim.", "link": "Windshield replacement", "href": "/windshield" },
+      { "title": "Gift cards", "text": "Gift cards, sold online. Good toward any service.", "link": "Gift cards", "href": "/gift-cards" }
+    ]
+  },
+
+  "faq": {
+    "eyebrow": "Questions",
+    "h2": "Before you book.",
+    "more_link": "All questions and answers",
+    "more_href": "/qa"
+  },
+
+  "talk": {
+    "eyebrow": "Call the shop",
+    "h2": "Talk to a person.",
+    "hours": "Tuesday to Saturday, 9 to 5. Closed Sunday and Monday.",
+    "closures_intro": "Coming up:",
+    "closed_fact": "Closed {reason}, {date}.",
+    "where": "Vehicles come to the shop. For homes and offices we come to you.",
+    "map_link": "Get directions",
+    "form_heading": "Request a time",
+    "form_note": "Rather we reach out? Leave your name and number.",
+    "photo": "storefront-wide"
+  },
+
+  "footer": {
+    "tagline": "Window tint and film for cars, homes and offices, plus windshield chip repair. Family owned since 1994.",
+    "nav_label": "Footer",
+    "main": [
+      { "label": "Car tint", "href": "/auto-tint" },
+      { "label": "Home and office", "href": "/home-tint" },
+      { "label": "Windshield", "href": "/windshield" },
+      { "label": "Prices", "href": "/prices" },
+      { "label": "Gallery", "href": "/gallery" }
+    ],
+    "more_heading": "More",
+    "more": [
+      { "label": "Build your tint", "href": "/build-your-tint" },
+      { "label": "Blinds and shades", "href": "/blinds" },
+      { "label": "Chip repair", "href": "/chip-repair" },
+      { "label": "Reviews", "href": "/reviews" },
+      { "label": "The shop", "href": "/about" },
+      { "label": "Questions and answers", "href": "/qa" },
+      { "label": "Gift cards", "href": "/gift-cards" }
+    ],
+    "areas_heading": "From out of town",
+    "areas": [
+      { "label": "Henderson", "href": "/henderson" },
+      { "label": "Las Vegas", "href": "/las-vegas" },
+      { "label": "New homes", "href": "/new-construction" },
+      { "label": "Window film and your HOA", "href": "/hoa-window-film" }
+    ],
+    "visit_heading": "Visit",
+    "privacy": "Privacy",
+    "cookies": "Cookie choices",
+    "tint_law": "Nevada tint law",
+    "tint_law_href": "/nevada-tint-law",
+    "rights": "All rights reserved."
+  }
+}

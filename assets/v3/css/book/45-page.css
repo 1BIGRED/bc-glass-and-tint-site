@@ -1,0 +1,23 @@
+/* BC Glass & Tint v3, the /book page layout (WS3). Part of the "book" bundle. Art direction 3.7:
+   Showroom Black, one column at most 560px, no image. The same column class serves /book/sent/. */
+.rq-page {
+  padding-top: var(--sp-48);
+  padding-bottom: var(--sp-96);
+}
+.rq-col {
+  width: 100%;
+  max-width: 560px;
+}
+.rq-col > header h1 {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+.rq-routes > .t-body {
+  margin: 0;
+}
+@media (min-width: 1024px) {
+  .rq-page {
+    padding-top: var(--sp-64);
+    padding-bottom: var(--sp-128);
+  }
+}

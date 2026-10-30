@@ -1,133 +1,66 @@
 {
+  "_note": "Windshield chip repair page, overhaul v3 (WS5): the paid landing page (blueprint 4.1 chip variant). The ads run in Henderson and Las Vegas; the drive-time eyebrow shows only once drive_time.approved is true (owner confirms 'About 20 minutes from Henderson' before reuse, blueprint 4.1; engineering 2.4). 'Sometimes covered by insurance' removed everywhere (C8). Never promise a chip is repairable before it is seen (area-profile banned_claims). Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "Windshield Chip Repair, Boulder City NV | BC Glass &amp; Tint",
-    "description": "Same-day windshield chip and small crack repair in most cases, serving Boulder City, Henderson and Las Vegas. Sometimes covered by insurance. Call 702-550-8840 for a quote.",
-    "image_alt": "Windshield chip repair service at BC Glass and Tint in Boulder City, NV"
+    "title": "Windshield Chip Repair in Boulder City, NV | BC Glass &amp; Tint",
+    "description": "Windshield chip and small crack repair at our Boulder City shop. Most chips are fixed the same day. Vehicles come to the shop. Call or text (702) 550-8840.",
+    "image_alt": "A chip repair bridge tool on a windshield in the shop bay"
   },
-  "hero": {
-    "crumb": "Windshield Chip Repair",
-    "heading": "Windshield Chip Repair in Boulder City, NV",
-    "intro": "A rock kicks up from the shoulder on the way through the valley and taps your windshield, and a chip smaller than a coin is suddenly staring back at you every time you drive. Left alone, desert heat is not gentle on that damage, and a small chip can spread into a crack across your sightline before you get around to it. BC Glass and Tint checks the damage first, then fills and seals chips and, when the damage allows it, small cracks before that happens. Insurance sometimes covers the cost, and we are open Tuesday to Saturday for drivers across Boulder City, Henderson and Las Vegas.",
-    "image_alt": "Close view of a bullseye chip in a windshield next to a mirror-mounted device, photographed from inside the vehicle.",
-    "image_caption": "A real windshield chip, photographed from inside the vehicle."
-  },
-  "band": [
-    "Chip Repair In House",
-    "Boulder City Shop",
-    "Family Owned Since 1994",
-    "Free Quotes"
-  ],
-  "content": {
-    "image_alt": "Windshield Chip Repair in Boulder City, NV",
-    "heading": "Windshield Chip Repair",
-    "intro": "A small chip or crack does not have to become a full replacement. We check the damage first, then fill and seal what we can, usually same day and sometimes covered by insurance.",
-    "bullets": [
-      "Chips repaired in most cases, and small cracks once we check them first",
-      "Checked first, then filled and sealed",
-      "Sometimes covered by insurance"
-    ]
-  },
-  "v2": {
-    "eyebrow": "Windshield chip repair"
-  },
-  "price": {
-    "eyebrow": "Price",
-    "heading": "Chip repair, priced per chip.",
-    "text": "We look at the damage first and tell you what we can repair. Call or send the form and we will quote it.",
-    "note": "We check the chip before we quote it, because size, location and condition decide what can be repaired.",
-    "cards": [
-      { "kind": "service", "key": "chip_repair_first", "title": "First chip" },
-      { "kind": "service", "key": "chip_repair_additional", "title": "Each additional chip" }
-    ],
-    "links": [
-      { "label": "All prices", "href": "/prices" }
-    ]
-  },
-  "reviews": {
-    "heading": "What <span>Customers</span> Say",
-    "sub": "Real reviews from BC Glass and Tint customers.",
-    "label": "Google review",
-    "items": [
-      {
-        "platform": "google",
-        "quote": "Great customer service, fast, and efficient! They offered the most affordable price for my particular service!",
-        "name": "Ashley Watson"
-      },
-      {
-        "platform": "google",
-        "quote": "Best price I could find anywhere in the valley. Quality work done fast and the staff were super helpful.",
-        "name": "Dennis Wolcott"
-      }
-    ]
-  },
-  "also": {
-    "links": [
-      {
-        "href": "/auto-tint",
-        "icon": "i-car",
-        "label": "Auto / Vehicle Tint"
-      },
-      {
-        "href": "/home-tint",
-        "icon": "i-house",
-        "label": "Home / Residential Tint"
-      },
-      {
-        "href": "/commercial-film",
-        "icon": "i-building",
-        "label": "Commercial Window Film"
-      },
-      {
-        "href": "/windshield",
-        "icon": "i-windshield",
-        "label": "Windshield Replacement"
-      },
-      {
-        "href": "/clear-bra",
-        "icon": "i-shield",
-        "label": "Clear Bra / Paint Protection"
-      },
-      {
-        "href": "/ceramic-coating",
-        "icon": "i-spark",
-        "label": "Ceramic Coating"
-      },
-      {
-        "href": "/headlight-taillight",
-        "icon": "i-shield",
-        "label": "Headlight Restoration"
-      },
-      {
-        "href": "/blinds",
-        "icon": "i-blinds",
-        "label": "Blinds &amp; Window Treatments"
-      },
-      {
-        "href": "/henderson",
-        "icon": "i-pin",
-        "label": "Chip repair for Henderson drivers"
-      },
-      {
-        "href": "/las-vegas",
-        "icon": "i-pin",
-        "label": "Chip repair for Las Vegas drivers"
-      }
-    ]
-  },
-  "quote": {
-    "source": "Windshield Chip Repair",
-    "preselect": "Windshield Chip Repair"
+  "drive_time": { "approved": false, "eyebrow": "Boulder City shop. About 20 minutes from Henderson." },
+  "v3": {
+    "crumb": "Windshield chip repair",
+    "service": "chip",
+    "form_service": "chip",
+    "source": "Chip repair",
+    "eyebrow": "Windshield chip repair. Boulder City shop.",
+    "h1": "Windshield chip repair.",
+    "lede": "Chips and small cracks. Vehicles come to the shop. Most chips are fixed the same day.",
+    "hero_photo": "chip-bridge-portrait",
+    "proof": "Family owned since 1994.",
+    "prices": {
+      "eyebrow": "Price",
+      "h2": "Priced per chip.",
+      "lede": "We look at the chip first, because its size, location and condition decide whether it can be repaired.",
+      "rows": [
+        { "label": "First chip", "ref": "services.chip_repair_first" },
+        { "label": "Each chip after that", "ref": "services.chip_repair_additional" },
+        { "label": "Small cracks", "ref": null, "fallback_key": "crack" }
+      ],
+      "fallback": "service",
+      "after": "Too far gone to repair? We arrange a replacement with a glass specialist, glass ordered to your VIN, and help with the insurance claim. <a href=\"/windshield\">Windshield replacement, arranged</a>",
+      "links": [ { "label": "All prices", "href": "/prices" } ]
+    },
+    "gets": {
+      "eyebrow": "What you get",
+      "h2": "Checked first. Done here.",
+      "items": [
+        { "title": "Checked before we promise anything.", "text": "Size, location and condition decide whether a chip can be repaired, so we look at it first and tell you what we see." },
+        { "title": "Done in our own shop.", "text": "Chip repair is done at our Boulder City shop, and most chips are fixed the same day." }
+      ]
+    },
+    "review": "g-dakota-gleason",
+    "while": {
+      "eyebrow": "While you are here",
+      "h2": "Two quick extras.",
+      "items": [
+        { "title": "Windshield ceramic coating", "text": "Rain and bugs come off easier." },
+        { "title": "Headlight restoration", "text": "Clearer, better-looking lenses.", "link": "Headlights and taillights", "href": "/headlight-taillight" }
+      ]
+    },
+    "faq": {
+      "items": [
+        { "question": "Should I repair or replace a chip or crack?", "answer": "If it is a small chip or a small crack, we check it first and can usually fill and seal it before it spreads. When the damage is too large to repair, the replacement is arranged with a glass specialist we work with, with the glass ordered to your VIN." },
+        { "question": "How long does chip repair take?", "answer": "Most chips are fixed the same day. Vehicles come to the shop." },
+        { "question": "What if my chip cannot be repaired?", "answer": "We look at the chip first, because its size, location and condition decide whether it can be repaired. If it cannot, we can arrange a replacement with a glass specialist, with the glass ordered to your VIN and help with the insurance claim." },
+        { "question": "Where is the shop?", "answer": "1633 Boulder City Pkwy, Boulder City, NV 89005. Open Tuesday to Saturday, 9 to 5. Closed Sunday and Monday." }
+      ]
+    }
   },
   "schema": {
     "date_modified": "2026-10-29",
     "service": {
       "service_type": "Windshield Chip Repair",
       "name": "Windshield Chip Repair in Boulder City, NV",
-      "area_served": [
-        "Boulder City",
-        "Henderson",
-        "Las Vegas"
-      ]
+      "area_served": ["Boulder City", "Henderson", "Las Vegas"]
     }
   }
 }

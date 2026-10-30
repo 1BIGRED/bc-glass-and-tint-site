@@ -3,6 +3,7 @@
     "items":  [
                   {
                       "id":  "chevrolet-colorado-front-three-quarter",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -31,6 +32,7 @@
                   },
                   {
                       "id":  "chevrolet-silverado-3500hd-side",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -59,6 +61,7 @@
                   },
                   {
                       "id":  "porsche-taycan-front-three-quarter",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -87,6 +90,7 @@
                   },
                   {
                       "id":  "tesla-model-y-blue-front-three-quarter",
+      "look": "medium",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -114,6 +118,7 @@
                   },
                   {
                       "id":  "ford-f-150-front-three-quarter",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -142,6 +147,7 @@
                   },
                   {
                       "id":  "ford-f-150-rear-door-windows",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -170,6 +176,7 @@
                   },
                   {
                       "id":  "ford-f-150-raptor-side",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -198,6 +205,7 @@
                   },
                   {
                       "id":  "kia-suv-front-three-quarter",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -226,6 +234,7 @@
                   },
                   {
                       "id":  "ram-3500-dually-front-three-quarter",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -254,6 +263,7 @@
                   },
                   {
                       "id":  "tesla-model-3-white-front-three-quarter",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -282,6 +292,7 @@
                   },
                   {
                       "id":  "tesla-model-y-white-side",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -310,6 +321,7 @@
                   },
                   {
                       "id":  "volkswagen-atlas-front-storefront",
+      "look": "medium",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -337,6 +349,7 @@
                   },
                   {
                       "id":  "jeep-gladiator-side",
+      "look": "dark",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -365,6 +378,7 @@
                   },
                   {
                       "id":  "ford-bronco-front-three-quarter",
+      "look": "medium",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -392,6 +406,7 @@
                   },
                   {
                       "id":  "subaru-outback-front-three-quarter",
+      "look": "medium",
                       "collection":  "job",
                       "service":  "auto-tint",
                       "vehicle":  {
@@ -420,6 +435,7 @@
                   },
                   {
                       "id":  "windshield-chip-bullseye-interior-wide",
+      "excluded": "Art direction 5.3 do-not-use: customer cabin contents in frame (soda can, dash camera, scratched glass). Never shown (WS5, 2026-10-29).",
                       "collection":  "job",
                       "service":  "chip-repair",
                       "vehicle":  null,

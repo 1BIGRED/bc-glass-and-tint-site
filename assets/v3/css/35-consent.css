@@ -1,0 +1,88 @@
+/* BC Glass & Tint v3, cookie bar (WS3). Markup: _includes/v3/cookie-bar.njk. Behavior:
+   assets/v3/js/05-consent.js. Bundled into core.<hash>.css.
+
+   Always the dark tokens, on every page and in both moods (like the header), so the notice reads the
+   same everywhere. Sits above the phone call bar (bottom: var(--scb), which is 0 from 768px) and
+   below nothing else except the skip link (z-index tokens in 00-tokens.css). Accept and Decline are
+   the same size and weight on purpose: neither is nudged. Gold stays reserved for the call, so the
+   buttons are outlines. The bar publishes its height as --ckh on <html>; the scroll-padding rule in
+   20-header.css adds it so a focused control is never hidden behind the bar. */
+.v3-ck {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--scb);
+  z-index: var(--z-cookie);
+  background-color: var(--ink-1);
+  color: var(--text);
+  border-top: 1px solid var(--line-ctl);
+  color-scheme: dark;
+}
+.v3-ck[hidden] {
+  display: none;
+}
+.v3-ck:focus,
+.v3-ck:focus-visible {
+  outline: none;
+}
+.v3-ck__in {
+  display: grid;
+  gap: var(--sp-12);
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--margin));
+  margin-inline: auto;
+  padding: var(--sp-12) var(--margin);
+}
+.v3-ck__text {
+  margin: 0;
+  font-family: var(--font-text);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  color: var(--text);
+}
+.v3-ck__text a {
+  color: var(--text);
+}
+.v3-ck__text a:hover {
+  text-decoration-color: var(--gold);
+}
+.v3-ck__btns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-8);
+}
+.v3-ck__btn {
+  min-height: 44px;
+  padding: 0 var(--sp-16);
+  background-color: transparent;
+  color: var(--text);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out);
+}
+.v3-ck__btn:hover {
+  background-color: var(--ink-2);
+  border-color: var(--text);
+}
+.v3-ck__btn:active {
+  transform: scale(0.98);
+}
+.v3-ck__btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+@media (min-width: 768px) {
+  .v3-ck__in {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--sp-32);
+  }
+  .v3-ck__btns {
+    grid-template-columns: repeat(2, minmax(7rem, auto));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v3-ck__btn:active {
+    transform: none;
+  }
+}

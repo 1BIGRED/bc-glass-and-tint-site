@@ -1,0 +1,12 @@
+{
+  "origin": "https://bcglassandtint.com",
+  "closure_schema_window_days": 60,
+  "sitemap": {
+    "exclude_paths": ["/404", "/404.html", "/book/sent", "/book/sent/", "/v3-smoke", "/v3-smoke/", "/preview", "/preview.html"],
+    "exclude_prefixes": ["/admin/"]
+  },
+  "guards": {
+    "scan_skip": ["admin/", "preview.html"],
+    "scan_css_dir": "assets/h"
+  }
+}

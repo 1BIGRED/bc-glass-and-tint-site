@@ -1,41 +1,11 @@
 ---
-# Service page, v2 look, Warm Gallery. All wording is in _data/pages/blinds.json; this file holds
-# the page's structure plus its two extra sections (treatment types and how it works), printed by
-# the layout right after the story section. Layout: _includes/layouts/service-v2.njk.
-# JSON-LD: blinds.11tydata.js. No real blinds photo exists (the old shade card photos were stock),
-# so the hero and the treatment cards are type only.
-layout: layouts/service-v2.njk
+# Blinds and shades, Warm Gallery, type only (no real BC blinds photo exists).
+# Overhaul v3 (WS5). Template: layouts/service-v3.njk (blueprint 4.1). Wording and blocks:
+# _data/pages/blinds.json v3. JSON-LD: blinds.11tydata.js (FAQPage from the same items shown).
+layout: layouts/service-v3.njk
 theme: warm
 permalink: blinds.html
 slug: blinds
 page_key: blinds
-og_image: images/hero.jpg
-schema_order: service-first
+bundles: ["service"]
 ---
-{%- set pg = pages.blinds -%}
-<section class="v2-band v2-section" aria-labelledby="sv-shades-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="sv-shades-h">{{ pg.extra.shades.heading | safe }}</h2>
-      <p class="v2-body">{{ pg.extra.shades.sub | safe }}</p>
-    </div>
-    <div class="sv-cols sv-cols--4">
-{%- for c in pg.extra.shades.cards %}
-      <div class="sv-col"><h3>{{ c.title | safe }}</h3><p>{{ c.text | safe }}</p></div>
-{%- endfor %}
-    </div>
-  </div>
-</section>
-<section class="v2-section" aria-labelledby="sv-steps-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="sv-steps-h">{{ pg.extra.steps.heading | safe }}</h2>
-      <p class="v2-body">{{ pg.extra.steps.sub | safe }}</p>
-    </div>
-    <ol class="sv-steps">
-{%- for s in pg.extra.steps.items %}
-      <li class="sv-col"><h3>{{ s.title | safe }}</h3><p>{{ s.text | safe }}</p></li>
-{%- endfor %}
-    </ol>
-  </div>
-</section>

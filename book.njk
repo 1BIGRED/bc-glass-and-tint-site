@@ -1,0 +1,34 @@
+---
+# /book, "Request a time" (overhaul v3, WS3, 2026-10-29). Layout: _includes/layouts/v3.njk.
+# Art direction 3.7: Showroom Black, single column max 560px, H1 "Request a time.", the
+# what-happens-next line above the form, the call route under it, no image. Wording:
+# _data/pages/book.json. The form is the shared partial _includes/v3/request.njk (form name
+# "quote"). Accepts ?b=<build code> and ?s=<car|home|blinds|chip|other>, applied by
+# assets/v3/js/40-request.js. Promises only what is true: a person confirms the time, never a
+# response time (owner question open; site.lines.request_confirm prints only when set).
+layout: layouts/v3.njk
+permalink: book.html
+slug: book
+page_key: book
+mood: dark
+header_raised: true
+bundles: ["book"]
+---
+{%- from "v3/request.njk" import requestForm with context -%}
+{%- from "v3/actions.njk" import action with context -%}
+{%- set pg = pages.book -%}
+<section class="section section--minor rq-page" aria-labelledby="rq-h1" data-section="request">
+  <div class="wrap">
+    <div class="rq-col stack stack-32">
+      <header class="stack stack-16">
+        <h1 id="rq-h1">{{ pg.hero.heading | safe }}</h1>
+        <p class="t-lead">{{ pg.hero.lead | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
+      </header>
+      {{ requestForm({ source: "book", id: "rq" }) }}
+      <div class="rq-routes stack stack-12">
+        <p class="t-body fg-2">{{ pg.routes.talk | rqFill(site) | safe }}</p>
+        {{ action({ slot: "contact", service: "any", build: false, on_book: true }) }}
+      </div>
+    </div>
+  </div>
+</section>

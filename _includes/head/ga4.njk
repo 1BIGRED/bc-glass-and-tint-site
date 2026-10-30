@@ -20,8 +20,8 @@ gtag('config','{{ adsId }}');
 {%- endif %}
 var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+ID;
 document.head.appendChild(s);};
-{%- if noindex %}
-/* Staging copy (BC_NOINDEX=1): never send analytics or ad data from the staging site. */
+{%- if noindex or not analytics %}
+/* Not a production build (staging BC_NOINDEX=1, a Netlify deploy preview or branch deploy, a local build) or a noindex page: never send analytics or ad data. */
 window['ga-disable-'+ID]=true;window.__bcgtLoadGa=function(){};
 {%- else %}
 if(v==='no'){window['ga-disable-'+ID]=true;}else{window.__bcgtLoadGa();}

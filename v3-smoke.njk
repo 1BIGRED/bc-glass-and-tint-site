@@ -1,7 +1,8 @@
 ---
 # v3 smoke page (overhaul v3, phase A foundation, 2026-10-29). Internal only: noindex, nofollow,
 # no analytics (robots_noindex stubs GA4 and Clarity in layouts/v3.njk), not in collections, not in
-# the hand-written sitemap.xml. It renders every v3 stub partial and every token in both moods so
+# the generated sitemap. NOT BUILT AT ALL in a production build (CONTEXT=production and no
+# BC_NOINDEX): .eleventy.js ignores this file then (WS1), so /v3-smoke/ never reaches the live site. It renders every v3 stub partial and every token in both moods so
 # later streams and the CEO can eyeball the system. Contrast figures on this page are computed in
 # the browser from the live computed colors (WCAG 2 formula), not typed.
 layout: layouts/v3.njk

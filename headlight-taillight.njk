@@ -1,76 +1,10 @@
 ---
-# Headlight restoration, protection film and smoked lights, v2 look. All wording is in
-# _data/pages/headlight_taillight.json; the page's own sections are printed here, after the
-# layout's hero. Layout: _includes/layouts/service-v2.njk. JSON-LD: headlight-taillight.11tydata.js.
-# The old restoration photo is stock, so the hero is type only. This page keeps its custom quote
-# form order (pages.headlight_taillight.quote.order).
-layout: layouts/service-v2.njk
+# Headlights and taillights, secondary template with statute block.
+# Overhaul v3 (WS5). Template: layouts/service-v3.njk (blueprint 4.1). Wording and blocks:
+# _data/pages/headlight_taillight.json v3. JSON-LD: headlight-taillight.11tydata.js (FAQPage from the same items shown).
+layout: layouts/service-v3.njk
 permalink: headlight-taillight.html
 slug: headlight-taillight
 page_key: headlight_taillight
-og_image: images/hero.jpg
+bundles: ["service"]
 ---
-{%- set pg = pages.headlight_taillight -%}
-<section class="v2-section" aria-labelledby="sv-rest-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="sv-rest-h">{{ pg.restoration.heading | safe }}</h2>
-      <p class="sv-sub">{{ pg.restoration.sub | safe }}</p>
-    </div>
-    <div class="sv-story">
-      <div class="sv-prose"><p>{{ pg.restoration.intro | safe }}</p><p>{{ pg.restoration.outro | safe }}</p>
-        <div class="sv-cta-row"><a class="v2-textlink" href="#quote">{{ pg.restoration.cta | safe }}</a></div></div>
-      <ul class="sv-points">
-{%- for li in pg.restoration.bullets %}
-        <li>{{ li | safe }}</li>
-{%- endfor %}
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="v2-band v2-section" aria-labelledby="sv-prot-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="sv-prot-h">{{ pg.protection.heading | safe }}</h2>
-      <p class="sv-sub">{{ pg.protection.sub | safe }}</p>
-    </div>
-    <div class="sv-story">
-      <div class="sv-prose"><p>{{ pg.protection.intro | safe }}</p><p>{{ pg.protection.outro | safe }}</p></div>
-      <ul class="sv-points">
-{%- for li in pg.protection.bullets %}
-        <li>{{ li | safe }}</li>
-{%- endfor %}
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="v2-section" aria-labelledby="sv-smoke-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="sv-smoke-h">{{ pg.smoked.heading | safe }}</h2>
-      <p class="sv-sub">{{ pg.smoked.sub | safe }}</p>
-    </div>
-    <div class="sv-prose">
-{%- for p in pg.smoked.paragraphs %}
-      <p>{{ p | safe }}</p>
-{%- endfor %}
-      <div class="sv-cta-row"><a class="v2-textlink" href="#quote">{{ pg.smoked.cta | safe }}</a></div>
-    </div>
-  </div>
-</section>
-
-<section class="v2-band v2-section" aria-labelledby="sv-req-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="sv-req-h">{{ pg.requires.heading | safe }}</h2>
-      <p class="sv-sub">{{ pg.requires.sub | safe }}</p>
-    </div>
-    <div class="sv-prose">
-      <p>{{ pg.requires.tail_lamps | safe }}</p>
-      <p>{{ pg.requires.lamp_colors | safe }}</p>
-      <p>{{ pg.requires.closing | safe }}</p>
-    </div>
-  </div>
-</section>

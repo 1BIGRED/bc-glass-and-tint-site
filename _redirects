@@ -24,3 +24,7 @@
 # The Boulder City page duplicated the homepage's H1 and target keyword, and the
 # shop is in Boulder City, so the homepage already covers that search.
 /boulder-city-window-tint  /    301!
+
+# v3: the old quote anchor page is now the request page (/book, built by WS3). One hop, permanent.
+# The /#quote anchor on the homepage contact block is unaffected.
+/quote           /book    301!

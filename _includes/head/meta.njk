@@ -1,12 +1,12 @@
-{#- robots, title, description, canonical, Open Graph and Twitter tags.
+{#- robots (exactly one per page: this file prints index, follow; when noindex is true the layout prints noindex, nofollow itself, as layouts/v2.njk does), title, description, canonical, Open Graph and Twitter tags.
     Wording comes from the page file: pages[page_key].meta.title / .description / .image_alt.
     The image comes from front matter (og_image, optional og_image_width / og_image_height).
     index.html alone carries the google-site-verification tag (frame[slug].gsv; keep it). -#}
 {%- set fr = frame[slug] or {} -%}
 {%- set m = pages[page_key].meta -%}
 {%- set url = site.url if slug == "index" else site.origin + "/" + slug -%}
-<meta name="robots" content="index, follow">
-{% if fr.gsv %}<meta name="google-site-verification" content="{{ site.google_site_verification | safe }}" />
+{% if not noindex %}<meta name="robots" content="index, follow">
+{% endif %}{% if fr.gsv %}<meta name="google-site-verification" content="{{ site.google_site_verification | safe }}" />
 {% endif %}<title>{{ m.title | fill | safe }}</title>
 <meta name="description" content="{{ m.description | fill | safe }}">
 <link rel="canonical" href="{{ url | safe }}">

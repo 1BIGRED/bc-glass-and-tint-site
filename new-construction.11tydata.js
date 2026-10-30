@@ -1,37 +1,13 @@
-// Structured data for new-construction.html: three standalone JSON-LD blocks in LIVE.
-// Block 0: @graph [Service (name-first order), Business, WebSite, WebPage].
-// Block 1: standalone FAQPage, built from the SAME faq.items the page shows.
-// Block 2: standalone BreadcrumbList (Home -> New Construction).
-const S = require("./lib/schema");
-
+// Structured data and Open Graph image for /new-construction (v3, WS5). Graph: Breadcrumb, business,
+// Service (when the page names one), FAQPage built from the same v3.faq.items the page prints,
+// WebSite, WebPage (lib/eleventy-ws5.js servicePageGraph). og_image: the page's hero photo from
+// WS6's images, else the logo.
+const W5 = require("./lib/eleventy-ws5").helpers;
 module.exports = {
   eleventyComputed: {
-    schema_ld: (data) => {
-      const pg = data.pages.new_construction;
-      const sc = pg.schema;
-      const url = S.pageUrl(data.slug);
-      const svc = S.serviceNode(
-        {
-          id: url + "#service",
-          service_type: sc.service.service_type,
-          name: sc.service.name,
-          url: url,
-          area_served: sc.service.area_served,
-          description: S.plain(pg.meta.description)
-        },
-        "name-first"
-      );
-      // The v2 layout prints one JSON-LD script from schema_ld, so the three former blocks
-      // travel together in one @graph (same nodes, one business @id, FAQPage built from the
-      // same visible faq.items, BreadcrumbList Home -> New Construction).
-      return S.graph([
-        svc,
-        S.businessNode(data.site),
-        S.websiteNode(data.site),
-        S.webpageNode({ slug: data.slug, name: S.plain(pg.meta.title), dateModified: sc.date_modified }),
-        S.faqPageNode(pg.faq.items, { slug: data.slug }),
-        S.breadcrumbNode({ slug: data.slug, name: sc.breadcrumb_name })
-      ]);
-    }
+    og_image: (data) => W5.ogImage(data).path,
+    og_image_width: (data) => W5.ogImage(data).width,
+    og_image_height: (data) => W5.ogImage(data).height,
+    schema_ld: (data) => W5.servicePageGraph(data, data.pages[data.page_key])
   }
 };

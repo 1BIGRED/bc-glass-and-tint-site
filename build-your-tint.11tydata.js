@@ -1,37 +1,26 @@
-// Data for build-your-tint.html ("The Showroom", CREATIVE-DIRECTION.md moments 2 and 3).
-// Wording: _data/pages/build_your_tint.json. Prices: _data/pricing.json, only through
-// lib/pricing.js (priceFor / quoteFor) and the same rule again in assets/v2/builder.js.
+// Data for /build-your-tint (overhaul v3, WS4; blueprint 4.5, art direction 3.6, engineering 3.2.3).
+// Wording: _data/pages/build_your_tint.json. Prices and presets: _data/pricing.json, only through
+// lib/pricing.js (the gate). Code: lib/buildcode.js. Behavior: assets/v3/js/builder/50-builder.js.
 //
 // What this file builds:
-//   bt_shades      the shade chips (owner's stocked list when pricing.shades_installed has values,
-//                  else example_shades, labelled as examples), each with its gamma-aware opacity
-//   bt_init        the server-rendered first state (so the page is right before the script runs,
-//                  with no layout shift): code, summary, price, meter, legal chips
-//   bt_pricing     a GATED copy of the auto tint prices for the browser: an entry is copied only
-//                  when priceFor() shows it in this build's mode, so draft numbers never reach the
-//                  public HTML; legal_hold entries (full windshield film) are never copied
-//   bt_noscript    the no-JS table: starting price per coverage and vehicle class (quoteFor)
-//   bt_bodies      the inline SVG side profiles (geometry only; drawn facing left, floor y=290)
-//   schema_ld      Breadcrumb, the one business node (#business), WebSite, WebPage
+//   bt_config   the ONE object the browser reads (script[data-bt-config]). Every price, preset and
+//               add-on in it has passed the gate for this build's mode, so a production page never
+//               carries a draft number, a draft preset or a "status":"draft" string. Front-door
+//               shades darker than the legal line are never in it (they are not rendered at all).
+//   bt_bodies   the four fine-line side profiles (geometry only; drawn facing left, floor y=290)
+//   bt_noscript the no-JS rules table
+//   schema_ld   Breadcrumb, the one business node (#business), WebSite, WebPage
+//
+// builderConfig(pricing, pg, mode) is exported for tests\pricing.test.js.
 const S = require("./lib/schema");
 const { fill } = require("./lib/filters");
-const { priceFor, quoteFor, priceMode } = require("./lib/pricing");
+const P = require("./lib/pricing");
 
-const MODE = priceMode(process.env);
-const DEFAULT = { vehicle: "car", current: "front", shade: { front: 35, rear: 15, back: 15, strip: 0 } };
+const MODE = P.priceMode(process.env);
+const WINDOWS = ["front", "rear", "back"];
 
-// Plain object from a list, built with a loop (Eleventy's computed-data proxy can hand an array
-// whose map results are not entry pairs on its dependency pass).
-function byPanel(list, fn) { const o = {}; (list || []).forEach((p) => { if (p != null) o[p] = fn(p); }); return o; }
-function byId(list) { const o = {}; list.forEach((x) => { o[x.id] = x; }); return o; }
-
-function alpha(v) {
-  return v ? (1 - Math.pow(v / 100, 1 / 2.2)).toFixed(3) : "0";
-}
-
-// Vehicle side profiles. Each body: outline path (paint), glass paths (one per window group; a
-// path may hold several sub-shapes, e.g. rear door glass plus the quarter window), wheels, door
-// seams, a shoulder highlight line, head and tail lamps, the mirror.
+// Vehicle side profiles (kept from the v2 builder geometry, same owner). Each body: outline, the
+// glass paths per window group, wheel centers and radius, door seams.
 const BODIES = [
   {
     id: "car",
@@ -43,12 +32,7 @@ const BODIES = [
     },
     wheels: [[190, 252], [605, 252]],
     r: 38,
-    seams: ["M268 196C266 216 266 238 268 258", "M434 186L434 262", "M552 182C552 196 552 208 550 214"],
-    handles: ["M392 202L414 202", "M512 200L532 200"],
-    shoulder: "M100 206C200 196 300 192 440 192C560 190 650 186 728 198",
-    head: "M72 216C82 209 98 205 118 204L114 213C99 214 85 217 74 222Z",
-    tail: "M720 186C727 189 731 194 732 202L732 210L718 207Z",
-    mirror: "M290 186L304 174L318 176L314 186Z"
+    seams: ["M268 196C266 216 266 238 268 258", "M434 186L434 262", "M552 182C552 196 552 208 550 214"]
   },
   {
     id: "suv",
@@ -60,12 +44,7 @@ const BODIES = [
     },
     wheels: [[200, 250], [610, 250]],
     r: 40,
-    seams: ["M274 162C272 190 272 226 274 256", "M454 156L454 258", "M566 152L566 212"],
-    handles: ["M406 174L428 174", "M520 172L540 172"],
-    shoulder: "M100 178C220 168 320 164 460 162C580 160 660 158 726 174",
-    head: "M70 188C80 180 98 176 120 175L116 185C100 186 86 189 72 194Z",
-    tail: "M716 140C722 150 726 160 728 172L728 188L716 184Z",
-    mirror: "M294 156L308 144L322 146L318 156Z"
+    seams: ["M274 162C272 190 272 226 274 256", "M454 156L454 258", "M566 152L566 212"]
   },
   {
     id: "pickup",
@@ -77,12 +56,7 @@ const BODIES = [
     },
     wheels: [[196, 250], [626, 250]],
     r: 40,
-    seams: ["M270 158C268 186 268 226 270 256", "M398 150L398 258", "M482 156L482 230", "M494 166L744 166", "M742 166L742 252"],
-    handles: ["M352 170L372 170", "M436 168L456 168"],
-    shoulder: "M98 172C220 162 340 158 480 158L744 160",
-    head: "M68 178C78 170 96 166 118 165L114 176C98 177 84 180 70 185Z",
-    tail: "M744 168L750 170L751 204L744 204Z",
-    mirror: "M288 152L302 140L316 142L312 152Z"
+    seams: ["M270 158C268 186 268 226 270 256", "M398 150L398 258", "M482 156L482 230", "M494 166L744 166"]
   },
   {
     id: "van",
@@ -94,108 +68,129 @@ const BODIES = [
     },
     wheels: [[190, 252], [616, 252]],
     r: 38,
-    seams: ["M222 182C220 206 220 236 222 258", "M390 172L390 262", "M546 168L546 262"],
-    handles: ["M354 190L374 190", "M412 190L432 190"],
-    shoulder: "M96 202C200 190 300 184 440 182C580 180 660 180 732 196",
-    head: "M70 206C80 199 96 196 116 195L112 204C98 205 84 208 72 212Z",
-    tail: "M726 150C730 160 733 172 734 184L734 200L724 196Z",
-    mirror: "M240 182L254 170L268 172L264 182Z"
+    seams: ["M222 182C220 206 220 236 222 258", "M390 172L390 262", "M546 168L546 262"]
   }
 ];
 
-// A gated copy of auto_tint for the browser: only entries that show in this mode, and only the
-// fields builder.js reads. Everything else becomes { status: "unknown" }.
-function gatedAutoTint(pricing) {
+// The auto tint prices that pass the gate in this mode, and only the fields the browser reads.
+// An entry that does not pass is left out entirely (no status, no number).
+function gatedAutoTint(pricing, mode, labels) {
+  const L = labels || {};
   const at = (pricing && pricing.auto_tint) || {};
   const classes = ((pricing && pricing.vehicle_classes) || []).map((c) => c.id);
   function slim(e) {
-    const r = priceFor(e, MODE);
-    if (!r.show) return { status: "unknown" };
-    return { status: e.status, publish: e.publish === true, amount: e.amount, display: e.display };
+    const r = P.priceFor(e, mode);
+    if (!r.show) return undefined;
+    const o = { status: e.status, publish: e.publish === true, amount: e.amount, display: e.display || null };
+    if (Array.isArray(e.range)) o.range = e.range.slice(0, 2);
+    return o;
   }
   const out = { coverage: {}, panels: {} };
   Object.keys(at.coverage || {}).forEach((k) => {
     const c = at.coverage[k];
-    const o = { panels: (c.panels || []).slice() };
-    classes.forEach((cl) => { o[cl] = slim(c[cl]); });
+    const o = { label: L[k] || c.label, panels: (c.panels || []).slice() };
+    classes.forEach((cl) => { const s = slim(c[cl]); if (s) o[cl] = s; });
     out.coverage[k] = o;
   });
   Object.keys(at.panels || {}).forEach((k) => {
-    const o = {};
-    classes.forEach((cl) => { o[cl] = slim(at.panels[k][cl]); });
+    const o = { label: L[k] || at.panels[k].label };
+    classes.forEach((cl) => { const s = slim(at.panels[k][cl]); if (s) o[cl] = s; });
     out.panels[k] = o;
   });
   return { auto_tint: out };
 }
 
+function builderConfig(pricing, pg, mode) {
+  const pr = pricing || {};
+  const W = pg.windows;
+  const shades = {};
+  WINDOWS.forEach((w) => {
+    shades[w] = P.shadesFor(pr, w).map((s) => ({
+      v: s.vlt,
+      a: s.alpha,
+      // Words only, unless the owner confirmed this shade (CEO ruling 2026-10-29).
+      name: s.confirmed ? s.vlt + "%" : (W.words[String(s.vlt)] || W.word_fallback),
+      num: s.confirmed
+    }));
+  });
+  const confirmed = shades.rear.filter((s) => s.num).map((s) => s.v);
+  const keyToWin = {};
+  WINDOWS.forEach((w) => { keyToWin[W.panels[w].key] = w; });
+  const presets = P.presetFor(pr, mode).map((p) => {
+    const set = {};
+    Object.keys(p.panels).forEach((k) => {
+      const w = keyToWin[k];
+      const v = p.panels[k];
+      // A named shade the builder does not offer for that window becomes "pick a shade".
+      set[w] = v != null && shades[w].some((s) => s.v === v) ? v : "x";
+    });
+    return { id: p.id, label: p.label, description: p.description, set, draft: p.draft };
+  });
+  const classes = (pr.vehicle_classes || []).map((c) => c.id);
+  const addons = {};
+  const fvp = {};
+  classes.forEach((cl) => {
+    addons[cl] = (pr.addons || []).map((a) => P.addonFor(pr, a, cl, mode)).filter((a) => a.state !== "hidden")
+      .map((a) => ({ id: a.id, label: a.label, benefit: a.benefit, state: a.state, display: a.display, draft: a.draft, key: a.price_key }));
+    fvp[cl] = P.fullVsParts(pr, cl, mode);
+  });
+  return {
+    mode,
+    front_min: P.frontMin(pr),
+    classes: classes.map((id) => Object.assign({ id }, pg.vehicles[id] || { label: id })),
+    windows: WINDOWS.map((w) => ({ id: w, key: W.panels[w].key, label: W.panels[w].label, legal: W.panels[w].legal })),
+    shades,
+    confirmed,
+    words: W.words,
+    presets,
+    default_preset: P.defaultPreset(pr, mode),
+    pricing: gatedAutoTint(pr, mode, pg.result.part_labels),
+    addons,
+    also_ask: (pr.also_ask || []).map((a) => ({ id: a.id, label: a.label, benefit: a.benefit || "" })),
+    fvp,
+    text: {
+      empty: presets.length ? pg.result.empty_presets : pg.result.empty_windows,
+      empty_vehicle: pg.result.empty_vehicle,
+      fallback: pg.result.fallback,
+      // The tag text exists only on preview builds; a production page never carries it.
+      draft_tag: mode === "preview" ? pg.result.draft_tag : "",
+      code_empty: pg.result.code_empty,
+      fronts_vs_full: pg.result.fronts_vs_full,
+      unset: W.unset,
+      no_film: W.no_film,
+      strip_legal: W.strip_legal,
+      live_total: pg.live.total,
+      ask_price: pg.result.ask_price
+    }
+  };
+}
+
 module.exports = {
+  builderConfig,
   eleventyComputed: {
     bt_mode: () => MODE,
-    // Each body also gets its dark wheel wells: the arch cut out of the body, closed along the
-    // rocker line (38 px wheels sit under 46 px arches on a 262 rocker, 40 px under 48 on 258).
-    bt_bodies: () => BODIES.map((bd) => {
-      const big = bd.r !== 38;
-      const rocker = big ? 258 : 262, arch = big ? 48 : 46, half = big ? 47 : 45;
-      const wells = bd.wheels.map((w) => "M" + (w[0] + half) + " " + rocker + "A" + arch + " " + arch + " 0 1 0 " + (w[0] - half) + " " + rocker + "Z");
-      return Object.assign({}, bd, { wells });
-    }),
-    bt_body_ids: () => byId(BODIES),
-    bt_shades: (data) => {
-      const pr = data.pricing || {};
-      const stocked = Array.isArray(pr.shades_installed) && pr.shades_installed.length ? pr.shades_installed : null;
-      const values = stocked || (pr.example_shades && pr.example_shades.values) || [];
-      const front = data.pages.build_your_tint.builder.front_min_vlt || 35;
-      return {
-        example: !stocked,
-        label: stocked ? "" : (pr.example_shades && pr.example_shades.label) || "",
-        // "None" first, then the shades from lightest to darkest, as the file lists them.
-        items: [{ v: 0, a: "0" }].concat(values.map((v) => ({ v, a: alpha(v), below_front: v < front })))
-      };
-    },
-    bt_pricing: (data) => gatedAutoTint(data.pricing),
-    bt_init: (data) => {
+    bt_bodies: () => BODIES,
+    bt_body_ids: () => { const o = {}; BODIES.forEach((b) => { o[b.id] = b; }); return o; },
+    bt_config: (data) => builderConfig(data.pricing, data.pages.build_your_tint, MODE),
+    // Example builds beside the tool (blueprint 4.5): only those whose preset passes the gate, each
+    // with its gated price for that vehicle class.
+    bt_examples: (data) => {
       const pg = data.pages.build_your_tint;
-      const b = pg.builder, T = b.text, L = b.legal;
-      const order = b.panel_order;
-      const veh = b.vehicles[DEFAULT.vehicle];
-      const sh = DEFAULT.shade;
-      const tpl = (s, map) => String(s || "").replace(/\{(\w+)\}/g, (m, k) => (map[k] != null ? map[k] : ""));
-      const blocked = (p, v) => p === "front" && v > 0 && v < b.front_min_vlt;
-      const legalFor = (p, v) => (!v ? L.none : p === "front" ? (v >= b.front_min_vlt ? L.front_ok : L.front_blocked) : p === "strip" ? L.strip : L.rear);
-      const shadeText = (v) => (v ? v + "%" : T.none);
-      const picked = order.filter((p) => sh[p] > 0);
-      let price;
-      if (!picked.length) price = { show: false, display: T.price_empty, draft: false };
-      else if (picked.some((p) => blocked(p, sh[p]))) price = { show: false, display: T.price_blocked, draft: false };
-      else price = quoteFor(data.pricing, veh.price_class, picked.map((p) => b.panels[p].price_key), MODE);
-      const summary = [tpl(T.summary_intro, { vehicle: veh.label })].concat(order.map((p) => {
-        const v = sh[p], map = { panel: b.panels[p].label, shade: shadeText(v) };
-        return tpl(!v ? T.summary_no_film : blocked(p, v) ? T.summary_blocked : T.summary_panel, map);
-      })).join(" ");
-      const cur = DEFAULT.current;
-      return {
-        vehicle: DEFAULT.vehicle,
-        current: cur,
-        shade: sh,
-        scene: (pg.stage && pg.stage.default_scene) || "dusk",
-        code: "BC-" + veh.code + "-" + order.map((p) => sh[p] || 0).join("-"),
-        summary,
-        price,
-        legal: byPanel(order, (p) => legalFor(p, sh[p])),
-        shade_text: byPanel(order, (p) => shadeText(sh[p])),
-        tint: byPanel(order, (p) => alpha(blocked(p, sh[p]) ? b.front_min_vlt : sh[p])),
-        meter: { v: sh[cur], legal: legalFor(cur, sh[cur]) }
-      };
+      const presets = P.presetFor(data.pricing, MODE);
+      const W = pg.windows.panels;
+      return (pg.presets.examples || []).map((ex) => {
+        const p = presets.find((x) => x.id === ex.preset);
+        if (!p) return null;
+        const keys = Object.keys(p.panels);
+        const order = ["front", "rear", "back"].map((w) => W[w].key).filter((k) => keys.indexOf(k) > -1);
+        const q = P.quoteFor(data.pricing, ex.vehicle, order, MODE);
+        return { label: ex.label, vehicle: ex.vehicle, preset: ex.preset, price: { show: q.show, display: q.display, draft: q.draft } };
+      }).filter(Boolean);
     },
+    bt_has_price: (data) => P.anyAutoPrice(data.pricing, MODE),
     bt_noscript: (data) => {
-      const pr = data.pricing || {};
-      const at = pr.auto_tint || {};
-      const classes = pr.vehicle_classes || [];
-      const rows = Object.keys(at.coverage || {}).map((k) => ({
-        label: at.coverage[k].label,
-        cells: classes.map((c) => quoteFor(pr, c.id, at.coverage[k].panels, MODE))
-      }));
-      return { classes, rows };
+      const W = data.pages.build_your_tint.windows;
+      return WINDOWS.map((w) => ({ label: W.panels[w].label, legal: W.panels[w].legal })).concat([{ label: "Windshield", legal: W.strip_legal }]);
     },
     schema_ld: (data) => {
       const pg = data.pages.build_your_tint;

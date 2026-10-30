@@ -1,17 +1,11 @@
-// Structured data for about.html, built from _data/pages/about.json and site.json.
-// Live node order: business, WebSite, WebPage. No breadcrumb and no FAQ on this page.
-const S = require("./lib/schema");
-const { fill } = require("./lib/filters");
-
+// Structured data and Open Graph image for /about, "The shop" (v3, WS5): business, WebSite,
+// WebPage. No rating or review count anywhere (C15, AP-28).
+const W5 = require("./lib/eleventy-ws5").helpers;
 module.exports = {
   eleventyComputed: {
-    schema_ld: (data) => {
-      const pg = data.pages.about;
-      return S.graph([
-        S.businessNode(data.site),
-        S.websiteNode(data.site),
-        S.webpageNode({ slug: data.slug, name: S.plain(fill(pg.meta.title)), dateModified: pg.schema.date_modified })
-      ]);
-    }
+    og_image: (data) => W5.ogImage(data).path,
+    og_image_width: (data) => W5.ogImage(data).width,
+    og_image_height: (data) => W5.ogImage(data).height,
+    schema_ld: (data) => W5.simplePageGraph(data, data.pages.about)
   }
 };

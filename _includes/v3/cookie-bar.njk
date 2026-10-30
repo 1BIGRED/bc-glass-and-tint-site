@@ -1,0 +1,25 @@
+{#- v3 cookie bar (overhaul v3, WS3). Replaces _includes/cookie-bar.njk (v2, left untouched for the v2
+    pages). Included once by layouts/v3.njk after the call bar:  {% include "v3/cookie-bar.njk" %}
+    Behavior: assets/v3/js/05-consent.js (core bundle). Styles: assets/v3/css/35-consent.css.
+
+    Policy is unchanged (client rule, decisions-and-rules): analytics is ON by default and the visitor
+    can opt out; the bar names Google Analytics, Google Ads and Microsoft Clarity. Wording is the
+    approved C-028 text in pages.shared.cookie_bar.
+
+    Ids are new (v3-ck, v3-ck-yes, v3-ck-no) on purpose: if a layout still includes the v2 script
+    js/cookie.njk next to this bar, that script finds no #ckbar and does nothing, so the two can
+    never double-handle a click. The footer's "Cookie choices" link keeps the id ckreopen.
+    data-ga-id carries the GA4 measurement id so the static script can set ga-disable-<id>.
+    data-analytics is "true" only when this build really loads analytics (the global analytics from
+    lib/platform.js, WS1, and the page is not noindex); head/ga4.njk stubs the loader and sets
+    ga-disable otherwise, and the script then never switches it back on. -#}
+{%- set ck = pages.shared.cookie_bar -%}
+<div class="v3-ck" id="v3-ck" role="region" tabindex="-1" aria-label="{{ ck.label | safe }}" data-ga-id="{{ site.ga4_id | safe }}" data-analytics="{{ 'true' if (analytics and not noindex) else 'false' }}" hidden>
+  <div class="v3-ck__in">
+    <p class="v3-ck__text">{{ ck.text | safe }}<a href="/privacy-policy">{{ ck.privacy_link | safe }}</a>{{ ck.text_outro | safe }}</p>
+    <div class="v3-ck__btns">
+      <button type="button" class="v3-ck__btn t-button" id="v3-ck-yes">{{ ck.accept | safe }}</button>
+      <button type="button" class="v3-ck__btn t-button" id="v3-ck-no">{{ ck.decline | safe }}</button>
+    </div>
+  </div>
+</div>

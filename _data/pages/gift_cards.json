@@ -1,0 +1,19 @@
+{
+  "_note": "Gift cards page, overhaul v3 (WS5), Warm Gallery, type only (art direction 3.7: no gift card picture until Chase picks one). Facts from decisions-and-rules (Identity and facts, Chase 2026-10-29): gift cards are sold online through Square at the link below and as physical cards at the shop, good toward any service, window tint included. Gift cards are only ever SOLD: never imply one is given away. Amounts, terms and expiry are not recorded, so none are stated.",
+  "order_url": "https://app.squareup.com/gift/ML2SD9F302V17/order",
+  "meta": {
+    "title": "Gift Cards | BC Glass &amp; Tint, Boulder City, NV",
+    "description": "Buy a BC Glass &amp; Tint gift card online through Square, or at the shop in Boulder City. Good toward any service, window tint included.",
+    "image_alt": "BC Glass and Tint logo"
+  },
+  "v3": {
+    "eyebrow": "Gift cards",
+    "h1": "Gift cards.",
+    "lede": "Good toward any service at the shop, window tint included.",
+    "buy": "Buy a gift card online",
+    "buy_note": "Opens Square, the payment page for our gift cards, in a new tab.",
+    "shop_h2": "Or at the shop.",
+    "shop_text": "Physical gift cards are sold at the shop in Boulder City, Tuesday to Saturday, 9 to 5."
+  },
+  "schema": { "date_modified": "2026-10-29" }
+}

@@ -1,0 +1,631 @@
+{
+  "_readme": "WS6 image manifest. Read by scripts/images.js. crop is {ref:[w,h],x,y,w,h} (pixels of a reference size, scaled to the master), {fx,fy,fw,fh} (fractions of the master) or {aspect:'4:3'} (largest crop of that ratio around focal). focal {x,y} is the point of interest as a fraction of the OUTPUT crop (used for object-position). phone is an art-directed crop served below 1024px. alias reuses another id's files. Sources come only from the client photo library (read-only); --sync copies them into images-src/v3 as working masters. Aliases named for the WS5 photo map (lib/eleventy-ws5.js) point at the real entries.",
+  "images": [
+    {
+      "id": "storefront-hero",
+      "group": "hero",
+      "src": "photo-library/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1.jpg",
+      "master": "storefront-shop-sign",
+      "keepFull": true,
+      "use": [
+        "home hero",
+        "city heroes"
+      ],
+      "crop": {
+        "ref": [
+          4032,
+          3024
+        ],
+        "x": 2238,
+        "y": 244,
+        "w": 1256,
+        "h": 1196
+      },
+      "focal": {
+        "x": 0.45,
+        "y": 0.6
+      },
+      "alt": "Front of the BC Glass and Tint shop in Boulder City: the stucco entry arch, the number 1633 and the shop window with the BC logo.",
+      "phone": {
+        "crop": {
+          "ref": [
+            4032,
+            3024
+          ],
+          "x": 2238,
+          "y": 330,
+          "w": 1388,
+          "h": 1110
+        },
+        "focal": {
+          "x": 0.4,
+          "y": 0.6
+        },
+        "sizes": "100vw"
+      },
+      "note": "Bronco fully out of frame: the crop starts right of the taillight (x 2238 of 4032). The logo's left star tip and the AUTO GLASS row lie at the crop's left edge."
+    },
+    {
+      "id": "storefront-wide",
+      "group": "hero",
+      "src": "photo-library/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1.jpg",
+      "master": "storefront-shop-sign",
+      "keepFull": true,
+      "use": [
+        "about hero",
+        "closing storefront",
+        "in their words shop line",
+        "city pages"
+      ],
+      "crop": {
+        "ref": [
+          4032,
+          3024
+        ],
+        "x": 2238,
+        "y": 244,
+        "w": 1794,
+        "h": 1196
+      },
+      "focal": {
+        "x": 0.35,
+        "y": 0.6
+      },
+      "alt": "The BC Glass and Tint shop entry in Boulder City, with the number 1633 above the shop window and the BC logo on the glass and the door.",
+      "note": "3:2 crop of the same Bronco-free region; the 4:5 wide crop in art direction 5.2 cannot be cut without the Bronco's fender or the logo's left half."
+    },
+    {
+      "id": "storefront-small",
+      "alias": "storefront-wide",
+      "use": [
+        "name used by lib/eleventy-ws5.js sections.json photos map"
+      ],
+      "alt": "The BC Glass and Tint shop entry in Boulder City, with the number 1633 above the shop window and the BC logo on the glass and the door."
+    },
+    {
+      "id": "chip-repair-hero",
+      "group": "page",
+      "src": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
+      "master": "chip-bridge-tool-1",
+      "use": [
+        "/chip-repair hero"
+      ],
+      "crop": {
+        "fx": 0,
+        "fy": 0,
+        "fw": 1,
+        "fh": 1
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "alt": "A chip repair bridge tool with two suction cups mounted on a car windshield inside the shop bay.",
+      "phone": {
+        "master": "chip-bridge-tool-portrait",
+        "src": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-portrait-2026-10-09-1.jpg",
+        "crop": {
+          "aspect": "4:5"
+        },
+        "focal": {
+          "x": 0.5,
+          "y": 0.45
+        },
+        "sizes": "100vw"
+      }
+    },
+    {
+      "id": "chip-bridge-portrait",
+      "alias": "chip-repair-hero",
+      "use": [
+        "name used by lib/eleventy-ws5.js sections.json photos map"
+      ],
+      "alt": "A chip repair bridge tool with two suction cups mounted on a car windshield inside the shop bay."
+    },
+    {
+      "id": "windshield-lane",
+      "group": "page",
+      "src": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
+      "master": "chip-bridge-tool-1",
+      "use": [
+        "home windshield lane",
+        "/about in the bay"
+      ],
+      "crop": {
+        "fx": 0.1,
+        "fy": 0.11,
+        "fw": 0.78,
+        "fh": 0.78
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "alt": "Chip repair bridge tool mounted on a windshield in the shop bay."
+    },
+    {
+      "id": "chip-bridge-1",
+      "alias": "windshield-lane",
+      "use": [
+        "name used by lib/eleventy-ws5.js sections.json photos map"
+      ],
+      "alt": "Chip repair bridge tool mounted on a windshield in the shop bay."
+    },
+    {
+      "id": "windshield-hero",
+      "group": "page",
+      "src": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-2.jpg",
+      "master": "chip-bridge-tool-2",
+      "use": [
+        "/windshield hero"
+      ],
+      "crop": {
+        "fx": 0,
+        "fy": 0,
+        "fw": 1,
+        "fh": 1
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "alt": "Windshield chip repair tool with suction cups on the glass, seen from a second angle in the shop bay."
+    },
+    {
+      "id": "chip-bridge-2",
+      "alias": "windshield-hero",
+      "use": [
+        "name used by lib/eleventy-ws5.js sections.json photos map"
+      ],
+      "alt": "Windshield chip repair tool with suction cups on the glass, seen from a second angle in the shop bay."
+    },
+    {
+      "id": "home-patio",
+      "group": "page",
+      "src": "photo-library/_edited-masters/residential/bc-residential-tint-before-after-patio-window-2026-07-26-1-edited.jpg",
+      "master": "home-patio-1",
+      "use": [
+        "home lane",
+        "/home-tint hero"
+      ],
+      "crop": {
+        "fx": 0,
+        "fy": 0,
+        "fw": 1,
+        "fh": 1
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Sliding patio doors in a home, looking out to a covered porch and desert mountains.",
+      "phone": {
+        "crop": {
+          "fx": 0.03,
+          "fy": 0,
+          "fw": 0.94,
+          "fh": 1
+        },
+        "focal": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "sizes": "100vw"
+      },
+      "needs_ruling": "IMAGE-CATALOG labels this frame 'before' with no visible tint difference; art direction 3.1 uses it as the single 'after' frame. Alt text claims no film. Chase to confirm the frame and the caption."
+    },
+    {
+      "id": "residential-patio-after-1",
+      "alias": "home-patio",
+      "use": [
+        "name used by lib/eleventy-ws5.js sections.json photos map"
+      ],
+      "alt": "Sliding patio doors in a home, looking out to a covered porch and desert mountains."
+    },
+    {
+      "id": "home-privacy-film",
+      "group": "page",
+      "src": "photo-library/_edited-masters/residential/bc-residential-film-frosted-privacy-film-three-pane-2026-08-21-1-edited.jpg",
+      "master": "home-frosted-privacy-film-bay-window",
+      "use": [
+        "/home-tint privacy film block"
+      ],
+      "crop": {
+        "fx": 0.03,
+        "fy": 0.02,
+        "fw": 0.94,
+        "fh": 0.835
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Three-pane window covered in frosted privacy film, with white blinds beside it.",
+      "needs_ruling": "gallery.json has checked:false (customer interior). The crop ends above the bed or sofa at the bottom edge. Chase to confirm the customer is fine with it."
+    },
+    {
+      "id": "residential-frosted-privacy",
+      "alias": "home-privacy-film",
+      "use": [
+        "name used by lib/eleventy-ws5.js sections.json photos map"
+      ],
+      "alt": "Three-pane window covered in frosted privacy film, with white blinds beside it."
+    },
+    {
+      "id": "home-living-room",
+      "group": "page",
+      "src": "photo-library/_edited-masters/residential/bc-residential-tint-living-room-windows-desert-view-2026-07-26-1-edited.jpg",
+      "master": "home-living-room-1",
+      "use": [
+        "/new-construction",
+        "/hoa-window-film"
+      ],
+      "crop": {
+        "ref": [
+          1100,
+          825
+        ],
+        "x": 105,
+        "y": 120,
+        "w": 830,
+        "h": 467
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Two large living room windows with grid panes, looking out to a covered patio and desert mountains.",
+      "note": "Wall art at the right and the sofa at the bottom are cropped out."
+    },
+    {
+      "id": "residential-living-room-desert",
+      "alias": "home-living-room",
+      "use": [
+        "name used by lib/eleventy-ws5.js sections.json photos map"
+      ],
+      "alt": "Two large living room windows with grid panes, looking out to a covered patio and desert mountains."
+    },
+    {
+      "id": "commercial-maroon-awning",
+      "alias": "office-window-maroon-awning",
+      "use": [
+        "/commercial-film hero"
+      ],
+      "alt": "Storefront window under a maroon awning, reflecting trees and a street."
+    },
+    {
+      "id": "chevrolet-colorado-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-black-chevy-colorado-front-three-quarter-2026-10-23-1-edited.jpg",
+      "master": "chevrolet-colorado-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Black Chevrolet Colorado crew cab pickup with off-road tires, parked beside the BC Glass and Tint shop, side windows tinted."
+    },
+    {
+      "id": "chevrolet-silverado-3500hd-side",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-blue-chevy-silverado-3500hd-side-2026-10-24-1-edited.jpg",
+      "master": "chevrolet-silverado-3500hd-side",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Side view of a blue Chevrolet Silverado 3500HD crew cab pickup with tinted front and rear door windows."
+    },
+    {
+      "id": "porsche-taycan-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-black-porsche-taycan-2026-08-18-1-edited.jpg",
+      "master": "porsche-taycan-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Black Porsche Taycan electric sedan parked outside a stucco building, side windows tinted."
+    },
+    {
+      "id": "tesla-model-y-blue-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-blue-tesla-model-y-front-sign-2026-09-25-1-edited.jpg",
+      "master": "tesla-model-y-blue-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Blue-gray Tesla Model Y parked in front of the BC Glass and Tint shop sign."
+    },
+    {
+      "id": "ford-f-150-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-f150-front-three-quarter-shop-2026-07-23-1-edited.jpg",
+      "master": "ford-f-150-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "White Ford F-150 crew cab pickup with dark wheels parked at the BC Glass and Tint shop, side windows tinted."
+    },
+    {
+      "id": "ford-f-150-rear-door-windows",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-f150-rear-windows-2026-07-23-1-edited.jpg",
+      "master": "ford-f-150-rear-door-windows",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Close side view of a white Ford F-150 crew cab showing the tinted front and rear door windows."
+    },
+    {
+      "id": "ford-f-150-raptor-side",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-ford-f150-raptor-side-2026-09-24-1-edited.jpg",
+      "master": "ford-f-150-raptor-side",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Side profile of a white Ford F-150 Raptor with a RAPTOR bed decal and tinted door windows."
+    },
+    {
+      "id": "kia-suv-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-kia-suv-front-sign-2026-09-15-1-edited.jpg",
+      "master": "kia-suv-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "White three-row Kia SUV with a black roof rack parked in front of the BC Glass and Tint shop sign, side windows tinted."
+    },
+    {
+      "id": "ram-3500-dually-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-ram-3500-dually-front-2026-08-29-1-edited.jpg",
+      "master": "ram-3500-dually-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "White Ram 3500 dually crew cab pickup parked at the BC Glass and Tint shop, side windows tinted."
+    },
+    {
+      "id": "tesla-model-3-white-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-tesla-model3-2026-08-18-3-edited.jpg",
+      "master": "tesla-model-3-white-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "White Tesla Model 3 parked near the BC Glass and Tint shop, side windows tinted."
+    },
+    {
+      "id": "tesla-model-y-white-side",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-tesla-model-y-side-2026-08-29-1-edited.jpg",
+      "master": "tesla-model-y-white-side",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Side profile of a white Tesla Model Y in a parking lot with tinted door windows."
+    },
+    {
+      "id": "volkswagen-atlas-front-storefront",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-vw-atlas-front-storefront-2026-09-22-1-edited.jpg",
+      "master": "volkswagen-atlas-front-storefront",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "White Volkswagen Atlas SUV parked in front of the BC Glass and Tint shop."
+    },
+    {
+      "id": "jeep-gladiator-side",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/brand-truck-hero/brand-truck-hero-white-jeep-gladiator-edited.jpg",
+      "master": "jeep-gladiator-side",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "White Jeep Gladiator Rubicon crew cab pickup parked in front of the BC Glass and Tint box truck, side windows tinted."
+    },
+    {
+      "id": "ford-bronco-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1-edited.jpg",
+      "master": "ford-bronco-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Blue-gray Ford Bronco with a white hardtop parked in front of the BC Glass and Tint shop."
+    },
+    {
+      "id": "subaru-outback-front-three-quarter",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/brand-truck-hero/brand-truck-hero-gray-subaru-outback-edited.jpg",
+      "master": "subaru-outback-front-three-quarter",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.8
+      },
+      "alt": "Gray Subaru Outback wagon parked in front of the BC Glass and Tint box truck, side windows tinted."
+    },
+    {
+      "id": "windshield-chip-bullseye-close",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/install/bc-chip-repair-windshield-bullseye-chip-portrait-2026-09-30-1-edited.jpg",
+      "master": "windshield-chip-bullseye-close",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "alt": "Close view of a bullseye chip in a windshield next to a mirror-mounted device, photographed from inside the vehicle."
+    },
+    {
+      "id": "home-frosted-privacy-film-bay-window",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/residential/bc-residential-film-frosted-privacy-film-three-pane-2026-08-21-1-edited.jpg",
+      "master": "home-frosted-privacy-film-bay-window",
+      "crop": {
+        "fx": 0.085,
+        "fy": 0.01,
+        "fw": 0.83,
+        "fh": 0.83
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Three-pane window covered in frosted privacy film.",
+      "needs_ruling": "gallery.json has checked:false for this frame (customer interior). The crop removes the bed or sofa at the bottom edge; Chase to confirm the customer is fine with it before it ships."
+    },
+    {
+      "id": "home-slider-window-split-glare",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/residential/residential-tint-slider-split-glare-13-edited.jpg",
+      "master": "home-slider-window-split-glare",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Sliding home window looking out to a backyard with a tree and patio table, shot to compare glare between the two panes."
+    },
+    {
+      "id": "home-sliding-window-backyard-tree",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/residential/residential-tint-sliding-door-tree-04-edited.jpg",
+      "master": "home-sliding-window-backyard-tree",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Sliding home window with film installed, looking out to a backyard with a tree, block wall and patio table."
+    },
+    {
+      "id": "home-patio-window-desert-view",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/residential/bc-residential-tint-before-after-patio-window-2026-07-26-2-edited.jpg",
+      "master": "home-patio-window-desert-view",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Two-pane patio window in a home looking out to a covered porch and desert hills."
+    },
+    {
+      "id": "home-kitchen-window-over-sink",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/residential/bc-residential-tint-kitchen-window-over-sink-2026-07-26-1-edited.jpg",
+      "master": "home-kitchen-window-over-sink",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.28
+      },
+      "alt": "Kitchen window above a sink with a wall clock above it, looking out to a block wall and lattice."
+    },
+    {
+      "id": "office-window-maroon-awning",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/commercial/bc-commercial-tint-maroon-awning-window-2026-08-18-2-edited.jpg",
+      "master": "office-window-maroon-awning",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Storefront window under a maroon awning reflecting trees and a street, with curtains visible inside."
+    },
+    {
+      "id": "commercial-maroon-awning-2",
+      "alias": "office-window-maroon-awning",
+      "use": [
+        "name used by lib/eleventy-ws5.js sections.json photos map"
+      ],
+      "alt": "Storefront window under a maroon awning reflecting trees and a street, with curtains visible inside."
+    },
+    {
+      "id": "office-window-white-brick",
+      "group": "gallery",
+      "src": "photo-library/_edited-masters/commercial/bc-commercial-tint-white-brick-window-2026-08-18-1-edited.jpg",
+      "master": "office-window-white-brick",
+      "crop": {
+        "aspect": "4:3"
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alt": "Window in a white brick wall reflecting parked cars, trees and a building across the street."
+    }
+  ]
+}

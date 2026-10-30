@@ -1,0 +1,16 @@
+---
+# The sitemap, generated (WS1, overhaul v3). Replaces the hand-written sitemap.xml, which is no
+# longer copied (.eleventy.js). Every built page is listed unless it is noindex, sets
+# `sitemap: false`, or platform.json excludes its path (404, /book/sent/, the smoke page, /admin/).
+# No priority and no changefreq. lastmod comes from page data (front matter `lastmod`, the
+# wording file's schema.date_modified, or gallery.json "updated"); a page with none gets no lastmod.
+# Logic: lib/filters.js sitemapEntries.
+permalink: sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for e in collections.all | sitemapEntries(site, platform) %}
+  <url><loc>{{ e.loc }}</loc>{% if e.lastmod %}<lastmod>{{ e.lastmod }}</lastmod>{% endif %}</url>
+{%- endfor %}
+</urlset>

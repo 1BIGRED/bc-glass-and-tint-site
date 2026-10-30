@@ -1,18 +1,33 @@
-{# STUB: owned by WS5, replace #}
-{#- v3 site footer (art direction 3.1 row 10: ink-1, logo, address, hours, phone, the main links,
-    legal links, the gift card link once /gift-cards exists; 1px line on top; no badge wall, no
-    social icon row). Included once by layouts/v3.njk:  {% include "v3/footer.njk" %}
-    Keep the id "ckreopen": the cookie choices link the consent script listens for.
-    Wording: pages.shared.v2 and pages.shared.footer until WS5 adds v3 footer wording.
-    Contact facts: site.json. THIS STUB prints the facts and links with minimal markup. -#}
-{%- set w = pages.shared.v2 -%}
-{%- set wf = pages.shared.v2.footer -%}
-<footer class="v3-footer mood-dark bg-ink-1 hair-top">
-  <div class="wrap section--minor stack stack-24">
-    <a class="v3-footer__logo" href="/"><img src="/logo-hero.png" width="640" height="238" alt="{{ w.logo_alt | safe }}" loading="lazy" decoding="async" style="height:40px;width:auto"></a>
-    <p class="t-body">{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}<br><a class="tnum" href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a></p>
-    <ul class="list-plain stack stack-8">{% for l in w.nav %}<li><a href="{{ l.href | safe }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
-    <p class="t-label fg-2"><a href="/privacy-policy">{{ wf.privacy | safe }}</a> &middot; <a href="#" id="ckreopen">{{ wf.cookies | safe }}</a> &middot; <a href="{{ wf.tint_law_href | safe }}">{{ wf.tint_law | safe }}</a></p>
-    <p class="t-label fg-2">&copy; {{ pages.shared.footer.copyright_year | safe }} {{ site.name_html | safe }}. {{ pages.shared.footer.rights | safe }}</p>
+{#- v3 site footer (WS5; art direction 3.1 row 10): ink-1 ground, 1px line on top, the real logo
+    (raster original, resized as a whole; never redrawn), address, hours, phone, the five main
+    links, more links, the out-of-town pages, legal links and the gift card link. No badge wall,
+    no social icon row. The phone number here is one of the two allowed hand-written tel: links
+    (WS5 acceptance). Keep id "ckreopen": the consent script listens for it.
+    Wording: pages.sections.footer. Contact facts: site.json. Included once by layouts/v3.njk. -#}
+{%- set F = pages.sections.footer -%}
+{%- set logoAlt = (pages.shared.v3.actions.header.logo_alt if (pages.shared.v3 and pages.shared.v3.actions and pages.shared.v3.actions.header) else pages.shared.v2.logo_alt) -%}
+<footer class="v3-footer ws5-footer mood-dark bg-ink-1 hair-top">
+  <div class="wrap ws5-footer__grid">
+    <div class="ws5-footer__brand">
+      {%- set lg = images._logo if (images and images._logo) else { png: "/logo-hero.png", width: 640, height: 238 } %}
+      <a class="ws5-footer__logo" href="/"><img class="v3-logo-img" src="{{ lg.png }}" width="{{ lg.width }}" height="{{ lg.height }}" alt="{{ logoAlt | safe }}" loading="lazy" decoding="async"></a>
+      <p class="fg-2 measure">{{ F.tagline | safe }}</p>
+    </div>
+    <div class="ws5-footer__visit">
+      <p class="t-eyebrow">{{ F.visit_heading | safe }}</p>
+      <p>{{ site.address.display | safe }}<br>{{ pages.sections.talk.hours | safe }}<br><a class="tnum" href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a></p>
+    </div>
+    <nav class="ws5-footer__nav" aria-label="{{ F.nav_label | safe }}">
+      <ul class="list-plain">{% for l in F.main %}<li><a href="{{ l.href }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
+      <ul class="list-plain">{% for l in F.more %}<li><a href="{{ l.href }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
+      <div>
+        <p class="t-eyebrow">{{ F.areas_heading | safe }}</p>
+        <ul class="list-plain">{% for l in F.areas %}<li><a href="{{ l.href }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
+      </div>
+    </nav>
+  </div>
+  <div class="wrap ws5-footer__legal t-label fg-2">
+    <p><a href="/privacy-policy">{{ F.privacy | safe }}</a> <span aria-hidden="true">&middot;</span> <a href="#" id="ckreopen">{{ F.cookies | safe }}</a> <span aria-hidden="true">&middot;</span> <a href="{{ F.tint_law_href }}">{{ F.tint_law | safe }}</a></p>
+    <p>&copy; {{ pages.shared.footer.copyright_year | safe }} {{ site.name_html | safe }}. {{ F.rights | safe }}</p>
   </div>
 </footer>

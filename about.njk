@@ -1,110 +1,48 @@
 ---
-# About page, v2 (website overhaul, 2026-10-29). Layout: _includes/layouts/v2.njk. Styles:
-# assets/v2/v2.css plus assets/v2/pages.css. All wording is in _data/pages/about.json.
-# Restyle only: the words are the approved copy. Faceless: no staff or owner names or faces.
-# The Google map embed stays (the approved privacy policy says it loads with this page).
-# JSON-LD: about.11tydata.js (business, website, webpage nodes only).
-layout: layouts/v2.njk
-extra_css: ["/assets/v2/pages.css"]
+# About, now "The shop" (overhaul v3, WS5; blueprint 2; art direction 3.7): Showroom Black, hero =
+# the storefront wide crop, a second section with the bay frame, "Family owned since 1994." set as
+# the headline fact. Faceless throughout. The Google map embed stays (the approved privacy policy
+# says it loads with this page). Wording: _data/pages/about.json v3. JSON-LD: about.11tydata.js.
+layout: layouts/v3.njk
 permalink: about.html
 slug: about
 page_key: about
-og_image: images/hero.jpg
+bundles: ["home", "service"]
 ---
-{%- set pg = pages.about -%}
-{%- set sh = pages.shared -%}
-{%- set tel = site.phone.tel -%}
-{%- set callText = sh.v2.call + " " + site.phone.display_call -%}
-{%- set flinks = [site.social.facebook, site.maps_url, site.social.yelp, site.social.tintwiz] -%}
+{%- import "v3-service/blocks.njk" as b with context -%}
+{%- from "v3/hero.njk" import pageHero with context -%}
+{%- set V = pages.about.v3 -%}
+{{ pageHero({ eyebrow: V.eyebrow, h1: V.h1, lede: V.lede, service: "any", photo: V.hero_photo, ground: "bg-ink-0" }) }}
 
-<section class="pg-head" aria-labelledby="pg-h1">
-  <div class="v2-wrap pg-head__in">
-    <div class="pg-head__copy">
-      <p class="v2-eyebrow">{{ pg.hero.eyebrow | safe }}</p>
-      <h1 class="pg-h1" id="pg-h1">{{ pg.hero.heading | safe }}</h1>
-      <p class="pg-lede">{{ pg.hero.sub | safe }}</p>
-      <div class="pg-actions">
-        <a class="v2-btn v2-btn--gold v2-btn--xl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
-        <a class="v2-textlink" href="#quote">{{ sh.buttons.free_quote | safe }}</a>
-      </div>
-    </div>
-    <figure class="pg-photo">
-      <picture><source srcset="/images/residential-before-after-patio.webp" type="image/webp"><img src="/images/residential-before-after-patio.jpg" width="1600" height="1200" alt="{{ pg.values.image_alt | safe }}" fetchpriority="high"></picture>
-      <figcaption>{{ pg.values.caption | safe }}</figcaption>
-    </figure>
+<section class="section bg-ink-1" aria-labelledby="fact-h">
+  <div class="wrap">
+    <h2 id="fact-h" class="ws5-fact-h">{{ V.fact | safe }}</h2>
+    <div class="ws5-prose measure stack-16 ws5-mt-32">{% for p in V.story %}<p>{{ p | safe }}</p>{% endfor %}</div>
   </div>
 </section>
 
-<div class="pg-strip">
-  <div class="v2-wrap">
-    <ul>{% for b in pg.band %}<li>{{ b | safe }}</li>{% endfor %}</ul>
-  </div>
-</div>
-
-<section class="v2-section" aria-labelledby="story-h">
-  <div class="v2-wrap pg-cols">
-    <h2 class="v2-h2" id="story-h">{{ pg.story.heading | safe }}</h2>
-    <div class="pg-prose">
-      <p>{{ pg.story.paragraphs[0] | fill | safe }}</p>
-      <p>{{ pg.story.paragraphs[1] | fill | safe }}</p>
+<section class="ws5-lane section bg-ink-0" aria-labelledby="bay-h">
+  <div class="wrap grid ws5-lane__grid ws5-lane__grid--mirror">
+    {%- if ws5photos[V.bay_photo] %}
+    <div class="ws5-lane__media">{{ b.photo(V.bay_photo, "(min-width: 1024px) 50vw, 100vw", { ratio: "43" }) }}</div>
+    {%- endif %}
+    <div class="ws5-lane__copy">
+      <h2 id="bay-h">{{ V.bay_h2 | safe }}</h2>
+      <p class="t-lead fg-2 measure ws5-mt-24">{{ V.bay_text | safe }}</p>
     </div>
   </div>
 </section>
 
-<section class="v2-band v2-section" aria-labelledby="values-h">
-  <div class="v2-wrap v2-stack v2-stack--lg">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="values-h">{{ pg.values.heading | safe }}</h2>
-      <p class="v2-body">{{ pg.values.sub | safe }}</p>
+<section class="section--minor bg-ink-1" aria-labelledby="find-h">
+  <div class="wrap">
+    <h2 id="find-h">{{ V.find_h2 | safe }}</h2>
+    <p class="t-body ws5-mt-24">{{ site.address.display | safe }}<br>{{ pages.sections.talk.hours | safe }}<br><a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ V.directions | safe }}</a></p>
+    <div class="ws5-map">
+      <iframe title="{{ V.map_title | safe }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3229.125768716298!2d-114.85933912364771!3d35.968350514147495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c92b72b46cc5db%3A0xbdb7c36540900252!2sBC%20Glass%20%26%20Tint!5e0!3m2!1sen!2sus!4v1787777120579!5m2!1sen!2sus"></iframe>
     </div>
-    <ul class="pg-values">
-{%- for it in pg.values.items %}
-      <li><h3 class="pg-h3">{{ it.heading | fill | safe }}</h3><p>{{ it.text | safe }}</p></li>
-{%- endfor %}
-    </ul>
   </div>
 </section>
 
-<section class="v2-section" aria-labelledby="find-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="find-h">{{ pg.find.heading | safe }}</h2>
-      <p class="v2-body">{{ pg.find.sub | safe }}</p>
-    </div>
-    <div class="pg-map">
-      <iframe title="{{ pg.find.map_title | safe }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3229.125768716298!2d-114.85933912364771!3d35.968350514147495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c92b72b46cc5db%3A0xbdb7c36540900252!2sBC%20Glass%20%26%20Tint!5e0!3m2!1sen!2sus!4v1787777120579!5m2!1sen!2sus"></iframe>
-    </div>
-    <p><a class="v2-link" href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ pg.find.directions | safe }}</a></p>
-  </div>
-</section>
+{{ b.howBooking("any", { uid: "how" }) }}
 
-<section class="v2-band v2-section" aria-labelledby="follow-h">
-  <div class="v2-wrap v2-stack v2-stack--md">
-    <div class="v2-stack v2-intro">
-      <h2 class="v2-h2" id="follow-h">{{ pg.follow.heading | safe }}</h2>
-      <p class="v2-body">{{ pg.follow.sub | safe }}</p>
-    </div>
-    <ul class="v2-svcchips">
-{%- for label in pg.follow.links %}
-      <li><a href="{{ flinks[loop.index0] | safe }}" target="_blank" rel="noopener">{{ label | safe }}</a></li>
-{%- endfor %}
-    </ul>
-  </div>
-</section>
-
-{%- set week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] %}
-{%- set closedDays = [] %}
-{%- for d in week %}{% if not (d in site.hours.days) %}{% set _n = closedDays.push(d) %}{% endif %}{% endfor %}
-<section class="v2-band v2-section v2-contactwrap" aria-labelledby="contact-h">
-  <div class="v2-wrap v2-contact">
-    <div class="v2-contact__talk">
-      <h2 class="v2-h2 v2-h2--xl" id="contact-h">{{ pg.contact.heading | safe }}</h2>
-      <a class="v2-btn v2-btn--gold v2-btn--xxl" href="tel:{{ tel | safe }}">{{ callText | safe }}</a>
-      <span class="v2-status v2-status--lg" data-bc-status><span class="v2-dot" aria-hidden="true"></span><span class="v2-status__txt"></span></span>
-      <p class="v2-body">{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}.{% if closedDays.length %} {{ pg.contact.closed_prefix | safe }} {{ closedDays | join(" and ") }}.{% endif %}</p>
-    </div>
-    <div class="v2-contact__form">
-{% include "quote.njk" %}
-    </div>
-  </div>
-</section>
+{{ b.talk({ id: "quote", source: "About", service: "any", uid: "talk", photo: "none" }) }}

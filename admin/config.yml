@@ -4,7 +4,7 @@
 # _data/site.json and the per-page files under _data/pages/, and Netlify
 # rebuilds the live site from that commit.
 #
-# Repo: this site lives on Chase's own GitHub, 1BIGRED/bc-glass-and-tint-site.
+# Repo: this site lives on the studio's own GitHub account, 1BIGRED/bc-glass-and-tint-site.
 # Login is GitHub OAuth through Netlify's built-in OAuth client, a GitHub
 # OAuth app registered on 1BIGRED and installed in the shop's own Netlify
 # under Project configuration > Security > OAuth. There is no base_url on
@@ -21,7 +21,15 @@
 # switches (which header style, which CSS blocks, which icon set load) that
 # keep each page's HTML structure correct. It is a studio-only file; editing
 # it through the CMS could break a page's layout, so the office never sees
-# it here and never needs to.
+# it here and never needs to. The same goes for the other studio-only data files:
+# _data/images.json and _data/v2images.json (written by the image pipeline) and
+# _data/banned.json (the list of phrases the build refuses to publish).
+#
+# Safety net (WS7, overhaul v3): this file carries `required` and `pattern` checks
+# (phone, hours, dates, tracking ids), the tracking ids live in the hidden Studio Only
+# collection, and the build refuses a bad value even if one got past the editor.
+# Scripts\Test-CmsConfig.ps1 (in 09 - Website) compares every field path here with
+# the real keys in _data and must report 0 orphans either way before a deploy.
 
 backend:
   name: github
@@ -64,10 +72,10 @@ collections:
             widget: object
             hint: "Changes every page and the Google listing data. Check with the studio first."
             fields:
-              - { label: "As printed", name: display, widget: string }
-              - { label: "Dialing form (tel: link)", name: tel, widget: string, hint: "Technical format for click-to-call links: a plus sign, the country code, then the digits with no spaces or dashes." }
-              - { label: "Search engine form", name: schema, widget: string, hint: "Technical format read by search engines." }
-              - { label: "As printed on call buttons", name: display_call, widget: string, hint: "The same number written with the area code in parentheses, for example (702) 550-8840. It must be the same number as As printed above." }
+              - { label: "As printed", name: display, widget: string, required: true, pattern: ['^\d{3}-\d{3}-\d{4}$', "Write the number as 702-550-8840: three digits, a dash, three digits, a dash, four digits."], hint: "For example 702-550-8840. The number is checked when you press Save; a number in the wrong shape cannot be saved." }
+              - { label: "Dialing form (tel: link)", name: tel, widget: string, required: true, pattern: ['^\+1\d{10}$', "Write a plus sign, the 1, then the ten digits with no spaces, dashes or brackets, for example +17025508840."], hint: "Technical format for click-to-call links: a plus sign, the country code 1, then the ten digits with no spaces or dashes, for example +17025508840. A number in any other shape is refused when you press Save, so a bad number is stopped before it is saved." }
+              - { label: "Search engine form", name: schema, widget: string, required: true, pattern: ['^\+1-\d{3}-\d{3}-\d{4}$', "Write the number as +1-702-550-8840."], hint: "Technical format read by search engines, for example +1-702-550-8840. It must be the same number as the dialing form." }
+              - { label: "As printed on call buttons", name: display_call, widget: string, required: true, pattern: ['^\(\d{3}\) \d{3}-\d{4}$', "Write the number as (702) 550-8840, with the area code in brackets."], hint: "The same number written with the area code in parentheses, for example (702) 550-8840. It must be the same number as As printed above." }
           - { label: "Public email", name: email, widget: string, hint: "Changes every page and the Google listing data. Check with the studio first." }
           - label: "Address"
             name: address
@@ -92,37 +100,50 @@ collections:
             widget: object
             hint: "Changes every page and the Google listing data. Check with the studio first."
             fields:
-              - { label: "As printed", name: display, widget: string }
-              - { label: "Search engine form", name: schema, widget: string, hint: "Technical format, for example Tu-Sa 09:00-17:00. Ask the studio before changing." }
+              - { label: "As printed", name: display, widget: string, required: true, hint: "How the hours read on the page, for example Tuesday to Saturday, 9am to 5pm." }
+              - { label: "Search engine form", name: schema, widget: string, required: true, hint: "Technical format, for example Tu-Sa 09:00-17:00. Ask the studio before changing." }
               - label: "Open days"
                 name: days
                 widget: list
                 label_singular: "Day"
                 summary: "{{fields.value}}"
                 field: { label: "Day", name: value, widget: string }
-              - { label: "Opens", name: opens, widget: string, hint: "24-hour time, for example 09:00." }
-              - { label: "Closes", name: closes, widget: string, hint: "24-hour time, for example 17:00." }
+              - { label: "Opens", name: opens, widget: string, required: true, pattern: ['^([01]\d|2[0-3]):[0-5]\d$', "Write the time in 24-hour form, for example 09:00."], hint: "24-hour time, for example 09:00." }
+              - { label: "Closes", name: closes, widget: string, required: true, pattern: ['^([01]\d|2[0-3]):[0-5]\d$', "Write the time in 24-hour form, for example 17:00."], hint: "24-hour time, for example 17:00." }
               - { label: "Time zone", name: timezone, widget: string, hint: "Technical. The open and closed message works out the time in this zone. Ask the studio before changing." }
           - label: "Holiday closures (shop closed all day)"
             name: closures
             widget: list
             label_singular: "Closed day"
             required: false
-            summary: "{{fields.date}} {{fields.note}}"
-            hint: "Add a day the shop is closed. On that date the site says the shop is closed and never promises it opens that day. Add the day only once the shop has confirmed it is closed. Remove the day after it has passed, or leave it; the site ignores past dates. If the same date is also in Holidays with hours not confirmed, the not confirmed list wins and no status shows."
+            summary: "{{fields.date}} {{fields.reason}}"
+            hint: "Add a day the shop is closed all day, only once the shop has confirmed it. On that date the site says the shop is closed and shows the next day it opens. Pick the date, then type the reason as a short name, because the site prints it: Closed for Thanksgiving. Past dates can stay; the site ignores them. A date cannot be in this list and in Holidays with hours not confirmed at the same time. A date or reason left empty stops the save."
             fields:
-              - { label: "Date", name: date, widget: datetime, type: date, picker_utc: true, hint: "Pick the calendar day." }
-              - { label: "Note", name: note, widget: string, required: false, hint: "For your own reference, for example Thanksgiving, closed. The site does not print this note on the page." }
+              - { label: "Date", name: date, widget: datetime, type: date, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-26."], hint: "Pick the calendar day." }
+              - { label: "Reason (printed on the site)", name: reason, widget: string, required: true, hint: "A short name for the closure, written to follow the words Closed for. Examples: Thanksgiving, Christmas Eve, the day after Christmas." }
           - label: "Holidays with hours not confirmed"
             name: hours_unknown
             widget: list
             label_singular: "Day"
             required: false
             summary: "{{fields.date}} {{fields.note}}"
-            hint: "Days when the shop has not confirmed its hours. On these dates the site shows no open or closed message at all, so it never says something wrong. When the shop confirms a day, delete it from this list. If the shop is closed that day, add it to Holiday closures. If the shop is open its normal hours, just delete it."
+            hint: "Days when the shop has not confirmed its hours. On these dates the site shows no open or closed message at all, so it never says something wrong. When the shop confirms a day, delete it from this list. If the shop is closed that day, add it to Holiday closures. If the shop is open its normal hours, just delete it. A date cannot be in this list and in Holiday closures at the same time."
             fields:
-              - { label: "Date", name: date, widget: datetime, type: date, picker_utc: true, hint: "Pick the calendar day." }
+              - { label: "Date", name: date, widget: datetime, type: date, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2027-01-01."], hint: "Pick the calendar day." }
               - { label: "Note", name: note, widget: string, required: false, hint: "For your own reference, for example Christmas Eve, hours not confirmed. The site does not print this note on the page." }
+          # Not read by any template yet and its shape is not settled, so it stays studio only.
+          - { label: "Per-day notes (studio only)", name: day_notes, widget: hidden }
+          - { label: "Where the hours came from (studio only)", name: hours_source, widget: hidden }
+          - { label: "The shop answers texts (owner confirmed)", name: texts_confirmed, widget: boolean, default: false, required: false, hint: "Leave this OFF until the owner has said the shop reads and answers texts. While it is off, the site offers Request a time as the main button when the shop is closed. Turn it on and the site offers Text us instead. Save, and the site updates after the rebuild." }
+          - { label: "The shop can assess a chip from a photo (owner confirmed)", name: chip_photo_assess, widget: boolean, default: false, required: false, hint: "Leave this OFF until the owner has said the shop can look at a photo of a chip and say whether it can be repaired." }
+          - label: "Lines the site shows once the owner confirms them"
+            name: lines
+            widget: object
+            hint: "Leave each line empty until the owner has confirmed exactly what the shop does. An empty line is not shown on the site."
+            fields:
+              - { label: "Reply time to a text", name: text_reply, widget: string, required: false, hint: "One short sentence, only after the owner confirms how fast texts are answered." }
+              - { label: "When a request gets confirmed", name: request_confirm, widget: string, required: false, hint: "One short sentence, only after the owner confirms how fast a booking request is answered." }
+              - { label: "How long a call takes", name: call_length, widget: string, required: false, hint: "One short sentence, only after the owner confirms it." }
           - { label: "Google Maps link", name: maps_url, widget: string, hint: "Changes every page and the Google listing data. Check with the studio first." }
           - { label: "Payment accepted", name: payment_accepted, widget: string, hint: "Plain text list read by search engines, for example Cash, Credit Card, Debit Card." }
           - label: "Areas served (search engines)"
@@ -170,10 +191,67 @@ collections:
               - { label: "Yelp review count", name: yelp_count, widget: string, hint: "Re-read the live Yelp listing before changing this. It prints on every page." }
               - { label: "Tint Wiz rating", name: tintwiz_rating, widget: string, hint: "Re-read the live Tint Wiz listing before changing this. It prints on every page." }
               - { label: "Tint Wiz review count", name: tintwiz_count, widget: string, hint: "Re-read the live Tint Wiz listing before changing this. It prints on every page." }
-          - { label: "Google Analytics id", name: ga4_id, widget: string, hint: "Do not change." }
-          - { label: "Google Ads tag ID", name: google_ads_id, widget: string, hint: "Leave empty unless the studio says so. Format AW- followed by digits. Empty means no Ads tag loads." }
-          - { label: "Microsoft Clarity id", name: clarity_id, widget: string, hint: "Do not change." }
-          - { label: "Google site verification token", name: google_site_verification, widget: string, hint: "Do not change." }
+          # The analytics ids and the Google verification token are kept here as hidden
+          # fields only, so a save from this page carries them through untouched. They
+          # are edited in the Studio Only collection, which is hidden from the menu.
+          - { label: "Google Analytics id (studio only)", name: ga4_id, widget: hidden }
+          - { label: "Google Ads tag ID (studio only)", name: google_ads_id, widget: hidden }
+          - { label: "Microsoft Clarity id (studio only)", name: clarity_id, widget: hidden }
+          - { label: "Google site verification token (studio only)", name: google_site_verification, widget: hidden }
+
+  # ================================================================
+  # Studio only: tracking ids and the Google verification token.
+  # The same file as Business Info (_data/site.json), shown on its own and hidden
+  # from the menu (hide: true) so the office never sees these four values. Only
+  # the studio opens it, by adding #/collections/studio_only to the editor address.
+  # This hides it; it does not lock it. The real lock is who can sign in to the
+  # repo. Every other key of the file is listed here as hidden so a save from this
+  # page carries the rest of the file through untouched.
+  # ================================================================
+  - name: studio_only
+    label: "Studio Only (tracking ids)"
+    delete: false
+    hide: true
+    editor:
+      preview: false
+    files:
+      - name: site_ids
+        label: "Tracking ids and verification token"
+        file: "_data/site.json"
+        description: "Studio only. Do not change these without the studio. A wrong id stops visitor counting or the Google ownership check. Each value is checked for its shape when you press Save."
+        fields:
+          - { label: "Google Analytics id", name: ga4_id, widget: string, required: true, pattern: ['^G-[A-Z0-9]+$', "A Google Analytics id starts with G- followed by capital letters and digits, for example G-ABC123XYZ4."], hint: "Starts with G- followed by capital letters and digits." }
+          - { label: "Google Ads tag ID", name: google_ads_id, widget: string, required: false, pattern: ['^AW-\d+$', "A Google Ads tag id is AW- followed by digits, for example AW-1234567890."], hint: "AW- followed by digits. Leave empty and no Ads tag loads." }
+          - { label: "Microsoft Clarity id", name: clarity_id, widget: string, required: true, pattern: ['^[a-z0-9]{8,12}$', "A Clarity id is 8 to 12 lowercase letters and digits."], hint: "8 to 12 lowercase letters and digits." }
+          - { label: "Google site verification token", name: google_site_verification, widget: string, required: true, hint: "The ownership token Google gave for the site. Keep it in place permanently." }
+          # Everything else in the file, kept as hidden so a save does not drop it.
+          - { label: "name", name: name, widget: hidden }
+          - { label: "name_html", name: name_html, widget: hidden }
+          - { label: "alternate_name", name: alternate_name, widget: hidden }
+          - { label: "url", name: url, widget: hidden }
+          - { label: "origin", name: origin, widget: hidden }
+          - { label: "logo", name: logo, widget: hidden }
+          - { label: "founding_year", name: founding_year, widget: hidden }
+          - { label: "description", name: description, widget: hidden }
+          - { label: "phone", name: phone, widget: hidden }
+          - { label: "email", name: email, widget: hidden }
+          - { label: "address", name: address, widget: hidden }
+          - { label: "geo", name: geo, widget: hidden }
+          - { label: "hours", name: hours, widget: hidden }
+          - { label: "closures", name: closures, widget: hidden }
+          - { label: "hours_unknown", name: hours_unknown, widget: hidden }
+          - { label: "day_notes", name: day_notes, widget: hidden }
+          - { label: "hours_source", name: hours_source, widget: hidden }
+          - { label: "texts_confirmed", name: texts_confirmed, widget: hidden }
+          - { label: "chip_photo_assess", name: chip_photo_assess, widget: hidden }
+          - { label: "lines", name: lines, widget: hidden }
+          - { label: "maps_url", name: maps_url, widget: hidden }
+          - { label: "payment_accepted", name: payment_accepted, widget: hidden }
+          - { label: "area_served", name: area_served, widget: hidden }
+          - { label: "schema_images", name: schema_images, widget: hidden }
+          - { label: "social", name: social, widget: hidden }
+          - { label: "same_as", name: same_as, widget: hidden }
+          - { label: "reviews", name: reviews, widget: hidden }
 
   # ================================================================
   # Prices and gallery photos (_data/pricing.json, _data/gallery.json).
@@ -190,10 +268,57 @@ collections:
       - name: pricing
         label: "Prices"
         file: "_data/pricing.json"
-        description: "Every price the website can show. A price shows on the live site only when Status is Confirmed AND Show on the live site is on. Everything else shows Call for a quote. Draft prices never show on the live site. Never type a guess, a competitor's number, or 0 to mean unknown."
+        description: "Every price the website can show. Only a price the owner has confirmed may be published: a price shows on the live site only when Status is Confirmed AND Show on the live site is on. Everything else shows Call for a quote. Draft prices never show on the live site. Never type a guess, a competitor's number, or 0 to mean unknown. The lines on legal hold are locked and cannot be switched on here."
         fields:
-          - { label: "Date last updated", name: updated, widget: string, hint: "YYYY-MM-DD format. Change it to today's date whenever you change a price." }
+          - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02. Change it to today's date whenever you change a price." }
           - { label: "Currency", name: currency, widget: string, hint: "Do not change." }
+          - { label: "Prices last reviewed with the owner", name: reviewed_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "The day the whole price list was last checked with the owner. The Prices page prints Prices reviewed on this date. Leave it empty until that check has happened." }
+          - { label: "Lowest legal shade for front doors (studio only)", name: front_min_vlt, widget: hidden }
+          - { label: "Where that limit comes from (studio only)", name: front_min_vlt_source, widget: hidden }
+          - label: "Starting points in Build Your Tint (presets)"
+            name: presets
+            widget: list
+            label_singular: "Starting point"
+            summary: "{{fields.label}} ({{fields.status}})"
+            hint: "The ready-made choices a visitor can pick first. A starting point shows on the live site only when its Status is Confirmed AND Show on the live site is on, the same rule as a price. Only a starting point the owner has confirmed may be switched on. Drafts show on the test copy of the site only."
+            fields:
+              - { label: "Id (studio only)", name: id, widget: string, hint: "Technical. Ask the studio before changing." }
+              - { label: "Name shown to visitors", name: label, widget: string, required: true }
+              - { label: "One line that explains it", name: description, widget: text, required: false }
+              - { label: "Windows and shades (studio only)", name: panels, widget: hidden }
+              - label: "Status"
+                name: status
+                widget: select
+                required: true
+                options:
+                  - { label: "Unknown, not decided yet", value: unknown }
+                  - { label: "Draft, not signed off by the owner", value: draft }
+                  - { label: "Confirmed, the owner approved this starting point", value: confirmed }
+                hint: "Pick Confirmed only after the owner has approved this exact starting point, shades included."
+              - { label: "Show on the live site", name: publish, widget: boolean, default: false, required: false, hint: "Only a starting point the owner has confirmed may be switched on. Leave this off and the visitor does not see it on the live site." }
+              - { label: "Where it came from (studio only)", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
+          - { label: "Starting point chosen for the visitor (studio only)", name: default_preset, widget: string, required: false, hint: "Technical. Leave empty so no starting point is pre-selected. Ask the studio before changing." }
+          - label: "Add-ons offered with a price"
+            name: addons
+            widget: list
+            label_singular: "Add-on"
+            summary: "{{fields.label}}"
+            hint: "Each add-on is priced from the price line it points to. It is offered with a price only when that price is Confirmed AND Show on the live site is on; otherwise the site says Call for a quote."
+            fields:
+              - { label: "Id (studio only)", name: id, widget: string, hint: "Technical. Ask the studio before changing." }
+              - { label: "Name shown to visitors", name: label, widget: string, required: true }
+              - { label: "What it does for the customer", name: benefit, widget: string, required: false, hint: "One plain sentence. Leave empty until the owner has said what to promise." }
+              - { label: "Price line it uses (studio only)", name: price_ref, widget: string, hint: "Technical. Names the price in the lists below. Ask the studio before changing." }
+          - label: "Add-ons to ask about (no price on the site)"
+            name: also_ask
+            widget: list
+            label_singular: "Add-on"
+            summary: "{{fields.label}}"
+            hint: "Shown as a question to ask when the shop confirms the booking. No price is printed for these."
+            fields:
+              - { label: "Id (studio only)", name: id, widget: string, hint: "Technical. Ask the studio before changing." }
+              - { label: "Name shown to visitors", name: label, widget: string, required: true }
+              - { label: "What it does for the customer", name: benefit, widget: string, required: false, hint: "One plain sentence. Leave empty until the owner has said what to promise." }
           - label: "Rules, in plain English (read only, do not edit)"
             name: notes
             widget: list
@@ -229,6 +354,7 @@ collections:
                   - label: "Status"
                     name: status
                     widget: select
+                    required: true
                     options:
                       - { label: "Unknown, no number yet", value: unknown }
                       - { label: "Draft, not signed off by the owner", value: draft }
@@ -236,9 +362,9 @@ collections:
                     hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Pick Confirmed only after the owner has given this exact number."
                   - { label: "Amount (number only)", name: amount, widget: number, value_type: float, min: 0, required: false, hint: "A plain number with no dollar sign, for example 80. Leave empty if unknown. Never type 0 to mean unknown. Never type a guess or a competitor's number." }
                   - { label: "Words the site prints", name: display, widget: string, required: false, hint: "Exactly what customers read, for example $80 or From $350. Fill it in when the status is Confirmed. Keep Starting at wording where the line says it." }
-                  - { label: "Show on the live site", name: publish, widget: boolean, default: false, required: false, hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Leave this off to keep a confirmed price private; the site then says Call for a quote." }
+                  - { label: "Show on the live site", name: publish, widget: boolean, default: false, required: false, hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Only a price the owner has confirmed may be switched on. Leave this off to keep a confirmed price private; the site then says Call for a quote." }
                   - { label: "Confirmed by", name: confirmed_by, widget: string, required: false, hint: "Who gave the number, by name or role. Required before you set the status to Confirmed." }
-                  - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, picker_utc: true, required: false, hint: "The day the owner gave the number." }
+                  - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "The day the owner gave the number." }
                   - { label: "Where the number came from", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
                   - { label: "How the number was worked out", name: basis, widget: text, required: false, hint: "Reference only. Do not change." }
               - { label: "Windshield chip repair, each additional chip", name: chip_repair_additional, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *service_fields }
@@ -276,6 +402,7 @@ collections:
                           - label: "Status"
                             name: status
                             widget: select
+                            required: true
                             options:
                               - { label: "Unknown, no number yet", value: unknown }
                               - { label: "Draft, not signed off by the owner", value: draft }
@@ -283,9 +410,9 @@ collections:
                             hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Pick Confirmed only after the owner has given this exact number."
                           - { label: "Amount (number only)", name: amount, widget: number, value_type: float, min: 0, required: false, hint: "A plain number with no dollar sign, for example 150. Leave empty if unknown. Never type 0 to mean unknown. Never type a guess or a competitor's number." }
                           - { label: "Words the site prints", name: display, widget: string, required: false, hint: "Exactly what customers read, for example From $150. Fill it in when the status is Confirmed." }
-                          - { label: "Show on the live site", name: publish, widget: boolean, default: false, required: false, hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Leave this off to keep a confirmed price private; the site then says Call for a quote." }
+                          - { label: "Show on the live site", name: publish, widget: boolean, default: false, required: false, hint: "A price shows on the live site only when status is confirmed AND Show on the live site is on. Only a price the owner has confirmed may be switched on. Leave this off to keep a confirmed price private; the site then says Call for a quote." }
                           - { label: "Confirmed by", name: confirmed_by, widget: string, required: false, hint: "Who gave the number, by name or role. Required before you set the status to Confirmed." }
-                          - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, picker_utc: true, required: false, hint: "The day the owner gave the number." }
+                          - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "The day the owner gave the number." }
                           - { label: "Where the number came from", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
                           - { label: "How the number was worked out", name: basis, widget: text, required: false, hint: "Reference only. Do not change." }
                           - { label: "Why it is unknown", name: why_unknown, widget: string, required: false, hint: "Reference only. Do not change." }
@@ -376,25 +503,26 @@ collections:
                 name: full_windshield_film
                 widget: object
                 collapsed: true
-                hint: "On legal hold. Do not publish until Chase rules on Nevada law. The site never prints this line, in any mode, whatever is typed here. The hold switch and the live-site switch are hidden on purpose."
+                hint: "On legal hold. Do not publish until the studio has ruled on Nevada law. The site never prints this line, in any mode, whatever is typed here. The hold switch and the live-site switch are hidden on purpose."
                 fields:
                   - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
                   - label: "Status"
                     name: status
                     widget: select
+                    required: true
                     options:
                       - { label: "Unknown, no number yet", value: unknown }
                       - { label: "Draft, not signed off by the owner", value: draft }
                       - { label: "Confirmed, the owner gave this exact number", value: confirmed }
-                    hint: "On legal hold. Do not publish until Chase rules on Nevada law. Leave this as Draft."
+                    hint: "On legal hold. Do not publish until the studio has ruled on Nevada law. Leave this as Draft."
                   - { label: "Amount (number only)", name: amount, widget: number, value_type: float, min: 0, required: false, hint: "On legal hold. Do not change." }
                   - { label: "Words the site prints", name: display, widget: string, required: false, hint: "On legal hold. Do not change." }
                   - { label: "Where the number came from", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
                   - { label: "How the number was worked out", name: basis, widget: text, required: false, hint: "Reference only. Do not change." }
                   - { label: "Legal hold (studio only)", name: legal_hold, widget: hidden }
-                  - { label: "Why it is on hold", name: legal_note, widget: text, required: false, hint: "On legal hold. Do not publish until Chase rules on Nevada law. Reference only; do not change." }
+                  - { label: "Why it is on hold", name: legal_note, widget: text, required: false, hint: "On legal hold. Do not publish until the studio has ruled on Nevada law. Reference only; do not change." }
                   - { label: "Confirmed by", name: confirmed_by, widget: string, required: false, hint: "On legal hold. Leave empty." }
-                  - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, picker_utc: true, required: false, hint: "On legal hold. Leave empty." }
+                  - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "On legal hold. Leave empty." }
                   - { label: "Show on the live site (studio only)", name: publish, widget: hidden }
 
       - name: gallery
@@ -402,7 +530,7 @@ collections:
         file: "_data/gallery.json"
         description: "The photos on the Gallery page and the homepage. Add a photo only when it shows no faces and no personal items and the customer is OK with it. Never guess a shade."
         fields:
-          - { label: "Date last updated", name: updated, widget: string, hint: "YYYY-MM-DD format. Change it to today's date whenever you add or change a photo." }
+          - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02. Change it to today's date whenever you add or change a photo." }
           - label: "Photos"
             name: items
             widget: list
@@ -465,6 +593,81 @@ collections:
               - { label: "Checked: no faces, no personal items, customer OK", name: checked, widget: boolean, default: false, hint: "Only on when no faces, no personal items, and the customer is OK with it." }
               - { label: "Note", name: note, widget: text, required: false, hint: "For the office and studio only; not printed on the page. Say how the make and model were identified." }
           - { label: "Shade board (studio only)", name: shade_board, widget: hidden }
+
+  # ================================================================
+  # Customer reviews: which ones the site may quote (_data/reviews.json).
+  # The site prints a review only when Platform is Google AND the quote switch is
+  # on (featurable) AND the review has text. The build refuses to print any Yelp
+  # wording at all. The flags and the re-read date are records for people: the build
+  # does not read them, so the quote switch is the only control.
+  # ================================================================
+  - name: reviews_pool
+    label: "Customer Reviews (which ones the site may quote)"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: reviews
+        label: "Customer Reviews"
+        file: "_data/reviews.json"
+        description: "The pool of real customer reviews. The site quotes a review only when it is a Google review AND the switch Site may quote this review is on. Every review is word for word from the live Google listing; never retype, shorten, join or invent one. Yelp wording never goes on the site, so Yelp entries keep an empty Review text on purpose."
+        fields:
+          - { label: "Note for the studio (read only)", name: _note, widget: hidden }
+          - { label: "Google listing address (studio only)", name: listing_url, widget: hidden }
+          - { label: "Yelp listing address (studio only)", name: yelp_url, widget: hidden }
+          - label: "Reviews"
+            name: items
+            widget: list
+            label_singular: "Review"
+            summary: "{{fields.author_display}} ({{fields.platform}})"
+            hint: "Add a review only after reading it on the live listing. Turn on Site may quote this review only for a Google review that was re-read there, has no problem flag, and says nothing the shop cannot stand behind."
+            fields:
+              - { label: "Review id", name: id, widget: string, required: true, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Use lowercase letters, digits and single dashes only, for example g-first-last."], hint: "Short name with dashes and no spaces, for example g-first-last (g for Google, y for Yelp). Different from every other review. Do not change it later." }
+              - label: "Platform"
+                name: platform
+                widget: select
+                required: true
+                options:
+                  - { label: "Google", value: google }
+                  - { label: "Yelp", value: yelp }
+                hint: "Where the review was written. Only Google reviews can be quoted on the site."
+              - { label: "Reviewer name, exactly as the platform shows it", name: author_display, widget: string, required: true, hint: "Copy it exactly as it shows on the listing." }
+              - { label: "Month and year of the review", name: month_year, widget: string, required: false, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', "Write the month as year-month, for example 2026-08."], hint: "Year-month, for example 2026-08. Leave empty if you have not read it on the listing." }
+              - { label: "Link to the review or the listing", name: url, widget: string, required: false, hint: "Leave empty if you do not have it." }
+              - { label: "Review text (word for word)", name: text, widget: text, required: false, hint: "Required for a Google review: copy the words exactly, no edits. Leave EMPTY for a Yelp review on purpose, because Yelp wording never goes on the site." }
+              - label: "Jobs this review fits"
+                name: services
+                widget: select
+                multiple: true
+                required: false
+                options:
+                  - { label: "Auto tint", value: car }
+                  - { label: "Home window film", value: home }
+                  - { label: "Blinds", value: blinds }
+                  - { label: "Windshield chip repair", value: chip }
+                  - { label: "Windshield glass", value: windshield }
+                  - { label: "Commercial and office film", value: commercial }
+                  - { label: "Ceramic coating", value: ceramic }
+                  - { label: "Clear bra, paint protection film", value: clearbra }
+                  - { label: "Any job", value: general }
+                hint: "Where the site may show this review. Pick every job the review is truly about."
+              - { label: "Site may quote this review", name: featurable, widget: boolean, default: false, required: false, hint: "OFF means the site never quotes it. Turn it ON only for a Google review that was re-read on the live Google listing and has no problem flag below. Yelp reviews stay OFF." }
+              - label: "Problem flags"
+                name: flags
+                widget: select
+                multiple: true
+                required: false
+                options:
+                  - { label: "Compares us with another shop (comparative)", value: comparative }
+                  - { label: "Names a person at the shop (names_owner)", value: names_owner }
+                  - { label: "Says we did the windshield replacement ourselves (replacement_labour)", value: replacement_labour }
+                  - { label: "Joins pieces from different places (spliced)", value: spliced }
+                  - { label: "Mentions full windshield film (full_windshield)", value: full_windshield }
+                hint: "A flag is a warning for people, and the quote switch is what decides. Never turn the quote switch on for a flagged review. Windshield replacement is done by a partner shop, never by us."
+              - { label: "Date it was re-read on the live listing", name: verified_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "The day someone re-read this review on the live Google listing. Fill it in when you turn the quote switch on, so the record shows when it was last checked." }
+              - { label: "Re-read by", name: verified_by, widget: string, required: false, hint: "A role, such as the office. No personal names on the site; this is not printed." }
+              - { label: "Why it is on or off", name: reason, widget: text, required: false, hint: "A short note for the office and studio. Not printed on the page." }
+              - { label: "Where the wording came from (studio only)", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
 
   # ================================================================
   # Shared wording: header, footer, quote form, cookie banner.
@@ -682,173 +885,6 @@ collections:
               - { label: "Title", name: title, widget: string, hint: "The blue link in Google results." }
               - { label: "Description", name: description, widget: text, hint: "The grey text under the link in Google." }
               - { label: "Hero photo description (for screen readers)", name: image_alt, widget: string }
-          - label: "Top of page (hero)"
-            name: hero
-            widget: object
-            fields:
-              - { label: "Badge text", name: badge, widget: string }
-              - { label: "Logo description (for screen readers)", name: logo_alt, widget: string, hint: "Keep the &amp; entity as it is." }
-              - { label: "Heading", name: heading, widget: string, hint: "Keep the &amp; entity as it is." }
-              - { label: "Service line", name: svc_line, widget: string }
-              - { label: "Area line", name: area_line, widget: string, hint: "Keep the &amp; entity as it is." }
-              - { label: "Text button label", name: text_label, widget: string }
-              - label: "Stat boxes"
-                name: stats
-                widget: list
-                label_singular: "Stat"
-                summary: "{{fields.n}} {{fields.l}}"
-                hint: "May contain a token such as {google_rating} or {google_count}. These are filled in automatically from Business Info & Review Counts; leave them exactly as they are."
-                fields:
-                  - { label: "Number or symbol", name: n, widget: string }
-                  - { label: "Label", name: l, widget: string }
-          - label: "Five Stars on Every Platform section"
-            name: ratings
-            widget: object
-            fields:
-              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
-              - { label: "Paragraph", name: sub, widget: text }
-              - label: "Platform cards"
-                name: cards
-                widget: list
-                label_singular: "Card"
-                summary: "{{fields.name}}"
-                fields:
-                  - { label: "Platform code", name: key, widget: string, hint: "Technical: google, yelp or tintwiz. Ask the studio before changing." }
-                  - { label: "Platform display name", name: name, widget: string }
-              - { label: "Note under the cards", name: note, widget: text }
-          - label: "Scrolling trust badges"
-            name: band
-            widget: list
-            label_singular: "Badge"
-            summary: "{{fields.value}}"
-            field: { label: "Badge", name: value, widget: string }
-          - label: "Our Services section"
-            name: services
-            widget: object
-            fields:
-              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
-              - { label: "Paragraph", name: sub, widget: text }
-              - { label: "Get a Quote button", name: quote_btn, widget: string }
-              - { label: "Learn More button", name: learn_btn, widget: string }
-              - label: "Service cards"
-                name: items
-                widget: list
-                label_singular: "Service card"
-                summary: "{{fields.title}}"
-                hint: "For the Windshield Repair & Replacement card: windshield replacement is done by a partner shop. Never write that we do replacement labor ourselves; chip repair and tint are done here."
-                fields:
-                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
-                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
-                  - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
-                  - label: "Photo"
-                    name: image
-                    widget: object
-                    fields:
-                      - { label: "Photo description (for screen readers)", name: alt, widget: string }
-                      - { label: "Photo file", name: src, widget: string, hint: "Technical, ask your developer before changing." }
-                      - { label: "Photo width in pixels", name: width, widget: number, hint: "Technical, ask your developer before changing." }
-                      - { label: "Photo height in pixels", name: height, widget: number, hint: "Technical, ask your developer before changing." }
-                  - label: "Extra slideshow photos"
-                    name: extra_slides
-                    widget: list
-                    required: false
-                    label_singular: "Photo"
-                    summary: "{{fields.alt}}"
-                    fields:
-                      - { label: "Photo description (for screen readers)", name: alt, widget: string }
-                      - { label: "Photo file", name: src, widget: string, hint: "Technical, ask your developer before changing." }
-                      - { label: "Photo width in pixels", name: width, widget: number, hint: "Technical, ask your developer before changing." }
-                      - { label: "Photo height in pixels", name: height, widget: number, hint: "Technical, ask your developer before changing." }
-                  - { label: "Description", name: desc, widget: text }
-                  - label: "Bullet points"
-                    name: bullets
-                    widget: list
-                    label_singular: "Bullet"
-                    summary: "{{fields.value}}"
-                    field: { label: "Bullet", name: value, widget: string }
-                  - { label: "Service name (quote form)", name: svc, widget: string, hint: "Must match a service name in the Quote Form Options list exactly (Shared Wording), or the Get a Quote button on this card will not preselect the right service." }
-                  - { label: "Learn More link description (for screen readers)", name: learn_aria, widget: string }
-          - label: "New Construction banner"
-            name: new_construction
-            widget: object
-            fields:
-              - { label: "Badge", name: badge, widget: string }
-              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
-              - { label: "Text", name: text, widget: text, hint: "Keep the <strong> tags around the neighborhood names as they are." }
-              - { label: "Button text", name: cta, widget: string, hint: "Keep the &amp; entity as it is." }
-          - label: "Why Choose Us section"
-            name: why
-            widget: object
-            fields:
-              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> and &amp; entities as they are." }
-              - { label: "Paragraph", name: sub, widget: text }
-              - label: "Reason cards"
-                name: items
-                widget: list
-                label_singular: "Reason"
-                summary: "{{fields.title}}"
-                fields:
-                  - { label: "Icon", name: icon, widget: string, hint: "Technical icon code. Ask the studio before changing." }
-                  - { label: "Title", name: title, widget: string }
-                  - { label: "Text", name: text, widget: text }
-          - label: "What Customers Say section"
-            name: reviews
-            widget: object
-            hint: "May contain tokens such as {google_rating} or {yelp_rating}. Leave them exactly as they are."
-            fields:
-              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
-              - { label: "Paragraph", name: sub, widget: text }
-              - { label: "Read more on Google link", name: more_google, widget: string }
-              - { label: "Read more on Yelp link", name: more_yelp, widget: string }
-              - label: "Reviews"
-                name: items
-                widget: list
-                label_singular: "Review"
-                summary: "{{fields.name}}"
-                hint: "Real customer reviews, word for word. Never invent, paraphrase or pad a review."
-                fields:
-                  - { label: "Platform", name: platform, widget: string, hint: "Technical: google or yelp. Ask the studio before changing." }
-                  - { label: "Quote", name: quote, widget: text }
-                  - { label: "Reviewer name", name: name, widget: string }
-          - label: "Areas We Serve section"
-            name: areas
-            widget: object
-            fields:
-              - { label: "Heading", name: heading, widget: string, hint: "Keep the <span> tags as they are." }
-              - { label: "Paragraph", name: sub, widget: text }
-              - label: "Boulder City chip"
-                name: chip_city
-                widget: object
-                fields:
-                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
-                  - { label: "Label", name: label, widget: string }
-              - label: "Henderson chip"
-                name: chip_henderson
-                widget: object
-                fields:
-                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
-                  - { label: "Label", name: label, widget: string }
-              - label: "Las Vegas chip"
-                name: chip_las_vegas
-                widget: object
-                fields:
-                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
-                  - { label: "Label", name: label, widget: string }
-              - label: "Plain area chips (no link)"
-                name: chips_plain
-                widget: list
-                label_singular: "Area"
-                summary: "{{fields.value}}"
-                field: { label: "Area", name: value, widget: string }
-              - label: "Notes under the chips"
-                name: notes
-                widget: list
-                label_singular: "Note"
-                summary: "{{fields.link_text}}"
-                fields:
-                  - { label: "Text, before the link", name: text, widget: string }
-                  - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
-                  - { label: "Link text", name: link_text, widget: string }
           - label: "Frequently Asked Questions section"
             name: faq
             widget: object
@@ -1035,7 +1071,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service catalog"
                 name: offer_catalog
                 widget: object
@@ -1146,7 +1182,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -1277,7 +1313,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -1381,7 +1417,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -1474,7 +1510,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -1567,7 +1603,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -1660,7 +1696,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -1753,7 +1789,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -1878,7 +1914,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -1971,7 +2007,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -2079,7 +2115,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service record"
                 name: service
                 widget: object
@@ -2242,7 +2278,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service records"
                 name: services
                 widget: list
@@ -2385,7 +2421,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - label: "Service records"
                 name: services
                 widget: list
@@ -2410,7 +2446,7 @@ collections:
       - name: about
         label: "About Page"
         file: "_data/pages/about.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are. May contain tokens such as {google_count}; leave them exactly as they are. Justin and Chase stay nameless and faceless on every public surface."
+        description: "Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are. May contain tokens such as {google_count}; leave them exactly as they are. The owner and the staff stay nameless and faceless on every public surface."
         fields:
           - label: "Search result listing"
             name: meta
@@ -2484,7 +2520,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
 
       - name: hoa_window_film
         label: "Window Film & HOA Page"
@@ -2578,7 +2614,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
 
       - name: nevada_tint_law
         label: "Nevada Tint Law Page"
@@ -2672,7 +2708,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
 
       - name: new_construction
         label: "New Construction Page"
@@ -2847,7 +2883,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
               - { label: "Breadcrumb name", name: breadcrumb_name, widget: string, hint: "Technical. Ask the studio before changing." }
               - label: "Service record"
                 name: service
@@ -2981,7 +3017,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
 
       - name: reviews
         label: "Reviews Page"
@@ -3072,7 +3108,7 @@ collections:
             widget: object
             hint: "Not shown on the page. Read by Google. Ask the studio before changing."
             fields:
-              - { label: "Date last modified", name: date_modified, widget: string, hint: "YYYY-MM-DD format." }
+              - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
 
       - name: prices_page
         label: "Prices Page (wording only)"
@@ -3229,7 +3265,7 @@ collections:
             fields:
               - { label: "Label", name: label, widget: string }
               - { label: "Note", name: note, widget: text }
-              - { label: "Full windshield note", name: full_windshield_note, widget: text, hint: "Nevada's statute lists only a top strip as an exception. Do not offer or price full windshield film here; it is on legal hold until Chase rules." }
+              - { label: "Full windshield note", name: full_windshield_note, widget: text, hint: "Nevada's statute lists only a top strip as an exception. Do not offer or price full windshield film here; it is on legal hold until the studio has ruled." }
           - label: "Result box"
             name: result
             widget: object

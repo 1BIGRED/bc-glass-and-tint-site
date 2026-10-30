@@ -1,0 +1,1207 @@
+{
+  "_logo": {
+    "png": "/images/v3/logo-120.png",
+    "webp": "/images/v3/logo-120.webp",
+    "width": 322,
+    "height": 120,
+    "display_height": 40,
+    "display_width": 107,
+    "note": "3x the displayed 40 px height; replaces the 640 x 238 logo-hero.png shown at about 108 x 40"
+  },
+  "chevrolet-colorado-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/chevrolet-colorado-front-three-quarter-960.jpg",
+    "avif": "/images/v3/chevrolet-colorado-front-three-quarter-480.avif 480w, /images/v3/chevrolet-colorado-front-three-quarter-640.avif 640w, /images/v3/chevrolet-colorado-front-three-quarter-960.avif 960w, /images/v3/chevrolet-colorado-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/chevrolet-colorado-front-three-quarter-480.webp 480w, /images/v3/chevrolet-colorado-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/chevrolet-colorado-front-three-quarter-640.jpg 640w, /images/v3/chevrolet-colorado-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/chevrolet-colorado-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Black Chevrolet Colorado crew cab pickup with off-road tires, parked beside the BC Glass and Tint shop, side windows tinted.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-black-chevy-colorado-front-three-quarter-2026-10-23-1-edited.jpg",
+    "sig": "52365f86e503"
+  },
+  "chevrolet-silverado-3500hd-side": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/chevrolet-silverado-3500hd-side-960.jpg",
+    "avif": "/images/v3/chevrolet-silverado-3500hd-side-480.avif 480w, /images/v3/chevrolet-silverado-3500hd-side-640.avif 640w, /images/v3/chevrolet-silverado-3500hd-side-960.avif 960w, /images/v3/chevrolet-silverado-3500hd-side-1280.avif 1280w",
+    "webp": "/images/v3/chevrolet-silverado-3500hd-side-480.webp 480w, /images/v3/chevrolet-silverado-3500hd-side-960.webp 960w",
+    "jpeg": "/images/v3/chevrolet-silverado-3500hd-side-640.jpg 640w, /images/v3/chevrolet-silverado-3500hd-side-960.jpg 960w",
+    "first_avif": "/images/v3/chevrolet-silverado-3500hd-side-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Side view of a blue Chevrolet Silverado 3500HD crew cab pickup with tinted front and rear door windows.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-blue-chevy-silverado-3500hd-side-2026-10-24-1-edited.jpg",
+    "sig": "b7e0035d2c0e"
+  },
+  "chip-bridge-1": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v3/windshield-lane-960.jpg",
+    "avif": "/images/v3/windshield-lane-480.avif 480w, /images/v3/windshield-lane-640.avif 640w, /images/v3/windshield-lane-960.avif 960w, /images/v3/windshield-lane-1280.avif 1280w, /images/v3/windshield-lane-1800.avif 1800w",
+    "webp": "/images/v3/windshield-lane-480.webp 480w, /images/v3/windshield-lane-960.webp 960w, /images/v3/windshield-lane-1280.webp 1280w",
+    "jpeg": "/images/v3/windshield-lane-640.jpg 640w, /images/v3/windshield-lane-960.jpg 960w",
+    "first_avif": "/images/v3/windshield-lane-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.55
+    },
+    "pos": "50% 55%",
+    "alt": "Chip repair bridge tool mounted on a windshield in the shop bay.",
+    "group": "page",
+    "aspect": "1872/1404",
+    "use": [
+      "name used by lib/eleventy-ws5.js sections.json photos map"
+    ],
+    "source": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
+    "alias_of": "windshield-lane"
+  },
+  "chip-bridge-2": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v3/windshield-hero-960.jpg",
+    "avif": "/images/v3/windshield-hero-480.avif 480w, /images/v3/windshield-hero-640.avif 640w, /images/v3/windshield-hero-960.avif 960w, /images/v3/windshield-hero-1280.avif 1280w, /images/v3/windshield-hero-1800.avif 1800w",
+    "webp": "/images/v3/windshield-hero-480.webp 480w, /images/v3/windshield-hero-960.webp 960w, /images/v3/windshield-hero-1280.webp 1280w",
+    "jpeg": "/images/v3/windshield-hero-640.jpg 640w, /images/v3/windshield-hero-960.jpg 960w",
+    "first_avif": "/images/v3/windshield-hero-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.55
+    },
+    "pos": "50% 55%",
+    "alt": "Windshield chip repair tool with suction cups on the glass, seen from a second angle in the shop bay.",
+    "group": "page",
+    "aspect": "2400/1800",
+    "use": [
+      "name used by lib/eleventy-ws5.js sections.json photos map"
+    ],
+    "source": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-2.jpg",
+    "alias_of": "windshield-hero"
+  },
+  "chip-bridge-portrait": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v3/chip-repair-hero-960.jpg",
+    "avif": "/images/v3/chip-repair-hero-480.avif 480w, /images/v3/chip-repair-hero-640.avif 640w, /images/v3/chip-repair-hero-960.avif 960w, /images/v3/chip-repair-hero-1280.avif 1280w, /images/v3/chip-repair-hero-1800.avif 1800w",
+    "webp": "/images/v3/chip-repair-hero-480.webp 480w, /images/v3/chip-repair-hero-960.webp 960w, /images/v3/chip-repair-hero-1280.webp 1280w",
+    "jpeg": "/images/v3/chip-repair-hero-640.jpg 640w, /images/v3/chip-repair-hero-960.jpg 960w",
+    "first_avif": "/images/v3/chip-repair-hero-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.55
+    },
+    "pos": "50% 55%",
+    "alt": "A chip repair bridge tool with two suction cups mounted on a car windshield inside the shop bay.",
+    "group": "page",
+    "aspect": "2400/1800",
+    "use": [
+      "name used by lib/eleventy-ws5.js sections.json photos map"
+    ],
+    "source": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
+    "phone": {
+      "width": 1800,
+      "height": 2250,
+      "fallback": "/images/v3/chip-repair-hero-phone-960.jpg",
+      "avif": "/images/v3/chip-repair-hero-phone-480.avif 480w, /images/v3/chip-repair-hero-phone-640.avif 640w, /images/v3/chip-repair-hero-phone-960.avif 960w, /images/v3/chip-repair-hero-phone-1280.avif 1280w, /images/v3/chip-repair-hero-phone-1800.avif 1800w",
+      "webp": "/images/v3/chip-repair-hero-phone-480.webp 480w, /images/v3/chip-repair-hero-phone-960.webp 960w, /images/v3/chip-repair-hero-phone-1280.webp 1280w",
+      "jpeg": "/images/v3/chip-repair-hero-phone-640.jpg 640w, /images/v3/chip-repair-hero-phone-960.jpg 960w",
+      "first_avif": "/images/v3/chip-repair-hero-phone-480.avif",
+      "widths": [
+        480,
+        640,
+        960,
+        1280,
+        1800
+      ],
+      "focal": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "pos": "50% 45%",
+      "sizes": "100vw",
+      "aspect": "2400/3000"
+    },
+    "alias_of": "chip-repair-hero"
+  },
+  "chip-repair-hero": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v3/chip-repair-hero-960.jpg",
+    "avif": "/images/v3/chip-repair-hero-480.avif 480w, /images/v3/chip-repair-hero-640.avif 640w, /images/v3/chip-repair-hero-960.avif 960w, /images/v3/chip-repair-hero-1280.avif 1280w, /images/v3/chip-repair-hero-1800.avif 1800w",
+    "webp": "/images/v3/chip-repair-hero-480.webp 480w, /images/v3/chip-repair-hero-960.webp 960w, /images/v3/chip-repair-hero-1280.webp 1280w",
+    "jpeg": "/images/v3/chip-repair-hero-640.jpg 640w, /images/v3/chip-repair-hero-960.jpg 960w",
+    "first_avif": "/images/v3/chip-repair-hero-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.55
+    },
+    "pos": "50% 55%",
+    "alt": "A chip repair bridge tool with two suction cups mounted on a car windshield inside the shop bay.",
+    "group": "page",
+    "aspect": "2400/1800",
+    "use": [
+      "/chip-repair hero"
+    ],
+    "source": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
+    "phone": {
+      "width": 1800,
+      "height": 2250,
+      "fallback": "/images/v3/chip-repair-hero-phone-960.jpg",
+      "avif": "/images/v3/chip-repair-hero-phone-480.avif 480w, /images/v3/chip-repair-hero-phone-640.avif 640w, /images/v3/chip-repair-hero-phone-960.avif 960w, /images/v3/chip-repair-hero-phone-1280.avif 1280w, /images/v3/chip-repair-hero-phone-1800.avif 1800w",
+      "webp": "/images/v3/chip-repair-hero-phone-480.webp 480w, /images/v3/chip-repair-hero-phone-960.webp 960w, /images/v3/chip-repair-hero-phone-1280.webp 1280w",
+      "jpeg": "/images/v3/chip-repair-hero-phone-640.jpg 640w, /images/v3/chip-repair-hero-phone-960.jpg 960w",
+      "first_avif": "/images/v3/chip-repair-hero-phone-480.avif",
+      "widths": [
+        480,
+        640,
+        960,
+        1280,
+        1800
+      ],
+      "focal": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "pos": "50% 45%",
+      "sizes": "100vw",
+      "aspect": "2400/3000"
+    },
+    "sig": "a09ab150712b"
+  },
+  "commercial-maroon-awning": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/office-window-maroon-awning-960.jpg",
+    "avif": "/images/v3/office-window-maroon-awning-480.avif 480w, /images/v3/office-window-maroon-awning-640.avif 640w, /images/v3/office-window-maroon-awning-960.avif 960w, /images/v3/office-window-maroon-awning-1280.avif 1280w",
+    "webp": "/images/v3/office-window-maroon-awning-480.webp 480w, /images/v3/office-window-maroon-awning-960.webp 960w",
+    "jpeg": "/images/v3/office-window-maroon-awning-640.jpg 640w, /images/v3/office-window-maroon-awning-960.jpg 960w",
+    "first_avif": "/images/v3/office-window-maroon-awning-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Storefront window under a maroon awning, reflecting trees and a street.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/commercial/bc-commercial-tint-maroon-awning-window-2026-08-18-2-edited.jpg",
+    "alias_of": "office-window-maroon-awning",
+    "use": [
+      "/commercial-film hero"
+    ]
+  },
+  "commercial-maroon-awning-2": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/office-window-maroon-awning-960.jpg",
+    "avif": "/images/v3/office-window-maroon-awning-480.avif 480w, /images/v3/office-window-maroon-awning-640.avif 640w, /images/v3/office-window-maroon-awning-960.avif 960w, /images/v3/office-window-maroon-awning-1280.avif 1280w",
+    "webp": "/images/v3/office-window-maroon-awning-480.webp 480w, /images/v3/office-window-maroon-awning-960.webp 960w",
+    "jpeg": "/images/v3/office-window-maroon-awning-640.jpg 640w, /images/v3/office-window-maroon-awning-960.jpg 960w",
+    "first_avif": "/images/v3/office-window-maroon-awning-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Storefront window under a maroon awning reflecting trees and a street, with curtains visible inside.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/commercial/bc-commercial-tint-maroon-awning-window-2026-08-18-2-edited.jpg",
+    "alias_of": "office-window-maroon-awning",
+    "use": [
+      "name used by lib/eleventy-ws5.js sections.json photos map"
+    ]
+  },
+  "ford-bronco-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/ford-bronco-front-three-quarter-960.jpg",
+    "avif": "/images/v3/ford-bronco-front-three-quarter-480.avif 480w, /images/v3/ford-bronco-front-three-quarter-640.avif 640w, /images/v3/ford-bronco-front-three-quarter-960.avif 960w, /images/v3/ford-bronco-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/ford-bronco-front-three-quarter-480.webp 480w, /images/v3/ford-bronco-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/ford-bronco-front-three-quarter-640.jpg 640w, /images/v3/ford-bronco-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/ford-bronco-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Blue-gray Ford Bronco with a white hardtop parked in front of the BC Glass and Tint shop.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1-edited.jpg",
+    "sig": "36fdfbcf6370"
+  },
+  "ford-f-150-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/ford-f-150-front-three-quarter-960.jpg",
+    "avif": "/images/v3/ford-f-150-front-three-quarter-480.avif 480w, /images/v3/ford-f-150-front-three-quarter-640.avif 640w, /images/v3/ford-f-150-front-three-quarter-960.avif 960w, /images/v3/ford-f-150-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/ford-f-150-front-three-quarter-480.webp 480w, /images/v3/ford-f-150-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/ford-f-150-front-three-quarter-640.jpg 640w, /images/v3/ford-f-150-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/ford-f-150-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "White Ford F-150 crew cab pickup with dark wheels parked at the BC Glass and Tint shop, side windows tinted.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-f150-front-three-quarter-shop-2026-07-23-1-edited.jpg",
+    "sig": "aabf921bf588"
+  },
+  "ford-f-150-raptor-side": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/ford-f-150-raptor-side-960.jpg",
+    "avif": "/images/v3/ford-f-150-raptor-side-480.avif 480w, /images/v3/ford-f-150-raptor-side-640.avif 640w, /images/v3/ford-f-150-raptor-side-960.avif 960w, /images/v3/ford-f-150-raptor-side-1280.avif 1280w",
+    "webp": "/images/v3/ford-f-150-raptor-side-480.webp 480w, /images/v3/ford-f-150-raptor-side-960.webp 960w",
+    "jpeg": "/images/v3/ford-f-150-raptor-side-640.jpg 640w, /images/v3/ford-f-150-raptor-side-960.jpg 960w",
+    "first_avif": "/images/v3/ford-f-150-raptor-side-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Side profile of a white Ford F-150 Raptor with a RAPTOR bed decal and tinted door windows.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-white-ford-f150-raptor-side-2026-09-24-1-edited.jpg",
+    "sig": "59ac8dfe66b5"
+  },
+  "ford-f-150-rear-door-windows": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/ford-f-150-rear-door-windows-960.jpg",
+    "avif": "/images/v3/ford-f-150-rear-door-windows-480.avif 480w, /images/v3/ford-f-150-rear-door-windows-640.avif 640w, /images/v3/ford-f-150-rear-door-windows-960.avif 960w, /images/v3/ford-f-150-rear-door-windows-1280.avif 1280w",
+    "webp": "/images/v3/ford-f-150-rear-door-windows-480.webp 480w, /images/v3/ford-f-150-rear-door-windows-960.webp 960w",
+    "jpeg": "/images/v3/ford-f-150-rear-door-windows-640.jpg 640w, /images/v3/ford-f-150-rear-door-windows-960.jpg 960w",
+    "first_avif": "/images/v3/ford-f-150-rear-door-windows-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Close side view of a white Ford F-150 crew cab showing the tinted front and rear door windows.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-f150-rear-windows-2026-07-23-1-edited.jpg",
+    "sig": "0acb54142a12"
+  },
+  "home-frosted-privacy-film-bay-window": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/home-frosted-privacy-film-bay-window-960.jpg",
+    "avif": "/images/v3/home-frosted-privacy-film-bay-window-480.avif 480w, /images/v3/home-frosted-privacy-film-bay-window-640.avif 640w, /images/v3/home-frosted-privacy-film-bay-window-960.avif 960w, /images/v3/home-frosted-privacy-film-bay-window-1280.avif 1280w",
+    "webp": "/images/v3/home-frosted-privacy-film-bay-window-480.webp 480w, /images/v3/home-frosted-privacy-film-bay-window-960.webp 960w",
+    "jpeg": "/images/v3/home-frosted-privacy-film-bay-window-640.jpg 640w, /images/v3/home-frosted-privacy-film-bay-window-960.jpg 960w",
+    "first_avif": "/images/v3/home-frosted-privacy-film-bay-window-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Three-pane window covered in frosted privacy film.",
+    "group": "gallery",
+    "aspect": "1992/1494",
+    "needs_ruling": "gallery.json has checked:false for this frame (customer interior). The crop removes the bed or sofa at the bottom edge; Chase to confirm the customer is fine with it before it ships.",
+    "source": "photo-library/_edited-masters/residential/bc-residential-film-frosted-privacy-film-three-pane-2026-08-21-1-edited.jpg",
+    "sig": "74a2dc2aacb5"
+  },
+  "home-kitchen-window-over-sink": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/home-kitchen-window-over-sink-960.jpg",
+    "avif": "/images/v3/home-kitchen-window-over-sink-480.avif 480w, /images/v3/home-kitchen-window-over-sink-640.avif 640w, /images/v3/home-kitchen-window-over-sink-960.avif 960w, /images/v3/home-kitchen-window-over-sink-1280.avif 1280w",
+    "webp": "/images/v3/home-kitchen-window-over-sink-480.webp 480w, /images/v3/home-kitchen-window-over-sink-960.webp 960w",
+    "jpeg": "/images/v3/home-kitchen-window-over-sink-640.jpg 640w, /images/v3/home-kitchen-window-over-sink-960.jpg 960w",
+    "first_avif": "/images/v3/home-kitchen-window-over-sink-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.28
+    },
+    "pos": "50% 28%",
+    "alt": "Kitchen window above a sink with a wall clock above it, looking out to a block wall and lattice.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/residential/bc-residential-tint-kitchen-window-over-sink-2026-07-26-1-edited.jpg",
+    "sig": "3c3c33e5d56a"
+  },
+  "home-living-room": {
+    "width": 1800,
+    "height": 1013,
+    "fallback": "/images/v3/home-living-room-960.jpg",
+    "avif": "/images/v3/home-living-room-480.avif 480w, /images/v3/home-living-room-640.avif 640w, /images/v3/home-living-room-960.avif 960w, /images/v3/home-living-room-1280.avif 1280w, /images/v3/home-living-room-1800.avif 1800w",
+    "webp": "/images/v3/home-living-room-480.webp 480w, /images/v3/home-living-room-960.webp 960w, /images/v3/home-living-room-1280.webp 1280w",
+    "jpeg": "/images/v3/home-living-room-640.jpg 640w, /images/v3/home-living-room-960.jpg 960w",
+    "first_avif": "/images/v3/home-living-room-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Two large living room windows with grid panes, looking out to a covered patio and desert mountains.",
+    "group": "page",
+    "aspect": "1811/1019",
+    "use": [
+      "/new-construction",
+      "/hoa-window-film"
+    ],
+    "note": "Wall art at the right and the sofa at the bottom are cropped out.",
+    "source": "photo-library/_edited-masters/residential/bc-residential-tint-living-room-windows-desert-view-2026-07-26-1-edited.jpg",
+    "sig": "4823cf4a342a"
+  },
+  "home-patio": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v3/home-patio-960.jpg",
+    "avif": "/images/v3/home-patio-480.avif 480w, /images/v3/home-patio-640.avif 640w, /images/v3/home-patio-960.avif 960w, /images/v3/home-patio-1280.avif 1280w, /images/v3/home-patio-1800.avif 1800w",
+    "webp": "/images/v3/home-patio-480.webp 480w, /images/v3/home-patio-960.webp 960w, /images/v3/home-patio-1280.webp 1280w",
+    "jpeg": "/images/v3/home-patio-640.jpg 640w, /images/v3/home-patio-960.jpg 960w",
+    "first_avif": "/images/v3/home-patio-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Sliding patio doors in a home, looking out to a covered porch and desert mountains.",
+    "group": "page",
+    "aspect": "2400/1800",
+    "use": [
+      "home lane",
+      "/home-tint hero"
+    ],
+    "needs_ruling": "IMAGE-CATALOG labels this frame 'before' with no visible tint difference; art direction 3.1 uses it as the single 'after' frame. Alt text claims no film. Chase to confirm the frame and the caption.",
+    "source": "photo-library/_edited-masters/residential/bc-residential-tint-before-after-patio-window-2026-07-26-1-edited.jpg",
+    "phone": {
+      "width": 1800,
+      "height": 1436,
+      "fallback": "/images/v3/home-patio-phone-960.jpg",
+      "avif": "/images/v3/home-patio-phone-480.avif 480w, /images/v3/home-patio-phone-640.avif 640w, /images/v3/home-patio-phone-960.avif 960w, /images/v3/home-patio-phone-1280.avif 1280w, /images/v3/home-patio-phone-1800.avif 1800w",
+      "webp": "/images/v3/home-patio-phone-480.webp 480w, /images/v3/home-patio-phone-960.webp 960w, /images/v3/home-patio-phone-1280.webp 1280w",
+      "jpeg": "/images/v3/home-patio-phone-640.jpg 640w, /images/v3/home-patio-phone-960.jpg 960w",
+      "first_avif": "/images/v3/home-patio-phone-480.avif",
+      "widths": [
+        480,
+        640,
+        960,
+        1280,
+        1800
+      ],
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pos": "50% 50%",
+      "sizes": "100vw",
+      "aspect": "2256/1800"
+    },
+    "sig": "74ee1970cbee"
+  },
+  "home-patio-window-desert-view": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/home-patio-window-desert-view-960.jpg",
+    "avif": "/images/v3/home-patio-window-desert-view-480.avif 480w, /images/v3/home-patio-window-desert-view-640.avif 640w, /images/v3/home-patio-window-desert-view-960.avif 960w, /images/v3/home-patio-window-desert-view-1280.avif 1280w",
+    "webp": "/images/v3/home-patio-window-desert-view-480.webp 480w, /images/v3/home-patio-window-desert-view-960.webp 960w",
+    "jpeg": "/images/v3/home-patio-window-desert-view-640.jpg 640w, /images/v3/home-patio-window-desert-view-960.jpg 960w",
+    "first_avif": "/images/v3/home-patio-window-desert-view-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Two-pane patio window in a home looking out to a covered porch and desert hills.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/residential/bc-residential-tint-before-after-patio-window-2026-07-26-2-edited.jpg",
+    "sig": "7ba547399ac4"
+  },
+  "home-privacy-film": {
+    "width": 1800,
+    "height": 1199,
+    "fallback": "/images/v3/home-privacy-film-960.jpg",
+    "avif": "/images/v3/home-privacy-film-480.avif 480w, /images/v3/home-privacy-film-640.avif 640w, /images/v3/home-privacy-film-960.avif 960w, /images/v3/home-privacy-film-1280.avif 1280w, /images/v3/home-privacy-film-1800.avif 1800w",
+    "webp": "/images/v3/home-privacy-film-480.webp 480w, /images/v3/home-privacy-film-960.webp 960w, /images/v3/home-privacy-film-1280.webp 1280w",
+    "jpeg": "/images/v3/home-privacy-film-640.jpg 640w, /images/v3/home-privacy-film-960.jpg 960w",
+    "first_avif": "/images/v3/home-privacy-film-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Three-pane window covered in frosted privacy film, with white blinds beside it.",
+    "group": "page",
+    "aspect": "2256/1503",
+    "use": [
+      "/home-tint privacy film block"
+    ],
+    "needs_ruling": "gallery.json has checked:false (customer interior). The crop ends above the bed or sofa at the bottom edge. Chase to confirm the customer is fine with it.",
+    "source": "photo-library/_edited-masters/residential/bc-residential-film-frosted-privacy-film-three-pane-2026-08-21-1-edited.jpg",
+    "sig": "7e416b4505ce"
+  },
+  "home-slider-window-split-glare": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/home-slider-window-split-glare-960.jpg",
+    "avif": "/images/v3/home-slider-window-split-glare-480.avif 480w, /images/v3/home-slider-window-split-glare-640.avif 640w, /images/v3/home-slider-window-split-glare-960.avif 960w, /images/v3/home-slider-window-split-glare-1280.avif 1280w",
+    "webp": "/images/v3/home-slider-window-split-glare-480.webp 480w, /images/v3/home-slider-window-split-glare-960.webp 960w",
+    "jpeg": "/images/v3/home-slider-window-split-glare-640.jpg 640w, /images/v3/home-slider-window-split-glare-960.jpg 960w",
+    "first_avif": "/images/v3/home-slider-window-split-glare-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Sliding home window looking out to a backyard with a tree and patio table, shot to compare glare between the two panes.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/residential/residential-tint-slider-split-glare-13-edited.jpg",
+    "sig": "b766954a0460"
+  },
+  "home-sliding-window-backyard-tree": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/home-sliding-window-backyard-tree-960.jpg",
+    "avif": "/images/v3/home-sliding-window-backyard-tree-480.avif 480w, /images/v3/home-sliding-window-backyard-tree-640.avif 640w, /images/v3/home-sliding-window-backyard-tree-960.avif 960w, /images/v3/home-sliding-window-backyard-tree-1280.avif 1280w",
+    "webp": "/images/v3/home-sliding-window-backyard-tree-480.webp 480w, /images/v3/home-sliding-window-backyard-tree-960.webp 960w",
+    "jpeg": "/images/v3/home-sliding-window-backyard-tree-640.jpg 640w, /images/v3/home-sliding-window-backyard-tree-960.jpg 960w",
+    "first_avif": "/images/v3/home-sliding-window-backyard-tree-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Sliding home window with film installed, looking out to a backyard with a tree, block wall and patio table.",
+    "group": "gallery",
+    "aspect": "1800/1350",
+    "source": "photo-library/_edited-masters/residential/residential-tint-sliding-door-tree-04-edited.jpg",
+    "sig": "2bc5f13e004d"
+  },
+  "jeep-gladiator-side": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/jeep-gladiator-side-960.jpg",
+    "avif": "/images/v3/jeep-gladiator-side-480.avif 480w, /images/v3/jeep-gladiator-side-640.avif 640w, /images/v3/jeep-gladiator-side-960.avif 960w, /images/v3/jeep-gladiator-side-1280.avif 1280w",
+    "webp": "/images/v3/jeep-gladiator-side-480.webp 480w, /images/v3/jeep-gladiator-side-960.webp 960w",
+    "jpeg": "/images/v3/jeep-gladiator-side-640.jpg 640w, /images/v3/jeep-gladiator-side-960.jpg 960w",
+    "first_avif": "/images/v3/jeep-gladiator-side-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "White Jeep Gladiator Rubicon crew cab pickup parked in front of the BC Glass and Tint box truck, side windows tinted.",
+    "group": "gallery",
+    "aspect": "1312/984",
+    "source": "photo-library/_edited-masters/brand-truck-hero/brand-truck-hero-white-jeep-gladiator-edited.jpg",
+    "sig": "ab41bf4b9731"
+  },
+  "kia-suv-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/kia-suv-front-three-quarter-960.jpg",
+    "avif": "/images/v3/kia-suv-front-three-quarter-480.avif 480w, /images/v3/kia-suv-front-three-quarter-640.avif 640w, /images/v3/kia-suv-front-three-quarter-960.avif 960w, /images/v3/kia-suv-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/kia-suv-front-three-quarter-480.webp 480w, /images/v3/kia-suv-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/kia-suv-front-three-quarter-640.jpg 640w, /images/v3/kia-suv-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/kia-suv-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "White three-row Kia SUV with a black roof rack parked in front of the BC Glass and Tint shop sign, side windows tinted.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-white-kia-suv-front-sign-2026-09-15-1-edited.jpg",
+    "sig": "b84b78affc64"
+  },
+  "office-window-maroon-awning": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/office-window-maroon-awning-960.jpg",
+    "avif": "/images/v3/office-window-maroon-awning-480.avif 480w, /images/v3/office-window-maroon-awning-640.avif 640w, /images/v3/office-window-maroon-awning-960.avif 960w, /images/v3/office-window-maroon-awning-1280.avif 1280w",
+    "webp": "/images/v3/office-window-maroon-awning-480.webp 480w, /images/v3/office-window-maroon-awning-960.webp 960w",
+    "jpeg": "/images/v3/office-window-maroon-awning-640.jpg 640w, /images/v3/office-window-maroon-awning-960.jpg 960w",
+    "first_avif": "/images/v3/office-window-maroon-awning-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Storefront window under a maroon awning reflecting trees and a street, with curtains visible inside.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/commercial/bc-commercial-tint-maroon-awning-window-2026-08-18-2-edited.jpg",
+    "sig": "d16307231ac9"
+  },
+  "office-window-white-brick": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/office-window-white-brick-960.jpg",
+    "avif": "/images/v3/office-window-white-brick-480.avif 480w, /images/v3/office-window-white-brick-640.avif 640w, /images/v3/office-window-white-brick-960.avif 960w, /images/v3/office-window-white-brick-1280.avif 1280w",
+    "webp": "/images/v3/office-window-white-brick-480.webp 480w, /images/v3/office-window-white-brick-960.webp 960w",
+    "jpeg": "/images/v3/office-window-white-brick-640.jpg 640w, /images/v3/office-window-white-brick-960.jpg 960w",
+    "first_avif": "/images/v3/office-window-white-brick-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Window in a white brick wall reflecting parked cars, trees and a building across the street.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/commercial/bc-commercial-tint-white-brick-window-2026-08-18-1-edited.jpg",
+    "sig": "48047affd779"
+  },
+  "porsche-taycan-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/porsche-taycan-front-three-quarter-960.jpg",
+    "avif": "/images/v3/porsche-taycan-front-three-quarter-480.avif 480w, /images/v3/porsche-taycan-front-three-quarter-640.avif 640w, /images/v3/porsche-taycan-front-three-quarter-960.avif 960w, /images/v3/porsche-taycan-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/porsche-taycan-front-three-quarter-480.webp 480w, /images/v3/porsche-taycan-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/porsche-taycan-front-three-quarter-640.jpg 640w, /images/v3/porsche-taycan-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/porsche-taycan-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Black Porsche Taycan electric sedan parked outside a stucco building, side windows tinted.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-black-porsche-taycan-2026-08-18-1-edited.jpg",
+    "sig": "ecc0181cf9ac"
+  },
+  "ram-3500-dually-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/ram-3500-dually-front-three-quarter-960.jpg",
+    "avif": "/images/v3/ram-3500-dually-front-three-quarter-480.avif 480w, /images/v3/ram-3500-dually-front-three-quarter-640.avif 640w, /images/v3/ram-3500-dually-front-three-quarter-960.avif 960w, /images/v3/ram-3500-dually-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/ram-3500-dually-front-three-quarter-480.webp 480w, /images/v3/ram-3500-dually-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/ram-3500-dually-front-three-quarter-640.jpg 640w, /images/v3/ram-3500-dually-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/ram-3500-dually-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "White Ram 3500 dually crew cab pickup parked at the BC Glass and Tint shop, side windows tinted.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-white-ram-3500-dually-front-2026-08-29-1-edited.jpg",
+    "sig": "986853f5216b"
+  },
+  "residential-frosted-privacy": {
+    "width": 1800,
+    "height": 1199,
+    "fallback": "/images/v3/home-privacy-film-960.jpg",
+    "avif": "/images/v3/home-privacy-film-480.avif 480w, /images/v3/home-privacy-film-640.avif 640w, /images/v3/home-privacy-film-960.avif 960w, /images/v3/home-privacy-film-1280.avif 1280w, /images/v3/home-privacy-film-1800.avif 1800w",
+    "webp": "/images/v3/home-privacy-film-480.webp 480w, /images/v3/home-privacy-film-960.webp 960w, /images/v3/home-privacy-film-1280.webp 1280w",
+    "jpeg": "/images/v3/home-privacy-film-640.jpg 640w, /images/v3/home-privacy-film-960.jpg 960w",
+    "first_avif": "/images/v3/home-privacy-film-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Three-pane window covered in frosted privacy film, with white blinds beside it.",
+    "group": "page",
+    "aspect": "2256/1503",
+    "use": [
+      "name used by lib/eleventy-ws5.js sections.json photos map"
+    ],
+    "needs_ruling": "gallery.json has checked:false (customer interior). The crop ends above the bed or sofa at the bottom edge. Chase to confirm the customer is fine with it.",
+    "source": "photo-library/_edited-masters/residential/bc-residential-film-frosted-privacy-film-three-pane-2026-08-21-1-edited.jpg",
+    "alias_of": "home-privacy-film"
+  },
+  "residential-living-room-desert": {
+    "width": 1800,
+    "height": 1013,
+    "fallback": "/images/v3/home-living-room-960.jpg",
+    "avif": "/images/v3/home-living-room-480.avif 480w, /images/v3/home-living-room-640.avif 640w, /images/v3/home-living-room-960.avif 960w, /images/v3/home-living-room-1280.avif 1280w, /images/v3/home-living-room-1800.avif 1800w",
+    "webp": "/images/v3/home-living-room-480.webp 480w, /images/v3/home-living-room-960.webp 960w, /images/v3/home-living-room-1280.webp 1280w",
+    "jpeg": "/images/v3/home-living-room-640.jpg 640w, /images/v3/home-living-room-960.jpg 960w",
+    "first_avif": "/images/v3/home-living-room-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Two large living room windows with grid panes, looking out to a covered patio and desert mountains.",
+    "group": "page",
+    "aspect": "1811/1019",
+    "use": [
+      "name used by lib/eleventy-ws5.js sections.json photos map"
+    ],
+    "note": "Wall art at the right and the sofa at the bottom are cropped out.",
+    "source": "photo-library/_edited-masters/residential/bc-residential-tint-living-room-windows-desert-view-2026-07-26-1-edited.jpg",
+    "alias_of": "home-living-room"
+  },
+  "residential-patio-after-1": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v3/home-patio-960.jpg",
+    "avif": "/images/v3/home-patio-480.avif 480w, /images/v3/home-patio-640.avif 640w, /images/v3/home-patio-960.avif 960w, /images/v3/home-patio-1280.avif 1280w, /images/v3/home-patio-1800.avif 1800w",
+    "webp": "/images/v3/home-patio-480.webp 480w, /images/v3/home-patio-960.webp 960w, /images/v3/home-patio-1280.webp 1280w",
+    "jpeg": "/images/v3/home-patio-640.jpg 640w, /images/v3/home-patio-960.jpg 960w",
+    "first_avif": "/images/v3/home-patio-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Sliding patio doors in a home, looking out to a covered porch and desert mountains.",
+    "group": "page",
+    "aspect": "2400/1800",
+    "use": [
+      "name used by lib/eleventy-ws5.js sections.json photos map"
+    ],
+    "needs_ruling": "IMAGE-CATALOG labels this frame 'before' with no visible tint difference; art direction 3.1 uses it as the single 'after' frame. Alt text claims no film. Chase to confirm the frame and the caption.",
+    "source": "photo-library/_edited-masters/residential/bc-residential-tint-before-after-patio-window-2026-07-26-1-edited.jpg",
+    "phone": {
+      "width": 1800,
+      "height": 1436,
+      "fallback": "/images/v3/home-patio-phone-960.jpg",
+      "avif": "/images/v3/home-patio-phone-480.avif 480w, /images/v3/home-patio-phone-640.avif 640w, /images/v3/home-patio-phone-960.avif 960w, /images/v3/home-patio-phone-1280.avif 1280w, /images/v3/home-patio-phone-1800.avif 1800w",
+      "webp": "/images/v3/home-patio-phone-480.webp 480w, /images/v3/home-patio-phone-960.webp 960w, /images/v3/home-patio-phone-1280.webp 1280w",
+      "jpeg": "/images/v3/home-patio-phone-640.jpg 640w, /images/v3/home-patio-phone-960.jpg 960w",
+      "first_avif": "/images/v3/home-patio-phone-480.avif",
+      "widths": [
+        480,
+        640,
+        960,
+        1280,
+        1800
+      ],
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pos": "50% 50%",
+      "sizes": "100vw",
+      "aspect": "2256/1800"
+    },
+    "alias_of": "home-patio"
+  },
+  "storefront-hero": {
+    "width": 1256,
+    "height": 1196,
+    "fallback": "/images/v3/storefront-hero-960.jpg",
+    "avif": "/images/v3/storefront-hero-480.avif 480w, /images/v3/storefront-hero-640.avif 640w, /images/v3/storefront-hero-960.avif 960w, /images/v3/storefront-hero-1256.avif 1256w",
+    "webp": "/images/v3/storefront-hero-480.webp 480w, /images/v3/storefront-hero-960.webp 960w, /images/v3/storefront-hero-1256.webp 1256w",
+    "jpeg": "/images/v3/storefront-hero-640.jpg 640w, /images/v3/storefront-hero-960.jpg 960w",
+    "first_avif": "/images/v3/storefront-hero-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1256
+    ],
+    "focal": {
+      "x": 0.45,
+      "y": 0.6
+    },
+    "pos": "45% 60%",
+    "alt": "Front of the BC Glass and Tint shop in Boulder City: the stucco entry arch, the number 1633 and the shop window with the BC logo.",
+    "group": "hero",
+    "aspect": "1256/1196",
+    "use": [
+      "home hero",
+      "city heroes"
+    ],
+    "note": "Bronco fully out of frame: the crop starts right of the taillight (x 2238 of 4032). The logo's left star tip and the AUTO GLASS row lie at the crop's left edge.",
+    "source": "photo-library/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1.jpg",
+    "phone": {
+      "width": 1280,
+      "height": 1024,
+      "fallback": "/images/v3/storefront-hero-phone-960.jpg",
+      "avif": "/images/v3/storefront-hero-phone-480.avif 480w, /images/v3/storefront-hero-phone-640.avif 640w, /images/v3/storefront-hero-phone-960.avif 960w, /images/v3/storefront-hero-phone-1280.avif 1280w",
+      "webp": "/images/v3/storefront-hero-phone-480.webp 480w, /images/v3/storefront-hero-phone-960.webp 960w, /images/v3/storefront-hero-phone-1280.webp 1280w",
+      "jpeg": "/images/v3/storefront-hero-phone-640.jpg 640w, /images/v3/storefront-hero-phone-960.jpg 960w",
+      "first_avif": "/images/v3/storefront-hero-phone-480.avif",
+      "widths": [
+        480,
+        640,
+        960,
+        1280
+      ],
+      "focal": {
+        "x": 0.4,
+        "y": 0.6
+      },
+      "pos": "40% 60%",
+      "sizes": "100vw",
+      "aspect": "1388/1110"
+    },
+    "sig": "dade83c7a8d9"
+  },
+  "storefront-small": {
+    "width": 1794,
+    "height": 1196,
+    "fallback": "/images/v3/storefront-wide-960.jpg",
+    "avif": "/images/v3/storefront-wide-480.avif 480w, /images/v3/storefront-wide-640.avif 640w, /images/v3/storefront-wide-960.avif 960w, /images/v3/storefront-wide-1280.avif 1280w, /images/v3/storefront-wide-1794.avif 1794w",
+    "webp": "/images/v3/storefront-wide-480.webp 480w, /images/v3/storefront-wide-960.webp 960w, /images/v3/storefront-wide-1280.webp 1280w",
+    "jpeg": "/images/v3/storefront-wide-640.jpg 640w, /images/v3/storefront-wide-960.jpg 960w",
+    "first_avif": "/images/v3/storefront-wide-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1794
+    ],
+    "focal": {
+      "x": 0.35,
+      "y": 0.6
+    },
+    "pos": "35% 60%",
+    "alt": "The BC Glass and Tint shop entry in Boulder City, with the number 1633 above the shop window and the BC logo on the glass and the door.",
+    "group": "hero",
+    "aspect": "1794/1196",
+    "use": [
+      "name used by lib/eleventy-ws5.js sections.json photos map"
+    ],
+    "note": "3:2 crop of the same Bronco-free region; the 4:5 wide crop in art direction 5.2 cannot be cut without the Bronco's fender or the logo's left half.",
+    "source": "photo-library/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1.jpg",
+    "alias_of": "storefront-wide"
+  },
+  "storefront-wide": {
+    "width": 1794,
+    "height": 1196,
+    "fallback": "/images/v3/storefront-wide-960.jpg",
+    "avif": "/images/v3/storefront-wide-480.avif 480w, /images/v3/storefront-wide-640.avif 640w, /images/v3/storefront-wide-960.avif 960w, /images/v3/storefront-wide-1280.avif 1280w, /images/v3/storefront-wide-1794.avif 1794w",
+    "webp": "/images/v3/storefront-wide-480.webp 480w, /images/v3/storefront-wide-960.webp 960w, /images/v3/storefront-wide-1280.webp 1280w",
+    "jpeg": "/images/v3/storefront-wide-640.jpg 640w, /images/v3/storefront-wide-960.jpg 960w",
+    "first_avif": "/images/v3/storefront-wide-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1794
+    ],
+    "focal": {
+      "x": 0.35,
+      "y": 0.6
+    },
+    "pos": "35% 60%",
+    "alt": "The BC Glass and Tint shop entry in Boulder City, with the number 1633 above the shop window and the BC logo on the glass and the door.",
+    "group": "hero",
+    "aspect": "1794/1196",
+    "use": [
+      "about hero",
+      "closing storefront",
+      "in their words shop line",
+      "city pages"
+    ],
+    "note": "3:2 crop of the same Bronco-free region; the 4:5 wide crop in art direction 5.2 cannot be cut without the Bronco's fender or the logo's left half.",
+    "source": "photo-library/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1.jpg",
+    "sig": "507bb269c0a0"
+  },
+  "subaru-outback-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/subaru-outback-front-three-quarter-960.jpg",
+    "avif": "/images/v3/subaru-outback-front-three-quarter-480.avif 480w, /images/v3/subaru-outback-front-three-quarter-640.avif 640w, /images/v3/subaru-outback-front-three-quarter-960.avif 960w, /images/v3/subaru-outback-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/subaru-outback-front-three-quarter-480.webp 480w, /images/v3/subaru-outback-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/subaru-outback-front-three-quarter-640.jpg 640w, /images/v3/subaru-outback-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/subaru-outback-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.8
+    },
+    "pos": "50% 80%",
+    "alt": "Gray Subaru Outback wagon parked in front of the BC Glass and Tint box truck, side windows tinted.",
+    "group": "gallery",
+    "aspect": "1400/1050",
+    "source": "photo-library/_edited-masters/brand-truck-hero/brand-truck-hero-gray-subaru-outback-edited.jpg",
+    "sig": "0e3dd26422c6"
+  },
+  "tesla-model-3-white-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/tesla-model-3-white-front-three-quarter-960.jpg",
+    "avif": "/images/v3/tesla-model-3-white-front-three-quarter-480.avif 480w, /images/v3/tesla-model-3-white-front-three-quarter-640.avif 640w, /images/v3/tesla-model-3-white-front-three-quarter-960.avif 960w, /images/v3/tesla-model-3-white-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/tesla-model-3-white-front-three-quarter-480.webp 480w, /images/v3/tesla-model-3-white-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/tesla-model-3-white-front-three-quarter-640.jpg 640w, /images/v3/tesla-model-3-white-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/tesla-model-3-white-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "White Tesla Model 3 parked near the BC Glass and Tint shop, side windows tinted.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-white-tesla-model3-2026-08-18-3-edited.jpg",
+    "sig": "54f47590f8f8"
+  },
+  "tesla-model-y-blue-front-three-quarter": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/tesla-model-y-blue-front-three-quarter-960.jpg",
+    "avif": "/images/v3/tesla-model-y-blue-front-three-quarter-480.avif 480w, /images/v3/tesla-model-y-blue-front-three-quarter-640.avif 640w, /images/v3/tesla-model-y-blue-front-three-quarter-960.avif 960w, /images/v3/tesla-model-y-blue-front-three-quarter-1280.avif 1280w",
+    "webp": "/images/v3/tesla-model-y-blue-front-three-quarter-480.webp 480w, /images/v3/tesla-model-y-blue-front-three-quarter-960.webp 960w",
+    "jpeg": "/images/v3/tesla-model-y-blue-front-three-quarter-640.jpg 640w, /images/v3/tesla-model-y-blue-front-three-quarter-960.jpg 960w",
+    "first_avif": "/images/v3/tesla-model-y-blue-front-three-quarter-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Blue-gray Tesla Model Y parked in front of the BC Glass and Tint shop sign.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-blue-tesla-model-y-front-sign-2026-09-25-1-edited.jpg",
+    "sig": "46d723eeeee6"
+  },
+  "tesla-model-y-white-side": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/tesla-model-y-white-side-960.jpg",
+    "avif": "/images/v3/tesla-model-y-white-side-480.avif 480w, /images/v3/tesla-model-y-white-side-640.avif 640w, /images/v3/tesla-model-y-white-side-960.avif 960w, /images/v3/tesla-model-y-white-side-1280.avif 1280w",
+    "webp": "/images/v3/tesla-model-y-white-side-480.webp 480w, /images/v3/tesla-model-y-white-side-960.webp 960w",
+    "jpeg": "/images/v3/tesla-model-y-white-side-640.jpg 640w, /images/v3/tesla-model-y-white-side-960.jpg 960w",
+    "first_avif": "/images/v3/tesla-model-y-white-side-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "Side profile of a white Tesla Model Y in a parking lot with tinted door windows.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-white-tesla-model-y-side-2026-08-29-1-edited.jpg",
+    "sig": "c906eba5b7b0"
+  },
+  "volkswagen-atlas-front-storefront": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/volkswagen-atlas-front-storefront-960.jpg",
+    "avif": "/images/v3/volkswagen-atlas-front-storefront-480.avif 480w, /images/v3/volkswagen-atlas-front-storefront-640.avif 640w, /images/v3/volkswagen-atlas-front-storefront-960.avif 960w, /images/v3/volkswagen-atlas-front-storefront-1280.avif 1280w",
+    "webp": "/images/v3/volkswagen-atlas-front-storefront-480.webp 480w, /images/v3/volkswagen-atlas-front-storefront-960.webp 960w",
+    "jpeg": "/images/v3/volkswagen-atlas-front-storefront-640.jpg 640w, /images/v3/volkswagen-atlas-front-storefront-960.jpg 960w",
+    "first_avif": "/images/v3/volkswagen-atlas-front-storefront-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "White Volkswagen Atlas SUV parked in front of the BC Glass and Tint shop.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/auto/bc-auto-tint-white-vw-atlas-front-storefront-2026-09-22-1-edited.jpg",
+    "sig": "0033ba0cf061"
+  },
+  "windshield-chip-bullseye-close": {
+    "width": 1280,
+    "height": 960,
+    "fallback": "/images/v3/windshield-chip-bullseye-close-960.jpg",
+    "avif": "/images/v3/windshield-chip-bullseye-close-480.avif 480w, /images/v3/windshield-chip-bullseye-close-640.avif 640w, /images/v3/windshield-chip-bullseye-close-960.avif 960w, /images/v3/windshield-chip-bullseye-close-1280.avif 1280w",
+    "webp": "/images/v3/windshield-chip-bullseye-close-480.webp 480w, /images/v3/windshield-chip-bullseye-close-960.webp 960w",
+    "jpeg": "/images/v3/windshield-chip-bullseye-close-640.jpg 640w, /images/v3/windshield-chip-bullseye-close-960.jpg 960w",
+    "first_avif": "/images/v3/windshield-chip-bullseye-close-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.45
+    },
+    "pos": "50% 45%",
+    "alt": "Close view of a bullseye chip in a windshield next to a mirror-mounted device, photographed from inside the vehicle.",
+    "group": "gallery",
+    "aspect": "2400/1800",
+    "source": "photo-library/_edited-masters/install/bc-chip-repair-windshield-bullseye-chip-portrait-2026-09-30-1-edited.jpg",
+    "sig": "29ba9dbc1f9e"
+  },
+  "windshield-hero": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v3/windshield-hero-960.jpg",
+    "avif": "/images/v3/windshield-hero-480.avif 480w, /images/v3/windshield-hero-640.avif 640w, /images/v3/windshield-hero-960.avif 960w, /images/v3/windshield-hero-1280.avif 1280w, /images/v3/windshield-hero-1800.avif 1800w",
+    "webp": "/images/v3/windshield-hero-480.webp 480w, /images/v3/windshield-hero-960.webp 960w, /images/v3/windshield-hero-1280.webp 1280w",
+    "jpeg": "/images/v3/windshield-hero-640.jpg 640w, /images/v3/windshield-hero-960.jpg 960w",
+    "first_avif": "/images/v3/windshield-hero-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.55
+    },
+    "pos": "50% 55%",
+    "alt": "Windshield chip repair tool with suction cups on the glass, seen from a second angle in the shop bay.",
+    "group": "page",
+    "aspect": "2400/1800",
+    "use": [
+      "/windshield hero"
+    ],
+    "source": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-2.jpg",
+    "sig": "f1b82f5a9dc7"
+  },
+  "windshield-lane": {
+    "width": 1800,
+    "height": 1350,
+    "fallback": "/images/v3/windshield-lane-960.jpg",
+    "avif": "/images/v3/windshield-lane-480.avif 480w, /images/v3/windshield-lane-640.avif 640w, /images/v3/windshield-lane-960.avif 960w, /images/v3/windshield-lane-1280.avif 1280w, /images/v3/windshield-lane-1800.avif 1800w",
+    "webp": "/images/v3/windshield-lane-480.webp 480w, /images/v3/windshield-lane-960.webp 960w, /images/v3/windshield-lane-1280.webp 1280w",
+    "jpeg": "/images/v3/windshield-lane-640.jpg 640w, /images/v3/windshield-lane-960.jpg 960w",
+    "first_avif": "/images/v3/windshield-lane-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280,
+      1800
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.55
+    },
+    "pos": "50% 55%",
+    "alt": "Chip repair bridge tool mounted on a windshield in the shop bay.",
+    "group": "page",
+    "aspect": "1872/1404",
+    "use": [
+      "home windshield lane",
+      "/about in the bay"
+    ],
+    "source": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
+    "sig": "bc9e12efa12f"
+  }
+}

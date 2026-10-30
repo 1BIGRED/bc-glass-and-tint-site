@@ -1,0 +1,349 @@
+/* BC Glass & Tint v3, the action system and the phone call bar (WS2).
+   Specs: art direction 1.4 (buttons B-a to B-e, call and text bar CB-a to CB-e, status chip S-a,
+   S-b), engineering 3.2.2 (one fixed-size cell per role, swapped by visibility, no layout shift),
+   blueprint 5.2 (which control is primary in which state).
+
+   How it works. actions.njk prints every variant a slot can ever show, stacked in one grid cell per
+   role: .v3-act__p (the primary cell) and .v3-act__s (the secondary cell). The cell is as wide and
+   as tall as its biggest variant. 30-actions.js sets data-primary / data-secondary / data-note on the
+   .v3-act wrapper from one status call, and the rules below make exactly the matching variant
+   visible. visibility:hidden keeps the others out of the tab order and the accessibility tree and
+   keeps their size, so a swap moves nothing (CLS 0). The server prints data-state="nojs": Call
+   primary, Text secondary, hours printed.
+
+   Gold (C1, C3). The fill is the semantic token --cta-bg: gold on Showroom Black, ink on Warm
+   Gallery (set by .mood-dark / .mood-warm in 10-base.css). In-page booking buttons are gold only
+   from 768px, where there is no bar; under 768px the pinned bar is the one gold fill and in-page
+   buttons are outlines. The price slot is always an outline so a table of prices never shows many
+   gold buttons. The bar stays gold on every page. */
+
+/* ---------- Visibility: show the variant that matches the wrapper's state ---------- */
+.v3-act:not(.v3-act--header) [data-v] {
+  visibility: hidden;
+}
+.v3-act[data-primary="call"] .v3-act__p [data-v="call"],
+.v3-act[data-primary="text"] .v3-act__p [data-v="text"],
+.v3-act[data-primary="request"] .v3-act__p [data-v="request"],
+.v3-act[data-primary="measure"] .v3-act__p [data-v="measure"],
+.v3-act[data-secondary="call"] .v3-act__s [data-v="call"],
+.v3-act[data-secondary="text"] .v3-act__s [data-v="text"],
+.v3-act[data-secondary="request"] .v3-act__s [data-v="request"],
+.v3-act[data-note="calls"] [data-v="note-calls"],
+.v3-act[data-note="hours"] [data-v="note-hours"] {
+  visibility: visible;
+}
+/* On /book (data-on-book) a cell can be empty (no Request a time there, no Text until texts are
+   confirmed): it takes no room */
+.v3-act[data-primary="none"] .v3-act__p,
+.v3-act[data-secondary="none"] .v3-act__s {
+  display: none;
+}
+/* In the bar the notes live in the secondary cell and show only when it IS the note */
+.v3-act--bar:not([data-secondary="note"]) .v3-act__note {
+  visibility: hidden;
+}
+
+/* ---------- Layout of a slot (not the bar, not the header) ---------- */
+.v3-act:not(.v3-act--bar):not(.v3-act--header) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-8) var(--sp-24);
+}
+.v3-act--header {
+  display: contents;
+}
+.v3-act__p,
+.v3-act__s,
+.v3-act__n {
+  display: grid;
+}
+.v3-act__p > *,
+.v3-act__s > *,
+.v3-act__n > * {
+  grid-area: 1 / 1;
+}
+.v3-act__p {
+  justify-items: start;
+}
+/* The note line: one line reserved, so a note filling in never moves the content below it */
+.v3-act__n {
+  flex: 1 0 100%;
+  margin: 0;
+  min-height: calc(var(--t-label) * var(--lh-label));
+  font-family: var(--font-text);
+  font-size: var(--t-label);
+  font-weight: 400;
+  line-height: var(--lh-label);
+  color: var(--fg-2);
+}
+
+/* ---------- Buttons (B-a, B-b), tokens only ---------- */
+.v3-act {
+  --cta-hover: var(--gold-hover);
+  --cta-press: var(--gold-press);
+}
+.mood-warm .v3-act {
+  --cta-hover: var(--ink-2-w);
+  --cta-press: var(--ink-2-w);
+}
+/* The header and the bar are pinned dark on every page: keep the gold hover there */
+.v3-drawer .v3-act,
+.v3-bar .v3-act {
+  --cta-hover: var(--gold-hover);
+  --cta-press: var(--gold-press);
+}
+.v3-act__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 56px;
+  padding-inline: var(--sp-24);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  background-color: transparent;
+  color: var(--fg);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-button);
+  line-height: var(--lh-button);
+  letter-spacing: var(--tr-button);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out), color var(--dur-ui) var(--ease-out), transform var(--dur-press) var(--ease-out);
+}
+.v3-act__btn:hover {
+  border-color: var(--fg);
+}
+.v3-act__btn:active {
+  transform: scale(0.98);
+}
+.v3-act[data-kind="chip"] .v3-act__btn {
+  white-space: normal;
+}
+
+/* Secondary: a quiet text link (B-c), 44px tall target */
+.v3-act__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-body);
+  line-height: var(--lh-text);
+  color: var(--fg);
+}
+
+/* Plain note words ("Calls open Tuesday at 9 AM", "Call Tue to Sat, 9 to 5"): never a control */
+.v3-act__note {
+  color: var(--fg-2);
+}
+
+@media (min-width: 768px) {
+  .v3-act__btn {
+    min-height: 52px;
+  }
+}
+@media (min-width: 768px) and (min-height: 481px) {
+  .v3-act--hero .v3-act__btn,
+  .v3-act--lane .v3-act__btn,
+  .v3-act--contact .v3-act__btn,
+  .v3-act--builder .v3-act__btn,
+  .v3-act--drawer .v3-act__btn {
+    background-color: var(--cta-bg);
+    border-color: var(--cta-bg);
+    color: var(--cta-fg);
+  }
+  .v3-act--hero .v3-act__btn:hover,
+  .v3-act--lane .v3-act__btn:hover,
+  .v3-act--contact .v3-act__btn:hover,
+  .v3-act--builder .v3-act__btn:hover,
+  .v3-act--drawer .v3-act__btn:hover {
+    background-color: var(--cta-hover);
+    border-color: var(--cta-hover);
+  }
+  .v3-act--hero .v3-act__btn:active,
+  .v3-act--lane .v3-act__btn:active,
+  .v3-act--contact .v3-act__btn:active,
+  .v3-act--builder .v3-act__btn:active,
+  .v3-act--drawer .v3-act__btn:active {
+    background-color: var(--cta-press);
+    border-color: var(--cta-press);
+  }
+}
+/* The price slot is always an outline and a little smaller */
+.v3-act--price .v3-act__btn {
+  min-height: 48px;
+}
+/* The menu sheet: full width controls pinned to the bottom of the sheet, gold (the bar is covered
+   by the sheet while it is open) */
+.v3-drawer .v3-act--drawer {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  padding: var(--sp-16) 0 env(safe-area-inset-bottom, 0px);
+  background-color: var(--ink-0);
+}
+.v3-drawer .v3-act--drawer .v3-act__p,
+.v3-drawer .v3-act--drawer .v3-act__btn {
+  width: 100%;
+}
+.v3-drawer .v3-act--drawer .v3-act__btn {
+  background-color: var(--cta-bg);
+  border-color: var(--cta-bg);
+  color: var(--cta-fg);
+  min-height: 56px;
+}
+.v3-drawer .v3-act--drawer .v3-act__link {
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-act__btn:active {
+    transform: none;
+  }
+}
+
+/* ---------- Status chip, long form (hero, contact block, menu sheet) ----------
+   Own line, one line of height reserved, so the words filling in cause no shift. The short form
+   (header) is styled in 20-header.css. Shape plus words carry the state (C6): filled dot open,
+   hollow dot closed. No gold, no green. */
+.v3-status--long {
+  display: flex;
+  width: 100%;
+  min-height: calc(var(--t-label) * var(--lh-label));
+  overflow: visible;
+  white-space: normal;
+  color: var(--fg);
+}
+.v3-status--long.is-closed {
+  color: var(--fg-2);
+}
+.v3-status--long .v3-status__dot {
+  background: var(--fg);
+}
+.v3-status--long.is-closed .v3-status__dot {
+  background: transparent;
+  border: 1.5px solid var(--fg-2);
+}
+.v3-drawer > .v3-status--long {
+  min-height: 44px;
+  color: var(--text);
+}
+.v3-drawer > .v3-status--long.is-closed {
+  color: var(--text-2);
+}
+.v3-drawer > .v3-status--long .v3-status__dot {
+  background: var(--text);
+}
+.v3-drawer > .v3-status--long.is-closed .v3-status__dot {
+  background: transparent;
+  border-color: var(--text-2);
+}
+
+/* While the cookie bar is open (it publishes --ckh on <html>) the end of the page keeps that much room,
+   so the last footer links can scroll clear of it on every screen size */
+body.v3 {
+  padding-bottom: var(--ckh, 0px);
+}
+
+/* ---------- The phone call and text bar (CB-a to CB-e), under 768px only ---------- */
+.v3-bar {
+  display: none;
+}
+@media (max-width: 767px), (max-height: 480px) {
+  /* phones, and phone landscape (the header scrolls away there, so the bar is the persistent call) */
+  :root {
+    --scb: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+  .v3-bar {
+    display: block;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: var(--z-bar);
+    box-sizing: border-box;
+    padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px));
+    background-color: var(--ink-1);
+    border-top: 1px solid var(--line);
+    color: var(--text);
+    color-scheme: dark;
+    /* pinned to the dark tokens on every page */
+    --fg: var(--text);
+    --fg-2: var(--text-2);
+    --ctl-line: var(--line-ctl);
+    --focus: var(--gold);
+  }
+  .v3-bar.is-away {
+    display: none;
+  }
+  /* room at the end of the page so the bar never covers the last lines (the footer) */
+  body.v3 {
+    padding-bottom: calc(var(--scb) + var(--ckh, 0px));
+  }
+  .v3-act--bar {
+    max-width: 560px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 8px;
+    align-items: stretch;
+    height: 56px;
+  }
+  .v3-act--bar .v3-act__p,
+  .v3-act--bar .v3-act__s {
+    min-width: 0;
+  }
+  .v3-act--bar[data-primary="none"],
+  .v3-act--bar[data-secondary="none"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .v3-act--bar .v3-act__btn {
+    width: 100%;
+    height: 56px;
+    padding-inline: 8px;
+  }
+  /* the bar's primary is always gold (C3), on every page */
+  .v3-act--bar .v3-act__p .v3-act__btn {
+    background-color: var(--gold);
+    border-color: var(--gold);
+    color: var(--ink-0);
+  }
+  .v3-act--bar .v3-act__p .v3-act__btn:hover {
+    background-color: var(--gold-hover);
+    border-color: var(--gold-hover);
+  }
+  .v3-act--bar .v3-act__p .v3-act__btn:active {
+    background-color: var(--gold-press);
+    border-color: var(--gold-press);
+  }
+  .v3-act--bar .v3-act__btn--ghost {
+    border-color: var(--line-ctl);
+    color: var(--text);
+  }
+  /* the right third when the shop is not open: plain words, vertically centred */
+  .v3-act--bar .v3-act__note {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 56px;
+    padding-inline: 4px;
+    font-family: var(--font-text);
+    font-size: var(--t-label);
+    font-weight: 400;
+    line-height: var(--lh-label);
+    color: var(--text-2);
+    text-wrap: balance;
+  }
+}
+@media (max-width: 359px) {
+  .v3-bar {
+    padding-inline: 8px;
+  }
+  .v3-act--bar {
+    gap: 4px;
+  }
+}
