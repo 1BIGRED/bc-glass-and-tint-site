@@ -1,0 +1,182 @@
+/* BC Glass & Tint v3, design tokens. Phase A foundation (2026-10-29).
+   Source of every value: overhaul-v3\03-ART-DIRECTION-visual.md section 1 (type 1.1, color 1.2,
+   grid and spacing 1.3, radius G6), plus the header height from the CEO ruling and engineering 4.1.
+   One value per token, declared here and nowhere else (client rule, decisions-and-rules line 75).
+   Contrast of every text and control pair is listed in overhaul-v3\BUILD-LOG.md (WCAG 2 formula).
+
+   Naming. The art direction uses the same names "ink" and "ink-2" in both moods for different
+   colors, so the Warm Gallery text colors carry the art direction's own "-w" suffix here
+   (ink-w, ink-2-w), matching its line-ctl-w and error-w. Raw tokens never change with the mood;
+   components read the semantic tokens (bg, fg, fg-2 ...) that .mood-dark and .mood-warm remap.
+
+   Bundling: every *.css file directly in assets/v3/css is concatenated in filename order into
+   /assets/h/core.<hash>.css by .eleventy.js. Keep the numeric prefixes. */
+
+:root {
+  /* Showroom Black, "dusk inside the car" (art direction 1.2) */
+  --ink-0: #0B0B0C;        /* page and hero ground */
+  --ink-1: #131315;        /* alternate band, call bar */
+  --ink-2: #1B1B1E;        /* raised: inputs, selected tile, builder stage floor */
+  --ink-head: #161618;     /* header raised layer once scrolled; 1.09:1 vs ink-0, so the hairline is mandatory */
+  --line: rgba(237, 233, 224, 0.12);      /* hairlines, header bottom rule; decorative only (renders #262625 on ink-0) */
+  --line-ctl: rgba(237, 233, 224, 0.45);  /* outline control borders; 3.92:1 on ink-0 (renders #716F6B) */
+  --text: #EDE9E0;         /* primary text, warm white, never #FFF */
+  --text-2: #A39E94;       /* secondary text, eyebrows, captions, closed status */
+  --gold: #C9A23F;         /* the call, selected shade ring, film-edge handle, focus ring. Nothing else. Dark grounds only. */
+  --gold-hover: #D6B04E;
+  --gold-press: #B8932F;
+  --error-d: #E8907F;      /* form errors on dark */
+  --glare: #FFF8EA;        /* outside light behind shade chips and the Light Ramp bright end; never a text ground */
+
+  /* Warm Gallery, "4 pm inside the house" (art direction 1.2) */
+  --paper: #F7F3EA;        /* page ground */
+  --paper-2: #EFE8DA;      /* alternate band */
+  --card: #FBF9F4;         /* raised surfaces, inputs */
+  --ink-w: #22201C;        /* art direction "ink": headlines, body, in-page call button fill on cream */
+  --ink-2-w: #5E574C;      /* art direction "ink-2" on cream: secondary text */
+  --line-ctl-w: rgba(34, 32, 28, 0.55);   /* control borders on cream; 3.60:1 on paper (renders #827F79) */
+  --line-w: rgba(34, 32, 28, 0.12);       /* hairline on cream, decorative only (the art direction names no cream hairline; same 12% rule as line) */
+  --goldsm: #7C6427;       /* small gold text on paper and paper-2, the only gold text on cream */
+  --goldd: #A8862F;        /* large gold text, 24px and up, on paper ONLY (2.82:1 on paper-2 fails) */
+  --error-w: #A3362A;      /* form errors on cream */
+
+  /* The Light Ramp (art direction LR-a): ink-0 at alpha 1 - (VLT/100)^(1/2.2) over glare */
+  --ramp-a-70: 0.1497;
+  --ramp-a-50: 0.2703;
+  --ramp-a-35: 0.3795;
+  --ramp-a-20: 0.5188;
+  --ramp-a-15: 0.5778;
+  --ramp-a-5: 0.7438;
+
+  /* Semantic tokens, Showroom Black by default (remapped by .mood-warm in 10-base.css) */
+  --bg: var(--ink-0);
+  --bg-2: var(--ink-1);
+  --surface: var(--ink-2);
+  --fg: var(--text);
+  --fg-2: var(--text-2);
+  --hair: var(--line);
+  --ctl-line: var(--line-ctl);
+  --focus: var(--gold);
+  --error: var(--error-d);
+  --cta-bg: var(--gold);
+  --cta-fg: var(--ink-0);
+  --link-hover: var(--gold);
+
+  /* Type families (art direction 1.1). Fallback faces with metric overrides are in 10-base.css. */
+  --font-display: "Barlow Condensed", "Barlow Condensed Fallback", "Arial", sans-serif;
+  --font-text: "Poppins", "Poppins Fallback", "Arial", sans-serif;
+
+  /* Type scale (art direction 1.1). Fluid sizes have rem bounds (gate T5). Phone values here;
+     the stepped desktop values are set at 1024px below. */
+  --t-numeral: clamp(5rem, 3rem + 8vw, 10rem);
+  --t-h1: clamp(3.25rem, 2.2rem + 4.4vw, 6rem);
+  --t-h2: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+  --t-h3: 1.5rem;
+  --t-price: 2rem;
+  --t-lead: 1.125rem;
+  --t-body: 1rem;
+  --t-label: 0.8125rem;
+  --t-button: 1rem;
+
+  --lh-numeral: 0.9;
+  --lh-h1: 0.92;
+  --lh-h2: 1;
+  --lh-h3: 1.1;
+  --lh-price: 1;
+  --lh-text: 1.5;
+  --lh-label: 1.45;
+  --lh-button: 1;
+
+  --tr-numeral: -0.02em;
+  --tr-h1: 0.03em;
+  --tr-h2: 0.04em;
+  --tr-h3: 0.05em;
+  --tr-caps: 0.12em;      /* eyebrows, caps labels */
+  --tr-button: 0.01em;
+
+  --measure: 34em;        /* T8: about 66 characters */
+
+  /* Spacing scale, 8px base, nothing off it (G2) */
+  --sp-4: 0.25rem;
+  --sp-8: 0.5rem;
+  --sp-12: 0.75rem;
+  --sp-16: 1rem;
+  --sp-24: 1.5rem;
+  --sp-32: 2rem;
+  --sp-48: 3rem;
+  --sp-64: 4rem;
+  --sp-96: 6rem;
+  --sp-128: 8rem;
+
+  /* Section padding (G3), phone values; desktop at 1024px */
+  --section-pad: var(--sp-64);
+  --section-pad-minor: var(--sp-48);
+
+  /* Grid (G1): phone under 640px is 4 columns, 16px gutters, 20px margins */
+  --cols: 4;
+  --gutter: 16px;
+  --margin: 20px;
+  --content-max: 1312px;
+
+  /* Radius (G6): one family, 2px; 50% only on the 8px status dot */
+  --radius: 2px;
+  --radius-dot: 50%;
+
+  /* Header (CEO ruling, engineering 4.1 rule 1): fixed height, never changes with scroll */
+  --header-h: 64px;
+
+  /* Phone call bar height reserved for scroll padding (art direction CB-a: 8 + 56 + 8 plus the
+     safe area). The bar itself is WS2's (30-actions.css); this is only the reserved space. */
+  --scb: calc(72px + env(safe-area-inset-bottom, 0px));
+  --ckh: 0px;             /* cookie bar height, set at runtime while the bar is open */
+
+  /* Stacking order */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-bar: 50;            /* phone call bar */
+  --z-header: 60;
+  --z-drawer: 65;         /* menu sheet, inside the header element */
+  --z-cookie: 80;         /* stacks above the call bar (CB-d) */
+  --z-skip: 100;
+
+  /* Motion (art direction 4.3) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --dur-press: 100ms;
+  --dur-fast: 120ms;
+  --dur-ui: 160ms;
+  --dur-raise: 240ms;
+  --dur-sheet-in: 250ms;
+  --dur-sheet-out: 200ms;
+}
+
+/* Tablet 640 to 1023 (G1): 8 columns, 20px gutters, 40px margins */
+@media (min-width: 640px) {
+  :root {
+    --cols: 8;
+    --gutter: 20px;
+    --margin: 40px;
+  }
+}
+
+/* No phone call bar from 768px (desktop has no bottom bar, CB-e; tablet follows the v2 cut) */
+@media (min-width: 768px) {
+  :root {
+    --scb: 0px;
+  }
+}
+
+/* Desktop 1024 and up (G1, 1.1 stepped sizes, G3, header 80px) */
+@media (min-width: 1024px) {
+  :root {
+    --cols: 12;
+    --gutter: 24px;
+    --margin: 64px;
+    --t-h3: 1.75rem;
+    --t-price: 2.5rem;
+    --t-lead: 1.25rem;
+    --t-body: 1.0625rem;
+    --section-pad: var(--sp-128);
+    --section-pad-minor: var(--sp-96);
+    --header-h: 80px;
+  }
+}

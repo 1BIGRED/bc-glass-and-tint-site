@@ -1,0 +1,12 @@
+{# STUB: owned by WS2, replace #}
+{#- Phone call and text bar, every page (art direction CB-a to CB-e, blueprint 3.10). Included once by
+    layouts/v3.njk after the footer:  {% include "v3/sticky-bar.njk" %}
+    Contract for the real bar (WS2): driven by the action macro with slot "bar"; position fixed at
+    the bottom under 768px only; ink-1 ground, 1px line hairline on top; 56px control row plus
+    8px above and calc(8px + env(safe-area-inset-bottom)) below, which is the --scb height that
+    00-tokens.css reserves for scroll padding; cells at least 48px tall; stacks under the cookie bar.
+    THIS STUB prints the bar's container and one plain call link, unstyled, in the page flow. -#}
+{%- from "v3/actions.njk" import action with context -%}
+<div class="v3-bar" data-bc-sticky data-state="open">
+  {{ action({ slot: "bar", service: "any", build: false }) }}
+</div>

@@ -1,0 +1,100 @@
+{#- v3 base layout (overhaul v3, phase A foundation, 2026-10-29). Owner: WS1 (engineering 6).
+    Pages not yet converted keep layouts/v2.njk or their old layout; nothing here changes them.
+
+    Head order: charset, viewport (viewport-fit=cover for the call bar's safe area), title, the
+    consent-first GA4 block (head/ga4.njk: consent default, then config, then the async tag),
+    font preloads (Barlow Condensed 300 and Poppins 400 only, art direction 1.1), the one hero
+    image preload (storefront mode only), the hashed core CSS and any page bundle CSS, the hashed
+    core JS (deferred) and page bundle JS, then robots (exactly one), description, canonical,
+    Open Graph and Twitter, icons, JSON-LD, Clarity.
+
+    Body: skip link first (first focusable), the 8px top sentinel the header observer watches, the
+    header, <main id="main">, the footer, the phone call bar, the cookie bar, the #bc-hours
+    config block (one per page, read by the action system), the consent script.
+
+    Front matter and page data this layout reads:
+      page_key          wording key: pages[page_key].meta.title / .description / .image_alt
+      meta_title, meta_description   fallbacks when a page has no page_key (internal pages)
+      slug              canonical path (index = site root) and frame[slug] (gsv on the homepage)
+      og_image, og_image_width, og_image_height   Open Graph image, path under the site root
+      robots_noindex    true = this page alone is noindex, nofollow and sends no analytics
+      theme or mood     "warm" = Warm Gallery (body.mood-warm); default Showroom Black (mood-dark)
+      body_class        extra body classes
+      header_raised     true = header raised layer on from load (art direction 4 rule 5)
+      hero              the hero slot object (v3/hero.njk): mode "ramp" (default) or "storefront"
+                        with image and sizes; storefront mode adds the image preload here
+      bundles           page bundles to add, e.g. ["builder"] (assets/v3/css/builder/, js/builder/)
+      schema_ld         JSON-LD object built in the page's .11tydata.js (lib/schema.js)
+    Globals kept from v2: noindex (BC_NOINDEX=1: robots noindex and analytics stubbed by
+    head/ga4.njk and head/clarity.njk), price_mode (printed on <html data-price-mode>),
+    assetsHash (the hashed bundle paths, .eleventy.js). -#}
+{%- from "v3/media.njk" import preload -%}
+{%- set noindex = noindex or robots_noindex -%}
+{%- set fr = frame[slug] or {} -%}
+{%- set m = (pages[page_key].meta if (page_key and pages[page_key] and pages[page_key].meta) else {}) -%}
+{%- set metaTitle = m.title or meta_title or site.name_html -%}
+{%- set metaDesc = m.description or meta_description or "" -%}
+{%- set url = site.url if slug == "index" else site.origin + "/" + (slug or "") -%}
+{%- set heroMode = "storefront" if (hero and hero.mode == "storefront" and hero.image) else "ramp" -%}
+{%- set moodName = "warm" if (theme == "warm" or mood == "warm") else "dark" -%}
+<!DOCTYPE html>
+<html lang="en" data-price-mode="{{ price_mode }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ metaTitle | fill | safe }}</title>
+{% include "head/ga4.njk" %}
+<link rel="preload" href="/assets/v3/fonts/barlow-condensed-v5.3.0-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/v3/fonts/poppins-v5.3.0-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+{% if heroMode == "storefront" %}{{ preload(hero.image, hero.sizes) }}
+{% endif %}{% if assetsHash.css.core %}<link rel="stylesheet" href="{{ assetsHash.css.core }}">
+{% endif %}{% for b in bundles %}{% if assetsHash.css[b] %}<link rel="stylesheet" href="{{ assetsHash.css[b] }}">
+{% endif %}{% endfor %}{% if assetsHash.js.core %}<script src="{{ assetsHash.js.core }}" defer></script>
+{% endif %}{% for b in bundles %}{% if assetsHash.js[b] %}<script src="{{ assetsHash.js[b] }}" defer></script>
+{% endif %}{% endfor %}<meta name="robots" content="{% if noindex %}noindex, nofollow{% else %}index, follow{% endif %}">
+{% if fr.gsv %}<meta name="google-site-verification" content="{{ site.google_site_verification | safe }}" />
+{% endif %}{% if metaDesc %}<meta name="description" content="{{ metaDesc | fill | safe }}">
+{% endif %}<link rel="canonical" href="{{ url | safe }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{% if fr.og_site_name_raw %}{{ site.name | safe }}{% else %}{{ site.name_html | safe }}{% endif %}">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="{{ metaTitle | fill | safe }}">
+{% if metaDesc %}<meta property="og:description" content="{{ metaDesc | fill | safe }}">
+{% endif %}<meta property="og:url" content="{{ url | safe }}">
+{% if og_image %}<meta property="og:image" content="{{ site.origin | safe }}/{{ og_image | safe }}">
+{% if og_image_width %}<meta property="og:image:width" content="{{ og_image_width | safe }}">
+<meta property="og:image:height" content="{{ og_image_height | safe }}">
+{% endif %}{% if m.image_alt %}<meta property="og:image:alt" content="{{ m.image_alt | safe }}">
+{% endif %}<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ site.origin | safe }}/{{ og_image | safe }}">
+{% endif %}<meta name="twitter:title" content="{{ metaTitle | fill | safe }}">
+{% if metaDesc %}<meta name="twitter:description" content="{{ metaDesc | fill | safe }}">
+{% endif %}{% include "head/icons.njk" %}
+{% if schema_ld %}{% set ld = schema_ld %}{% include "jsonld.njk" %}
+{% endif %}{% include "head/clarity.njk" %}
+</head>
+<body class="v3 mood-{{ moodName }} hero-{{ heroMode }}{% if body_class %} {{ body_class }}{% endif %}">
+{% include "skip-link.njk" %}
+<div class="v3-top-sentinel" data-top-sentinel aria-hidden="true"></div>
+{% include "v3/header.njk" %}
+<main id="main" tabindex="-1">
+{{ content | safe }}
+</main>
+{% include "v3/footer.njk" %}
+{% include "v3/sticky-bar.njk" %}
+{% include "cookie-bar.njk" %}
+{%- set statusLabels = (pages.shared.v3.status if (pages.shared.v3 and pages.shared.v3.status) else pages.shared.v2.status) %}
+{%- set hoursCfg = {
+  "tz": site.hours.timezone or "America/Los_Angeles",
+  "days": site.hours.days,
+  "opens": site.hours.opens,
+  "closes": site.hours.closes,
+  "closures": site.closures or [],
+  "unknown": site.hours_unknown or [],
+  "texts_confirmed": site.texts_confirmed or false,
+  "labels": statusLabels
+} %}
+<script type="application/json" id="bc-hours">{{ hoursCfg | jsonld | replace("<", "\\u003c") | safe }}</script>
+{% include "js/cookie.njk" %}
+</body>
+</html>

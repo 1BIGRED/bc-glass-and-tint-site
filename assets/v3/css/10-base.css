@@ -1,0 +1,509 @@
+/* BC Glass & Tint v3, base layer. Phase A foundation (2026-10-29).
+   Fonts, reset, base type, focus ring, skip link, container and grid, moods and grounds, and the
+   utility classes the art direction defines (overhaul-v3\03-ART-DIRECTION-visual.md section 1).
+   Components (buttons, status chip, price rows, forms) belong to their streams' files. */
+
+/* ---------- Fonts (art direction 1.1: exactly four WOFF2, latin subset, self-hosted) ----------
+   Files: @fontsource/barlow-condensed@5.3.0 and @fontsource/poppins@5.3.0 from cdn.jsdelivr.net,
+   byte-identical to the v2 copies. Preload Barlow 300 and Poppins 400 only (the layout does). */
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/assets/v3/fonts/barlow-condensed-v5.3.0-latin-300-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/v3/fonts/barlow-condensed-v5.3.0-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/v3/fonts/poppins-v5.3.0-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/v3/fonts/poppins-v5.3.0-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Metric-matched fallbacks (engineering 3.10) so the swap does not move the H1. Measured
+   2026-10-29 in Chrome with canvas TextMetrics against local Arial: size-adjust is the width ratio
+   of a caps sample for the display face (display is caps only, rule T6) and of a mixed-case sample
+   for Poppins; ascent and descent are the web font's own metrics (Barlow Condensed 1.00 / 0.20 em,
+   Poppins 1.05 / 0.35 em) divided by size-adjust. Line gap is 0 because every text style sets
+   its own line-height. Method and raw numbers: overhaul-v3\BUILD-LOG.md. */
+@font-face {
+  font-family: "Barlow Condensed Fallback";
+  font-weight: 300;
+  src: local("Arial"), local("ArialMT"), local("Helvetica");
+  size-adjust: 65.16%;
+  ascent-override: 153.47%;
+  descent-override: 30.69%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Barlow Condensed Fallback";
+  font-weight: 500;
+  src: local("Arial"), local("ArialMT"), local("Helvetica");
+  size-adjust: 67.37%;
+  ascent-override: 148.43%;
+  descent-override: 29.69%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Poppins Fallback";
+  font-weight: 400;
+  src: local("Arial"), local("ArialMT"), local("Helvetica");
+  size-adjust: 102.72%;
+  ascent-override: 102.22%;
+  descent-override: 34.07%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Poppins Fallback";
+  font-weight: 600;
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Helvetica Bold");
+  size-adjust: 101.81%;
+  ascent-override: 103.13%;
+  descent-override: 34.38%;
+  line-gap-override: 0%;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--ink-0);
+  color-scheme: dark;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-text);
+  font-size: var(--t-body);
+  font-weight: 400;
+  line-height: var(--lh-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+}
+h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ol, ul {
+  margin: 0;
+}
+ol, ul {
+  padding: 0;
+}
+ul[role="list"], ol[role="list"], .list-plain {
+  list-style: none;
+}
+img, picture, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+}
+img, video {
+  height: auto;
+}
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+button {
+  cursor: pointer;
+}
+textarea {
+  resize: vertical;
+}
+table {
+  border-collapse: collapse;
+}
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- Base type (art direction 1.1, rules T2, T6, T7, T10, T11) ---------- */
+h1, .t-h1 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--t-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--tr-h1);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2, .t-h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--tr-h2);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h3, .t-h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--tr-h3);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+.t-numeral {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--t-numeral);
+  line-height: var(--lh-numeral);
+  letter-spacing: var(--tr-numeral);
+  font-variant-numeric: tabular-nums;
+}
+.t-price {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--t-price);
+  line-height: var(--lh-price);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.t-lead {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-lead);
+  line-height: var(--lh-text);
+}
+.t-body {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-body);
+  line-height: var(--lh-text);
+}
+.t-label {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+}
+/* Eyebrow: t-label caps, Poppins 600, +0.12em, text-2 (never gold, rule C2) */
+.t-eyebrow {
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+.t-button {
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-button);
+  line-height: var(--lh-button);
+  letter-spacing: var(--tr-button);
+  font-variant-numeric: tabular-nums;
+}
+/* T9: every changing number uses tabular figures */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+.fg-2 {
+  color: var(--fg-2);
+}
+.measure {
+  max-width: var(--measure);
+}
+
+/* Text links (art direction B-c): 1px underline at 4px offset; gold underline on hover, dark only */
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--dur-ui) var(--ease-out);
+}
+a:hover {
+  text-decoration-color: var(--link-hover);
+}
+
+/* ---------- Focus (art direction B-d; WCAG 2.4.7, 1.4.11) ----------
+   2px solid ring, 2px offset: gold on dark (7.14 to 8.17:1), ink on cream (14.68:1). */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+main:focus-visible,
+main:focus {
+  outline: none;
+}
+
+/* ---------- Skip link: first focusable on every page, visible on focus ---------- */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: var(--z-skip);
+  padding: var(--sp-12) var(--sp-16);
+  background: var(--ink-0);
+  color: var(--text);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-body);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: none;
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Moods and grounds (art direction 1.2) ----------
+   .mood-dark / .mood-warm remap the semantic tokens; put one on <body> (the layout does) or on
+   any section. The ground classes paint a band without changing the mood. */
+.mood-dark {
+  --bg: var(--ink-0);
+  --bg-2: var(--ink-1);
+  --surface: var(--ink-2);
+  --fg: var(--text);
+  --fg-2: var(--text-2);
+  --hair: var(--line);
+  --ctl-line: var(--line-ctl);
+  --focus: var(--gold);
+  --error: var(--error-d);
+  --cta-bg: var(--gold);
+  --cta-fg: var(--ink-0);
+  --link-hover: var(--gold);
+  color-scheme: dark;
+}
+.mood-warm {
+  --bg: var(--paper);
+  --bg-2: var(--paper-2);
+  --surface: var(--card);
+  --fg: var(--ink-w);
+  --fg-2: var(--ink-2-w);
+  --hair: var(--line-w);
+  --ctl-line: var(--line-ctl-w);
+  --focus: var(--ink-w);
+  --error: var(--error-w);
+  --cta-bg: var(--ink-w);     /* C3: on cream the in-page call is ink fill with paper text */
+  --cta-fg: var(--paper);
+  --link-hover: currentColor;  /* B-c: the gold hover underline is dark grounds only */
+  color-scheme: light;
+}
+.mood-dark,
+.mood-warm {
+  background-color: var(--bg);
+  color: var(--fg);
+}
+.bg-ink-0 { background-color: var(--ink-0); }
+.bg-ink-1 { background-color: var(--ink-1); }
+.bg-ink-2 { background-color: var(--ink-2); }
+.bg-paper { background-color: var(--paper); }
+.bg-paper-2 { background-color: var(--paper-2); }
+.bg-card { background-color: var(--card); }
+.bg-band { background-color: var(--bg-2); }
+.bg-surface { background-color: var(--surface); }
+
+/* ---------- Container and grid (art direction G1, G5) ---------- */
+.wrap {
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--margin));
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+/* Phone: every grid child spans the full row unless told otherwise */
+.grid > * {
+  grid-column: 1 / -1;
+}
+@media (min-width: 640px) {
+  .t-span-1 { grid-column: auto / span 1; }
+  .t-span-2 { grid-column: auto / span 2; }
+  .t-span-3 { grid-column: auto / span 3; }
+  .t-span-4 { grid-column: auto / span 4; }
+  .t-span-5 { grid-column: auto / span 5; }
+  .t-span-6 { grid-column: auto / span 6; }
+  .t-span-7 { grid-column: auto / span 7; }
+  .t-span-8 { grid-column: auto / span 8; }
+}
+@media (min-width: 1024px) {
+  .d-span-1 { grid-column-end: span 1; }
+  .d-span-2 { grid-column-end: span 2; }
+  .d-span-3 { grid-column-end: span 3; }
+  .d-span-4 { grid-column-end: span 4; }
+  .d-span-5 { grid-column-end: span 5; }
+  .d-span-6 { grid-column-end: span 6; }
+  .d-span-7 { grid-column-end: span 7; }
+  .d-span-8 { grid-column-end: span 8; }
+  .d-span-9 { grid-column-end: span 9; }
+  .d-span-10 { grid-column-end: span 10; }
+  .d-span-11 { grid-column-end: span 11; }
+  .d-span-12 { grid-column-end: span 12; }
+  [class*="d-span-"] { grid-column-start: auto; }
+  .d-start-1 { grid-column-start: 1; }
+  .d-start-2 { grid-column-start: 2; }
+  .d-start-3 { grid-column-start: 3; }
+  .d-start-4 { grid-column-start: 4; }
+  .d-start-5 { grid-column-start: 5; }
+  .d-start-6 { grid-column-start: 6; }
+  .d-start-7 { grid-column-start: 7; }
+  .d-start-8 { grid-column-start: 8; }
+  .d-start-9 { grid-column-start: 9; }
+  .d-start-10 { grid-column-start: 10; }
+  .d-start-11 { grid-column-start: 11; }
+  .d-start-12 { grid-column-start: 12; }
+}
+
+/* ---------- Section rhythm (G3) and proximity (G4) ---------- */
+.section {
+  padding-block: var(--section-pad);
+}
+.section--minor {
+  padding-block: var(--section-pad-minor);
+}
+/* Vertical rhythm between siblings: .stack (24px) or .stack plus one size class. The gap is set
+   per selector, not through an inherited custom property, so a nested stack never changes the
+   gap above itself. */
+.stack > * + * { margin-top: var(--sp-24); }
+.stack-8 > * + * { margin-top: var(--sp-8); }
+.stack-12 > * + * { margin-top: var(--sp-12); }
+.stack-16 > * + * { margin-top: var(--sp-16); }
+.stack-24 > * + * { margin-top: var(--sp-24); }
+.stack-32 > * + * { margin-top: var(--sp-32); }
+.stack-48 > * + * { margin-top: var(--sp-48); }
+.stack-64 > * + * { margin-top: var(--sp-64); }
+
+/* Hairline rules (G7: separation is hairlines and tonal steps, never shadows) */
+.rule {
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--hair);
+  margin: 0;
+}
+.hair-top { border-top: 1px solid var(--hair); }
+.hair-bottom { border-bottom: 1px solid var(--hair); }
+
+/* Radius family (G6) */
+.r-2 { border-radius: var(--radius); }
+
+/* Visually hidden, still read by screen readers */
+.vh {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ---------- The Light Ramp (art direction LR-a to LR-c; hero fallback HF1, HF2) ----------
+   Six glass panes, palest (70) to near black (5), 1px line mullions, pure CSS. Panes carry no
+   numerals until the owner's stocked-shade list exists (LR-b); a page adds them on purpose.
+   Markup: <div class="v3-ramp" aria-hidden="true"><i></i> x6</div>
+   Horizontal by default (desktop window of tall panes); .v3-ramp--strip is the 120px phone strip. */
+.v3-ramp {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 120px;
+}
+.v3-ramp > * {
+  display: block;
+  background-color: var(--glare);
+  background-image: linear-gradient(rgba(11, 11, 12, var(--pane-a, 0)), rgba(11, 11, 12, var(--pane-a, 0)));
+}
+.v3-ramp > :nth-child(1) { --pane-a: var(--ramp-a-70); }
+.v3-ramp > :nth-child(2) { --pane-a: var(--ramp-a-50); }
+.v3-ramp > :nth-child(3) { --pane-a: var(--ramp-a-35); }
+.v3-ramp > :nth-child(4) { --pane-a: var(--ramp-a-20); }
+.v3-ramp > :nth-child(5) { --pane-a: var(--ramp-a-15); }
+.v3-ramp > :nth-child(6) { --pane-a: var(--ramp-a-5); }
+.v3-ramp--strip {
+  min-height: 0;
+  height: 120px;
+}
+
+/* ---------- Hero media slot (CEO ruling: modes "ramp" default and "storefront") ----------
+   The homepage stream owns the hero layout; this is the slot contract. One element,
+   .v3-hero-media, holds either the Light Ramp (.v3-hero-media--ramp) or one <picture>
+   (.v3-hero-media--storefront). Swapping modes changes only this slot (HF3). */
+.v3-hero-media {
+  position: relative;
+  margin: 0;
+}
+.v3-hero-media--ramp .v3-ramp {
+  height: 100%;
+  min-height: 120px;
+}
+.v3-hero-media--storefront img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.v3-hero-media__note {
+  margin-top: var(--sp-12);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  color: var(--fg-2);
+}
+@media (min-width: 1024px) {
+  .v3-hero-media--ramp .v3-ramp {
+    min-height: 480px;
+  }
+}
+.v3-hero-media--ramp .v3-ramp--strip {
+  min-height: 0;
+  height: 120px;
+}
+
+/* ---------- Reduced motion (art direction rule 9, V12): no animation anywhere ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

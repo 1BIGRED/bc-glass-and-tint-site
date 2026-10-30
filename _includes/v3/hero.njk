@@ -1,0 +1,42 @@
+{# STUB: owned by WS5, replace #}
+{#- The homepage hero MEDIA slot (CEO ruling: two modes from data, "ramp" is the default; art
+    direction 2.2 to 2.4). WS5 owns the hero layout and copy; this file is only the slot contract,
+    so swapping the storefront photo and the Light Ramp is one slot, not a redesign (HF3).
+
+    Data (the page sets one object named hero, for example from pages.home in index.11tydata.js):
+      hero = {
+        mode:    "ramp" | "storefront"   missing or anything else = "ramp"
+        image:   one _data/images.json item (storefront mode only; without it the slot falls back
+                 to the ramp, so a missing photo never ships an empty box)
+        alt:     alt text for the storefront photo (required in storefront mode)
+        sizes:   sizes for the <img> AND the preload, identical (engineering 3.9)
+        note:    optional 13px line under the media (the ramp's honesty line, art direction HF1)
+      }
+    Layout behavior (layouts/v3.njk): body gets class hero-ramp or hero-storefront, and in
+    storefront mode with an image the head gets the one image preload with the same sizes.
+
+    Import and call:
+      {% from "v3/hero.njk" import heroMedia with context %}
+      {{ heroMedia(hero, { strip: false }) }}
+    opts.strip  true renders the ramp as the 120px phone strip (HF2) -#}
+{% macro heroMedia(h, opts) -%}
+{%- from "v3/media.njk" import picture -%}
+{%- set o = opts or {} -%}
+{%- set hh = h or {} -%}
+{%- set isStore = (hh.mode == "storefront" and hh.image) -%}
+{%- if isStore %}
+<figure class="v3-hero-media v3-hero-media--storefront" data-hero-mode="storefront">
+  {{ picture(hh.image, hh.sizes or "100vw", { alt: hh.alt, high: true }) }}
+{%- if hh.note %}
+  <figcaption class="v3-hero-media__note">{{ hh.note | safe }}</figcaption>
+{%- endif %}
+</figure>
+{%- else %}
+<figure class="v3-hero-media v3-hero-media--ramp" data-hero-mode="ramp">
+  <div class="v3-ramp{% if o.strip %} v3-ramp--strip{% endif %}" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+{%- if hh.note %}
+  <figcaption class="v3-hero-media__note">{{ hh.note | safe }}</figcaption>
+{%- endif %}
+</figure>
+{%- endif %}
+{%- endmacro %}

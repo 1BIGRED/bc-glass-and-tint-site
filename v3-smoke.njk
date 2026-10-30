@@ -1,0 +1,221 @@
+---
+# v3 smoke page (overhaul v3, phase A foundation, 2026-10-29). Internal only: noindex, nofollow,
+# no analytics (robots_noindex stubs GA4 and Clarity in layouts/v3.njk), not in collections, not in
+# the hand-written sitemap.xml. It renders every v3 stub partial and every token in both moods so
+# later streams and the CEO can eyeball the system. Contrast figures on this page are computed in
+# the browser from the live computed colors (WCAG 2 formula), not typed.
+layout: layouts/v3.njk
+permalink: /v3-smoke/
+eleventyExcludeFromCollections: true
+robots_noindex: true
+slug: v3-smoke
+meta_title: "v3 smoke test, BC Glass &amp; Tint (internal)"
+meta_description: "Internal check page for the v3 design system. Not for customers."
+hero:
+  mode: ramp
+---
+{%- from "v3/actions.njk" import action with context -%}
+{%- from "v3/price.njk" import priceRow with context -%}
+{%- from "v3/media.njk" import picture -%}
+{%- from "v3/request.njk" import requestForm with context -%}
+{%- from "v3/hero.njk" import heroMedia with context -%}
+{%- set darkPairs = [
+  ["text", "ink-0", 4.5], ["text", "ink-1", 4.5], ["text", "ink-2", 4.5], ["text", "ink-head", 4.5],
+  ["text-2", "ink-0", 4.5], ["text-2", "ink-1", 4.5], ["text-2", "ink-2", 4.5], ["text-2", "ink-head", 4.5],
+  ["error-d", "ink-0", 4.5], ["error-d", "ink-1", 4.5], ["error-d", "ink-2", 4.5],
+  ["ink-0", "gold", 4.5], ["ink-0", "gold-hover", 4.5], ["ink-0", "gold-press", 4.5], ["ink-0", "text", 4.5],
+  ["gold", "ink-0", 3], ["gold", "ink-head", 3], ["line-ctl", "ink-0", 3], ["line-ctl", "ink-2", 3], ["line", "ink-0", 0]
+] -%}
+{%- set warmPairs = [
+  ["ink-w", "paper", 4.5], ["ink-w", "paper-2", 4.5], ["ink-w", "card", 4.5],
+  ["ink-2-w", "paper", 4.5], ["ink-2-w", "paper-2", 4.5], ["ink-2-w", "card", 4.5],
+  ["goldsm", "paper", 4.5], ["goldsm", "paper-2", 4.5], ["goldsm", "card", 4.5],
+  ["error-w", "paper", 4.5], ["error-w", "card", 4.5], ["paper", "ink-w", 4.5],
+  ["goldd", "paper", 3], ["line-ctl-w", "paper", 3], ["line-ctl-w", "card", 3]
+] -%}
+<style>
+  .sm-sw { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--sp-16); }
+  .sm-sw__chip { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-8); min-height: var(--sp-64); padding: var(--sp-12) var(--sp-16); border-radius: var(--radius); }
+  .sm-sw__line { display: block; width: 100%; height: 0; border-top: 2px solid currentColor; }
+  .sm-sw code, .sm-code { font-family: ui-monospace, Consolas, monospace; font-size: var(--t-label); }
+  .sm-bar { height: var(--sp-16); background: var(--fg-2); border-radius: var(--radius); }
+  .sm-cell { padding: var(--sp-8); border: 1px solid var(--ctl-line); border-radius: var(--radius); font-size: var(--t-label); }
+  .sm-ramp-wide { min-height: 18rem; }
+  .sm-fill { min-height: 60rem; }
+</style>
+
+<section class="section mood-dark" aria-labelledby="sm-h1">
+  <div class="wrap stack stack-24">
+    <p class="t-eyebrow">Internal page. Not for customers.</p>
+    <h1 id="sm-h1">v3 smoke test</h1>
+    <p class="t-lead fg-2 measure">Every token, type style and stub partial of the v3 foundation, in both moods. Phase A, 2026-10-29.</p>
+    <p class="t-label fg-2">Price mode for this build: <span class="sm-code">{{ price_mode }}</span>. The hashed core CSS and JS bundles are linked in the page head.</p>
+    <p><a href="#tokens-dark">Jump to the dark tokens</a> (anchor test: the heading must land below the header).</p>
+  </div>
+</section>
+
+<section class="section mood-dark bg-ink-0" aria-labelledby="sm-type-d">
+  <div class="wrap stack stack-24">
+    <p class="t-eyebrow">Type, Showroom Black</p>
+    <h2 id="sm-type-d">Type scale</h2>
+    <p class="t-numeral">35</p>
+    <p class="t-h1">Window tint for</p>
+    <p class="t-h2">Your car.</p>
+    <p class="t-h3">My windshield</p>
+    <p class="t-price">$150</p>
+    <p class="t-lead measure">Lead, Poppins 400 18 to 20px. One sentence under a heading.</p>
+    <p class="t-body measure">Body, Poppins 400 16 to 17px. Running text, price row labels and quotes on a phone sit at this size, never smaller than 16px on a phone.</p>
+    <p class="t-label">Label, Poppins 400 13px: captions, attribution, legal lines.</p>
+    <p class="t-button">Button, Poppins 600 16px <span class="tnum">(702) 550-8840</span></p>
+  </div>
+</section>
+
+<section class="section mood-dark bg-ink-1" aria-labelledby="tokens-dark" id="tokens-dark-section">
+  <div class="wrap stack stack-24">
+    <p class="t-eyebrow">Color, Showroom Black</p>
+    <h2 id="tokens-dark">Dark tokens and measured pairs</h2>
+    <div class="sm-sw">
+{%- for p in darkPairs %}
+      <div class="stack stack-8" data-pair data-need="{{ p[2] }}">
+        <div class="sm-sw__chip" data-chip style="background-color: var(--{{ p[1] }}); color: var(--{{ p[0] }});">{% if p[0] == "line" or p[0] == "line-ctl" %}<span class="sm-sw__line"></span>{% else %}<span class="t-body">Aa sample</span>{% endif %}</div>
+        <code>{{ p[0] }} on {{ p[1] }}</code> <span class="t-label" data-ratio></span>
+      </div>
+{%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section mood-warm" aria-labelledby="sm-type-w">
+  <div class="wrap stack stack-24">
+    <p class="t-eyebrow">Type, Warm Gallery</p>
+    <h2 id="sm-type-w">Your home or office.</h2>
+    <p class="t-lead measure">The same scale on cream. Text in ink, secondary text in ink-2-w, focus ring in ink.</p>
+    <p class="t-body"><a href="#sm-type-w">A text link on cream</a> (tab to it: the ring is ink).</p>
+    <div class="sm-sw">
+{%- for p in warmPairs %}
+      <div class="stack stack-8" data-pair data-need="{{ p[2] }}">
+        <div class="sm-sw__chip" data-chip style="background-color: var(--{{ p[1] }}); color: var(--{{ p[0] }});">{% if p[0] == "line-ctl-w" %}<span class="sm-sw__line"></span>{% else %}<span class="t-body">Aa sample</span>{% endif %}</div>
+        <code>{{ p[0] }} on {{ p[1] }}</code> <span class="t-label" data-ratio></span>
+      </div>
+{%- endfor %}
+    </div>
+    <p class="t-label">Banned pairs, never used: gold on any cream ground (2.17:1); goldd on paper-2 (2.82:1).</p>
+  </div>
+</section>
+
+<section class="section mood-warm bg-paper-2" aria-labelledby="sm-prices-w">
+  <div class="wrap stack stack-24">
+    <h2 id="sm-prices-w" class="t-h3">Grounds: paper, paper-2, card</h2>
+    <div class="grid">
+      <div class="t-span-4 d-span-4 bg-paper sm-cell">paper</div>
+      <div class="t-span-4 d-span-4 bg-paper-2 sm-cell">paper-2</div>
+      <div class="t-span-8 d-span-4 bg-card sm-cell">card</div>
+    </div>
+  </div>
+</section>
+
+<section class="section mood-dark" aria-labelledby="sm-space">
+  <div class="wrap stack stack-24">
+    <p class="t-eyebrow">Spacing, grid, radius</p>
+    <h2 id="sm-space">Scale</h2>
+    <div class="stack stack-8">
+{%- for s in [4, 8, 12, 16, 24, 32, 48, 64, 96, 128] %}
+      <div class="grid"><span class="t-span-1 d-span-1 t-label sm-code">sp-{{ s }}</span><span class="t-span-7 d-span-11"><span class="sm-bar" style="display:block; width: var(--sp-{{ s }});"></span></span></div>
+{%- endfor %}
+    </div>
+    <div class="grid" aria-label="Grid columns">
+{%- for c in range(1, 13) %}
+      <div class="t-span-1 d-span-1 sm-cell tnum">{{ c }}</div>
+{%- endfor %}
+    </div>
+    <p class="t-label fg-2">Phone 4 columns, tablet 8, desktop 12. Radius is 2px everywhere; 50% only on the 8px status dot.</p>
+  </div>
+</section>
+
+<section class="section mood-dark bg-ink-1" aria-labelledby="sm-hero">
+  <div class="wrap stack stack-24">
+    <p class="t-eyebrow">Hero media slot</p>
+    <h2 id="sm-hero">Light Ramp and the photo slot</h2>
+    <p class="t-body fg-2 measure">Mode "ramp" is the default. Mode "storefront" takes one image item; without an image it falls back to the ramp. This page's own hero data: mode {{ hero.mode }}.</p>
+    <div class="grid">
+      <div class="t-span-8 d-span-6 stack stack-12">
+        <p class="t-label sm-code">heroMedia(hero) with mode ramp</p>
+        <div class="sm-ramp-wide">{{ heroMedia({ mode: "ramp", note: "Shades shown on screen. Ask to hold real film against your glass at the shop." }) }}</div>
+      </div>
+      <div class="t-span-8 d-span-6 stack stack-12">
+        <p class="t-label sm-code">heroMedia(hero, { strip: true }), the phone strip</p>
+        {{ heroMedia({ mode: "ramp" }, { strip: true }) }}
+        <p class="t-label sm-code">heroMedia with mode storefront but no image: falls back to the ramp</p>
+        {{ heroMedia({ mode: "storefront" }, { strip: true }) }}
+      </div>
+    </div>
+    <div class="grid">
+      <div class="t-span-4 d-span-4 stack stack-12">
+        <p class="t-label sm-code">heroMedia with mode storefront and an image (slot demo only)</p>
+        {{ heroMedia({ mode: "storefront", image: v2images["chip-real"], alt: "Slot demo image from the v2 image set", sizes: "(min-width: 1024px) 33vw, 100vw" }) }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section mood-dark" aria-labelledby="sm-stubs">
+  <div class="wrap stack stack-32">
+    <p class="t-eyebrow">Stub partials</p>
+    <h2 id="sm-stubs">Contracts, rendered</h2>
+
+    <div class="stack stack-12">
+      <h3>action(opts), every slot</h3>
+{%- for sl in ["hero", "lane", "price", "builder", "contact", "bar", "header"] %}
+      <p class="t-body"><span class="sm-code">{{ sl }}</span>: {{ action({ slot: sl, service: "any", build: false }) }}</p>
+{%- endfor %}
+      <p class="t-body"><span class="sm-code">lane, chip, build true</span>: {{ action({ slot: "lane", service: "chip", build: true }) }}</p>
+    </div>
+
+    <div class="stack stack-12">
+      <h3>priceRow(label, entry, opts)</h3>
+      <dl class="stack stack-8">
+        {{ priceRow(pricing.auto_tint.coverage.two_front_doors.label, pricing.auto_tint.coverage.two_front_doors.car, { mode: "production", fallback: "Price confirmed on the call" }) }}
+        {{ priceRow(pricing.auto_tint.coverage.two_front_doors.label, pricing.auto_tint.coverage.two_front_doors.car, { mode: "preview" }) }}
+        {{ priceRow(pricing.auto_tint.coverage.two_front_doors.label + " (van, no entry)", pricing.auto_tint.coverage.two_front_doors.van, { mode: "preview", fallback: "Price confirmed on the call" }) }}
+        {{ priceRow(pricing.auto_tint.coverage.two_front_doors.label + " (build mode)", pricing.auto_tint.coverage.two_front_doors.car) }}
+      </dl>
+      <p class="t-label fg-2">Rows 1 and 2 force production and preview; row 4 uses this build's price_mode.</p>
+    </div>
+
+    <div class="stack stack-12">
+      <h3>picture(item, sizes, opts)</h3>
+      <div class="grid"><div class="t-span-4 d-span-3">{{ picture(v2images["colorado"], "(min-width: 1024px) 25vw, 50vw", { alt: "Media macro demo image" }) }}</div></div>
+    </div>
+
+    <div class="stack stack-12">
+      <h3>requestForm(opts), demo copy with netlify false</h3>
+      {{ requestForm({ source: "v3-smoke", service: "car", id: "sm-rq", netlify: false }) }}
+    </div>
+
+    <p class="t-body fg-2 measure">The header, footer, call bar stub and cookie bar on this page come from the layout. Scroll to watch the header's raised layer fade in after about 8px.</p>
+  </div>
+</section>
+
+<section class="section mood-dark bg-ink-1 sm-fill" aria-labelledby="sm-fill">
+  <div class="wrap stack stack-24">
+    <h2 id="sm-fill">Scroll room</h2>
+    <p class="t-body fg-2 measure">Empty space so the header can be measured at scroll 0, 16 and 600 at every width.</p>
+  </div>
+</section>
+
+<script>
+(function () {
+  function rgba(s) { var m = String(s).match(/rgba?\(([^)]+)\)/); if (!m) return null; var p = m[1].split(/[\s,\/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 }; }
+  function lin(c) { c = c / 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function lum(c) { return 0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b); }
+  function over(f, b) { return { r: f.r * f.a + b.r * (1 - f.a), g: f.g * f.a + b.g * (1 - f.a), b: f.b * f.a + b.b * (1 - f.a), a: 1 }; }
+  var rows = document.querySelectorAll("[data-pair]");
+  for (var i = 0; i < rows.length; i++) {
+    var chip = rows[i].querySelector("[data-chip]"), out = rows[i].querySelector("[data-ratio]");
+    var cs = getComputedStyle(chip), bg = rgba(cs.backgroundColor), fg = over(rgba(cs.color), bg);
+    var l1 = lum(fg), l2 = lum(bg), ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+    var need = +rows[i].getAttribute("data-need");
+    out.textContent = ratio.toFixed(2) + ":1" + (need ? (ratio >= need ? " passes " + need + ":1" : " FAILS " + need + ":1") : " decorative");
+  }
+})();
+</script>

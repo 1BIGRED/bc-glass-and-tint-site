@@ -1,0 +1,359 @@
+/* BC Glass & Tint v3, header. Phase A foundation (2026-10-29).
+   CEO ruling (binding over both specs): the header is opaque black on EVERY page, the homepage
+   included, from the first frame. No photo or text ever sits under it. Fixed height 64px below
+   1024px, 80px from 1024px (--header-h). On scroll a raised layer (ink-head) plus a 1px hairline
+   fades in by OPACITY ONLY from about 8px of scroll: position-linked with a CSS scroll timeline
+   where supported, else the .is-raised class from 20-header.js (IntersectionObserver on a
+   sentinel at top 8px, no scroll listener) with a 240ms fade. Reduced motion: no fade, the
+   layer switches instantly. The transparent over-hero variant (engineering 4.1 rule 3) is NOT
+   built. Kept from engineering 4.1: rule 1 (fixed height), 4 (opacity only), 5 (reduced motion),
+   6 (scroll padding, focus never obscured), 7 (short viewports), 8 (status word space reserved).
+   Header colors are pinned to the dark tokens on every page, cream pages included (art
+   direction H-e). Front matter header_raised: true loads the layer already on (art direction
+   4 rule 5) for pages that want it. */
+
+/* Rule 6: anchors and focused elements always land clear of the header, the call bar and the
+   cookie bar. */
+html {
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  scroll-padding-bottom: calc(var(--scb) + var(--ckh, 0px) + 16px);
+}
+
+/* The sentinel the fallback observer watches: 1px, 8px below the top of the document. */
+.v3-top-sentinel {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Rule 1 and 2: one box, constant height, opaque from the first paint. Sticky, so it holds its
+   own space in the flow and nothing starts underneath it. No transform, filter or contain on
+   this element, so the menu sheet's fixed position keeps the viewport as its containing block. */
+.v3-header {
+  --focus: var(--gold);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  height: var(--header-h);
+  background-color: var(--ink-0);
+  color: var(--text);
+  color-scheme: dark;
+}
+/* The raised layer and its hairline: one pseudo element, opacity is the only animated property. */
+.v3-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--ink-head);
+  border-bottom: 1px solid var(--line);
+  opacity: 0;
+  pointer-events: none;
+}
+.v3-header.is-raised::before,
+.v3-header[data-raised="always"]::before,
+.v3-header.is-menu::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Fallback path (no scroll timelines): class from 20-header.js, 240ms ease-out */
+  .v3-header::before {
+    transition: opacity var(--dur-raise) var(--ease-out);
+  }
+  /* Position-linked path: the layer follows the scroll from 8px to 40px */
+  @supports (animation-timeline: scroll()) {
+    .v3-header:not([data-raised="always"]):not(.is-menu)::before {
+      transition: none;
+      animation: v3-header-raise linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 8px 40px;
+    }
+  }
+}
+@keyframes v3-header-raise {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.v3-header__in {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-8);
+  height: 100%;
+}
+
+/* Logo: the real raster original (logo-hero.png, 640 x 238), scaled whole, never redrawn.
+   36px tall on phones (H-d), 40px from 1024px (H-b). */
+.v3-logo {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 44px;           /* B-e: 44px target even though the image is 36 or 40px tall */
+  margin-right: auto;
+  line-height: 0;
+  border-radius: var(--radius);
+}
+.v3-logo img {
+  display: block;
+  width: auto;
+  height: 36px;
+}
+
+/* Desktop text links (H-b): Poppins 400 15px text, hidden below 1024px */
+.v3-nav {
+  display: none;
+}
+.v3-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-text);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--text);
+  text-decoration-color: transparent;
+}
+.v3-nav a:hover,
+.v3-nav a[aria-current="page"] {
+  text-decoration-color: var(--text);
+}
+
+.v3-header__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-8);
+  flex: 0 0 auto;
+}
+
+/* Rule 8: the status word. Space is reserved at the short form's width so the fill causes no
+   shift; the words stay invisible until 20-header.js or actions.js marks the chip ready, and a
+   visitor without JavaScript never sees a status claim. Shape plus words carry the state (C6). */
+.v3-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  width: 4.75rem;
+  min-height: 44px;
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  visibility: hidden;
+}
+.v3-status.is-ready {
+  visibility: visible;
+}
+.v3-status__dot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-dot);
+  background: var(--text);
+}
+.v3-status.is-closed {
+  color: var(--text-2);
+}
+.v3-status.is-closed .v3-status__dot {
+  background: transparent;
+  border: 1.5px solid var(--text-2);
+}
+
+/* Desktop phone number as a text link (H-b), from 1280px where the row has room */
+.v3-header__tel {
+  display: none;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-button);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  text-decoration-color: transparent;
+  white-space: nowrap;
+}
+.v3-header__tel:hover {
+  text-decoration-color: var(--gold);
+}
+
+/* The ONE desktop call control (H-c): gold fill while no in-page gold booking control is in
+   view; outline (line-ctl border, text label) while one is (.is-quiet on the header). The swap
+   is a 160ms color transition, never a size change (art direction 4 rule 10). */
+.v3-header__call {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding-inline: var(--sp-24);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  background-color: var(--gold);
+  color: var(--ink-0);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-button);
+  line-height: 1;
+  letter-spacing: var(--tr-button);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-ui) var(--ease-out), border-color var(--dur-ui) var(--ease-out), color var(--dur-ui) var(--ease-out);
+}
+.v3-header__call:hover {
+  background-color: var(--gold-hover);
+  border-color: var(--gold-hover);
+}
+.v3-header__call:active {
+  background-color: var(--gold-press);
+  border-color: var(--gold-press);
+}
+.v3-header.is-quiet .v3-header__call {
+  background-color: transparent;
+  border-color: var(--line-ctl);
+  color: var(--text);
+}
+
+/* Phone call icon (H-d): 44 x 44, 1px line-ctl border (3.92:1), 20px glyph in text (14.92:1) */
+.v3-header__icall,
+.v3-menubtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  min-width: 44px;
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+}
+.v3-header__icall svg {
+  width: 20px;
+  height: 20px;
+}
+/* "Menu" as a word in a 44px tall button (H-d) */
+.v3-menubtn {
+  padding-inline: var(--sp-12);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+}
+
+/* Menu sheet (H-f): full screen ink-0 below the header bar, inside the header element. Opacity
+   plus 8px translateY, 250ms in and 200ms out; opacity only under reduced motion. The header
+   stays visible above it and focus is kept inside while it is open (20-header.js). */
+.v3-drawer {
+  position: fixed;
+  top: var(--header-h);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--z-drawer);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  padding: var(--sp-24) var(--margin) calc(var(--sp-48) + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--ink-0);
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--dur-sheet-out) var(--ease-out), transform var(--dur-sheet-out) var(--ease-out);
+}
+.v3-drawer.is-open {
+  opacity: 1;
+  transform: none;
+  transition-duration: var(--dur-sheet-in);
+}
+.v3-drawer a {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.75rem;
+  line-height: var(--lh-h3);
+  letter-spacing: var(--tr-h3);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text);
+}
+.v3-drawer a.v3-drawer__minor {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-body);
+  letter-spacing: 0;
+  text-transform: none;
+  min-height: 48px;
+}
+html.v3-menu-open {
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .v3-drawer,
+  .v3-drawer.is-open {
+    transform: none;
+  }
+}
+
+/* Narrow screens (under 360px, 320px at 400% zoom): keep logo, call and Menu, drop the status
+   word. Measured row at 390px: logo 97 + 8 + status 76 + 8 + call 44 + 8 + Menu 69 = 310px plus
+   2 x 20px margins, so the status word fits from 350px; 360px keeps a margin. */
+@media (max-width: 359px) {
+  .v3-status {
+    display: none;
+  }
+}
+
+/* Desktop (H-b): logo, text links, status, the call control; number printed from 1280px */
+@media (min-width: 1024px) {
+  .v3-logo img {
+    height: 40px;
+  }
+  .v3-logo {
+    margin-right: var(--sp-32);
+  }
+  .v3-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-24);
+    margin-right: auto;
+  }
+  .v3-header__cta {
+    gap: var(--sp-16);
+  }
+  .v3-header__call {
+    display: inline-flex;
+  }
+  .v3-header__icall,
+  .v3-menubtn,
+  .v3-drawer {
+    display: none;
+  }
+}
+@media (min-width: 1280px) {
+  .v3-header__tel {
+    display: inline-flex;
+  }
+}
+
+/* Rule 7: short viewports (phone landscape, 400% zoom). The header scrolls away with the page;
+   the call bar stays the persistent call control. */
+@media (max-height: 480px) {
+  .v3-header {
+    position: relative;
+  }
+  html {
+    scroll-padding-top: 16px;
+  }
+}

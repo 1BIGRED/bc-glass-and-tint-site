@@ -1,0 +1,61 @@
+{# STUB: owned by WS3, replace #}
+{#- The one request form (engineering 3.3; blueprint 5.4). Same field set on /book, in every contact
+    block and on the builder result. The form name stays "quote": it is the live Netlify form with
+    its submission history and notification (engineering E1). Every field is in the static HTML
+    (scripts only set values) so Netlify registers all of them.
+
+    Import:
+      {% from "v3/request.njk" import requestForm with context %}
+    Call:
+      {{ requestForm({ source: "home-contact", service: "car", id: "rq", netlify: true }) }}
+    Parameters (one object):
+      source   value of the hidden "source" field (the page or block the form sits in)
+      service  preselected option: "car" | "home" | "blinds" | "chip" | "other" (optional)
+      id       id prefix for the fields, so two forms never share ids (default "rq")
+      netlify  false drops data-netlify and netlify-honeypot (the smoke page uses it, so a demo
+               copy can never register or change the live form's fields); default true
+
+    Contract for the real form (WS3): required name, phone, service; visible <label for> on every
+    field; inputs at least 16px and 44px tall; days limited to two by script with an aria-live
+    note; request.js sets ref, status_state and subject and POSTs url-encoded to "/";
+    generate_lead only after r.ok; no-JS posts natively to /book/sent/.
+    THIS STUB prints the full field set from the contract, unstyled, with no script. -#}
+{% macro requestForm(opts) -%}
+{%- set o = opts or {} -%}
+{%- set id = o.id or "rq" -%}
+{%- set useNetlify = (o.netlify !== false) -%}
+<form class="v3-request" name="quote" method="POST" action="/book/sent/"{% if useNetlify %} data-netlify="true" netlify-honeypot="bot-field"{% endif %} data-clarity-mask="true">
+  <input type="hidden" name="form-name" value="quote">
+  <input type="hidden" name="subject" data-remove-prefix value="Website request">
+  <input type="hidden" name="ref" value="">
+  <input type="hidden" name="build_code" value="">
+  <input type="hidden" name="source" value="{{ o.source or '' }}">
+  <input type="hidden" name="status_state" value="">
+  <input type="hidden" name="utm_source" value="">
+  <input type="hidden" name="utm_medium" value="">
+  <input type="hidden" name="utm_campaign" value="">
+  <input type="hidden" name="gclid" value="">
+  <input type="hidden" name="lead_source" value="">
+  <p class="hp vh" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+  <p><label for="{{ id }}-name">Name</label><br><input id="{{ id }}-name" name="name" autocomplete="name" required></p>
+  <p><label for="{{ id }}-phone">Phone, so we can confirm your time</label><br><input id="{{ id }}-phone" name="phone" type="tel" autocomplete="tel" required></p>
+  <p><label for="{{ id }}-svc">What is it for</label><br>
+    <select id="{{ id }}-svc" name="service" required>
+      <option value=""></option>
+      <option value="Car tint"{% if o.service == "car" %} selected{% endif %}>Car tint</option>
+      <option value="Home or office film"{% if o.service == "home" %} selected{% endif %}>Home or office film</option>
+      <option value="Blinds"{% if o.service == "blinds" %} selected{% endif %}>Blinds</option>
+      <option value="Chip repair"{% if o.service == "chip" %} selected{% endif %}>Chip repair</option>
+      <option value="Other"{% if o.service == "other" %} selected{% endif %}>Other</option>
+    </select></p>
+  <p><label for="{{ id }}-details">Your build or details</label><br><textarea id="{{ id }}-details" name="details"></textarea></p>
+  <fieldset>
+    <legend>Two days that work (optional)</legend>
+{%- for d in ["Tue", "Wed", "Thu", "Fri", "Sat"] %}{% for h in ["AM", "PM"] %}
+    <label><input type="checkbox" name="days" value="{{ d }} {{ h }}"> {{ d }} {{ h }}</label>
+{%- endfor %}{% endfor %}
+  </fieldset>
+  <p class="rq-consent">We use your number to confirm this request by call or text.</p>
+  <button type="submit">Request a time</button>
+</form>
+{%- endmacro %}

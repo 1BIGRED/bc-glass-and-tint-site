@@ -1,0 +1,26 @@
+{# STUB: owned by WS2, replace #}
+{#- The action system's one macro (engineering 3.2.2). EVERY booking control on every page is
+    rendered by this macro.
+
+    Import (with context, so the macro reads site.json and the shared labels):
+      {% from "v3/actions.njk" import action with context %}
+    Call:
+      {{ action({ slot: "hero", service: "car", build: false }) }}
+    Parameters (one object):
+      slot     "hero" | "lane" | "price" | "builder" | "contact" | "bar" | "header"
+      service  "car" | "home" | "chip" | "any"        (default "any")
+      build    false, or true on the builder result   (default false)
+
+    Contract for the real macro (WS2): the server renders the no-JS state (Call and Text both
+    visible, hours printed, no status word); each slot holds every variant (Call primary, Text
+    primary, Request primary, the quiet secondary) in one fixed-size cell swapped by visibility on
+    data-state, so swapping never shifts layout; actions.js paints every [data-bc-act] from one
+    statusAt() call. Primary by state per blueprint 5.2.
+
+    THIS STUB renders one plain tel: link carrying the data attributes the real one will carry. -#}
+{% macro action(opts) -%}
+{%- set o = opts or {} -%}
+{%- set sl = o.slot or "lane" -%}
+{%- set sv = o.service or "any" -%}
+<a class="v3-act" href="tel:{{ site.phone.tel | safe }}" data-bc-act data-slot="{{ sl }}" data-service="{{ sv }}"{% if o.build %} data-build="true"{% endif %}>{{ pages.shared.v2.call | safe }} <span class="tnum">{{ site.phone.display_call | safe }}</span></a>
+{%- endmacro %}

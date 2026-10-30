@@ -1,0 +1,29 @@
+{# STUB: owned by WS4, replace #}
+{#- v3 price row macro (art direction P-a to P-e; engineering 3.2.3 and WS4). Every printed price goes
+    through the gate in lib/pricing.js via the existing priceFor filter, so production shows a
+    number only when the entry is confirmed AND publish AND not legal_hold.
+
+    Import (with context, so the macro reads the build's price_mode global):
+      {% from "v3/price.njk" import priceRow with context %}
+    Call, inside a <dl class="v3-prices">:
+      {{ priceRow("Front doors", pricing.auto_tint.coverage.front_doors.car, { fallback: "Price confirmed on the call" }) }}
+    Parameters:
+      label   the row label (plain text or entity-encoded HTML from data)
+      entry   one pricing.json entry { amount, status, publish, legal_hold, display, range? }
+      opts    { mode, fallback, draft_label }
+              mode         "production" | "preview"; default the price_mode global, else production
+              fallback     the words shown when the gate hides the price (blueprint 6.1 by context);
+                           default the lib's fallback ("Call for a quote")
+              draft_label  the preview-only tag after a draft number (default "Draft price")
+
+    Output: <div class="v3-prow" data-price-block> <dt> label </dt> <dd> value </dd> </div>, a valid
+    dl group. No strikethrough, no badge, no "save". THIS STUB carries no styling of its own. -#}
+{% macro priceRow(label, entry, opts) -%}
+{%- set o = opts or {} -%}
+{%- set mode = o.mode or price_mode or "production" -%}
+{%- set p = entry | priceFor(mode) -%}
+<div class="v3-prow" data-price-block data-price-mode="{{ mode }}">
+  <dt class="v3-prow__label t-body">{{ label | safe }}</dt>
+  <dd class="v3-prow__value">{% if p.show %}<span class="t-price tnum">{{ p.display | safe }}</span>{% if p.draft %} <span class="v3-prow__draft t-label">{{ (o.draft_label or "Draft price") | safe }}</span>{% endif %}{% else %}<span class="v3-prow__fallback t-body fg-2">{{ (o.fallback or p.display) | safe }}</span>{% endif %}</dd>
+</div>
+{%- endmacro %}

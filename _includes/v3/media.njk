@@ -1,0 +1,31 @@
+{# STUB: owned by WS6, replace #}
+{#- v3 image macros (engineering 3.9). Import:
+      {% from "v3/media.njk" import picture, preload %}
+
+    picture(item, sizes, opts)
+      item   one entry of _data/images.json (WS6; same shape as _data/v2images.json today):
+             { width, height, fallback, avif, webp, jpeg, alt? }  avif, webp and jpeg are srcset strings
+      sizes  the honest sizes attribute, for example "(min-width: 1024px) 50vw, 100vw"
+      opts   { alt, decorative, high, eager, cls }
+             alt         required (or item.alt); the build stops with a named error without it
+             decorative  true prints alt="" on purpose (no error)
+             high        true = above-the-fold hero: fetchpriority="high", no loading attribute
+             eager       true = no lazy loading (without high)
+             cls         class for the <img>
+    preload(item, sizes)
+      the one hero preload per page: <link rel="preload" as="image" type="image/avif" imagesrcset
+      imagesizes fetchpriority="high">, where imagesizes must equal the <img> sizes.
+
+    Contract for the real macro (WS6): every photo is a <picture> with AVIF then WebP sources then
+    an <img> with src (JPEG 960), srcset, sizes, width, height, alt and decoding="async"; below
+    the fold loading="lazy".
+    THIS STUB prints a plain <img> with the same attributes, no <picture>. -#}
+{% macro picture(item, sizes, opts) -%}
+{%- set o = opts or {} -%}
+{%- if o.decorative %}{% set altText = "" %}{% else %}{% set altText = (o.alt or item.alt) | requireValue("v3/media.njk picture(): alt text is required for " + (item.fallback or "an image")) %}{% endif -%}
+<img{% if o.cls %} class="{{ o.cls }}"{% endif %} src="{{ item.fallback }}"{% if item.jpeg %} srcset="{{ item.jpeg }}"{% endif %} sizes="{{ sizes or '100vw' }}" width="{{ item.width }}" height="{{ item.height }}" alt="{{ altText | safe }}"{% if o.high %} fetchpriority="high"{% elif not o.eager %} loading="lazy"{% endif %} decoding="async">
+{%- endmacro %}
+
+{% macro preload(item, sizes) -%}
+{%- if item and item.avif %}<link rel="preload" as="image" type="image/avif" imagesrcset="{{ item.avif }}" imagesizes="{{ sizes or '100vw' }}" fetchpriority="high">{% endif -%}
+{%- endmacro %}

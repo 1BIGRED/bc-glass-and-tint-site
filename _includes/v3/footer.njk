@@ -1,0 +1,18 @@
+{# STUB: owned by WS5, replace #}
+{#- v3 site footer (art direction 3.1 row 10: ink-1, logo, address, hours, phone, the main links,
+    legal links, the gift card link once /gift-cards exists; 1px line on top; no badge wall, no
+    social icon row). Included once by layouts/v3.njk:  {% include "v3/footer.njk" %}
+    Keep the id "ckreopen": the cookie choices link the consent script listens for.
+    Wording: pages.shared.v2 and pages.shared.footer until WS5 adds v3 footer wording.
+    Contact facts: site.json. THIS STUB prints the facts and links with minimal markup. -#}
+{%- set w = pages.shared.v2 -%}
+{%- set wf = pages.shared.v2.footer -%}
+<footer class="v3-footer mood-dark bg-ink-1 hair-top">
+  <div class="wrap section--minor stack stack-24">
+    <a class="v3-footer__logo" href="/"><img src="/logo-hero.png" width="640" height="238" alt="{{ w.logo_alt | safe }}" loading="lazy" decoding="async" style="height:40px;width:auto"></a>
+    <p class="t-body">{{ site.address.display | safe }}<br>{{ site.hours.display | safe }}<br><a class="tnum" href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a></p>
+    <ul class="list-plain stack stack-8">{% for l in w.nav %}<li><a href="{{ l.href | safe }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
+    <p class="t-label fg-2"><a href="/privacy-policy">{{ wf.privacy | safe }}</a> &middot; <a href="#" id="ckreopen">{{ wf.cookies | safe }}</a> &middot; <a href="{{ wf.tint_law_href | safe }}">{{ wf.tint_law | safe }}</a></p>
+    <p class="t-label fg-2">&copy; {{ pages.shared.footer.copyright_year | safe }} {{ site.name_html | safe }}. {{ pages.shared.footer.rights | safe }}</p>
+  </div>
+</footer>
