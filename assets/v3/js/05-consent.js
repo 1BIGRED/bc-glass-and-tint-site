@@ -105,10 +105,19 @@
   function show(fromUser) {
     bar.hidden = false;
     document.body.classList.add("ck-open");
-    publishHeight();
-    if (typeof ResizeObserver === "function" && !ro) {
-      ro = new ResizeObserver(publishHeight);
-      ro.observe(bar);
+    /* Peak R2 (technical 7): no direct publishHeight() here. Reading the bar's size right after the
+       class change forced a full style and layout inside the script (46 ms at 4x CPU). The
+       ResizeObserver's first callback runs after the browser's own layout, before that frame
+       paints, so --ckh is still in place before anything is drawn. */
+    if (typeof ResizeObserver === "function") {
+      if (!ro) {
+        ro = new ResizeObserver(publishHeight);
+        ro.observe(bar);
+      }
+    } else if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(publishHeight);
+    } else {
+      publishHeight();
     }
     if (fromUser) {
       try { bar.focus({ preventScroll: true }); } catch (e) { bar.focus(); }

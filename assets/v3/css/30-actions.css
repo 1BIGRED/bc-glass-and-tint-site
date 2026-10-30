@@ -226,6 +226,35 @@
     border-color: var(--fg);
   }
 }
+/* Peak R2 rulings.
+   1. Gold fill on dark grounds only (client rule, decisions-and-rules line 74). The action macro's
+      fill is the --cta-bg token, which every light ground sets to the light-ground primary (ink
+      fill, paper text; 10-base.css). A page component that asks for gold by class (.ws5-btn--gold,
+      e.g. the /gift-cards Buy button) gets the same light-ground primary on cream, automatically,
+      and keeps its gold when it sits on a dark band inside a cream area. Color only, same size.
+   2. Where an open request form's submit and a Call button are on screen together, the submit keeps
+      the gold (30-actions.js oneGold picks [data-gold-fill] first; the Call shows as the outline). */
+:is(.mood-warm, .bg-paper, .bg-paper-2, .bg-card) .ws5-btn--gold {
+  background-color: var(--cta-light-bg);
+  border-color: var(--cta-light-bg);
+  color: var(--cta-light-fg);
+}
+:is(.mood-warm, .bg-paper, .bg-paper-2, .bg-card) .ws5-btn--gold.ws5-btn--gold:hover {
+  background-color: var(--cta-light-hover);
+  border-color: var(--cta-light-hover);
+  color: var(--cta-light-fg);
+}
+:is(.mood-warm, .bg-paper, .bg-paper-2, .bg-card) :is(.mood-dark, .bg-ink-0, .bg-ink-1, .bg-ink-2) .ws5-btn--gold {
+  background-color: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink-0);
+}
+:is(.mood-warm, .bg-paper, .bg-paper-2, .bg-card) :is(.mood-dark, .bg-ink-0, .bg-ink-1, .bg-ink-2) .ws5-btn--gold.ws5-btn--gold:hover {
+  background-color: var(--goldd);
+  border-color: var(--goldd);
+  color: var(--ink-0);
+}
+
 /* The price slot is always an outline and a little smaller */
 .v3-act--price .v3-act__btn {
   min-height: 48px;
@@ -368,6 +397,19 @@ body.v3 {
   .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or__rest,
   .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or__rest {
     display: inline-block;
+    /* Peak R2 (visual N1): an inline-block does not inherit its link's underline, so it draws its
+       own, with the link values of 10-base.css (1px at 4px offset) */
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+  /* Peak R2 (visual N2): on phones the note line of an in-page generic, chip or home-measure block
+     says only what the pinned bar already says ("Calls open Tue 9 AM", the printed hours), and while
+     the shop is open it is empty, which left 60 to 75 px of dead ground under every block. It is
+     dropped statically (not by state), so the status paint cannot move anything. The builder's
+     block keeps its line ("Someone from the shop answers." under its own Call). */
+  .v3-act:not([data-kind="build"]):not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) > .v3-act__n {
+    display: none;
   }
   .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or__rest::first-letter,
   .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or__rest::first-letter {

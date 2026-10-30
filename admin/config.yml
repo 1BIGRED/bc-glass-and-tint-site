@@ -50,16 +50,14 @@ collections:
   # ================================================================
   - name: business
     label: "Business Info & Review Counts"
-    delete: false
     editor:
       preview: false
     files:
       - name: site
         label: "Business Info & Review Counts"
         file: "_data/site.json"
-        description: "The facts that print on every page: name, phone, address, hours, social links and review counts. A change here changes every page at once."
         fields:
-          - { label: "Business name", name: name, widget: string }
+          - { label: "Business name", name: name, widget: string, hint: "The facts that print on every page: name, phone, address, hours, social links and review counts. A change here changes every page at once." }
           - { label: "Business name (page source form)", name: name_html, widget: string, hint: "The same name written the way it has to appear in the page's HTML, with &amp; for the ampersand. Keep it matching Business name above, just with &amp; instead of &." }
           - { label: "Other accepted name", name: alternate_name, widget: string, hint: "A second accepted spelling of the business name, read by search engines." }
           - { label: "Website address", name: url, widget: string, hint: "Technical. Ask the studio before changing." }
@@ -210,7 +208,6 @@ collections:
   # ================================================================
   - name: studio_only
     label: "Studio Only (tracking ids)"
-    delete: false
     hide: true
     editor:
       preview: false
@@ -218,9 +215,8 @@ collections:
       - name: site_ids
         label: "Tracking ids and verification token"
         file: "_data/site.json"
-        description: "Studio only. Do not change these without the studio. A wrong id stops visitor counting or the Google ownership check. Each value is checked for its shape when you press Save."
         fields:
-          - { label: "Google Analytics id", name: ga4_id, widget: string, required: true, pattern: ['^G-[A-Z0-9]+$', "A Google Analytics id starts with G- followed by capital letters and digits, for example G-ABC123XYZ4."], hint: "Starts with G- followed by capital letters and digits." }
+          - { label: "Google Analytics id", name: ga4_id, widget: string, required: true, pattern: ['^G-[A-Z0-9]+$', "A Google Analytics id starts with G- followed by capital letters and digits, for example G-ABC123XYZ4."], hint: "Studio only. Do not change these without the studio. A wrong id stops visitor counting or the Google ownership check. Each value is checked for its shape when you press Save. Starts with G- followed by capital letters and digits." }
           - { label: "Google Ads tag ID", name: google_ads_id, widget: string, required: false, pattern: ['^AW-\d+$', "A Google Ads tag id is AW- followed by digits, for example AW-1234567890."], hint: "AW- followed by digits. Leave empty and no Ads tag loads." }
           - { label: "Microsoft Clarity id", name: clarity_id, widget: string, required: true, pattern: ['^[a-z0-9]{8,12}$', "A Clarity id is 8 to 12 lowercase letters and digits."], hint: "8 to 12 lowercase letters and digits." }
           - { label: "Google site verification token", name: google_site_verification, widget: string, required: true, hint: "The ownership token Google gave for the site. Keep it in place permanently." }
@@ -261,16 +257,14 @@ collections:
   # ================================================================
   - name: prices_gallery
     label: "Prices & Gallery Photos"
-    delete: false
     editor:
       preview: false
     files:
       - name: pricing
         label: "Prices"
         file: "_data/pricing.json"
-        description: "Every price the website can show. Only a price the owner has confirmed may be published: a price shows on the live site only when Status is Confirmed AND Show on the live site is on. Everything else shows Call for a quote. Draft prices never show on the live site. Never type a guess, a competitor's number, or 0 to mean unknown. The lines on legal hold are locked and cannot be switched on here."
         fields:
-          - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02. Change it to today's date whenever you change a price." }
+          - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Every price the website can show. Only a price the owner has confirmed may be published: a price shows on the live site only when Status is Confirmed AND Show on the live site is on. Everything else shows Call for a quote. Draft prices never show on the live site. Never type a guess, a competitor's number, or 0 to mean unknown. The lines on legal hold are locked and cannot be switched on here. Year-month-day, for example 2026-11-02. Change it to today's date whenever you change a price." }
           - { label: "Currency", name: currency, widget: string, hint: "Do not change." }
           - { label: "Prices last reviewed with the owner", name: reviewed_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "The day the whole price list was last checked with the owner. The Prices page prints Prices reviewed on this date. Leave it empty until that check has happened." }
           - { label: "Lowest legal shade for front doors (studio only)", name: front_min_vlt, widget: hidden }
@@ -528,9 +522,8 @@ collections:
       - name: gallery
         label: "Gallery Photos"
         file: "_data/gallery.json"
-        description: "The photos on the Gallery page and the homepage. Add a photo only when it shows no faces and no personal items and the customer is OK with it. Never guess a shade."
         fields:
-          - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02. Change it to today's date whenever you add or change a photo." }
+          - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "The photos on the Gallery page and the homepage. Add a photo only when it shows no faces and no personal items and the customer is OK with it. Never guess a shade. Year-month-day, for example 2026-11-02. Change it to today's date whenever you add or change a photo." }
           - label: "Photos"
             name: items
             widget: list
@@ -605,14 +598,12 @@ collections:
   # ================================================================
   - name: reviews_pool
     label: "Customer Reviews (which ones the site may quote)"
-    delete: false
     editor:
       preview: false
     files:
       - name: reviews
         label: "Customer Reviews"
         file: "_data/reviews.json"
-        description: "The pool of real customer reviews. The site quotes a review only when it is a Google review AND the switch Site may quote this review is on. Every review is word for word from the live Google listing; never retype, shorten, join or invent one. Yelp wording never goes on the site, so Yelp entries keep an empty Review text on purpose."
         fields:
           - { label: "Note for the studio (read only)", name: _note, widget: hidden }
           - { label: "Google listing address (studio only)", name: listing_url, widget: hidden }
@@ -622,7 +613,7 @@ collections:
             widget: list
             label_singular: "Review"
             summary: "{{fields.author_display}} ({{fields.platform}})"
-            hint: "Add a review only after reading it on the live listing. Turn on Site may quote this review only for a Google review that was re-read there, has no problem flag, and says nothing the shop cannot stand behind."
+            hint: "The pool of real customer reviews. The site quotes a review only when it is a Google review AND the switch Site may quote this review is on. Every review is word for word from the live Google listing; never retype, shorten, join or invent one. Yelp wording never goes on the site, so Yelp entries keep an empty Review text on purpose. Add a review only after reading it on the live listing. Turn on Site may quote this review only for a Google review that was re-read there, has no problem flag, and says nothing the shop cannot stand behind."
             fields:
               - { label: "Review id", name: id, widget: string, required: true, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Use lowercase letters, digits and single dashes only, for example g-first-last."], hint: "Short name with dashes and no spaces, for example g-first-last (g for Google, y for Yelp). Different from every other review. Do not change it later." }
               - label: "Platform"
@@ -677,16 +668,14 @@ collections:
   # ================================================================
   - name: shared
     label: "Shared Wording (Header, Footer, Quote Form & Cookie Banner)"
-    delete: false
     editor:
       preview: false
     files:
       - name: shared
         label: "Header, Footer, Quote Form & Cookie Banner"
         file: "_data/pages/shared.json"
-        description: "Wording repeated on every page. Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are; they control how the text displays."
         fields:
-          - { label: "Skip-to-content link (screen readers only)", name: skip_link, widget: string, hint: "Not seen by most visitors. Leave as is unless asked to change it." }
+          - { label: "Skip-to-content link (screen readers only)", name: skip_link, widget: string, hint: "Wording repeated on every page. Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are; they control how the text displays. Not seen by most visitors. Leave as is unless asked to change it." }
           - label: "Contact bar"
             name: util
             widget: object
@@ -964,16 +953,15 @@ collections:
   # ================================================================
   - name: homepage
     label: "Homepage"
-    delete: false
     editor:
       preview: false
     files:
       - name: home
         label: "Homepage"
         file: "_data/pages/home.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <span>, and tokens like {google_count}. Keep them exactly as they are; the tokens are filled in automatically from Business Info & Review Counts."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <span>, and tokens like {google_count}. Keep them exactly as they are; the tokens are filled in automatically from Business Info & Review Counts."
             name: meta
             widget: object
             fields:
@@ -1022,6 +1010,16 @@ collections:
                   - { label: "Router label", name: router_label, widget: string }
                   - { label: "Proof line", name: proof, widget: string }
                   - { label: "Review id under the picker (studio only)", name: review, widget: string, required: false, hint: "Technical. One short featurable Google review shown right after the three picker tiles. Ask the studio before changing." }
+                  - label: "Seasonal gift card line"
+                    name: gift
+                    widget: object
+                    required: false
+                    hint: "Shows only between the From and To dates (year-month-day)."
+                    fields:
+                      - { label: "Text", name: text, widget: string }
+                      - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                      - { label: "From", name: from, widget: string, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-01."] }
+                      - { label: "To", name: to, widget: string, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-12-24."] }
                   - { label: "Media mode", name: media_mode, widget: string, hint: "Technical. Ask the studio before changing." }
                   - { label: "Photo image", name: photo_image, widget: string, hint: "Technical. Ask the studio before changing." }
                   - { label: "Photo caption (only what is in the photo)", name: photo_caption, widget: string, required: false }
@@ -1079,16 +1077,15 @@ collections:
   # ================================================================
   - name: service_pages
     label: "Service Pages"
-    delete: false
     editor:
       preview: false
     files:
       - name: auto_tint
         label: "Auto / Vehicle Tint Page"
         file: "_data/pages/auto_tint.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are."
             name: meta
             widget: object
             fields:
@@ -1124,6 +1121,17 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero ramp", name: hero_ramp, widget: boolean, required: false, hint: "Technical. Ask the studio before changing." }
               - { label: "Note under the hero", name: hero_note, widget: string }
@@ -1139,6 +1147,17 @@ collections:
                   - { label: "Section heading", name: h2, widget: string }
                   - { label: "Lead paragraph", name: lede, widget: string }
                   - { label: "Car", name: car, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
+                  - label: "Car price rows"
+                    name: car_rows
+                    widget: list
+                    required: false
+                    label_singular: "Row"
+                    summary: "{{fields.label}}"
+                    hint: "Each row names a price kept under Prices; never type a dollar amount here."
+                    fields:
+                      - { label: "Row name", name: label, widget: string }
+                      - { label: "Price reference (studio only)", name: ref, widget: string, hint: "Technical. Ask the studio before changing." }
+                      - { label: "Small line under the name", name: note, widget: string, required: false }
                   - { label: "Shade", name: shade, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
                   - { label: "Moves", name: moves, widget: text }
                   - { label: "Review id beside the prices (studio only)", name: review, widget: string, required: false, hint: "Technical. One featurable Google review about price. Ask the studio before changing." }
@@ -1216,9 +1235,9 @@ collections:
       - name: blinds
         label: "Blinds & Window Treatments Page"
         file: "_data/pages/blinds.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are. Blinds get their own story about light, privacy and fit; never frame them relative to window film."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are. Blinds get their own story about light, privacy and fit; never frame them relative to window film."
             name: meta
             widget: object
             fields:
@@ -1359,9 +1378,9 @@ collections:
       - name: boat_rv_tint
         label: "Boat & RV Tint Page"
         file: "_data/pages/boat_rv_tint.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Boat and RV tint is an honest service mention, never a growth story."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Boat and RV tint is an honest service mention, never a growth story."
             name: meta
             widget: object
             fields:
@@ -1398,6 +1417,17 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
               - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero strip", name: hero_strip, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
@@ -1433,9 +1463,9 @@ collections:
       - name: ceramic_coating
         label: "Ceramic Coating Page"
         file: "_data/pages/ceramic_coating.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. State no ceramic coating warranty at all; the shop gives none."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. State no ceramic coating warranty at all; the shop gives none."
             name: meta
             widget: object
             fields:
@@ -1471,6 +1501,17 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
               - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero strip", name: hero_strip, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
@@ -1547,9 +1588,9 @@ collections:
       - name: chip_repair
         label: "Windshield Chip Repair Page"
         file: "_data/pages/chip_repair.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. Chip repair is done in house; windshield replacement is done by a partner shop."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. Chip repair is done in house; windshield replacement is done by a partner shop."
             name: meta
             widget: object
             fields:
@@ -1622,6 +1663,7 @@ collections:
                       - { label: "Fallback key", name: fallback_key, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
                   - { label: "Fallback", name: fallback, widget: string }
                   - { label: "After", name: after, widget: text, hint: "Keep any HTML codes, such as &amp; and tags, exactly as they are." }
+                  - { label: "Review id beside the prices (studio only)", name: review, widget: string, required: false, hint: "Technical. One featurable Google review about price. Ask the studio before changing." }
                   - label: "Links"
                     name: links
                     widget: list
@@ -1644,7 +1686,6 @@ collections:
                     fields:
                       - { label: "Title", name: title, widget: string }
                       - { label: "Text", name: text, widget: text }
-              - { label: "Review id (studio only)", name: review, widget: string, hint: "Technical. Ask the studio before changing." }
               - label: "How booking works: steps for this page"
                 name: how_steps
                 widget: list
@@ -1688,9 +1729,9 @@ collections:
       - name: clear_bra
         label: "Clear Bra / Paint Protection Page"
         file: "_data/pages/clear_bra.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are."
             name: meta
             widget: object
             fields:
@@ -1727,6 +1768,17 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
               - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero strip", name: hero_strip, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
@@ -1802,9 +1854,9 @@ collections:
       - name: commercial_film
         label: "Commercial Window Film Page"
         file: "_data/pages/commercial_film.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are."
             name: meta
             widget: object
             fields:
@@ -1926,9 +1978,9 @@ collections:
       - name: headlight_taillight
         label: "Headlights & Taillights Page"
         file: "_data/pages/headlight_taillight.json"
-        description: "Wording may contain small HTML codes or tags, such as <b> or <a>. Keep them exactly as they are. Smoked lamps are legal-depth smoke, never blacked out, murdered out or limo dark, and never carry a lamp percentage."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as <b> or <a>. Keep them exactly as they are. Smoked lamps are legal-depth smoke, never blacked out, murdered out or limo dark, and never carry a lamp percentage."
             name: meta
             widget: object
             fields:
@@ -1964,6 +2016,17 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
               - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero strip", name: hero_strip, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
@@ -2001,13 +2064,6 @@ collections:
                   - { label: "Type", name: type, widget: string, hint: "Technical. Ask the studio before changing." }
                   - { label: "Small line above the heading", name: eyebrow, widget: string }
                   - { label: "Heading", name: heading, widget: string }
-                  - label: "Paragraphs"
-                    name: paragraphs
-                    widget: list
-                    label_singular: "Item"
-                    required: false
-                    summary: "{{fields.value}}"
-                    field: { label: "Item", name: value, widget: string }
                   - { label: "Lead paragraph", name: lede, widget: string, required: false }
                   - label: "Items"
                     name: items
@@ -2019,6 +2075,15 @@ collections:
                       - { label: "Term", name: term, widget: string }
                       - { label: "Detail", name: detail, widget: text }
                       - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
+                      - { label: "Small line above the title", name: eyebrow, widget: string, required: false }
+                      - { label: "Title", name: title, widget: string, required: false }
+                      - label: "Paragraphs"
+                        name: paragraphs
+                        widget: list
+                        required: false
+                        label_singular: "Paragraph"
+                        summary: "{{fields.value}}"
+                        field: { label: "Paragraph", name: value, widget: text }
                   - { label: "Note", name: note, widget: text, required: false, hint: "Keep any HTML codes, such as &amp; and tags, exactly as they are." }
               - label: "While"
                 name: while
@@ -2053,9 +2118,9 @@ collections:
       - name: home_tint
         label: "Home / Residential Tint Page"
         file: "_data/pages/home_tint.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are."
             name: meta
             widget: object
             fields:
@@ -2195,9 +2260,9 @@ collections:
       - name: windshield
         label: "Windshield Replacement Page"
         file: "_data/pages/windshield.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop. Never write that we do replacement labor ourselves; chip repair is done here in our own shop."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop. Never write that we do replacement labor ourselves; chip repair is done here in our own shop."
             name: meta
             widget: object
             fields:
@@ -2254,6 +2319,8 @@ collections:
                       - { label: "Ref", name: ref, widget: string, required: false }
                       - { label: "Fallback key", name: fallback_key, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
                   - { label: "Fallback", name: fallback, widget: string }
+                  - { label: "Photo beside the prices (studio only)", name: photo, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Photo ratio (studio only)", name: photo_ratio, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
                   - label: "Links"
                     name: links
                     widget: list
@@ -2328,16 +2395,15 @@ collections:
   # ================================================================
   - name: town_pages
     label: "Town Pages"
-    delete: false
     editor:
       preview: false
     files:
       - name: henderson
         label: "Henderson Page"
         file: "_data/pages/henderson.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop. May contain tokens such as {google_count}; leave them exactly as they are."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop. May contain tokens such as {google_count}; leave them exactly as they are."
             name: meta
             widget: object
             fields:
@@ -2412,9 +2478,9 @@ collections:
       - name: las_vegas
         label: "Las Vegas Page"
         file: "_data/pages/las_vegas.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop. May contain tokens such as {google_count}; leave them exactly as they are."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop. May contain tokens such as {google_count}; leave them exactly as they are."
             name: meta
             widget: object
             fields:
@@ -2491,16 +2557,15 @@ collections:
   # ================================================================
   - name: other_pages
     label: "Other Pages"
-    delete: false
     editor:
       preview: false
     files:
       - name: about
         label: "About Page"
         file: "_data/pages/about.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are. May contain tokens such as {google_count}; leave them exactly as they are. The owner and the staff stay nameless and faceless on every public surface."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <span>. Keep them exactly as they are. May contain tokens such as {google_count}; leave them exactly as they are. The owner and the staff stay nameless and faceless on every public surface."
             name: meta
             widget: object
             fields:
@@ -2540,9 +2605,9 @@ collections:
       - name: hoa_window_film
         label: "Window Film & HOA Page"
         file: "_data/pages/hoa_window_film.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. This page is not legal advice; keep statute citations as written."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. This page is not legal advice; keep statute citations as written."
             name: meta
             widget: object
             fields:
@@ -2624,9 +2689,9 @@ collections:
       - name: nevada_tint_law
         label: "Nevada Tint Law Page"
         file: "_data/pages/nevada_tint_law.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Tint-law copy states only the five verified NRS 484D.440 provisions, cited; never go beyond what the statute says."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <a>. Keep them exactly as they are. Tint-law copy states only the five verified NRS 484D.440 provisions, cited; never go beyond what the statute says."
             name: meta
             widget: object
             fields:
@@ -2649,6 +2714,15 @@ collections:
               - { label: "Form service", name: form_service, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
+              - label: "Hero numeral"
+                name: hero_numeral
+                widget: object
+                required: false
+                hint: "The legal floor from NRS 484D.440 only. Never a shade the shop stocks."
+                fields:
+                  - { label: "Number", name: big, widget: string }
+                  - { label: "Unit", name: unit, widget: string }
+                  - { label: "Caption", name: caption, widget: text }
               - { label: "Main heading", name: h1, widget: string }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero ramp", name: hero_ramp, widget: boolean, required: false, hint: "Technical. Ask the studio before changing." }
@@ -2701,9 +2775,9 @@ collections:
       - name: new_construction
         label: "New Construction Page"
         file: "_data/pages/new_construction.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp; or <strong>. Keep them exactly as they are. May contain tokens such as {google_rating}; leave them exactly as they are. Never frame Boulder City as growing; speak to the reader's own house."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp; or <strong>. Keep them exactly as they are. May contain tokens such as {google_rating}; leave them exactly as they are. Never frame Boulder City as growing; speak to the reader's own house."
             name: meta
             widget: object
             fields:
@@ -2791,9 +2865,9 @@ collections:
       - name: privacy_policy
         label: "Privacy Policy Page"
         file: "_data/pages/privacy_policy.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp;, <a>, <br>, <strong> or <code>. Keep them exactly as they are; they control how the text displays and links work. This is a legal policy page: check with the studio before changing any sentence, not just the obvious ones."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp;, <a>, <br>, <strong> or <code>. Keep them exactly as they are; they control how the text displays and links work. This is a legal policy page: check with the studio before changing any sentence, not just the obvious ones."
             name: meta
             widget: object
             fields:
@@ -2839,9 +2913,9 @@ collections:
       - name: qa
         label: "FAQ (Questions & Answers) Page"
         file: "_data/pages/qa.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp;, <ul>, <li> or <b>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp;, <ul>, <li> or <b>. Keep them exactly as they are. Windshield replacement is done by a partner shop; chip repair is done here in our own shop."
             name: meta
             widget: object
             fields:
@@ -2892,9 +2966,9 @@ collections:
       - name: reviews
         label: "Reviews Page"
         file: "_data/pages/reviews.json"
-        description: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. May contain tokens such as {google_count}, {google_rating}, {yelp_count}, {yelp_rating}, {tintwiz_count} and {tintwiz_rating}; these are filled in automatically from Business Info & Review Counts, leave them exactly as they are. The homepage review strip carries no structured data and never sums platforms; the same rule applies here."
         fields:
           - label: "Search result listing"
+            hint: "Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. May contain tokens such as {google_count}, {google_rating}, {yelp_count}, {yelp_rating}, {tintwiz_count} and {tintwiz_rating}; these are filled in automatically from Business Info & Review Counts, leave them exactly as they are. The homepage review strip carries no structured data and never sums platforms; the same rule applies here."
             name: meta
             widget: object
             fields:
@@ -2931,9 +3005,9 @@ collections:
       - name: prices_page
         label: "Prices Page (wording only)"
         file: "_data/pages/prices.json"
-        description: "The wording of the Prices page. The prices themselves are not here; change them under Prices & Gallery Photos, Prices. Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. Never write a dollar amount into any sentence here; a number typed into wording would show even when the price is not confirmed."
         fields:
           - label: "Search result listing"
+            hint: "The wording of the Prices page. The prices themselves are not here; change them under Prices & Gallery Photos, Prices. Wording may contain small HTML codes or tags, such as &amp;. Keep them exactly as they are. Never write a dollar amount into any sentence here; a number typed into wording would show even when the price is not confirmed."
             name: meta
             widget: object
             fields:
@@ -3084,9 +3158,9 @@ collections:
       - name: build_your_tint
         label: "Build Your Tint Page (wording only)"
         file: "_data/pages/build_your_tint.json"
-        description: "The wording of the Build Your Tint tool. Prices come from Prices & Gallery Photos, Prices, never from this page. Wording may contain small HTML codes or tags, such as &amp;, and tokens in braces, such as {n}. Keep them exactly as they are."
         fields:
           - label: "Search result listing"
+            hint: "The wording of the Build Your Tint tool. Prices come from Prices & Gallery Photos, Prices, never from this page. Wording may contain small HTML codes or tags, such as &amp;, and tokens in braces, such as {n}. Keep them exactly as they are."
             name: meta
             widget: object
             fields:
@@ -3317,10 +3391,9 @@ collections:
       - name: gift_cards
         label: "Gift Cards page"
         file: "_data/pages/gift_cards.json"
-        description: "Wording for the Gift Cards page. The gift card link goes to the shop's payment page and is technical."
         fields:
           - { label: "Note (studio only)", name: _note, widget: hidden }
-          - { label: "Order url", name: order_url, widget: string }
+          - { label: "Order url", name: order_url, widget: string, hint: "Wording for the Gift Cards page. The gift card link goes to the shop's payment page and is technical." }
           - label: "Meta"
             name: meta
             widget: object
@@ -3340,6 +3413,8 @@ collections:
               - { label: "Buy note", name: buy_note, widget: string }
               - { label: "Shop h2", name: shop_h2, widget: string }
               - { label: "Shop text", name: shop_text, widget: string }
+              - { label: "Holiday hours intro", name: closures_intro, widget: string, required: false, hint: "The dates after it come from Business Info, Closures; never type a date here." }
+              - { label: "Online gift card line", name: online_any_day, widget: string, required: false }
           - label: "Schema"
             name: schema
             widget: object
@@ -3349,11 +3424,11 @@ collections:
       - name: sections
         label: "Shared section wording (new design)"
         file: "_data/pages/sections.json"
-        description: "Wording shared by several pages of the new design: price rows, shade preview, the home and office block and more. Prices are never typed here; they come from Prices."
         fields:
           - { label: "Note (studio only)", name: _note, widget: hidden }
           - { label: "photos (studio only)", name: photos, widget: hidden }
           - label: "Price fallback"
+            hint: "Wording shared by several pages of the new design: price rows, shade preview, the home and office block and more. Prices are never typed here; they come from Prices."
             name: price_fallback
             widget: object
             fields:
@@ -3582,9 +3657,9 @@ collections:
       - name: book
         label: "Request a Time page"
         file: "_data/pages/book.json"
-        description: "Wording for the Request a time page and its confirmation page. The form fields themselves are fixed; do not add or remove a field without telling the studio."
         fields:
           - label: "Meta"
+            hint: "Wording for the Request a time page and its confirmation page. The form fields themselves are fixed; do not add or remove a field without telling the studio."
             name: meta
             widget: object
             fields:
@@ -3618,6 +3693,9 @@ collections:
               - { label: "Details hint", name: details_hint, widget: string }
               - { label: "Optional", name: optional, widget: string }
               - { label: "Build note", name: build_note, widget: string }
+              - { label: "Build price line", name: build_price, widget: string, required: false, hint: "Shown under the build note when the visitor came from Build Your Tint and every part of the build has a price the site may show. {total} is filled in with the builder's own price; leave it exactly as it is. Never type a dollar amount here." }
+              - { label: "Build price line when no price can show", name: build_price_none, widget: string, required: false }
+              - { label: "Draft price tag", name: draft_label, widget: string, required: false, hint: "Only ever seen on preview builds, next to a draft price." }
               - { label: "Days legend", name: days_legend, widget: string }
               - { label: "Days hint", name: days_hint, widget: string }
               - { label: "Days limit", name: days_limit, widget: string }
@@ -3671,12 +3749,11 @@ collections:
       - name: gallery_page
         label: "Gallery pages"
         file: "_data/pages/gallery.json"
-        description: "Wording for the Gallery pages (the main page and each filter). Words in braces, such as {count}, are filled in automatically; leave them exactly as they are."
         fields:
           - { label: "Note (studio only)", name: _note, widget: hidden }
           - { label: "service_order (studio only)", name: service_order, widget: hidden }
           - { label: "body_order (studio only)", name: body_order, widget: hidden }
-          - { label: "Small line above the heading", name: eyebrow, widget: string }
+          - { label: "Small line above the heading", name: eyebrow, widget: string, hint: "Wording for the Gallery pages (the main page and each filter). Words in braces, such as {count}, are filled in automatically; leave them exactly as they are." }
           - { label: "Crumb home", name: crumb_home, widget: string }
           - { label: "Crumb gallery", name: crumb_gallery, widget: string }
           - label: "Hub"
@@ -3719,6 +3796,7 @@ collections:
                 fields:
                   - { label: "Label", name: label, widget: string }
                   - { label: "Line label", name: line_label, widget: string }
+                  - { label: "Honesty line for this filter", name: honesty, widget: string, required: false, hint: "Shown on this filter instead of the general honesty line." }
                   - { label: "Breadcrumb current page name", name: crumb, widget: string }
                   - { label: "Main heading", name: h1, widget: string }
                   - { label: "Lead", name: lead, widget: string }
@@ -3739,6 +3817,7 @@ collections:
                 fields:
                   - { label: "Label", name: label, widget: string }
                   - { label: "Line label", name: line_label, widget: string }
+                  - { label: "Honesty line for this filter", name: honesty, widget: string, required: false, hint: "Shown on this filter instead of the general honesty line." }
                   - { label: "Breadcrumb current page name", name: crumb, widget: string }
                   - { label: "Main heading", name: h1, widget: string }
                   - { label: "Lead", name: lead, widget: string }
@@ -3759,6 +3838,7 @@ collections:
                 fields:
                   - { label: "Label", name: label, widget: string }
                   - { label: "Line label", name: line_label, widget: string }
+                  - { label: "Honesty line for this filter", name: honesty, widget: string, required: false, hint: "Shown on this filter instead of the general honesty line." }
                   - { label: "Breadcrumb current page name", name: crumb, widget: string }
                   - { label: "Main heading", name: h1, widget: string }
                   - { label: "Lead", name: lead, widget: text }
@@ -3885,6 +3965,7 @@ collections:
               - { label: "Look", name: look, widget: string }
               - { label: "Search and more filters (disclosure label)", name: more, widget: string }
               - { label: "Reset", name: reset, widget: string }
+              - { label: "Selected vehicle chip (screen readers)", name: remove, widget: string, required: false, hint: "{label} is filled in automatically; leave it exactly as it is." }
           - label: "Search"
             name: search
             widget: object

@@ -12,7 +12,7 @@
     "source": "HOA window film",
     "eyebrow": "Nevada law, NRS 116.2111.",
     "h1": "Window film and your HOA.",
-    "lede": "If your home sits in a community association anywhere in the Las Vegas valley, the question is almost always the same: am I allowed to put film on my windows? Nevada's law answers part of it, and your association's own documents answer the rest. This is not legal advice.",
+    "lede": "If your home sits in a community association anywhere in the Las Vegas valley, the question is almost always the same: am I allowed to put film on my windows?",
     "how_steps": [
       { "title": "Tell us about the rooms.", "text": "Call, text or request a time. Tell us which rooms and which windows get the sun." },
       { "title": "We measure at your home.", "text": "The measure and the quote are free. We walk you through the film options." },
@@ -20,13 +20,13 @@
       { "title": "Done in one visit.", "text": "On install day the work is usually done in a single visit." }
     ],
     "how_fear": "Tell us the rooms you want done. Just questions? That's fine.",
-    "hero_photo": "home-living",
+    "hero_photo": "home-lane",
     "blocks": [
       {
         "type": "statute",
         "eyebrow": "The statute",
         "heading": "What NRS 116.2111 says.",
-        "lede": "Five provisions of the section of Nevada's Common-Interest Ownership Act that governs alterations to a home inside an association.",
+        "lede": "Nevada's law answers part of the question, and your association's own documents answer the rest. Here are five provisions of the section of Nevada's Common-Interest Ownership Act that governs alterations to a home inside an association. This is not legal advice.",
         "items": [
           { "term": "Changing the outside appearance of your home requires the association's permission.", "detail": "An owner may not change the appearance of the common elements, or the exterior appearance of a unit or any other portion of the common-interest community, without permission of the association. Film that is visible from outside falls under that sentence.", "source": "Source: Nevada Revised Statutes 116.2111, subsection 1, paragraph (b)." },
           { "term": "Nevada law names four things an association may not unreasonably restrict, and they are a short list.", "detail": "Improvements needed for a resident with a disability; additional locks to improve security; shutters to improve security or to reduce the cost of energy; and a wind energy system where the property is two acres or more.", "source": "Source: Nevada Revised Statutes 116.2111, subsection 2, paragraph (c)." },

@@ -26,7 +26,7 @@ body_class: page-home
 {%- set H = pages.home.v3 -%}
 {#- Fixes B 2026-10-29: one short verbatim featurable review right after the router (ws5review throws
     unless the id is a featurable Google review), no heading. -#}
-{%- set heroData = { eyebrow: H.hero.eyebrow, eyebrow_short: H.hero.eyebrow_short, h1: H.hero.h1, sub: H.hero.sub, router_label: H.hero.router_label, proof: H.hero.proof, media: hero, review: ((reviews | ws5review(H.hero.review)) if H.hero.review else null) } -%}
+{%- set heroData = { eyebrow: H.hero.eyebrow, eyebrow_short: H.hero.eyebrow_short, h1: H.hero.h1, sub: H.hero.sub, router_label: H.hero.router_label, proof: H.hero.proof, media: hero, gift: gift_season, review: ((reviews | ws5review(H.hero.review)) if H.hero.review else null) } -%}
 {{ homeHero(heroData, ws5_router) }}
 
 {#- Peak pass R1 (visual 6): section 2 is a fact row (facts on file only), not a service. -#}
@@ -38,7 +38,9 @@ body_class: page-home
 
 {{ b.chipLane({ uid: "ws", slim: true, compact: true }) }}
 
-{{ b.words({ ids: H.words_ids, shop_photo: false }) }}
+{#- Peak pass R2: the one review is a pull quote (visual R1 item 13), and the shop line under it is gone
+    (visual N15: the proof row says the same three facts). -#}
+{{ b.words({ ids: H.words_ids, no_shop: true, pull: true }) }}
 
 {{ b.howBooking("any", { uid: "how" }) }}
 

@@ -22,7 +22,28 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), camera=(), microphone=(), payment=(), usb=()"
     X-Frame-Options = "DENY"
-    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.clarity.ms https://*.g.doubleclick.net https://www.google.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    # Peak pass R2 (technical 4): the Report-Only policy is now EXACTLY the policy that will be
+    # enforced: 'unsafe-inline' is out of script-src, the five inline scripts the production build
+    # serves are allowed by hash, and https://c.bing.com is added for Microsoft Clarity (Microsoft's
+    # Clarity CSP list). So the report-only window tests the real thing. The hashes are computed from
+    # the built pages, never typed: run  node lib/csp.js _site-<prod build>  (a CONTEXT=production
+    # build also prints "[bc csp] ... match" or a WARNING). They change whenever head/ga4.njk,
+    # head/clarity.njk or the critical CSS loader in .eleventy.js changes; update BOTH lines below.
+    #   KypZ... and j7rV...  head scripts of the noindex pages (404, /book/sent/), analytics stubbed
+    #   e8MA... and 5VOz...  GA4 and Clarity head scripts of the 32 indexable pages
+    #   cnIN...              the critical CSS loader, every v3 page
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'sha256-e8MAYX35BZ4pKzTLADqRG1fituNRqaZzvwA55gJUrOM=' 'sha256-5VOzzQZEMUdM1IoDLfvfVVBC41QgpeEDhc/OxSAsEBk=' 'sha256-cnINB1vt0bAmwZqIWCDYM7mCcVRdG9dpCfEmXVM9eNM=' 'sha256-j7rVWopE4AfuTcw+lEMYKUrVxuP4Zus/bR5lRFCV6Bs=' 'sha256-KypZNOxqErzrvI40kJvS48o0IK6Jh/bxWZHF2kfHijY=' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.bing.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com https://*.g.doubleclick.net https://www.google.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    # READY TO FLIP, NOT ENABLED. The architecture rule (header comment at the top of this file):
+    # Report-Only for the first 14 days after launch, then enforce only after a clean console on every
+    # page template, consent accepted and declined, with GA4 and Clarity live. So the earliest flip
+    # date is launch day plus 14 days, and only after that check. To flip: delete the leading "# "
+    # from the line below (same policy, header name without -Report-Only), keep the Report-Only line
+    # or remove it, then deploy a preview and confirm in the console that /, /build-your-tint, /book,
+    # /gallery/suv, /qa and /admin/ show no "Refused to" errors. Re-run node lib/csp.js first: the
+    # hashes must still match the build. If a Google Ads id is ever set in site.json, re-check
+    # Google's tag CSP guide before flipping (not covered by this policy). Then make the hash check in
+    # .eleventy.js throw instead of warn.
+    # Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-e8MAYX35BZ4pKzTLADqRG1fituNRqaZzvwA55gJUrOM=' 'sha256-5VOzzQZEMUdM1IoDLfvfVVBC41QgpeEDhc/OxSAsEBk=' 'sha256-cnINB1vt0bAmwZqIWCDYM7mCcVRdG9dpCfEmXVM9eNM=' 'sha256-j7rVWopE4AfuTcw+lEMYKUrVxuP4Zus/bR5lRFCV6Bs=' 'sha256-KypZNOxqErzrvI40kJvS48o0IK6Jh/bxWZHF2kfHijY=' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://c.bing.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com https://*.g.doubleclick.net https://www.google.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
 
 # The CMS at /admin/ loads Sveltia from unpkg.com and talks to GitHub. connect-src also allows
 # unpkg.com (Sveltia fetches its own chunks), www.githubstatus.com (Sveltia's GitHub status check),
@@ -32,6 +53,11 @@
   for = "/admin/*"
   [headers.values]
     Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; connect-src 'self' https://api.github.com https://github.com https://*.githubusercontent.com https://unpkg.com https://www.githubstatus.com blob: data:; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://unpkg.com; font-src 'self' data: https:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+    # READY TO FLIP with the site-wide line above (same rule, same date). The CMS keeps
+    # 'unsafe-inline' (Sveltia needs it). On staging today the /admin/ page showed 0 report-only
+    # violations from the site-wide policy (R2-technical, CSP check), which says this more specific
+    # rule is the one Netlify applies there; confirm that on the deploy preview before flipping.
+    # Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; connect-src 'self' https://api.github.com https://github.com https://*.githubusercontent.com https://unpkg.com https://www.githubstatus.com blob: data:; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://unpkg.com; font-src 'self' data: https:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
 
 # Hashed bundles from the asset step in .eleventy.js (name carries a content hash): cache forever.
 [[headers]]
@@ -68,6 +94,11 @@
     Cache-Control = "public, max-age=604800, must-revalidate"
 [[headers]]
   for = "/apple-touch-icon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+# Peak pass R2 (technical 11): the logo the JSON-LD names was served at max-age=0.
+[[headers]]
+  for = "/logo.png"
   [headers.values]
     Cache-Control = "public, max-age=604800, must-revalidate"
 

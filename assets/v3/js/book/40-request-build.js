@@ -70,6 +70,50 @@
     return { code: code, summary: out.join(" ") };
   }
 
+  /* Peak R2 (psychology N4): the price the builder showed for this build, from the page's gated
+     table (#bc-build-prices, built by lib/eleventy-book-prices.js with the builder's own solver).
+     Key: class letter, then 1/0 for film on front doors, rear doors, back glass, then the priced
+     add-on letters T and R in code order. A build whose shape is not in the table (a piece without a
+     shown price, a production build today, the older v2 code shape) gets the plain line instead,
+     never a number the builder did not show. */
+  var priceTable;
+  function buildPrice(code) {
+    if (priceTable === undefined) {
+      var el = document.getElementById("bc-build-prices");
+      try { priceTable = el ? JSON.parse(el.textContent) : null; } catch (eP) { priceTable = null; }
+    }
+    if (!priceTable) return null;
+    var m = /^BC-([CSPV])((?:\d\d|xx){2,3})([TRWH]{0,4})$/i.exec(String(code || ""));
+    if (!m) return null;
+    var toks = m[2].toUpperCase().match(/\d\d|XX/g);
+    var back = toks.length === 3 ? toks[2] : toks[1];
+    var key = m[1].toUpperCase() + (toks[0] !== "00" ? "1" : "0") + (toks[1] !== "00" ? "1" : "0") + (back !== "00" ? "1" : "0") +
+      m[3].toUpperCase().replace(/[^TR]/g, "");
+    return Object.prototype.hasOwnProperty.call(priceTable, key) ? priceTable[key] : null;
+  }
+  function showPrice(form, code) {
+    var p = form.querySelector("[data-rq-build-price]");
+    if (!p) return;
+    while (p.firstChild) p.removeChild(p.firstChild);
+    if (!code) { p.hidden = true; return; }
+    var e = buildPrice(code);
+    if (e && e.d) {
+      var words = String(e.d);
+      words = words.charAt(0).toLowerCase() + words.slice(1);
+      p.appendChild(document.createTextNode((p.getAttribute("data-tpl") || "").replace("{total}", words)));
+      if (e.x) {
+        var tag = document.createElement("span");
+        tag.className = "v3-price__draft t-label";
+        tag.textContent = p.getAttribute("data-draft") || "";
+        p.appendChild(document.createTextNode(" "));
+        p.appendChild(tag);
+      }
+    } else {
+      p.appendChild(document.createTextNode(p.getAttribute("data-tpl-none") || ""));
+    }
+    p.hidden = false;
+  }
+
   function prefill(form, ctx) {
     var st = ctx.st, detailsEl = ctx.details, svcEl = ctx.service, q = ctx.query;
     var savedBox = form.querySelector("[data-rq-saved]");
@@ -86,6 +130,7 @@
     function applyBuildCode(b) {
       ctx.setField(form, "build_code", b.code);
       st.buildText = b.summary ? b.code + ". " + b.summary : b.code;
+      showPrice(form, b.code);
       var text = buildDetails(b);
       if (detailsEl && !detailsEl.value) detailsEl.value = text;
       return text;
@@ -126,6 +171,7 @@
       var bc = form.querySelector('[name="build_code"]');
       if (bc) bc.value = "";
       st.buildText = "";
+      showPrice(form, "");
       if (detailsEl && detailsEl.value === filled) detailsEl.value = "";
       try { window.sessionStorage.setItem(SKIP, sb.code); } catch (eW) { /* storage blocked */ }
       savedBox.hidden = true;

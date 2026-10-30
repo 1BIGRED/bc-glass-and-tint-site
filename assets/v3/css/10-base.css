@@ -62,22 +62,29 @@
   descent-override: 29.69%;
   line-gap-override: 0%;
 }
+/* Peak pass R2 (part A): Poppins re-measured on the built homepage (Chrome, Windows Arial, every
+   text run on the page at 100px, real face against this fallback): the old 102.72% / 101.81% left
+   the fallback 8.2% narrower than Poppins 400 over 2,937 characters of running text and 4.0% narrower
+   than Poppins 600 over 782 characters of mixed-case labels. Inlined critical CSS paints before the
+   fonts arrive, so that gap became a visible reflow when the font swapped in (cookie bar 124.6 px
+   tall in the fallback against 142.6 px in Poppins at 390). Same method as above: size-adjust times
+   the measured ratio, ascent and descent are Poppins' 1.05 / 0.35 em divided by the new size-adjust. */
 @font-face {
   font-family: "Poppins Fallback";
   font-weight: 400;
   src: local("Arial"), local("ArialMT"), local("Helvetica");
-  size-adjust: 102.72%;
-  ascent-override: 102.22%;
-  descent-override: 34.07%;
+  size-adjust: 111.10%;
+  ascent-override: 94.51%;
+  descent-override: 31.50%;
   line-gap-override: 0%;
 }
 @font-face {
   font-family: "Poppins Fallback";
   font-weight: 600;
   src: local("Arial Bold"), local("Arial-BoldMT"), local("Helvetica Bold");
-  size-adjust: 101.81%;
-  ascent-override: 103.13%;
-  descent-override: 34.38%;
+  size-adjust: 105.83%;
+  ascent-override: 99.22%;
+  descent-override: 33.07%;
   line-gap-override: 0%;
 }
 
@@ -313,8 +320,8 @@ main:focus {
   --ctl-line: var(--line-ctl-w);
   --focus: var(--ink-w);
   --error: var(--error-w);
-  --cta-bg: var(--ink-w);     /* C3: on cream the in-page call is ink fill with paper text */
-  --cta-fg: var(--paper);
+  --cta-bg: var(--cta-light-bg);  /* C3: on cream the in-page call is ink fill with paper text */
+  --cta-fg: var(--cta-light-fg);
   --link-hover: currentColor;  /* B-c: the gold hover underline is dark grounds only */
   color-scheme: light;
 }
@@ -329,6 +336,20 @@ main:focus {
 .bg-paper { background-color: var(--paper); }
 .bg-paper-2 { background-color: var(--paper-2); }
 .bg-card { background-color: var(--card); }
+/* Peak R2 ruling (gold on dark backgrounds only): a ground class also sets the filled call's colors,
+   so a cream band can never show a gold fill even where a template forgot its mood class. */
+.bg-paper,
+.bg-paper-2,
+.bg-card {
+  --cta-bg: var(--cta-light-bg);
+  --cta-fg: var(--cta-light-fg);
+}
+.bg-ink-0,
+.bg-ink-1,
+.bg-ink-2 {
+  --cta-bg: var(--gold);
+  --cta-fg: var(--ink-0);
+}
 .bg-band { background-color: var(--bg-2); }
 .bg-surface { background-color: var(--surface); }
 
@@ -446,10 +467,13 @@ main:focus {
   overflow: hidden;
   min-height: 120px;
 }
+/* Peak R2 (part B request 5): the overlay is pure black at the pane's alpha, not ink-0. ink-0
+   (11, 11, 12) adds light back, so 20 rendered as about 22 percent; black at 1 - (VLT/100)^(1/2.2)
+   over the glare ground lands each pane within a point of its VLT (part B's pixel samples). */
 .v3-ramp > * {
   display: block;
   background-color: var(--glare);
-  background-image: linear-gradient(rgba(11, 11, 12, var(--pane-a, 0)), rgba(11, 11, 12, var(--pane-a, 0)));
+  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0)));
 }
 .v3-ramp > :nth-child(1) { --pane-a: var(--ramp-a-70); }
 .v3-ramp > :nth-child(2) { --pane-a: var(--ramp-a-50); }

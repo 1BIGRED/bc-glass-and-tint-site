@@ -164,7 +164,7 @@
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background-color: var(--glare);
-  background-image: linear-gradient(rgba(11, 11, 12, var(--pane-a, 0)), rgba(11, 11, 12, var(--pane-a, 0)));
+  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0)));
   transition: background-image var(--dur-fast) var(--ease-out);
 }
 .ws5-shade__num { display: flex; align-items: baseline; gap: var(--sp-8); }
@@ -212,7 +212,7 @@
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background-color: var(--glare);
-  background-image: linear-gradient(rgba(11, 11, 12, var(--pane-a, 0)), rgba(11, 11, 12, var(--pane-a, 0)));
+  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0)));
 }
 .ws5-chip[aria-pressed="true"] { color: var(--text); }
 .ws5-chip[aria-pressed="true"]::before { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -529,3 +529,90 @@ html:not(.js) [data-js-only] { display: none !important; }
   .ws5-footer__nav > div { margin-top: var(--sp-16); }
   .ws5-footer__legal { margin-top: var(--sp-24); padding-top: var(--sp-16); }
 }
+
+/* ======================= Peak pass R2, part B (2026-10-30) ======================= */
+
+/* The builder as a text link (visual R1 item 15 and 18): one action row per block, the call is its one
+   button. Used in the car lane, the page hero and /prices; the service price block (layout markup) gets
+   the same look from its data-build-link attribute below. */
+.ws5-buildlink { margin-top: var(--sp-16); }
+.ws5-buildlink a,
+.ws5-svc-prices .ws5-actrow > a.ws5-btn[data-build-link] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--fg);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.ws5-buildlink a::after,
+.ws5-svc-prices .ws5-actrow > a.ws5-btn[data-build-link]::after { content: ""; width: 7px; height: 7px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; transform: rotate(45deg); }
+.ws5-svc-prices .ws5-actrow > a.ws5-btn[data-build-link] { flex: 1 0 100%; justify-content: flex-start; padding: 0; border: 0; background: none; }
+.ws5-svc-prices .ws5-actrow > a.ws5-btn[data-build-link]:hover { background: none; }
+.ws5-buildlink + .ws5-actrow,
+.ws5-buildlink + .ws5-hero__act { margin-top: var(--sp-16) !important; }
+
+/* Steps: three true steps take three columns on desktop, not four with a gap (visual N5). A page that
+   already prints its own step list keeps only the heading, one line and the action (visual N4). */
+@media (min-width: 1024px) {
+  .ws5-steps[data-n="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ws5-steps[data-n="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.ws5-how--line .ws5-fear { margin-top: 0; }
+.ws5-how--line .ws5-head { margin-bottom: var(--sp-16); }
+
+/* Work tiles: a short row uses as many columns as it has tiles (visual R1 item 12, /commercial-film). */
+@media (min-width: 1024px) {
+  .ws5-work[data-n="1"] { grid-template-columns: minmax(0, 32rem); }
+  .ws5-work[data-n="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 56rem; }
+  .ws5-work[data-n="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Lists of exactly three items: three columns from 1024px, no orphan cell (visual N19). */
+@media (min-width: 1024px) {
+  .ws5-list:has(> :nth-child(3):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ws5-list:has(> :nth-child(3):last-child) > .ws5-list__i:nth-child(3) { border-top: 1px solid var(--hair); }
+}
+
+/* Swatch chips and the Car / SUV / Pickup / Van tabs span their row (visual R1 item 15). */
+.ws5-shade__chips .ws5-chip { flex: 1 1 0; min-width: 44px; }
+.ws5-seg { display: flex; width: 100%; max-width: 32rem; }
+.ws5-seg__opt { flex: 1 1 0; }
+.ws5-seg__opt span { min-width: 0; padding: 0 var(--sp-8); }
+
+/* Statutes and legal blocks: a reading measure (visual R1 item 13, N18). */
+.ws5-statute__i { max-width: 38em; }
+.ws5-block--statute .wrap > p.t-body { max-width: 36em; }
+.ws5-block--prose .ws5-prose { max-width: 38em; }
+
+/* Columns block (visual N10, /headlight-taillight): three short topics side by side from 1024px. */
+.ws5-cols { display: grid; gap: var(--sp-32); border-top: 1px solid var(--hair); padding-top: var(--sp-24); }
+.ws5-cols__i > * + * { margin-top: var(--sp-12); }
+.ws5-cols__i .t-eyebrow + h3 { margin-top: var(--sp-8); }
+.ws5-cols__i p { max-width: 36em; }
+.ws5-cols__i a { color: var(--fg); }
+@media (min-width: 1024px) {
+  .ws5-cols[data-n="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: calc(var(--gutter) * 2); }
+  .ws5-cols[data-n="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: calc(var(--gutter) * 2); }
+}
+
+/* Homepage pull quote (visual R1 item 13): one review across columns 1 to 8, the links at the right. */
+.ws5-words--pull .ws5-quote blockquote p { font-size: 1.375rem; line-height: 1.35; max-width: 30ch; }
+@media (min-width: 1024px) {
+  .ws5-words--pull > .wrap { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
+  .ws5-words--pull .ws5-head { grid-column: 1 / span 8; grid-row: 1; }
+  .ws5-words--pull .ws5-quotes { grid-column: 1 / span 8; grid-row: 2; grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+  .ws5-words--pull .ws5-words__label { grid-column: 10 / span 3; grid-row: 2; align-self: end; line-height: 2; }
+  .ws5-words--pull .ws5-quote blockquote p { font-size: 1.75rem; max-width: 34ch; }
+}
+
+/* Shades that match their number (Chase, 2026-10-30: "make the shades match the actual percent, so 70% is 70%
+   VLT and so on down to 5%"). Every labeled shade (homepage and /auto-tint simulator pane and chips) and the
+   Light Ramp is a PURE black overlay at alpha 1 - (VLT/100)^(1/2.2) over the glare ground (alphas from
+   lib/eleventy-ws5.js shadeChips and the --ramp-a-* tokens), so the light through it, in linear light, is
+   the VLT. The overlay was ink-0 (11, 11, 12), which added light back and read 5 as about 7 percent. The
+   pane and chip rules above use black; this repeats it for the ramp (base rule in 10-base.css, part A). */
+.v3-ramp > * { background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0))); }

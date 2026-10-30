@@ -18,7 +18,8 @@
       "photo_image": "parade-hero",
       "photo_caption": "The shop's truck and van in a Boulder City parade.",
       "media_note": "Shades shown on screen. Ask to hold real film against your glass at the shop.",
-      "storefront_photo": "storefront-hero"
+      "storefront_photo": "storefront-hero",
+      "gift": { "text": "Gift cards for the holidays, good toward any service.", "href": "/gift-cards", "from": "2026-11-01", "to": "2026-12-24" }
     },
     "proof_row": {
       "label": "About the shop",

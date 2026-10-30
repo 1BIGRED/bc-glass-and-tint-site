@@ -13,8 +13,8 @@
     "eyebrow": "Home and office film. We come to you.",
     "eyebrow_short": "Home and office film.",
     "h1": "Home window film.",
-    "lede": "Window film keeps your view and helps cut glare and heat on sun-facing glass. It helps protect floors and furniture from UV fading.",
-    "hero_photo": "home-lane",
+    "lede": "Window film keeps your view and helps cut glare and heat on sun-facing glass. It helps protect floors and furniture from UV fading. We measure homes and offices in Boulder City, Henderson and across the valley.",
+    "hero_photo": "home-split",
     "proof": "Lifetime manufacturer warranty on the film.",
     "prices": {
       "eyebrow": "Price",
@@ -54,8 +54,8 @@
     ],
     "how_fear": "Tell us the rooms you want done. Just questions? That's fine.",
     "while": {
-      "eyebrow": "While we are there",
-      "h2": "Blinds and shades.",
+      "eyebrow": "More for your home",
+      "h2": "While we are there.",
       "items": [
         { "title": "Blinds and shades", "text": "Light, privacy and the feel of the room. Measured at your home, motorized if you want it.", "link": "Blinds and shades", "href": "/blinds" },
         { "title": "Window film and your HOA", "text": "Visible film usually needs your association's approval first. Here is what Nevada law says.", "link": "Window film and your HOA", "href": "/hoa-window-film" }
@@ -67,7 +67,7 @@
         { "question": "Does sunlight through my windows really fade furniture and flooring?", "answer": "Yes. The same rays that fade furnishings, flooring and fabric keep working on a mild day, not only a hot one. Cutting that exposure is one of the main reasons people put film on a west-facing room. Source: The Skin Cancer Foundation." },
         { "question": "Can it help lower cooling bills?", "answer": "It can help. Film turns away part of the sun's heat at the glass, so a sunny room stays more comfortable and your air conditioning does not have to fight the sun as hard. We do not promise a number on your bill, because what you see depends on your home and your glass." },
         { "question": "How does the process work?", "answer": "Call, text or request a time. We come to measure and give you a free quote, walk you through the film options, then book your install date. On that day the work is usually done in a single visit." },
-        { "question": "Do you come to my house?", "answer": "Yes. For home and office film and blinds we come to you to measure and install. Vehicles come to the shop." }
+        { "question": "Do you come to my house?", "answer": "Yes. For home and office film and blinds we come to you to measure and install, in Boulder City, Henderson and across the valley. Vehicles come to the shop." }
       ]
     }
   },

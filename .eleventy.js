@@ -77,6 +77,12 @@ function buildV3Bundles() {
 }
 buildV3Bundles();
 
+// The one inline script the critical CSS step adds to every v3 page (see the transform below). It
+// switches ALL the page's full sheets on together, once every one has loaded (or failed): switching
+// core on before the page sheet put core's rules after the inlined page rules in the cascade and
+// moved the layout twice (measured on /gallery/suv: two 0.037 shifts, one per sheet arrival).
+const CRIT_LOADER = "(function(){var l=document.querySelectorAll('link[data-full-css]'),n=l.length,i;function d(){if(--n===0)for(var j=0;j<l.length;j++)l[j].media='all'}for(i=0;i<l.length;i++){if(l[i].sheet){d()}else{l[i].addEventListener('load',d);l[i].addEventListener('error',d)}}})()";
+
 module.exports = function (eleventyConfig) {
   // Auto-registered plugins (WS1, 2026-10-29). Every lib/eleventy-*.js file is loaded in filename
   // order and called as a plugin: module.exports = function (eleventyConfig) { ... }. Other
@@ -111,6 +117,49 @@ module.exports = function (eleventyConfig) {
   });
   eleventyConfig.addWatchTarget("./assets/v3/");
   eleventyConfig.addGlobalData("assetsHash", assetsHash);
+
+  // Critical CSS (peak pass R2 part A, technical 1). On every v3 page (body class "v3") the hashed
+  // stylesheets linked in the head are replaced by: an inline <style> holding every rule of those
+  // sheets that can match an element of this page (lib/critical-css.js), the same sheets as
+  // non-blocking links (media="print", swapped to "all" by CRIT_LOADER once loaded), and a
+  // <noscript> copy of the plain links. The bundles themselves are unchanged. BC_CRITICAL=off turns
+  // it off for an A/B build. CRIT_LOADER is one fixed string, so its CSP hash never changes
+  // (netlify.toml, lib/csp.js); it uses no inline event handler.
+  if (process.env.BC_CRITICAL !== "off") {
+    const crit = require("./lib/critical-css");
+    eleventyConfig.addTransform("bc-critical-css", function (content) {
+      const out = this.page && this.page.outputPath;
+      if (!out || !String(out).endsWith(".html") || typeof content !== "string") return content;
+      if (!/<body class="v3[ "]/.test(content)) return content;
+      const headEnd = content.indexOf("</head>");
+      if (headEnd < 0) return content;
+      const head = content.slice(0, headEnd);
+      const linkRe = /<link rel="stylesheet" href="\/(assets\/h\/[^"]+\.css)">\r?\n?/g;
+      const links = [];
+      let m;
+      while ((m = linkRe.exec(head))) links.push({ text: m[0], rel: m[1], at: m.index });
+      if (!links.length) return content;
+      const css = links.map((l) => {
+        const t = bundleFiles[l.rel];
+        if (t == null) throw new Error("critical css: no bundle text for /" + l.rel);
+        return t;
+      });
+      const jsText = Object.keys(bundleFiles).filter((k) => k.endsWith(".js")).map((k) => bundleFiles[k]).join("\n");
+      const st = crit.scriptTokens(jsText);
+      const kept = crit.critical(css, content, { extraClasses: st.classes.concat(["js"]), extraAttrs: st.attrs.concat(["data-ck"]) });
+      if (/<\/style/i.test(kept)) throw new Error("critical css: a rule contains </style");
+      const hrefs = links.map((l) => "/" + l.rel);
+      const block =
+        "<style data-crit>" + kept + "</style>\n" +
+        hrefs.map((h) => '<link rel="stylesheet" href="' + h + '" media="print" data-full-css>\n').join("") +
+        "<script>" + CRIT_LOADER + "</script>\n" +
+        "<noscript>" + hrefs.map((h) => '<link rel="stylesheet" href="' + h + '">').join("") + "</noscript>\n";
+      // the links sit together in the head (layouts/v3.njk); replace the first with the block and drop the rest
+      let newHead = head.slice(0, links[0].at) + block + head.slice(links[0].at + links[0].text.length);
+      for (let k = 1; k < links.length; k++) newHead = newHead.replace(links[k].text, "");
+      return newHead + content.slice(headEnd);
+    });
+  }
   eleventyConfig.on("eleventy.before", () => {
     // Guard 1 (lib/validate.js): a bad value in _data/site.json stops the build in every context.
     validate.checkSiteData();
@@ -138,6 +187,22 @@ module.exports = function (eleventyConfig) {
     // Guard 2 (lib/validate.js): banned claims and phone checks over every built page. Throws in a
     // production build, warns in any other.
     validate.scanOutput(outDir);
+    // CSP hashes (peak pass R2, lib/csp.js): in a production build, the script-src hashes written in
+    // netlify.toml (the Report-Only line and the commented enforcing line) must be exactly the
+    // inline scripts this build serves. Report-only today, so a mismatch warns; once the enforcing
+    // header is switched on, make this throw (a stale hash would block a script on the live site).
+    if (PLATFORM.production && !PLATFORM.noindex) {
+      const csp = require("./lib/csp");
+      const hashes = csp.inlineScriptHashes(outDir);
+      const res = csp.checkToml(fs.readFileSync(path.join(__dirname, "netlify.toml"), "utf8"), hashes);
+      const bad = [res.reportOnly, res.flip].some((r) => !r || r.missing.length || r.extra.length);
+      if (bad) {
+        console.warn("[bc csp] WARNING: netlify.toml script-src hashes do not match this build's inline scripts. This build serves:\n  " +
+          Object.keys(hashes).map((h) => "'" + h + "' (" + hashes[h].length + " pages)").join("\n  ") + "\n  check: " + JSON.stringify(res));
+      } else {
+        console.log("[bc csp] netlify.toml script-src hashes match the " + Object.keys(hashes).length + " inline scripts of this build");
+      }
+    }
   });
   // requireValue: stops the build with a named message when a template is missing a value it
   // must have (used by the v3 media macro: an image without alt text never ships).

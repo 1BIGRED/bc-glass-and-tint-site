@@ -17,17 +17,20 @@ bundles: ["service"]
     <div class="ws5-hero__copy">
       <h1 id="hero-h">{{ pg.hero.heading | safe }}</h1>
       <p class="t-label fg-2">{{ pg.updated.effective | safe }}<br>{{ pg.updated.previous_note | safe }}</p>
-      <div class="ws5-hero__act">{{ action({ slot: "hero", service: "any" }) }}</div>
+      {#- Peak pass R2 (visual N25): no booking block in a legal hero; the header and the call bar carry the call. -#}
     </div>
   </div>
 </section>
 
-<section class="ws5-read bg-ink-0" aria-label="{{ pg.hero.heading | safe }}">
+{#- Peak pass R2 (visual R1 item 13, legal pages): an "On this page" index, H2s at 28 / 24 px and a 36em
+    measure (ws5-read--legal in service/65-service.css). Wording unchanged (approved C-028 text). -#}
+<section class="ws5-read ws5-read--legal bg-ink-0" aria-label="{{ pg.hero.heading | safe }}">
   <div class="wrap">
     <div class="ws5-read__col">
       <p class="t-lead">{{ pg.intro | safe }}</p>
+      <nav class="ws5-toc" aria-labelledby="toc-h"><p class="t-label fg-2" id="toc-h">On this page</p><ol class="list-plain">{% for s in pg.sections %}<li><a href="#pp-{{ loop.index }}">{{ s.heading | safe }}</a></li>{% endfor %}</ol></nav>
 {%- for s in pg.sections %}
-      <h2>{{ s.heading | safe }}</h2>
+      <h2 id="pp-{{ loop.index }}">{{ s.heading | safe }}</h2>
 {%- for blk in s.blocks %}{% if blk.type == "p" %}
       <p>{{ blk.text | safe }}</p>
 {%- elif blk.type == "ul" %}

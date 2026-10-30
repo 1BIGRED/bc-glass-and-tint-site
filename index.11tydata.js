@@ -26,8 +26,22 @@ function lowest(pricing, p) {
   return { amount: ok[0].v.amount, draft: ok.some((x) => x.r.draft) };
 }
 
+// Peak pass R2 (psychology R1 #10): the homepage gift card line prints only when the build date
+// (Pacific) falls inside home.json v3.hero.gift.from and .to. BC_TODAY=YYYY-MM-DD overrides the date
+// for a local check; nothing else reads it.
+function pacificToday() {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(process.env.BC_TODAY || ""))) return process.env.BC_TODAY;
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+}
+
 module.exports = {
   eleventyComputed: {
+    gift_season: (data) => {
+      const g = data.pages.home.v3.hero.gift;
+      if (!g || !g.from || !g.to) return null;
+      const t = pacificToday();
+      return Object.assign({}, g, { show: t >= g.from && t <= g.to });
+    },
     hero: (data) => {
       const h = data.pages.home.v3.hero;
       const ph = data.ws5photos && data.ws5photos[h.storefront_photo];

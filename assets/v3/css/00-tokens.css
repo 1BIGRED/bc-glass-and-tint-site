@@ -39,6 +39,12 @@
   --goldsm: #7C6427;       /* small gold text on paper and paper-2, the only gold text on cream */
   --goldd: #A8862F;        /* large gold text, 24px and up, on paper ONLY (2.82:1 on paper-2 fails) */
   --error-w: #A3362A;      /* form errors on cream */
+  /* The light-ground primary (peak pass R2 ruling, client rule "gold on dark backgrounds only"):
+     every filled booking or buy control on cream is near-black ink with paper text, never gold.
+     Paper text on the ink-w fill is 14.68:1; the fill against paper is 14.68:1 and against paper-2 13.34:1. */
+  --cta-light-bg: var(--ink-w);
+  --cta-light-fg: var(--paper);
+  --cta-light-hover: #3A3732; /* paper on it 10.70:1 */
 
   /* The Light Ramp (art direction LR-a): ink-0 at alpha 1 - (VLT/100)^(1/2.2) over glare */
   --ramp-a-70: 0.1497;

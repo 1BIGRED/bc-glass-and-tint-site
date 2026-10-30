@@ -29,7 +29,8 @@
       ],
       "fallback": "service",
       "after": "Too far gone to repair? We arrange a replacement with a glass specialist, glass ordered to your VIN, and help with the insurance claim. <a href=\"/windshield\">Windshield replacement, arranged</a>",
-      "links": [ { "label": "All prices", "href": "/prices" } ]
+      "links": [ { "label": "All prices", "href": "/prices" } ],
+      "review": "g-dakota-gleason"
     },
     "gets": {
       "eyebrow": "What you get",
@@ -39,7 +40,6 @@
         { "title": "Done in our own shop.", "text": "Chip repair is done at our Boulder City shop, and most chips are fixed the same day." }
       ]
     },
-    "review": "g-dakota-gleason",
     "how_steps": [
       { "title": "Tell us about the chip.", "text": "Call, text or request a time. Tell us your vehicle and where the chip is on the glass." },
       { "title": "We look at it first.", "text": "The quote is free. Size, location and condition decide whether a chip can be repaired, so we check it before we promise anything." },

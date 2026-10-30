@@ -76,7 +76,26 @@ module.exports = {
       });
       const anyShown = rows.some((r) => r.cells.some((c) => c.show));
       const fvp = classes.map((c) => ({ label: c.label, f: P.fullVsParts(pr, c.id, MODE) })).filter((x) => x.f);
-      return { classes, rows, any_shown: anyShown, fvp };
+      // Peak pass R2 (visual R1 item 18): vehicle classes whose every cell prints the same thing share one
+      // column ("Car, SUV or pickup"), so the table never repeats identical figures side by side. Cells
+      // compare on what prints (shown, value, the From word, the draft tag); nothing is merged when any
+      // cell differs. groups[].ids lists the classes in each column.
+      const sig = (ci) => rows.map((r) => { const q = r.cells[ci] || {}; return [!!q.show, q.value || "", !!q.from, !!q.draft].join("|"); }).join("~");
+      const groups = [];
+      classes.forEach((c, ci) => {
+        const g = groups.find((x) => x.sig === sig(ci));
+        if (g) { g.ids.push(c.id); g.labels.push(c.label); }
+        else groups.push({ sig: sig(ci), ci, id: c.id, ids: [c.id], labels: [c.label] });
+      });
+      const joinOr = (l) => (l.length <= 1 ? l.join("") : l.slice(0, -1).join(", ") + " or " + l[l.length - 1]);
+      const cols = groups.map((g) => ({
+        id: g.id,
+        label: joinOr(g.labels.map((l, i) => (i === 0 || /^[A-Z]{2,}$/.test(l) ? l : l.toLowerCase()))),
+        ci: g.ci
+      }));
+      const rowsByCol = rows.map((r) => ({ label: r.label, cells: cols.map((c) => r.cells[c.ci]) }));
+      const fvpCols = cols.map((c) => ({ label: c.label, f: P.fullVsParts(pr, c.id, MODE) })).filter((x) => x.f);
+      return { classes, rows, any_shown: anyShown, fvp: fvpCols, cols, rows_by_col: rowsByCol, merged: cols.length < classes.length };
     },
     pr_home: (data) => gatedRows(data, data.pages.prices.sections.home.rows),
     pr_ws: (data) => gatedRows(data, data.pages.prices.sections.windshield.rows),

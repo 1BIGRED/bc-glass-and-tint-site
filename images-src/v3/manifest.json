@@ -326,6 +326,7 @@
     {
       "id": "chevrolet-colorado-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-black-chevy-colorado-front-three-quarter-2026-10-23-1-edited.jpg",
       "master": "chevrolet-colorado-front-three-quarter",
       "crop": {
@@ -340,6 +341,7 @@
     {
       "id": "chevrolet-silverado-3500hd-side",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-blue-chevy-silverado-3500hd-side-2026-10-24-1-edited.jpg",
       "master": "chevrolet-silverado-3500hd-side",
       "crop": {
@@ -354,6 +356,7 @@
     {
       "id": "porsche-taycan-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-black-porsche-taycan-2026-08-18-1-edited.jpg",
       "master": "porsche-taycan-front-three-quarter",
       "crop": {
@@ -368,6 +371,7 @@
     {
       "id": "tesla-model-y-blue-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-blue-tesla-model-y-front-sign-2026-09-25-1-edited.jpg",
       "master": "tesla-model-y-blue-front-three-quarter",
       "crop": {
@@ -382,6 +386,7 @@
     {
       "id": "ford-f-150-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-f150-front-three-quarter-shop-2026-07-23-1-edited.jpg",
       "master": "ford-f-150-front-three-quarter",
       "crop": {
@@ -396,6 +401,7 @@
     {
       "id": "ford-f-150-rear-door-windows",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-f150-rear-windows-2026-07-23-1-edited.jpg",
       "master": "ford-f-150-rear-door-windows",
       "crop": {
@@ -410,6 +416,7 @@
     {
       "id": "ford-f-150-raptor-side",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-ford-f150-raptor-side-2026-09-24-1-edited.jpg",
       "master": "ford-f-150-raptor-side",
       "crop": {
@@ -424,6 +431,7 @@
     {
       "id": "kia-suv-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-kia-suv-front-sign-2026-09-15-1-edited.jpg",
       "master": "kia-suv-front-three-quarter",
       "crop": {
@@ -438,6 +446,7 @@
     {
       "id": "ram-3500-dually-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-ram-3500-dually-front-2026-08-29-1-edited.jpg",
       "master": "ram-3500-dually-front-three-quarter",
       "crop": {
@@ -452,6 +461,7 @@
     {
       "id": "tesla-model-3-white-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-tesla-model3-2026-08-18-3-edited.jpg",
       "master": "tesla-model-3-white-front-three-quarter",
       "crop": {
@@ -480,6 +490,7 @@
     {
       "id": "volkswagen-atlas-front-storefront",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/auto/bc-auto-tint-white-vw-atlas-front-storefront-2026-09-22-1-edited.jpg",
       "master": "volkswagen-atlas-front-storefront",
       "crop": {
@@ -494,6 +505,7 @@
     {
       "id": "jeep-gladiator-side",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/brand-truck-hero/brand-truck-hero-white-jeep-gladiator-edited.jpg",
       "master": "jeep-gladiator-side",
       "crop": {
@@ -508,6 +520,7 @@
     {
       "id": "ford-bronco-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1-edited.jpg",
       "master": "ford-bronco-front-three-quarter",
       "crop": {
@@ -522,6 +535,7 @@
     {
       "id": "subaru-outback-front-three-quarter",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/brand-truck-hero/brand-truck-hero-gray-subaru-outback-edited.jpg",
       "master": "subaru-outback-front-three-quarter",
       "crop": {
@@ -536,6 +550,8 @@
     {
       "id": "windshield-chip-bullseye-close",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: warm the blue cast of the in-car chip frame","temperature":15,"shadows":10,"blue_saturation":-20},
+      "grade": {"rgb": [1.08, 1.0, 0.9], "saturation": 0.82, "why": "peak pass R2, visual G3: the tone temperature slider alone left the frame blue; same kind of warm-neutral correction as chip-repair-hero"},
       "src": "photo-library/_edited-masters/install/bc-chip-repair-windshield-bullseye-chip-portrait-2026-09-30-1-edited.jpg",
       "master": "windshield-chip-bullseye-close",
       "crop": {
@@ -568,6 +584,7 @@
     {
       "id": "home-slider-window-split-glare",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: interior home frame recipe (shadows +25, temperature +4); whites +10 dropped and highlights -20 added because whites raised the clipped window light from 1.6 to 2.0 percent on the patio frame","temperature":4,"shadows":25,"highlights":-20},
       "src": "photo-library/_edited-masters/residential/residential-tint-slider-split-glare-13-edited.jpg",
       "master": "home-slider-window-split-glare",
       "crop": {
@@ -596,6 +613,7 @@
     {
       "id": "home-patio-window-desert-view",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: interior home frame recipe (shadows +25, temperature +4); whites +10 dropped and highlights -20 added because whites raised the clipped window light from 1.6 to 2.0 percent on the patio frame","temperature":4,"shadows":25,"highlights":-20},
       "src": "photo-library/_edited-masters/residential/bc-residential-tint-before-after-patio-window-2026-07-26-2-edited.jpg",
       "master": "home-patio-window-desert-view",
       "crop": {
@@ -610,6 +628,7 @@
     {
       "id": "home-kitchen-window-over-sink",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: interior home frame recipe (shadows +25, temperature +4); whites +10 dropped and highlights -20 added because whites raised the clipped window light from 1.6 to 2.0 percent on the patio frame","temperature":4,"shadows":25,"highlights":-20},
       "src": "photo-library/_edited-masters/residential/bc-residential-tint-kitchen-window-over-sink-2026-07-26-1-edited.jpg",
       "master": "home-kitchen-window-over-sink",
       "crop": {
@@ -624,6 +643,7 @@
     {
       "id": "office-window-maroon-awning",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/commercial/bc-commercial-tint-maroon-awning-window-2026-08-18-2-edited.jpg",
       "master": "office-window-maroon-awning",
       "crop": {
@@ -646,6 +666,7 @@
     {
       "id": "office-window-white-brick",
       "group": "gallery",
+      "tone": {"why":"peak pass R2, visual G3: exterior recipe (CD 6)","temperature":4,"highlights":-35,"shadows":12,"blue_saturation":-15,"blue_luminance":-10},
       "src": "photo-library/_edited-masters/commercial/bc-commercial-tint-white-brick-window-2026-08-18-1-edited.jpg",
       "master": "office-window-white-brick",
       "crop": {

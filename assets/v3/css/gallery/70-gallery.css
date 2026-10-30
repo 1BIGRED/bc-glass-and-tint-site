@@ -10,7 +10,8 @@
 @media (min-width: 1024px) { .ws5-gal-head { padding-block: var(--sp-48) var(--sp-24); } }
 
 .ws5-gal { padding-top: 0; }
-.ws5-gal__tools { display: grid; gap: var(--sp-8); margin-bottom: var(--sp-24); }
+.ws5-gal__tools { display: grid; gap: var(--sp-8); margin-bottom: var(--sp-16); }
+@media (min-width: 1024px) { .ws5-gal__tools { margin-bottom: var(--sp-24); } }
 .ws5-gal__more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .ws5-gal__more summary { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-16); min-height: 44px; list-style: none; cursor: pointer; font-weight: 600; }
 .ws5-gal__more summary::-webkit-details-marker { display: none; }
@@ -26,21 +27,92 @@
   .ws5-gal__row--main .ws5-gal__lab { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .ws5-gal__more summary i { transition: none; } }
-.ws5-gal__search label { display: block; font-weight: 600; font-size: var(--t-label); color: var(--fg-2); margin-bottom: var(--sp-8); }
-.ws5-gal__searchrow { display: flex; gap: var(--sp-8); max-width: 35rem; }
-.ws5-gal__searchrow input {
-  flex: 1 1 auto;
+
+/* Gallery search 2026-10-30 (fitment-style, GALLERY-SEARCH.md). The fitment row: search, then Year,
+   Make and Model selects. Phones: search on its own row, the selects two (or three) across under it.
+   From 768px one row: search takes the free width, each select a fixed 12rem. Every control is 48px
+   tall with a visible label above it; focus shows the gold ring (core focus-visible) plus a lighter
+   border. */
+.ws5-fit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-12) var(--sp-8); }
+.ws5-fit--y { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ws5-fit__f--q { grid-column: 1 / -1; }
+.ws5-fit__f { min-width: 0; }
+.ws5-fit__f label { display: block; margin-bottom: var(--sp-4); font-size: var(--t-label); font-weight: 600; letter-spacing: var(--tr-caps); text-transform: uppercase; color: var(--fg-2); }
+.ws5-fit__qrow { position: relative; }
+.ws5-fit input,
+.ws5-fit select {
+  display: block;
+  width: 100%;
   min-width: 0;
-  min-height: 52px;
-  padding: 0 var(--sp-16);
+  min-height: 48px;
+  padding: 0 var(--sp-12);
+  font-family: var(--font-text);
   font-size: 1rem;
-  background: var(--ink-2);
+  line-height: 1.2;
+  background-color: var(--ink-2);
   color: var(--text);
   border: 1px solid var(--line-ctl);
   border-radius: var(--radius);
 }
-.ws5-gal__searchrow input:focus-visible { border-color: var(--text); }
-.ws5-gal__clear { min-height: 52px; }
+.ws5-fit input { padding-right: 3rem; }
+.ws5-fit input::placeholder { color: var(--fg-2); opacity: 1; }
+.ws5-fit input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.ws5-fit select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.25rem;
+  text-overflow: ellipsis;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M3 6l5 5 5-5' fill='none' stroke='%23A39E94' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem 1rem;
+  cursor: pointer;
+}
+.ws5-fit select option { color: var(--text); background-color: var(--ink-2); }
+.ws5-fit select:disabled { opacity: 0.55; cursor: not-allowed; }
+.ws5-fit input:focus-visible,
+.ws5-fit select:focus-visible { border-color: var(--text); }
+.ws5-fit__x {
+  position: absolute; top: 0; right: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; padding: 0;
+  border: 0; background: none; color: var(--text); cursor: pointer;
+}
+.ws5-fit__x[hidden] { display: none; }
+.ws5-fit__x:focus-visible { outline: 2px solid var(--focus); outline-offset: -4px; }
+@media (min-width: 768px) {
+  .ws5-fit { grid-template-columns: minmax(0, 1fr) repeat(2, 12rem); align-items: end; }
+  .ws5-fit--y { grid-template-columns: minmax(0, 1fr) 9rem repeat(2, 12rem); }
+  .ws5-fit--q { grid-template-columns: minmax(0, 32rem); }
+  .ws5-fit__f--q { grid-column: auto; }
+}
+/* Shade selects inside "More filters" (printed only when a job records a shade). */
+.ws5-fit--shade { grid-template-columns: repeat(2, minmax(0, 12rem)); }
+
+/* "More filters (2)": the count of its filters that are on. */
+.ws5-gal__morecount { font-weight: 600; }
+
+/* Count, active filter chips and Clear all on one line under the tools (they wrap on phones). */
+.ws5-gal__statusrow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-8) var(--sp-12); margin-top: var(--sp-4); min-height: 32px; }
+.ws5-gal__statusrow .ws5-gal__status { margin: 0; }
+.ws5-gal__active { display: flex; flex-wrap: wrap; gap: var(--sp-8); }
+.ws5-gal__active:empty { display: none; }
+.ws5-achip {
+  display: inline-flex; align-items: center; gap: var(--sp-8);
+  min-height: 32px; padding: 0 var(--sp-12);
+  border: 1px solid var(--text); border-radius: var(--radius);
+  background: var(--text); color: var(--ink-0);
+  font-family: var(--font-text); font-size: var(--t-label); font-weight: 600; line-height: 1.2;
+  cursor: pointer;
+}
+.ws5-achip:hover { background: var(--ink-2); color: var(--text); }
+.ws5-achip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* 32px chips get a 44px tap area without moving the layout. */
+.ws5-achip { position: relative; }
+.ws5-achip::after { content: ""; position: absolute; inset: -6px 0; }
+.ws5-gal__clearall { min-height: 32px; padding: 0; color: var(--text); }
+.ws5-gal__clearall[hidden] { display: none; }
+
 .ws5-gal__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-8); }
 .ws5-gal__row[hidden] { display: none !important; }
 .ws5-gal__lab { flex: 0 0 4.75rem; text-transform: uppercase; letter-spacing: var(--tr-caps); font-weight: 600; }
@@ -135,7 +207,7 @@
   display: grid;
   gap: var(--sp-16);
   align-items: center;
-  padding: var(--sp-24);
+  padding: var(--sp-24) var(--sp-24) var(--sp-8);
   background: var(--ink-1);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -148,7 +220,59 @@
   .ws5-gal__strip--wide { display: grid; }
 }
 .ws5-gal__strip[hidden] { display: none !important; }
-.ws5-gal__empty { margin-top: var(--sp-24); }
+.ws5-gal__empty { display: grid; gap: var(--sp-16); justify-items: start; margin-top: var(--sp-24); padding: var(--sp-32) 0; border-top: 1px solid var(--line); max-width: 40rem; }
+.ws5-gal__empty > p { margin: 0; }
 .ws5-gal__empty[hidden] { display: none; }
+.ws5-gal__near[hidden] { display: none; }
+.ws5-gal__near .ws5-btn { min-height: 44px; color: var(--text); border-color: var(--line-ctl); text-align: left; }
 .ws5-linkbtn { padding: var(--sp-8) 0; border: 0; background: none; color: var(--fg); text-decoration: underline; text-underline-offset: 4px; font: inherit; min-height: 44px; }
 .ws5-linkbtn[hidden] { display: none; }
+
+/* ======================= Peak pass R2, part B (2026-10-30) ======================= */
+
+/* Head (visual G5): from 1024px the copy takes 7 of 12 parts and the 2:1 shop band fills the right. */
+.ws5-gal-head__copy > * + * { margin-top: var(--sp-12); }
+.ws5-gal-head__fig { display: none; }
+@media (min-width: 1024px) {
+  .ws5-gal-head__in { display: grid; grid-template-columns: 7fr 5fr; column-gap: calc(var(--gutter) * 2); align-items: end; }
+  .ws5-gal-head__fig { display: block; }
+  .ws5-gal-head__fig figcaption { margin-top: var(--sp-8); }
+}
+
+/* The selected vehicle as a removable chip in the service row (visual S2: the drawer stays closed). */
+.ws5-gchip--x { gap: var(--sp-8); }
+.ws5-gchip--x svg { flex: 0 0 auto; }
+
+/* Pages with fewer than four photos show them large (visual S1): one column on phones, two from 640px,
+   3:2 frames. */
+.ws5-gal__grid[data-n="1"],
+.ws5-gal__grid[data-n="2"],
+.ws5-gal__grid[data-n="3"] { grid-template-columns: minmax(0, 1fr); }
+.ws5-gal__grid[data-n="1"] .ws5-gt__img,
+.ws5-gal__grid[data-n="2"] .ws5-gt__img,
+.ws5-gal__grid[data-n="3"] .ws5-gt__img { aspect-ratio: 3 / 2; }
+@media (min-width: 640px) {
+  .ws5-gal__grid[data-n="2"],
+  .ws5-gal__grid[data-n="3"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ws5-gal__grid[data-n="1"] { grid-template-columns: minmax(0, 40rem); }
+}
+
+/* "Build this look" on one line across a row (visual G8): the caption is a flex column, so the link's
+   auto top margin has free space to take (it had none in a grid caption). */
+.ws5-gt figcaption { display: flex; flex-direction: column; gap: var(--sp-4); }
+
+/* Viewer (visual N21): a nearly solid backdrop, so tile titles never ghost through under the caption. */
+.ws5-viewer::backdrop { background: rgba(11, 11, 12, 0.97); }
+
+/* Viewer spec block (gallery search 2026-10-30): the job's setup as label and value pairs, the way a
+   fitment gallery lists a build. Phones: one pair per line; from 640px the pairs run in a row. */
+.ws5-viewer__cap { display: grid; gap: var(--sp-4); }
+.ws5-viewer__cap > p { margin: 0; }
+.ws5-viewer__spec { display: flex; flex-wrap: wrap; gap: var(--sp-4) var(--sp-24); margin: 0; font-size: var(--t-label); line-height: 1.45; }
+.ws5-viewer__spec > div { display: flex; gap: var(--sp-8); min-width: 0; }
+.ws5-viewer__spec dt { color: var(--fg-2); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tr-caps); }
+.ws5-viewer__spec dd { margin: 0; color: var(--text); }
+@media (max-width: 639px) { .ws5-viewer__spec { display: grid; } }
+.ws5-viewer__build { justify-self: start; color: var(--text); padding: var(--sp-8) 0; }
+.ws5-viewer__build[hidden] { display: none; }
+.ws5-viewer__img img { max-height: calc(100dvh - 32px - 200px); }

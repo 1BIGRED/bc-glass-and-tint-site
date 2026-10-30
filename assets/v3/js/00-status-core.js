@@ -10,6 +10,8 @@
      until:    { time } | null,       open state only, the closing time as "5 PM"
      nextOpen: { offset, dayLabel, dayName, iso, time } | null,
      reason:   string | null          holiday state only, from site.json closures
+     ahead:    { first, last, reopen } | null   open state only (peak R2): the confirmed closures in
+               the closed stretch that starts tomorrow, and the day the shop reopens after it
    }
    cfg is the object the layout prints once per page as <script id="bc-hours">:
      { tz, days[], opens "09:00", closes "17:00",
@@ -81,7 +83,7 @@
     var days = cfg.days || [];
     var openM = toMin(cfg.opens), closeM = toMin(cfg.closes);
     var n = nowParts(now, tz), today = dayInfo(n, 0);
-    var out = { state: "closed", iso: today.iso, weekday: today.name, minutes: n.min, until: null, nextOpen: null, reason: null };
+    var out = { state: "closed", iso: today.iso, weekday: today.name, minutes: n.min, until: null, nextOpen: null, reason: null, ahead: null };
 
     function openDay(info) { return days.indexOf(info.name) > -1 && !find(cfg.closures, info.iso); }
 
@@ -96,6 +98,21 @@
       return null;
     }
 
+    /* Peak R2 (psychology R1 #17): on an open day, is the next stretch of closed days one that holds
+       a confirmed closure (site.json closures only, never a guess)? Walks from tomorrow through the
+       days the shop is not open; stops at the first open day (the reopen day) or at an unknown day
+       (then no reopen day is named). Returns null when the stretch holds no closure. */
+    function closuresAhead() {
+      var first = null, last = null;
+      for (var i = 1; i <= SEARCH_DAYS; i++) {
+        var info = dayInfo(n, i);
+        if (find(cfg.unknown, info.iso)) return first ? { first: first, last: last, reopen: null } : null;
+        if (find(cfg.closures, info.iso)) { if (!first) first = info; last = info; continue; }
+        if (openDay(info)) return first ? { first: first, last: last, reopen: info } : null;
+      }
+      return first ? { first: first, last: last, reopen: null } : null;
+    }
+
     if (find(cfg.unknown, today.iso)) { out.state = "unknown"; return out; }
     var closure = find(cfg.closures, today.iso);
     if (closure) {
@@ -107,6 +124,7 @@
     if (openDay(today) && n.min >= openM && n.min < closeM) {
       out.state = "open";
       out.until = { time: clock(cfg.closes) };
+      out.ahead = closuresAhead();
       return out;
     }
     out.nextOpen = nextOpen();
@@ -127,14 +145,38 @@
     holiday_nonext: "Closed for {reason}.",
     calls_open: "Calls open {day} at {open}",
     calls_open_short: "Calls open {day} {open}",
+    /* Peak R2 (psychology R1 #17): the last open day before a confirmed closure */
+    open_ahead: "{open}. {ahead}",
+    ahead_one: "Closed {day}, {date}",
+    ahead_run: "Closed {from} to {to}",
+    ahead_reopen: "{closed}; we reopen {day}, {date}.",
+    ahead_noreopen: "{closed}.",
     days_short: SHORT
   };
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  /* "2026-12-24" -> "Dec 24" */
+  function shortDate(iso) {
+    return MONTHS[+iso.slice(5, 7) - 1] + " " + (+iso.slice(8, 10));
+  }
+  /* the words for closuresAhead(): "Closed Dec 24 to 26; we reopen Tuesday, Dec 29." */
+  function aheadText(a, labels) {
+    var closed;
+    if (a.first.iso === a.last.iso) {
+      closed = fill(label(labels, "ahead_one"), { day: a.first.name, date: shortDate(a.first.iso) });
+    } else {
+      var to = a.first.iso.slice(0, 7) === a.last.iso.slice(0, 7) ? String(+a.last.iso.slice(8, 10)) : shortDate(a.last.iso);
+      closed = fill(label(labels, "ahead_run"), { from: shortDate(a.first.iso), to: to });
+    }
+    return a.reopen
+      ? fill(label(labels, "ahead_reopen"), { closed: closed, day: a.reopen.name, date: shortDate(a.reopen.iso) })
+      : fill(label(labels, "ahead_noreopen"), { closed: closed });
+  }
   function label(labels, key) { return labels && labels[key] != null ? labels[key] : DEFAULT_LABELS[key]; }
 
   /* The words for a status. long and short are the chip text; calls and callsShort are the plain
      "when calls are answered" lines; show is false on an unknown day (no live status at all). */
   function describe(st, labels) {
-    var res = { show: false, kind: "none", long: "", short: "", calls: "", callsShort: "" };
+    var res = { show: false, kind: "none", long: "", short: "", calls: "", callsShort: "", ahead: "" };
     if (!st || st.state === "unknown") return res;
     var no = st.nextOpen;
     if (no) {
@@ -145,6 +187,10 @@
     if (st.state === "open") {
       res.show = true; res.kind = "open";
       res.long = fill(label(labels, "open"), { close: st.until.time });
+      if (st.ahead && st.ahead.first) {
+        res.ahead = aheadText(st.ahead, labels);
+        res.long = fill(label(labels, "open_ahead"), { open: res.long, ahead: res.ahead });
+      }
       res.short = label(labels, "open_short");
       return res;
     }

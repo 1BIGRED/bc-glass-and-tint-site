@@ -9,8 +9,10 @@
     Open Graph and Twitter, icons, JSON-LD, Clarity.
 
     Body: skip link first (first focusable), the 8px top sentinel the header observer watches, the
-    header, <main id="main">, the footer, the phone call bar, the cookie bar, the #bc-hours
-    config block (one per page, read by the action system), the consent script.
+    header, the phone call bar, the cookie bar (both fixed; moved up in peak pass R2), <main
+    id="main">, the footer, the #bc-hours config block (one per page, read by the action system).
+    Critical CSS: .eleventy.js inlines the page's matching rules and loads the hashed sheets
+    without blocking (peak pass R2); the links printed below are what it rewrites.
 
     Front matter and page data this layout reads:
       page_key          wording key: pages[page_key].meta.title / .description / .image_alt
@@ -45,7 +47,10 @@
     logo.png (1612 x 600), which every platform crops. It now shares the 1200 x 630 storefront crop
     built by scripts/images.js, with its own size and alt (global og_share, lib/eleventy-og.js). -#}
 {%- set ogShare = og_share or null -%}
-{%- set useShare = ogShare and ((not og_image) or og_image == "logo.png") -%}
+{#- Peak pass R2 (technical 10): a page whose own og_image carries no width and height (the 9 gallery
+    pages' 4:3 job photos, the builder's old-site 1200 x 540 raster) shares the sized 1.91:1 image too,
+    so no preview crops it or fetches it late. Pages with a sized photo of their own keep it. -#}
+{%- set useShare = ogShare and ((not og_image) or og_image == "logo.png" or (not og_image_width)) -%}
 {%- set ogImg = ogShare.path if useShare else og_image -%}
 {%- set ogW = ogShare.width if useShare else og_image_width -%}
 {%- set ogH = ogShare.height if useShare else og_image_height -%}
@@ -92,12 +97,17 @@
 {% include "skip-link.njk" %}
 <div class="v3-top-sentinel" data-top-sentinel aria-hidden="true"></div>
 {% include "v3/header.njk" %}
+{#- Peak pass R2 part A (technical 2): the phone call bar and the cookie bar come right after the
+    header, not after the footer. Both are position: fixed, so nothing moves on screen; what changes
+    is that they are parsed (and painted) with the first frame instead of after the whole page and
+    any in-body stylesheet (the talk block's book.css). Keyboard order: skip link, header, call bar,
+    cookie choices, then main; the skip link still jumps straight to main. -#}
+{% include "v3/sticky-bar.njk" %}
+{% include "v3/cookie-bar.njk" %}
 <main id="main" tabindex="-1">
 {{ content | safe }}
 </main>
 {% include "v3/footer.njk" %}
-{% include "v3/sticky-bar.njk" %}
-{% include "v3/cookie-bar.njk" %}
 {%- set statusLabels = (pages.shared.v3.status if (pages.shared.v3 and pages.shared.v3.status) else pages.shared.v2.status) %}
 {%- set hoursCfg = {
   "tz": site.hours.timezone or "America/Los_Angeles",

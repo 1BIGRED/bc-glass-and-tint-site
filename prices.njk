@@ -25,7 +25,7 @@ bundles: ["prices"]
 <section class="pr-top" aria-labelledby="pr-h">
   <div class="wrap stack-16">
     <nav class="pr-crumb t-label fg-2" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">{{ pg.hero.crumb | safe }}</span></nav>
-    <p class="t-eyebrow">{{ pg.hero.eyebrow | safe }}</p>
+    {#- Peak pass R2 (visual R1 item 14): no eyebrow here; the breadcrumb and the H1 already say Prices. -#}
     <h1 id="pr-h">{{ pg.hero.heading | safe }}</h1>
     <p class="t-lead measure">{% if pr_any %}{{ pg.hero.intro | safe }}{% else %}{{ pg.hero.intro_without_prices | safe }}{% endif %}</p>
   </div>
@@ -41,30 +41,30 @@ bundles: ["prices"]
 {%- if pr_car.any_shown %}
       <table class="pr-table pr-table--grid" data-price-block>
         <caption class="vh">{{ sc.heading | safe }}</caption>
-        <thead><tr><th scope="col">{{ sc.column_label | safe }}</th>{% for c in pr_car.classes %}<th scope="col">{{ c.label | safe }}</th>{% endfor %}</tr></thead>
+        <thead><tr><th scope="col">{{ sc.column_label | safe }}</th>{% for c in pr_car.cols %}<th scope="col">{{ c.label | safe }}</th>{% endfor %}</tr></thead>
         <tbody>
-{%- for r in pr_car.rows %}
+{%- for r in pr_car.rows_by_col %}
           <tr><th scope="row">{{ r.label | safe }}</th>{% for q in r.cells %}<td>{{ cell(q, sc.fallback) }}</td>{% endfor %}</tr>
 {%- endfor %}
         </tbody>
       </table>
       <div class="pr-phone" role="radiogroup" aria-label="{{ sc.switch_label | safe }}">
-{%- for c in pr_car.classes %}
+{%- for c in pr_car.cols %}
         <input class="vh pr-phone__in" type="radio" name="pr-class" id="pr-c-{{ c.id }}" value="{{ c.id }}"{% if loop.first %} checked{% endif %}>
 {%- endfor %}
-        <div class="pr-seg" aria-hidden="true">
-{%- for c in pr_car.classes %}
+        <div class="pr-seg" aria-hidden="true" style="--n: {{ pr_car.cols.length }}">
+{%- for c in pr_car.cols %}
           <label class="pr-seg__opt" for="pr-c-{{ c.id }}">{{ c.label | safe }}</label>
 {%- endfor %}
         </div>
         <div class="pr-ctables">
-{%- for c in pr_car.classes %}
+{%- for c in pr_car.cols %}
 {%- set ci = loop.index0 %}
           <table class="pr-table pr-ct" data-c="{{ c.id }}">
             <caption class="vh">{{ sc.heading | safe }}, {{ c.label | safe }}</caption>
             <thead><tr><th scope="col">{{ sc.column_label | safe }}</th><th scope="col">{{ c.label | safe }}</th></tr></thead>
             <tbody>
-{%- for r in pr_car.rows %}
+{%- for r in pr_car.rows_by_col %}
               <tr><th scope="row">{{ r.label | safe }}</th><td>{{ cell(r.cells[ci], sc.fallback) }}</td></tr>
 {%- endfor %}
             </tbody>
@@ -97,8 +97,9 @@ bundles: ["prices"]
 {%- endfor %}
         </ul>
       </div>
+      {#- Peak pass R2 (visual R1 item 18): one action style. The builder is a text link; the action row is the call and its request link. -#}
+      <p class="ws5-buildlink"><a href="/build-your-tint" data-build-link>{% if pr_has_auto %}{{ sc.builder_link | safe }}{% else %}{{ sc.builder_link_without_prices | safe }}{% endif %}</a></p>
       <div class="pr-acts">
-        <a class="pr-btn" href="/build-your-tint">{% if pr_has_auto %}{{ sc.builder_link | safe }}{% else %}{{ sc.builder_link_without_prices | safe }}{% endif %}</a>
         {{ action({ slot: "price", service: "car" }) }}
       </div>
 {%- if pr_reviewed %}

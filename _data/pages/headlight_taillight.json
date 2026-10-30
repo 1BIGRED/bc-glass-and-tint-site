@@ -26,29 +26,33 @@
     },
     "blocks": [
       {
-        "type": "prose",
-        "eyebrow": "Restoration",
-        "heading": "Clear lenses again.",
-        "paragraphs": [
-          "Headlight lenses are plastic, not glass. The Nevada sun breaks down the factory coating on that plastic, and once it goes the lens turns cloudy, yellow and rough. It is not dirt, so washing does nothing.",
-          "Restoration removes the damaged surface layer and seals the fresh surface, which brings the lens back to clear and puts more of your headlight output back on the road at night."
-        ]
-      },
-      {
-        "type": "prose",
-        "eyebrow": "Protection film",
-        "heading": "Film over the lens.",
-        "paragraphs": [
-          "Protection film is a clear urethane layer over the lens that takes the sun, the rock chips and the sand instead of the lens. It is the same family of film as the <a href=\"/clear-bra\">clear bra</a> we install on paint, available for headlights, taillights or both.",
-          "The best time to add it is right after a restoration, or on a new vehicle before the sun has had a chance to start on it."
-        ]
-      },
-      {
-        "type": "prose",
-        "eyebrow": "Smoked lights",
-        "heading": "Legal-depth smoke.",
-        "paragraphs": [
-          "We tint headlights and taillights for a darker, more finished look. How dark is not a fixed number: it depends on your housings and how much light they put out to begin with, so we look at your actual lights rather than quoting a percentage off a chart."
+        "type": "columns",
+        "eyebrow": "Three ways to help a lens",
+        "heading": "Restore, protect or smoke.",
+        "items": [
+          {
+            "eyebrow": "Restoration",
+            "title": "Clear lenses again.",
+            "paragraphs": [
+              "Headlight lenses are plastic, not glass. The Nevada sun breaks down the factory coating on that plastic, and once it goes the lens turns cloudy, yellow and rough. It is not dirt, so washing does nothing.",
+              "Restoration removes the damaged surface layer and seals the fresh surface, which brings the lens back to clear and puts more of your headlight output back on the road at night."
+            ]
+          },
+          {
+            "eyebrow": "Protection film",
+            "title": "Film over the lens.",
+            "paragraphs": [
+              "Protection film is a clear urethane layer over the lens that takes the sun, the rock chips and the sand instead of the lens. It is the same family of film as the <a href=\"/clear-bra\">clear bra</a> we install on paint, available for headlights, taillights or both.",
+              "The best time to add it is right after a restoration, or on a new vehicle before the sun has had a chance to start on it."
+            ]
+          },
+          {
+            "eyebrow": "Smoked lights",
+            "title": "Legal-depth smoke.",
+            "paragraphs": [
+              "We tint headlights and taillights for a darker, more finished look. How dark is not a fixed number: it depends on your housings and how much light they put out to begin with, so we look at your actual lights rather than quoting a percentage off a chart."
+            ]
+          }
         ]
       },
       {
@@ -63,6 +67,12 @@
         "note": "Nevada sets these as requirements about what your lights do, not as a percentage for how dark a film may be. For window tint rules, see <a href=\"/nevada-tint-law\">Nevada tint law</a>."
       }
     ],
+    "how_steps": [
+      { "title": "Tell us your vehicle.", "text": "Call, text or request a time. Tell us the vehicle, which lights, and whether you want film or smoke afterward." },
+      { "title": "Get your price.", "text": "How hazed the lenses are, how many lights, and whether film goes on afterward set the price. We confirm it before anything is booked." },
+      { "title": "Bring it to the shop.", "text": "1633 Boulder City Pkwy, Tuesday to Saturday, 9 to 5. Most vehicles are done the same day." }
+    ],
+    "how_fear": "Tell us your vehicle and which lights. Just questions? That's fine.",
     "while": {
       "eyebrow": "While you are here",
       "h2": "Often paired.",

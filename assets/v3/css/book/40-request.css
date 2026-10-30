@@ -81,6 +81,13 @@
   margin: 0;
   color: var(--fg-2);
 }
+/* Peak R2 (psychology N4): the build's price line reads as part of the build note above it */
+.rq-build-price {
+  color: var(--fg);
+}
+.rq-build-note:not([hidden]) + .rq-build-price {
+  margin-top: calc(var(--sp-8) - var(--sp-24));
+}
 /* FIXES-A item 1: the saved build line on /book, with its quiet "Remove it" button (44px target) */
 .rq-saved {
   display: flex;

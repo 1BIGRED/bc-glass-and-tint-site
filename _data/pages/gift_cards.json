@@ -13,7 +13,9 @@
     "buy": "Buy a gift card online",
     "buy_note": "Opens Square, the payment page for our gift cards, in a new tab.",
     "shop_h2": "Or at the shop.",
-    "shop_text": "Physical gift cards are sold at the shop in Boulder City, Tuesday to Saturday, 9 to 5."
+    "shop_text": "Physical gift cards are sold at the shop in Boulder City, Tuesday to Saturday, 9 to 5.",
+    "closures_intro": "Holiday hours:",
+    "online_any_day": "The online gift card can be bought any day, including days the shop is closed."
   },
   "schema": { "date_modified": "2026-10-29" }
 }

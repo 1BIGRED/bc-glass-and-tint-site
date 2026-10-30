@@ -33,6 +33,12 @@
       ]
     },
     "review": "g-jessica-harrison",
+    "how_steps": [
+      { "title": "Tell us your vehicle.", "text": "Call, text or request a time. Tell us the vehicle and how much of it you want covered, from the front end to the whole car." },
+      { "title": "Get your price.", "text": "The vehicle and how much of it you cover set the price. We confirm it before anything is booked." },
+      { "title": "Bring it to the shop.", "text": "Clear bra is done at our Boulder City shop, Tuesday to Saturday, 9 to 5." }
+    ],
+    "how_fear": "Tell us your vehicle and how much of it you want covered. Just questions? That's fine.",
     "while": {
       "eyebrow": "While you are here",
       "h2": "Often paired.",

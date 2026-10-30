@@ -14,7 +14,7 @@
     "eyebrow_short": "Windshield. Boulder City shop.",
     "h1": "Chip and small crack repair.",
     "lede": "We repair windshield chips and small cracks in our own shop, and most chips are fixed the same day. When the damage is too large to repair, we arrange the replacement with a glass specialist.",
-    "hero_photo": "chip-bridge-2",
+    "hero_photo": "chip-bullseye",
     "proof": "Family owned since 1994.",
     "prices": {
       "eyebrow": "Price",
@@ -27,7 +27,9 @@
         { "label": "Replacement, glass ordered to your VIN", "ref": null, "fallback_key": "replace" }
       ],
       "fallback": "service",
-      "links": [ { "label": "Chip repair", "href": "/chip-repair" }, { "label": "All prices", "href": "/prices" } ]
+      "links": [ { "label": "Chip repair", "href": "/chip-repair" }, { "label": "All prices", "href": "/prices" } ],
+      "photo": "chip-bridge-2",
+      "photo_ratio": "43"
     },
     "blocks": [
       {
@@ -45,13 +47,8 @@
       }
     ],
     "review": "g-dakota-gleason",
-    "how_steps": [
-      { "title": "Tell us about the glass.", "text": "Call, text or request a time. Tell us your vehicle and where the chip or crack is." },
-      { "title": "We look at it first.", "text": "The quote is free. Size, location and condition decide whether it can be repaired, so we check it before we promise anything." },
-      { "title": "Bring it to the shop.", "text": "1633 Boulder City Pkwy, Tuesday to Saturday, 9 to 5. Most chips are fixed the same day." },
-      { "title": "Too big to repair?", "text": "We tell you plainly, and we can arrange a replacement with a glass specialist, with the glass ordered to your VIN." }
-    ],
-    "how_fear": "Tell us your vehicle and where the damage is. Just questions? That's fine.",
+    "how_steps": [],
+    "how_fear": "Tell us your vehicle and where the chip or crack is. The quote is free, and we look at it before we promise anything. Bring it to 1633 Boulder City Pkwy, Tuesday to Saturday, 9 to 5; most chips are fixed the same day.",
     "while": {
       "eyebrow": "While you are here",
       "h2": "Two quick extras.",

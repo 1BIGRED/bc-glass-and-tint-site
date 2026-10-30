@@ -227,3 +227,19 @@
     transition: none;
   }
 }
+
+/* ======================= Peak pass R2, part B (2026-10-30) ======================= */
+/* Visual R1 item 18: classes with identical figures share one column (prices.11tydata.js), so the
+   switch has as many options as the table has columns; the price columns stay one width; 48px from
+   the lede to the first section instead of about 200px. */
+.pr-seg { grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); }
+.pr-table--grid th:not(:first-child),
+.pr-table--grid td { width: 9.5rem; }
+.pr-top { padding-bottom: 0; }
+.pr-top + .pr-sec { padding-top: var(--sp-48); }
+@media (min-width: 1024px) {
+  .pr-top { padding-bottom: 0; }
+  .pr-top + .pr-sec { padding-top: var(--sp-48); }
+}
+.pr-sec__body > .ws5-buildlink { margin-top: var(--sp-24); }
+.pr-sec__body > .ws5-buildlink + .pr-acts { margin-top: var(--sp-12); }

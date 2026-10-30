@@ -21,9 +21,12 @@ bundles: ["service"]
       <p class="t-eyebrow">{{ V.eyebrow | safe }}</p>
       <h1 id="hero-h">{{ V.h1 | safe }}</h1>
       <p class="t-lead fg-2 measure">{{ V.lede | safe }}</p>
-      {#- Peak pass R1 (psychology 10): buying a card online is this page's job, so it is the page's gold fill.
-          data-gold-fill makes it the one gold in-page control from 768px (30-actions.js oneGold) and
-          data-gold-zone quiets the header call while it is on screen (20-header.js). -#}
+      {#- Peak pass R1 (psychology 10): buying a card online is this page's job, so it is the page's one filled
+          button. Peak pass R2 (CEO ruling, decisions-and-rules line 74: gold fills sit on dark grounds only):
+          it keeps the page-primary class, and part A's light-ground primary (30-actions.css, token
+          --cta-light-bg) turns .ws5-btn--gold on this cream ground into the ink fill with paper text, never
+          gold. data-gold-fill and data-gold-zone keep it the page's one filled control (30-actions.js
+          oneGold, 20-header.js). -#}
       <div class="ws5-hero__act"><a class="ws5-btn ws5-btn--gold" href="{{ pg.order_url | safe }}" target="_blank" rel="noopener" data-ev="gift_card_click" data-gold-fill data-gold-zone>{{ V.buy | safe }}</a></div>
       <p class="t-label fg-2">{{ V.buy_note | safe }}</p>
     </div>
@@ -34,6 +37,11 @@ bundles: ["service"]
   <div class="wrap">
     <h2 id="shop-h">{{ V.shop_h2 | safe }}</h2>
     <p class="t-body measure ws5-mt-24">{{ V.shop_text | safe }}<br>{{ site.address.display | safe }}</p>
+    {#- Peak pass R2 (psychology R1 #10): the holiday closures, printed only from site.json closures (owner
+        confirmed, decisions-and-rules line 62) by 60-moments.js for the next 60 days; nothing prints
+        without JavaScript or when no closure is ahead. -#}
+    <p class="t-body measure ws5-mt-24 ws5-closures" data-closures data-days="60" data-intro="{{ V.closures_intro }}" data-fact="{{ pages.sections.talk.closed_fact }}" hidden></p>
+    <p class="t-body measure fg-2 ws5-mt-8">{{ V.online_any_day | safe }}</p>
   </div>
 </section>
 

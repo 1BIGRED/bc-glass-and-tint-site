@@ -139,12 +139,8 @@
   .ws5-while { margin-top: var(--sp-16); }
 }
 
-/* Integration pass (CEO ruling 2026-10-29, phone length): on the homepage ("slim" lanes) the lane
-   photos give way under 768px and stay on tablet and desktop. The picture is lazy, so a hidden one
-   is never fetched. */
-@media (max-width: 767px) {
-  .ws5-lane--slim .ws5-lane__media { display: none; }
-}
+/* Integration pass (CEO ruling 2026-10-29, phone length) hid the homepage lane photos under 768px.
+   Peak pass R2 (CEO ruling 2026-10-30) brings them back as compact 2:1 frames: see the end of this file. */
 /* Homepage only, phones: one step tighter rhythm (8px scale, art direction G2). The ground changes
    between sections still mark every section; nothing is removed here. */
 @media (max-width: 639px) {
@@ -291,4 +287,42 @@
 @media (min-width: 1024px) {
   .ws5-proofrow { padding-block: var(--sp-96); }
   .ws5-proofrow__big { font-size: 3.5rem; }
+}
+
+/* ======================= Peak pass R2, part B (2026-10-30) ======================= */
+
+/* Proof row under 420px (visual N3): one column of three rows, numeral left, label right, so the labels
+   never run into the next cell ("MANUFACTURERAND INSURED" at 375). */
+@media (max-width: 419px) {
+  .ws5-proofrow__list { grid-template-columns: minmax(0, 1fr); gap: var(--sp-16); }
+  .ws5-proofrow__i { flex-direction: row; align-items: baseline; gap: var(--sp-16); }
+  .ws5-proofrow__big { flex: 0 0 7.25rem; font-size: 1.75rem; }
+  .ws5-proofrow__lbl { flex: 1 1 auto; min-width: 0; letter-spacing: 0.08em; }
+}
+
+/* Router cards (visual R1 item 15): the three top strips did not match (the car card's read as missing),
+   so no card carries one; the hairline border and the chevron mark each card. */
+.ws5-route__strip { display: none; }
+
+/* Homepage gift line under the router (psychology R1 #10), in season only. */
+.ws5-hero__gift { margin-top: var(--sp-12) !important; }
+.ws5-hero__gift a { color: var(--text); text-underline-offset: 4px; }
+.hero-photo .ws5-hero--home .ws5-hero__gift { order: 4; margin-top: var(--sp-12) !important; }
+@media (min-width: 1024px) {
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .ws5-hero__gift { grid-row: 6; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .ws5-quote--hero { grid-row: 7; }
+}
+
+/* Phone lane photos come back (CEO ruling R2: more real photos over a slightly longer page): compact
+   2:1 frames, edge to edge, above each lane's heading. Replaces the integration-pass rule that hid them. */
+@media (max-width: 767px) {
+  .ws5-lane--slim .ws5-lane__media { display: block; }
+  .ws5-lane--slim .ws5-lane__media .ws5-fig__img { aspect-ratio: 2 / 1; }
+  .ws5-lane--slim .ws5-lane__media figcaption { margin-top: var(--sp-8); }
+}
+
+/* City pages (visual R1 item 20): the car lane is one price row and the builder link, no simulator, so
+   its copy takes the wider column. */
+@media (min-width: 1024px) {
+  .ws5-lane--mini .ws5-lane__copy { grid-column: 1 / span 7; }
 }

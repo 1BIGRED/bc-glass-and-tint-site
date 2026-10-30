@@ -11,6 +11,9 @@
     "chip-bridge-2": { "ws6": ["windshield-hero", "chip-bridge-2"], "captions": { "ws6": "Chip repair at the shop." } },
     "chip-bridge-portrait": { "ws6": ["chip-repair-hero", "chip-bridge-portrait"], "captions": { "ws6": "Chip repair at the shop." } },
     "home-lane": { "ws6": ["home-sliding-window-backyard-tree"], "captions": { "ws6": "Window film on a home's sliding window." } },
+    "chip-bullseye": { "ws6": ["windshield-chip-bullseye-close"], "captions": { "ws6": "A bullseye chip, seen from inside the car." } },
+    "home-split": { "ws6": ["home-slider-window-split-glare"], "captions": { "ws6": "A home's sliding window, shot to compare the glare on its two panes." } },
+    "home-patio-view": { "ws6": ["home-patio-window-desert-view"], "captions": { "ws6": "A patio window looking out to the desert hills." } },
     "home-privacy": { "ws6": ["home-privacy-film", "residential-frosted-privacy"], "alts": { "ws6": "A three-pane window covered in frosted privacy film." }, "captions": { "ws6": "Frosted privacy film." } },
     "home-living": { "ws6": ["home-living-room", "residential-living-room-desert"], "captions": { "ws6": "Living room windows looking out to the desert." } },
     "commercial": { "ws6": ["office-window-maroon-awning", "commercial-maroon-awning-2"], "captions": { "ws6": "Window film on a storefront window." } }

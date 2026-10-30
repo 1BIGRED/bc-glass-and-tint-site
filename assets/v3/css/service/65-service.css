@@ -137,3 +137,78 @@
   .ws5-hero--page .ws5-hero__media [data-photo="storefront-shop"] picture { flex: 0 0 auto; min-height: 0; }
   .ws5-hero--page .ws5-hero__media [data-photo="storefront-shop"] img { aspect-ratio: 2 / 1 !important; height: auto !important; min-height: 0; }
 }
+
+/* ======================= Peak pass R2, part B (2026-10-30) ======================= */
+
+/* /blinds type list at 1920 (visual N13): the right edge stops on the content edge, not 232px past it. */
+@media (min-width: 1024px) {
+  .ws5-hero--page .ws5-hero__media:has(.ws5-typelist) { padding-right: max(var(--margin), calc((100% - var(--content-max)) / 2)); }
+}
+
+/* A legal fact as a numeral in the hero's media column (/nevada-tint-law, CEO ruling "the big 35 stays"). */
+.ws5-numeral { margin: 0; padding: var(--sp-24) 0 0; border-top: 1px solid var(--hair); }
+.ws5-numeral__big { display: flex; align-items: baseline; gap: var(--sp-8); font-family: var(--font-display); font-weight: 300; line-height: 0.85; color: var(--fg); }
+.ws5-numeral__big .tnum { font-size: 6rem; letter-spacing: 0.01em; }
+.ws5-numeral__unit { font-family: var(--font-text); font-weight: 600; font-size: var(--t-label); letter-spacing: var(--tr-caps); text-transform: uppercase; color: var(--fg-2); }
+.ws5-numeral figcaption { margin-top: var(--sp-16); max-width: 30em; }
+@media (min-width: 1024px) {
+  .ws5-hero--page .ws5-hero__media:has(.ws5-numeral) { align-items: center; padding-right: max(var(--margin), calc((100% - var(--content-max)) / 2)); }
+  .ws5-numeral { width: 100%; padding-top: var(--sp-32); }
+  .ws5-numeral__big .tnum { font-size: 14rem; }
+}
+
+/* /qa (visual R1 item 13): the topics are a sticky index in columns 1 to 3 from 1024px, the answers sit
+   in columns 5 to 12 at 36em; on phones the topics are one row that scrolls sideways. The gap between
+   the search and the first question comes down (was 184px before any question showed). */
+.ws5-read--qa { padding-top: var(--sp-16); }
+.ws5-qa .ws5-topics { margin-top: 0; }
+.ws5-topics__h { display: none; }
+@media (max-width: 1023px) {
+  .ws5-qa .ws5-topics { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * var(--margin)); padding: 0 var(--margin) var(--sp-8); scrollbar-width: none; }
+  .ws5-qa .ws5-topics::-webkit-scrollbar { display: none; }
+  .ws5-qa .ws5-topics a { flex: 0 0 auto; white-space: nowrap; }
+  .ws5-qa .ws5-read__col { margin-top: var(--sp-24); }
+}
+.ws5-read--qa .ws5-read__col h2 { margin-top: 0; }
+.ws5-read--qa .ws5-acc__a { max-width: 36em; }
+@media (min-width: 1024px) {
+  .ws5-qa { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: start; }
+  .ws5-qa .ws5-topics { grid-column: 1 / span 3; position: sticky; top: calc(var(--header-h) + var(--sp-32)); flex-direction: column; align-items: stretch; gap: 0; border-top: 1px solid var(--hair); }
+  .ws5-qa .ws5-topics__h { display: block; padding: var(--sp-12) 0; }
+  .ws5-qa .ws5-topics a { min-height: 44px; padding: 0; border: 0; border-top: 1px solid var(--hair); border-radius: 0; font-weight: 600; }
+  .ws5-qa .ws5-topics a:hover { background: none; text-decoration: underline; text-underline-offset: 4px; }
+  .ws5-qa .ws5-read__col { grid-column: 5 / span 8; max-width: none; }
+  .ws5-read--qa .ws5-acc__i summary { font-size: 1.125rem; }
+  .ws5-read--qa .ws5-acc__a { font-size: 1.125rem; line-height: 1.55; }
+  .page-qa .ws5-hero--solo .ws5-hero__copy { padding-bottom: var(--sp-32); }
+}
+
+/* Legal reading pages (visual R1 item 13): H2 at 28 / 24px weight 500, 48px above and 16px below, an
+   "On this page" index, body at 36em. */
+.ws5-read--legal .ws5-read__col { max-width: 36em; }
+.ws5-read--legal .ws5-read__col h2 { font-family: var(--font-display); font-weight: 500; font-size: 1.5rem; line-height: 1.15; letter-spacing: 0.04em; margin-top: var(--sp-48); scroll-margin-top: calc(var(--header-h) + 16px); }
+.ws5-read--legal .ws5-read__col h2 + * { margin-top: var(--sp-16); }
+@media (min-width: 1024px) { .ws5-read--legal .ws5-read__col h2 { font-size: 1.75rem; } }
+.ws5-toc { margin-top: var(--sp-32) !important; padding: var(--sp-16) 0; border-block: 1px solid var(--hair); }
+.ws5-toc ol { margin-top: var(--sp-8); padding: 0; columns: 1; }
+.ws5-toc li + li { margin-top: 0 !important; }
+.ws5-toc a { display: inline-flex; align-items: center; min-height: 36px; }
+@media (min-width: 640px) { .ws5-toc ol { columns: 2; column-gap: var(--sp-32); } }
+
+/* /reviews (visual R1 item 13): two columns from 1024px, 40px between quotes on phones and 56px on desktop. */
+.ws5-read__col.ws5-revlist { max-width: 42rem; }
+.ws5-revlist > .ws5-quote { margin: 0; }
+.ws5-revlist > .ws5-quote + .ws5-quote { margin-top: var(--sp-40, 40px); }
+@media (min-width: 1024px) {
+  .ws5-read__col.ws5-revlist { max-width: none; columns: 2; column-gap: 64px; }
+  .ws5-revlist > .ws5-quote,
+  .ws5-revlist > .ws5-quote + .ws5-quote { margin: 0 0 56px; break-inside: avoid; }
+  .ws5-revlist .ws5-quote blockquote p { font-size: 1.25rem; }
+}
+
+/* 404 (visual R1 item 20): the three route cards and the shared hero shell. */
+.v3-404__routes { margin-top: var(--sp-32) !important; }
+.v3-404__more { margin-top: var(--sp-32) !important; max-width: 40rem; }
+.v3-404__call { margin-top: var(--sp-32) !important; }
+.v3-404__call > * + * { margin-top: var(--sp-12); }
+@media (min-width: 1024px) { .v3-404 .ws5-hero__copy { grid-column: 1 / -1; } }

@@ -2,9 +2,14 @@
 # Gallery, overhaul v3 (WS5): the hub /gallery plus the seven static filter pages (service and
 # vehicle), all from one template. Look: art direction 3.5 (Showroom Black, 128 px top band, filters
 # as 44 px chips, 2 / 3 / 4 column grid, captions under images, a booking strip after the first two
-# rows). Blueprint 4.4. Data and filter pages: gallery.11tydata.js. Wording: _data/pages/gallery.json.
-# Behavior (search, windows and look filters in place): assets/v3/js/gallery/50-gallery.js; without
-# JavaScript every service and vehicle filter is a real link and every photo shows.
+# rows). Blueprint 4.4. Data and filter pages: gallery.11tydata.js. Wording: _data/pages/gallery.json
+# and the search panel words in _data/gallery.json search_ui (gallery_ui).
+# Fitment-style search (2026-10-30, build log GALLERY-SEARCH.md): text search plus Year, Make and
+# Model cascading selects in view; vehicle type, windows done, look and shade behind "More filters";
+# removable filter chips, Clear all, a live count, URL query parameters (q, year, make, model, win,
+# look, sf, sr). Behavior: assets/v3/js/gallery/50-gallery.js. Without JavaScript every service and
+# vehicle filter is a real link, every photo shows, and the JS-only controls stay hidden
+# (data-js-only, shown from first paint by the html.js class, so nothing shifts).
 layout: layouts/v3.njk
 pagination:
   data: gallery_views
@@ -18,42 +23,76 @@ bundles: ["gallery", "service"]
 {%- from "v3/media.njk" import picture -%}
 {%- from "v3/actions.njk" import action with context -%}
 {%- set W = pages.gallery -%}
+{%- set U = gallery_ui -%}
 {%- set v = view -%}
+{%- set F = v.facets -%}
+{#- Peak pass R2: the honesty line fits the filter (visual N22: no film words on chip repair), and from
+    1024px the head's empty right half holds the 2:1 shop band (visual G5; the shop itself, never a
+    customer's vehicle as the brand image). -#}
+{%- set honest = W.services[v.val].honesty if (v.kind == "svc" and W.services[v.val] and W.services[v.val].honesty) else W.honesty -%}
 <section class="ws5-gal-head mood-dark bg-ink-0" aria-labelledby="hero-h">
-  <div class="wrap">
-    <p class="t-eyebrow">{% if v.key == "all" %}{{ W.eyebrow | safe }}{% else %}<a href="/gallery">{{ W.crumb_gallery | safe }}</a> <span aria-hidden="true">/</span> {{ v.crumb | safe }}{% endif %}</p>
-    <h1 id="hero-h">{{ v.h1 | safe }}</h1>
-    <p class="t-lead fg-2 measure">{{ v.lead | safe }}</p>
-    <p class="t-label fg-2">{{ W.honesty | safe }}</p>
+  <div class="wrap ws5-gal-head__in">
+    <div class="ws5-gal-head__copy">
+      <p class="t-eyebrow">{% if v.key == "all" %}{{ W.eyebrow | safe }}{% else %}<a href="/gallery">{{ W.crumb_gallery | safe }}</a> <span aria-hidden="true">/</span> {{ v.crumb | safe }}{% endif %}</p>
+      <h1 id="hero-h">{{ v.h1 | safe }}</h1>
+      <p class="t-lead fg-2 measure">{{ v.lead | safe }}</p>
+      <p class="t-label fg-2">{{ honest | safe }}</p>
+    </div>
+    {{ b.photo("storefront-shop", "(min-width: 1440px) 520px, 36vw", { ratio: "21", cls: "ws5-gal-head__fig" }) }}
   </div>
 </section>
 
-<section class="ws5-gal section--minor bg-ink-0" aria-label="{{ W.filters.label | safe }}" data-gallery>
+<section class="ws5-gal section--minor bg-ink-0" aria-label="{{ W.filters.label | safe }}" data-gallery data-view="{{ v.kind }}" data-base="/{{ v.slug }}">
   <div class="wrap">
     <div class="ws5-gal__tools">
-      {#- Fixes B 2026-10-29 (grid first): the service row stays in view; search, vehicle, windows and
-          look sit behind one "Search and more filters" disclosure, open on a vehicle page so the
-          current choice shows. Every link and control is still in the page for no-JS and the script. -#}
+      {#- Fixes B 2026-10-29 (grid first): the service row stays in view. Gallery search 2026-10-30: the
+          fitment row (search, year, make, model) sits right under it; type, windows, look and shade
+          sit behind "More filters". Every link is still in the page for no-JS. -#}
       <nav class="ws5-gal__row ws5-gal__row--main" aria-label="{{ W.filters.services | safe }}">
         <span class="ws5-gal__lab t-label fg-2">{{ W.filters.services | safe }}</span>
-        <a class="ws5-gchip" href="/gallery"{% if v.key == "all" %} aria-current="page"{% endif %}>{{ W.filters.all | safe }}</a>
-        {%- for f in gallery_filters.services %}<a class="ws5-gchip" href="{{ f.href }}"{% if f.key == v.key %} aria-current="page"{% endif %}>{{ f.label | safe }}</a>{% endfor %}
+        <a class="ws5-gchip" href="/gallery" data-gal-carry{% if v.key == "all" %} aria-current="page"{% endif %}>{{ W.filters.all | safe }}</a>
+        {%- for f in gallery_filters.services %}<a class="ws5-gchip" href="{{ f.href }}" data-gal-carry{% if f.key == v.key %} aria-current="page"{% endif %}>{{ f.label | safe }}</a>{% endfor %}
+        {#- Peak pass R2 (visual S2): on a vehicle page the current vehicle shows here as a selected chip
+            that removes the filter (the script carries the other filters along in its link). -#}
+        {%- if v.kind == "body" %}<a class="ws5-gchip ws5-gchip--x" href="/gallery" data-gal-carry aria-current="page" aria-label="{{ W.filters.remove | replace('{label}', v.label) }}">{{ v.label | safe }}<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>{% endif %}
       </nav>
-      <details class="ws5-gal__more"{% if v.kind == "body" %} open{% endif %}>
-      <summary><span>{{ W.filters.more | safe }}</span><i aria-hidden="true"></i></summary>
-      <div class="ws5-gal__morebody">
-      <div class="ws5-gal__search" data-gal-search data-js-only>
-        <label for="gal-q">{{ W.search.label | safe }}</label>
-        <div class="ws5-gal__searchrow"><input id="gal-q" type="search" placeholder="{{ W.search.placeholder }}" autocomplete="off"><button type="button" class="ws5-btn ws5-gal__clear" data-gal-clear hidden>{{ W.search.clear | safe }}</button></div>
+
+      <div class="ws5-fit{% if F.years.length %} ws5-fit--y{% endif %}{% if not F.makes.length %} ws5-fit--q{% endif %}" data-gal-fit data-js-only>
+        <div class="ws5-fit__f ws5-fit__f--q">
+          <label for="gal-q">{{ U.search_label | safe }}</label>
+          <div class="ws5-fit__qrow"><input id="gal-q" type="search" placeholder="{{ U.search_placeholder }}" autocomplete="off" enterkeyhint="search" spellcheck="false"><button type="button" class="ws5-fit__x" data-gal-clear hidden aria-label="{{ W.search.clear | safe }}"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+        </div>
+        {%- if F.years.length %}
+        <div class="ws5-fit__f">
+          <label for="gal-year">{{ U.year | safe }}</label>
+          <select id="gal-year" data-gal-sel="year"><option value="">{{ U.any_year | safe }}</option>{% for o in F.years %}<option value="{{ o.id }}">{{ o.id }}</option>{% endfor %}</select>
+        </div>
+        {%- endif %}
+        {%- if F.makes.length %}
+        <div class="ws5-fit__f">
+          <label for="gal-make">{{ U.make | safe }}</label>
+          <select id="gal-make" data-gal-sel="make"><option value="">{{ U.any_make | safe }}</option>{% for o in F.makes %}<option value="{{ o.id }}">{{ o.id }}</option>{% endfor %}</select>
+        </div>
+        <div class="ws5-fit__f">
+          <label for="gal-model">{{ U.model | safe }}</label>
+          <select id="gal-model" data-gal-sel="model"><option value="">{{ U.any_model | safe }}</option>{% for o in F.models %}<option value="{{ o.id }}" data-make="{{ o.make }}">{{ o.id }}</option>{% endfor %}</select>
+        </div>
+        {%- endif %}
       </div>
-      <nav class="ws5-gal__row" aria-label="{{ W.filters.bodies | safe }}">
+
+      <details class="ws5-gal__more" data-gal-more>
+      <summary><span>{{ U.more | safe }}<span class="ws5-gal__morecount tnum" data-gal-morecount></span></span><i aria-hidden="true"></i></summary>
+      <div class="ws5-gal__morebody">
+      {%- if v.showTypes or v.kind == "all" %}
+      <nav class="ws5-gal__row" aria-label="{{ U.type | safe }}">
         <span class="ws5-gal__lab t-label fg-2">{{ W.filters.bodies | safe }}</span>
-        {%- for f in gallery_filters.bodies %}<a class="ws5-gchip" href="{{ f.href }}"{% if f.key == v.key %} aria-current="page"{% endif %}>{{ f.label | safe }}</a>{% endfor %}
+        {%- for f in gallery_filters.bodies %}<a class="ws5-gchip" href="{{ f.href }}" data-gal-carry{% if f.key == v.key %} aria-current="page"{% endif %}>{{ f.label | safe }}</a>{% endfor %}
       </nav>
-      {%- if v.windows.length > 1 %}
-      <div class="ws5-gal__row" role="group" aria-label="{{ W.filters.windows | safe }}" data-gal-group="windows" data-js-only>
+      {%- endif %}
+      {%- if F.windows.length %}
+      <div class="ws5-gal__row" role="group" aria-label="{{ U.windows | safe }}" data-gal-group="win" data-multi data-js-only>
         <span class="ws5-gal__lab t-label fg-2">{{ W.filters.windows | safe }}</span>
-        {%- for f in v.windows %}<button type="button" class="ws5-gchip" aria-pressed="false" data-val="{{ f.id }}">{{ f.label | safe }}</button>{% endfor %}
+        {%- for f in F.windows %}<button type="button" class="ws5-gchip" aria-pressed="false" data-val="{{ f.id }}">{{ f.label | safe }}</button>{% endfor %}
       </div>
       {%- endif %}
       {%- if v.looks.length > 1 %}
@@ -61,17 +100,46 @@ bundles: ["gallery", "service"]
         <span class="ws5-gal__lab t-label fg-2">{{ W.filters.look | safe }}</span>
         {%- for f in v.looks %}<button type="button" class="ws5-gchip" aria-pressed="false" data-val="{{ f.id }}">{{ f.label | safe }}</button>{% endfor %}
       </div>
-      <p class="t-label fg-2 ws5-gal__lnote" data-gal-lnote data-js-only>{{ W.look_note | safe }}</p>
+      {%- endif %}
+      {%- if F.shadesFront.length or F.shadesRear.length %}
+      <div class="ws5-fit ws5-fit--shade" data-js-only>
+        {%- if F.shadesFront.length %}
+        <div class="ws5-fit__f">
+          <label for="gal-sf">{{ U.shade_front | safe }}</label>
+          <select id="gal-sf" data-gal-sel="sf"><option value="">{{ U.any_shade | safe }}</option>{% for o in F.shadesFront %}<option value="{{ o.id }}">{{ o.label }}</option>{% endfor %}</select>
+        </div>
+        {%- endif %}
+        {%- if F.shadesRear.length %}
+        <div class="ws5-fit__f">
+          <label for="gal-sr">{{ U.shade_rear | safe }}</label>
+          <select id="gal-sr" data-gal-sel="sr"><option value="">{{ U.any_shade | safe }}</option>{% for o in F.shadesRear %}<option value="{{ o.id }}">{{ o.label }}</option>{% endfor %}</select>
+        </div>
+        {%- endif %}
+      </div>
+      {%- endif %}
+      {%- if v.looks.length > 1 %}
+      <p class="t-label fg-2 ws5-gal__lnote" data-js-only>{{ W.look_note | safe }}</p>
       {%- endif %}
       </div>
       </details>
-      <p class="t-label fg-2 ws5-gal__status" aria-live="polite" data-gal-status data-one="{{ W.status.one }}" data-many="{{ W.status.many }}" data-zero="{{ W.status.zero }}">{{ W.status.one if v.count == 1 else W.status.many | replace("{n}", v.count) }}</p>
+
+      <div class="ws5-gal__statusrow">
+        <p class="t-label fg-2 ws5-gal__status tnum" aria-live="polite" data-gal-status data-one="{{ W.status.one }}" data-many="{{ W.status.many }}" data-zero="{{ W.status.zero }}">{{ W.status.one if v.count == 1 else W.status.many | replace("{n}", v.count) }}</p>
+        <ul class="ws5-gal__active list-plain" data-gal-active data-js-only aria-label="{{ U.active | safe }}" data-remove="{{ U.remove }}" data-l-year="{{ U.year }}" data-l-make="{{ U.make }}" data-l-model="{{ U.model }}" data-l-win="{{ U.windows }}" data-l-look="{{ W.filters.look }}" data-l-sf="{{ U.shade_front }}" data-l-sr="{{ U.shade_rear }}" data-l-q="{{ W.search.label }}"></ul>
+        <button type="button" class="ws5-linkbtn ws5-gal__clearall t-label" data-gal-reset hidden>{{ U.clear_all | safe }}</button>
+      </div>
     </div>
 
     {%- if v.count %}
-    <ul class="ws5-gal__grid list-plain" data-gal-grid>
+    {#- Peak pass R2 (visual N23): the booking strip goes after tile 6 (2 and 3 columns) or tile 8 (4
+        columns) only when a full row of tiles still follows it; otherwise it goes after the last tile,
+        so no tile is left alone under it. data-n lets a page with fewer than 4 photos show them large
+        (visual S1). -#}
+    {%- set phoneAt = (6 if (v.count - 6) >= 3 else v.count) if v.count >= 6 else 0 -%}
+    {%- set wideAt = (8 if (v.count - 8) >= 4 else v.count) if v.count >= 8 else 0 -%}
+    <ul class="ws5-gal__grid list-plain" data-gal-grid data-n="{{ v.count if v.count < 4 else 'many' }}">
 {%- for it in v.items %}
-      <li class="ws5-gt" data-q="{{ it.q }}" data-windows="{{ it.windows }}" data-look="{{ it.look }}">
+      <li class="ws5-gt" data-q="{{ it.q }}" data-svc="{{ it.service }}" data-type="{{ it.type }}" data-make="{{ it.make }}" data-model="{{ it.model }}" data-year="{{ it.year }}" data-win="{{ it.win }}" data-look="{{ it.look }}" data-sf="{{ it.sf }}" data-sr="{{ it.sr }}" data-spec="{{ it.spec | dump }}">
         <figure>
           {#- Peak pass R1 (visual G1): every tile opens the photo viewer (a native dialog, 50-gallery.js).
               Without JavaScript the link opens the larger file itself. -#}
@@ -83,27 +151,38 @@ bundles: ["gallery", "service"]
           </figcaption>
         </figure>
       </li>
-{#- Peak pass R1 (visual G6): the strip spans the grid after tile 6 (2 and 3 columns) or tile 8 (4 columns), so no tile is orphaned. -#}
-{%- if loop.index == 6 or loop.index == 8 %}
-      <li class="ws5-gal__strip ws5-gal__strip--{{ 'phone' if loop.index == 6 else 'wide' }}" data-gal-strip>
+{#- Peak pass R1 (visual G6): the strip spans the grid. Peak pass R2: its position is phoneAt / wideAt above. -#}
+{%- set stripsHere = [] -%}
+{%- if phoneAt and loop.index == phoneAt %}{% set _x = stripsHere.push("phone") %}{% endif -%}
+{%- if wideAt and loop.index == wideAt %}{% set _x = stripsHere.push("wide") %}{% endif -%}
+{%- for which in stripsHere %}
+      <li class="ws5-gal__strip ws5-gal__strip--{{ which }}" data-gal-strip>
         <p class="t-body">{{ W.strip.text | safe }}</p>
         <div class="ws5-gal__stripact"><a class="ws5-btn" href="{{ W.strip.build_href }}">{{ W.strip.build | safe }}</a>{{ action({ slot: "lane", service: "car" if (v.key == "all" or v.kind == "body" or v.val == "auto-tint") else ("chip" if v.val == "chip-repair" else "home") }) }}</div>
       </li>
-{%- endif %}
+{%- endfor %}
 {%- endfor %}
     </ul>
     {%- endif %}
-    <p class="t-body ws5-gal__empty" data-gal-empty{% if v.count %} hidden{% endif %}>{{ W.empty | safe }}{% if v.pageLink %} <a href="{{ v.pageHref }}">{{ v.pageLink | safe }}</a>{% endif %}</p>
-    <p class="t-label fg-2 ws5-gal__reset"><button type="button" class="ws5-linkbtn" data-gal-reset hidden>{{ W.filters.reset | safe }}</button></p>
+    <div class="ws5-gal__empty" data-gal-empty{% if v.count %} hidden{% endif %}>
+      <p class="t-body">{{ W.empty | safe }}{% if v.pageLink %} <a href="{{ v.pageHref }}">{{ v.pageLink | safe }}</a>{% endif %}</p>
+      <p class="ws5-gal__near" data-gal-near data-tpl="{{ U.nearest }}" hidden><button type="button" class="ws5-btn" data-gal-nearbtn></button></p>
+      {%- if v.key != "all" %}<p class="t-label"><a href="/gallery" data-gal-carry>{{ U.see_all | safe }}</a></p>{% endif %}
+    </div>
   </div>
   {%- if v.count %}
   {#- Photo viewer (peak pass R1, visual G1): native modal dialog, so focus stays inside it and Escape
-      closes it; arrow keys page through the photos still shown; focus returns to the tile. -#}
+      closes it; arrow keys page through the photos still shown; focus returns to the tile. The spec
+      block repeats the tile's setup (gallery search 2026-10-30). -#}
   <dialog class="ws5-viewer" data-gal-viewer aria-label="{{ W.viewer.label | safe }}" data-count="{{ W.viewer.count }}">
     <div class="ws5-viewer__in">
       <div class="ws5-viewer__img" data-gal-vimg></div>
       <div class="ws5-viewer__bar">
-        <p class="ws5-viewer__cap"><span class="ws5-viewer__t" data-gal-vtitle></span> <span class="t-label fg-2" data-gal-valt></span></p>
+        <div class="ws5-viewer__cap">
+          <p class="ws5-viewer__t" data-gal-vtitle></p>
+          <dl class="ws5-viewer__spec" data-gal-vspec></dl>
+          <a class="ws5-viewer__build t-label" data-gal-vbuild href="/build-your-tint" hidden>{{ W.build_link | safe }}</a>
+        </div>
         <p class="t-label fg-2 ws5-viewer__n tnum" data-gal-vcount aria-live="polite"></p>
         <div class="ws5-viewer__nav">
           <button type="button" class="ws5-btn ws5-viewer__btn" data-gal-prev aria-label="{{ W.viewer.prev | safe }}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
@@ -116,4 +195,5 @@ bundles: ["gallery", "service"]
   {%- endif %}
 </section>
 
-{{ b.talk({ id: "quote", source: "Gallery", service: "any", uid: "talk", ground: "bg-ink-1" }) }}
+{#- photo "none": the head already shows the shop band from 1024px (one shop photo per page, fixes B). -#}
+{{ b.talk({ id: "quote", source: "Gallery", service: "any", uid: "talk", ground: "bg-ink-1", photo: "none" }) }}

@@ -11,28 +11,40 @@ meta_title: "Page not found | BC Glass &amp; Tint"
 meta_description: "That page is not here. Window tint and film for cars, homes and offices in Boulder City, NV. Call or find what you need from the links on this page."
 hero:
   mode: ramp
+bundles: ["home", "service"]
+routes:
+  - { id: car, label: "My car", href: "/auto-tint", micro: "Car window tint, prices and the tint builder." }
+  - { id: home, label: "My home or office", href: "/home-tint", micro: "Window film and blinds. Free in-home measure." }
+  - { id: windshield, label: "My windshield", href: "/chip-repair", micro: "Chip repair at the shop. Most chips fixed the same day." }
 ---
 {%- from "v3/actions.njk" import action with context -%}
-<section class="section v3-404">
-  <div class="wrap">
-    <div class="grid">
-      <div class="d-span-7 stack-24">
-        <p class="t-eyebrow">Page not found</p>
-        <h1>That page is not here.</h1>
-        <p class="t-lead measure">The link may be old or mistyped. Pick where you were headed, or talk to a person at the shop.</p>
-        <ul class="v3-404__links list-plain" role="list">
-          <li><a href="/">Home</a></li>
-          <li><a href="/prices">Prices</a></li>
-          <li><a href="/build-your-tint">Build your tint</a></li>
-          <li><a href="/gallery">Gallery</a></li>
-          <li><a href="/auto-tint">Car tint</a></li>
-          <li><a href="/home-tint">Home and office film</a></li>
-          <li><a href="/chip-repair">Windshield chip repair</a></li>
-        </ul>
-        <div class="v3-404__call stack-12">
-          {{ action({ slot: "contact", service: "any" }) }}
-          <p class="t-label fg-2">The shop is at {{ site.address.display | safe }}.</p>
-        </div>
+{#- Peak pass R2 (visual R1 item 20): the same hero shell and padding as every other page, the three
+    homepage route cards instead of seven bare links (home bundle .ws5-route), then a short link list
+    and the call. Route wording: the homepage router (home.json v3.router) and its service pages. -#}
+<section class="ws5-hero ws5-hero--page ws5-hero--solo bg-ink-0 v3-404" aria-labelledby="hero-h">
+  <div class="ws5-hero__in">
+    <div class="ws5-hero__copy">
+      <p class="t-eyebrow">Page not found</p>
+      <h1 id="hero-h">That page is not here.</h1>
+      <p class="t-lead fg-2 measure">The link may be old or mistyped. Pick where you were headed, or talk to a person at the shop.</p>
+      <nav class="ws5-router v3-404__routes" aria-label="Pick what you need">
+{%- for t in routes %}
+        <a class="ws5-route" href="{{ t.href }}">
+          <span class="ws5-route__t">{{ t.label }}</span>
+          <span class="ws5-route__m">{{ t.micro }}</span>
+          <svg class="ws5-route__chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+{%- endfor %}
+      </nav>
+      <ul class="ws5-links list-plain v3-404__more">
+        <li><a href="/">Home</a></li>
+        <li><a href="/prices">Prices</a></li>
+        <li><a href="/build-your-tint">Build your tint</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+      </ul>
+      <div class="v3-404__call">
+        {{ action({ slot: "contact", service: "any" }) }}
+        <p class="t-label fg-2">The shop is at {{ site.address.display | safe }}.</p>
       </div>
     </div>
   </div>

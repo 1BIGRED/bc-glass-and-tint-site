@@ -70,13 +70,19 @@
       },
       {
         "id": "protection",
-        "heading": "Clear bra, coating and blinds",
+        "heading": "Clear bra and coating",
         "items": [
           { "question": "Is clear bra really invisible?", "answer": "Nearly. It is a clear urethane paint protection film with a self-healing top coat. It takes rock chips and road debris, and light scratches fade with heat from the sun. Partial or full coverage is available." },
           { "question": "How long will my car be at the shop for a ceramic coating?", "answer": "Usually two to four days, depending on the car. The paint is decontaminated and corrected before anything is bonded to it, and we keep the vehicle a further 24 hours while the coating cures." },
-          { "question": "What do I need to avoid after a ceramic coating?", "answer": "Keep it dry while it finishes curing. For the first 24 hours to three days, depending on conditions, do not wash the vehicle, do not park it where sprinklers can reach it, and try to keep it out of the rain. We will tell you the exact window for your car when you pick it up." },
+          { "question": "What do I need to avoid after a ceramic coating?", "answer": "Keep it dry while it finishes curing. For the first 24 hours to three days, depending on conditions, do not wash the vehicle, do not park it where sprinklers can reach it, and try to keep it out of the rain. We will tell you the exact window for your car when you pick it up." }
+        ]
+      },
+      {
+        "id": "blinds",
+        "heading": "Blinds and shades",
+        "items": [
           { "question": "What kinds of blinds do you install?", "answer": "Three main styles, plus motorized options on any of them, all measured at your windows and ordered to those measurements.<ul><li><b>Cellular shades</b>. The cells hold a pocket of air between you and the glass, which slows the heat coming through. The best insulator of the three.</li><li><b>Roller shades</b>. A single flat panel in a range of openness: a tighter weave blocks more glare, a more open weave keeps your view.</li><li><b>Roman shades</b>. Fabric that gathers into soft folds as it lifts; the decorative choice.</li><li><b>Motorized</b>, on any of the above. No cords, and tall or hard to reach windows go on a remote or a schedule.</li></ul>" },
-          { "question": "Are custom blinds done the same day like the tint work?", "answer": "No. Blinds and shades are measured at your windows and then ordered to those measurements, so there is a wait between the measure and the install. We will tell you the expected timing when we measure." }
+          { "question": "Are custom blinds done the same day?", "answer": "No. Blinds and shades are measured at your windows and then ordered to those measurements, so there is a wait between the measure and the install. We will tell you the expected timing when we measure." }
         ]
       },
       {

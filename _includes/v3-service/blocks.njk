@@ -61,9 +61,13 @@
 
 {#- The car price rows with the Car / SUV / Pickup / Van switch (art direction P-f). Without JS
     the switch stays hidden and Car shows (engineering 2.3). -#}
-{% macro carPrices(uid, rows) -%}
+{% macro carPrices(uid, rows, opts) -%}
 {%- set S = pages.sections -%}
-{%- set R = rows or S.car.rows -%}
+{%- set co = opts or {} -%}
+{#- Peak pass R2 (psychology N5): a page may list its own car rows (pg.v3.prices.car_rows), for example
+    /auto-tint adds the sunroof line, so every add-on price on the page goes through the same gate. -#}
+{%- set pgv = pages[page_key].v3 if (page_key and pages[page_key] and pages[page_key].v3) else {} -%}
+{%- set R = rows or ((pgv.prices.car_rows) if (pgv.prices and pgv.prices.car_rows) else S.car.rows) -%}
 <div class="ws5-classes" data-class-switch>
   <fieldset class="ws5-seg" data-class-seg hidden>
     <legend class="vh">{{ S.classes_label | safe }}</legend>
@@ -86,7 +90,7 @@
     {%- if bare %}
     <p class="ws5-prices__once fg-2" aria-hidden="true">{{ S.price_fallback.auto | safe }}.</p>
     {%- endif %}
-    {%- set ar = pricing | ws5arith(c.id, price_mode) %}
+    {%- set ar = (pricing | ws5arith(c.id, price_mode)) if not co.no_arith else null %}
     {%- if ar %}
     <p class="t-label fg-2 ws5-arith">{{ S.car.arith | replace("{front}", ar.front) | replace("{rear}", ar.rear) | replace("{full}", ar.full) | safe }}{% if ar.draft %} <span class="v3-prow__draft t-label">{{ S.draft_label | safe }}</span>{% endif %}</p>
     {%- endif %}
@@ -133,14 +137,21 @@
 {%- set o = opts or {} -%}
 {%- set H = pages.sections.how -%}
 {%- set uid = o.uid or "how" -%}
-<section class="ws5-how section {{ 'mood-warm bg-paper-2' if o.mood == 'warm' else 'mood-dark bg-ink-1' }}" aria-labelledby="{{ uid }}-h">
+{#- Peak pass R2 (visual N4): a page that already prints its own numbered steps (/windshield
+    "When it cannot be repaired.", /new-construction "Before you move in.") sets how_steps to an empty
+    list; the block then prints its heading, one line and the action, never a second step list. A page
+    with three true steps gets a three-column row on desktop (data-n). -#}
+{%- set steps = o.steps or H.steps -%}
+<section class="ws5-how section {{ 'mood-warm bg-paper-2' if o.mood == 'warm' else 'mood-dark bg-ink-1' }}{% if not steps.length %} ws5-how--line{% endif %}" aria-labelledby="{{ uid }}-h">
   <div class="wrap">
     {{ head(H.eyebrow, o.h2 or H.h2, uid + "-h") }}
-    <ol class="ws5-steps list-plain">
-{%- for s in (o.steps or H.steps) %}
+    {%- if steps.length %}
+    <ol class="ws5-steps list-plain" data-n="{{ steps.length }}">
+{%- for s in steps %}
       <li class="ws5-steps__i"><span class="ws5-steps__n" aria-hidden="true">{{ loop.index }}</span><div><h3 class="ws5-steps__t">{{ s.title | safe }}</h3><p class="fg-2">{{ s.text | safe }}</p></div></li>
 {%- endfor %}
     </ol>
+    {%- endif %}
     <p class="t-lead measure ws5-fear">{{ (o.fear or H.fear) | safe }}</p>
     <div class="ws5-actrow">{{ action({ slot: "lane", service: service or "any" }) }}</div>
   </div>
@@ -246,23 +257,35 @@
 {%- set C = pages.sections.car -%}
 {%- set uid = o.uid or "car" -%}
 {%- set anyPrice = pricing | anyAutoPrice(price_mode) -%}
-<section class="ws5-lane ws5-lane--car section mood-dark {{ o.ground or 'bg-ink-0' }}{% if o.slim %} ws5-lane--slim{% endif %}" id="{{ o.id or C.id }}" aria-labelledby="{{ uid }}-h">
+{#- Peak pass R2 (visual R1 item 18, city page length): on /henderson and /las-vegas (city-v3 pages carry
+    v3.getting) the car lane is one price row and the builder link, no shade simulator. -#}
+{%- set pgv = pages[page_key].v3 if (page_key and pages[page_key] and pages[page_key].v3) else {} -%}
+{%- set mini = o.mini or (pgv.getting and true) -%}
+<section class="ws5-lane ws5-lane--car section mood-dark {{ o.ground or 'bg-ink-0' }}{% if o.slim %} ws5-lane--slim{% endif %}{% if mini %} ws5-lane--mini{% endif %}" id="{{ o.id or C.id }}" aria-labelledby="{{ uid }}-h">
   <div class="wrap grid ws5-lane__grid">
     <div class="ws5-lane__copy">
       {{ head(o.eyebrow or C.eyebrow, o.h2 or C.h2, uid + "-h", { lede: C.lede }) }}
+      {%- if mini %}
+      {{ carPrices(uid, [C.rows[0]], { no_arith: true }) }}
+      {%- else %}
       {{ carPrices(uid) }}
+      {%- endif %}
       <p class="t-label fg-2 measure">{{ C.moves | safe }}</p>
+      {#- Peak pass R2 (visual R1 item 15): one action row. The builder is a text link under the price
+          note; the action row under it holds the call (the one gold fill) and its request link. -#}
+      <p class="ws5-buildlink"><a href="{{ C.build_href }}" data-build-link>{{ (C.build_link_price if anyPrice else C.build_link_plain) | safe }}</a></p>
       <div class="ws5-actrow">
-        <a class="ws5-btn" href="{{ C.build_href }}" data-build-link>{{ (C.build_link_price if anyPrice else C.build_link_plain) | safe }}</a>
         {{ action({ slot: "lane", service: "car" }) }}
       </div>
       {%- if not o.compact %}
       {{ quote(reviews | ws5review(C.review)) }}
       {%- endif %}
     </div>
+    {%- if not mini %}
     <div class="ws5-lane__side">
       {{ shadePreview(uid) }}
     </div>
+    {%- endif %}
   </div>
 </section>
 {%- endmacro %}
@@ -338,7 +361,9 @@
 {%- set o = opts or {} -%}
 {%- set V = pages.sections.words -%}
 {%- set rv = site.reviews or {} -%}
-<section class="ws5-words section mood-dark bg-ink-0" aria-labelledby="words-h">
+{#- pull: true (peak pass R2, visual R1 item 13): one review set as a pull quote across columns 1 to 8,
+    the links in columns 10 to 12 (the homepage). -#}
+<section class="ws5-words section mood-dark bg-ink-0{% if o.pull %} ws5-words--pull{% endif %}" aria-labelledby="words-h">
   <div class="wrap">
     {{ head(V.eyebrow, o.h2 or V.h2, "words-h") }}
     <p class="t-label fg-2 ws5-words__label">{{ V.label | safe }}.{% if rv.google_as_of and (rv.google_as_of | ws5fresh(14)) %} {{ V.platform_line | replace("{rating}", rv.google_rating) | replace("{count}", rv.google_count) | replace("{month}", rv.google_as_of_label or rv.google_as_of) | safe }}.{% endif %} <a href="{{ reviews.listing_url | safe }}" target="_blank" rel="noopener">{{ V.all_link | safe }}</a> <span class="fg-2">&middot;</span> <a href="{{ V.page_href }}">{{ V.page_link | safe }}</a></p>
@@ -360,8 +385,17 @@
 {#- Gallery-style work tiles for a service page: items from _data/gallery.json (checked jobs). -#}
 {% macro work(items, opts) -%}
 {%- set o = opts or {} -%}
-<ul class="ws5-work list-plain">
-{%- for it in items %}{% if images[it.id] %}
+{#- Peak pass R2 (visual R1 item 12): a tile that is the same file as this page's hero photo or price
+    photo is left out, so a page never shows one frame twice. data-n lets a short row use fewer
+    columns (2 tiles in 2 columns, not 2 in a 4-column row). -#}
+{%- set pgv = pages[page_key].v3 if (page_key and pages[page_key] and pages[page_key].v3) else {} -%}
+{%- set skip = [] -%}
+{%- if pgv.hero_photo and ws5photos[pgv.hero_photo] %}{% set _s = skip.push(ws5photos[pgv.hero_photo].item.fallback) %}{% endif -%}
+{%- if pgv.prices and pgv.prices.photo and ws5photos[pgv.prices.photo] %}{% set _s = skip.push(ws5photos[pgv.prices.photo].item.fallback) %}{% endif -%}
+{%- set shown = [] -%}
+{%- for it in items %}{% if images[it.id] and not it.excluded and skip.indexOf(images[it.id].fallback) == -1 %}{% set _s = shown.push(it) %}{% endif %}{% endfor -%}
+<ul class="ws5-work list-plain" data-n="{{ shown.length }}">
+{%- for it in shown %}{% if images[it.id] %}
   <li class="ws5-work__i">
     <figure>
       <div class="ws5-work__img">{{ picture(images[it.id], "(min-width: 1024px) 25vw, 50vw", { alt: it.alt }) }}</div>
@@ -392,6 +426,14 @@
     </ul>
 {%- elif bk.type == "prose" %}
     <div class="ws5-prose measure stack-16">{% for p in bk.paragraphs %}<p>{{ p | safe }}</p>{% endfor %}</div>
+{%- elif bk.type == "columns" %}
+    {#- Peak pass R2 (visual N10): several short prose topics side by side from 1024px (three columns),
+        stacked on phones. items = [{ eyebrow, title, paragraphs }] -#}
+    <div class="ws5-cols" data-n="{{ bk.items.length }}">
+{%- for it in bk.items %}
+      <div class="ws5-cols__i">{% if it.eyebrow %}<p class="t-eyebrow">{{ it.eyebrow | safe }}</p>{% endif %}<h3 class="t-h3">{{ it.title | safe }}</h3>{% for p in it.paragraphs %}<p class="fg-2">{{ p | safe }}</p>{% endfor %}</div>
+{%- endfor %}
+    </div>
 {%- elif bk.type == "statute" %}
     <ol class="ws5-statute list-plain">
 {%- for it in bk.items %}

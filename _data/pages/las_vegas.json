@@ -22,13 +22,13 @@
       "how": "Who comes to whom"
     },
     "reviews_h2": "What Our Customers Say",
-    "review_ids": ["g-sean-rush", "g-dakota-gleason", "g-steven-hamberg"],
+    "review_ids": ["g-gregory-hill", "g-dakota-gleason", "g-sean-rush"],
     "faq": {
       "items": [
-        { "question": "Do you come out to Las Vegas, or do I come to you?", "answer": "Vehicles come to our Boulder City shop for tint, chip repair and windshield work. For homes and offices in the valley, we come to you to measure and install." },
-        { "question": "Do you arrange windshield replacement?", "answer": "Yes, it is arranged through us. The glass is ordered to your VIN and the job is booked once it arrives; the replacement itself is done by a glass specialist we work with, and we help with the insurance claim. Chip repair we do in our own shop." },
-        { "question": "How long does an auto tint install take?", "answer": "Most vehicles are done the same day." },
-        { "question": "When can I roll my windows down after tint?", "answer": "Give the film a few days to fully cure. In summer heat about 24 hours is usually enough, and on cooler days give it longer." }
+        { "question": "Do you come out to Las Vegas, or do I come to you?", "answer": "For homes and offices in the valley, we come to you to measure and install. Vehicles come to our Boulder City shop for chip repair, windshield work and tint." },
+        { "question": "Will film make my house or office too dark?", "answer": "No. Light, nearly clear films are available that keep your view and natural light while cutting glare and UV." },
+        { "question": "Can you do a whole house, or a new build?", "answer": "Yes. Tell us roughly how many windows and we measure and give you a free quote before any work starts. Most jobs are finished on site in a single visit." },
+        { "question": "Do you repair windshield chips for Las Vegas drivers?", "answer": "Yes, at our Boulder City shop. We look at the chip first, because its size, location and condition decide whether it can be repaired, and most chips are fixed the same day. If it cannot be repaired, we can arrange a replacement with a glass specialist, with the glass ordered to your VIN." }
       ]
     }
   },

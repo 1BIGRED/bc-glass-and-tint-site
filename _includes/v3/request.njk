@@ -56,6 +56,11 @@
   <p class="vh" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
   <p class="rq-build-note t-label" data-rq-build-note hidden>{{ f.build_note | safe }}</p>
+{#- Peak R2 (psychology N4): on /book a build's price line (book/40-request-build.js fills it from
+    the page's gated price table; the templates below are the only words it uses). -#}
+{%- if f.build_price and o.source == "book" %}
+  <p class="rq-build-note rq-build-price t-label" data-rq-build-price data-tpl="{{ f.build_price }}" data-tpl-none="{{ f.build_price_none }}" data-draft="{{ f.draft_label or 'Draft price' }}" hidden></p>
+{%- endif %}
 {#- FIXES-A item 1: no ?b= in the link, but this browser holds a build from Build Your Tint
     (localStorage bc_build_v1): 40-request.js fills it in and shows this line, with a button that
     takes it out of this request again. Wording: pages.build_your_tint.handoff. -#}
@@ -80,7 +85,11 @@
 
   <div class="rq-field">
     <label class="rq-label" for="{{ id }}-svc">{{ f.service_label | safe }}</label>
-    <select class="rq-input rq-select" id="{{ id }}-svc" name="service" required>
+{#- Peak R2 (technical 9): aria-invalid="false" until a failed submit. A required select whose first
+    option is empty is exposed as invalid from page load (the empty required text fields are not),
+    so it could be announced "invalid entry" before anyone touched it. 40-request.js sets "true"
+    with the error text after a failed submit. `required` stays, so the no-JS form still checks it. -#}
+    <select class="rq-input rq-select" id="{{ id }}-svc" name="service" required aria-invalid="false">
       <option value="">{{ f.service_placeholder | safe }}</option>
 {%- for s in f.services %}
       <option value="{{ s.value | safe }}" data-key="{{ s.key }}"{% if o.service == s.key %} selected{% endif %}>{{ s.value | safe }}</option>

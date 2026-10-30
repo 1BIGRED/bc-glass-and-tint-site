@@ -33,6 +33,12 @@
       ]
     },
     "review": "g-nicholas-parr",
+    "how_steps": [
+      { "title": "Tell us your car.", "text": "Call, text or request a time. Tell us the vehicle; how much correction the paint needs first is part of the price." },
+      { "title": "Get your price.", "text": "We confirm the exact price before anything is booked." },
+      { "title": "Plan on two to four days.", "text": "The paint is decontaminated and corrected before anything is bonded to it, and we keep the car a further 24 hours while the coating cures." }
+    ],
+    "how_fear": "Tell us your car and how the paint looks today. Just questions? That's fine.",
     "while": {
       "eyebrow": "While you are here",
       "h2": "Often paired.",

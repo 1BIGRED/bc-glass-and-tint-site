@@ -14,7 +14,7 @@
     "eyebrow_short": "New construction.",
     "h1": "New home window film and blinds.",
     "lede": "An empty, just-finished home is the easiest and cleanest place to add window film and blinds, before the furniture, rugs and artwork arrive.",
-    "hero_photo": "home-living",
+    "hero_photo": "home-patio-view",
     "proof": "Family owned since 1994.",
     "blocks": [
       {
@@ -59,13 +59,8 @@
       }
     ],
     "review": "g-gregory-hill",
-    "how_steps": [
-      { "title": "Tell us about the rooms.", "text": "Call, text or request a time. Tell us which rooms and which windows get the sun." },
-      { "title": "We measure at your home.", "text": "The measure and the quote are free. We walk you through the film options." },
-      { "title": "Book your install.", "text": "Nothing is booked until we confirm a time with you." },
-      { "title": "Done in one visit.", "text": "On install day the work is usually done in a single visit." }
-    ],
-    "how_fear": "Tell us the rooms you want done. Just questions? That's fine.",
+    "how_steps": [],
+    "how_fear": "Tell us your closing or walkthrough date and the rooms you want done. The measure and the quote are free, and nothing is booked until we confirm a time with you.",
     "faq": {
       "items": [
         { "question": "When is the best time to tint a new home?", "answer": "As soon as you take possession, ideally before you move in. An empty home is the fastest, cleanest install." },

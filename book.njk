@@ -25,6 +25,11 @@ bundles: ["book"]
         <p class="t-lead">{{ (pg.hero.lead if site.texts_confirmed === true else pg.hero.lead_calls_only) | replace("{phone}", '<span class="rq-nowrap">{phone}</span>') | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
       </header>
       {{ requestForm({ source: "book", id: "rq" }) }}
+{#- Peak R2 (psychology N4): the build's price, restated beside the build it came with. The table
+    holds only the shapes whose every piece passes the price gate in this build's mode
+    (lib/eleventy-book-prices.js, the builder's own solver), so a production page carries no draft
+    number; book/40-request-build.js reads it. -#}
+      <script type="application/json" id="bc-build-prices">{{ pricing | bookBuildPrices(price_mode) | jsonld | replace("<", "\\u003c") | safe }}</script>
       <div class="rq-routes stack stack-12">
         <p class="t-body fg-2">{{ pg.routes.talk | rqFill(site) | safe }}</p>
         {{ action({ slot: "contact", service: "any", build: false, on_book: true }) }}

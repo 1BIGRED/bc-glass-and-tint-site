@@ -105,20 +105,28 @@
     try { cfg = JSON.parse(cfgEl.textContent); } catch (e) { cfg = null; }
     var list = (cfg && cfg.closures) || [];
     var now = new Date();
-    var horizon = now.getTime() + 21 * 86400000;
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var facts = [];
-    list.forEach(function (c) {
-      var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(c && c.date ? c.date : "");
-      if (!m) return;
-      var d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], 12));
-      var end = d.getTime() + 12 * 3600000;
-      if (end < now.getTime() || d.getTime() > horizon) return;
-      facts.push({ d: d, reason: c.reason || "" });
-    });
-    if (facts.length) {
-      Array.prototype.forEach.call(slots, function (slot) {
+    // Peak pass R2 (psychology R1 #10): a slot may look further ahead (data-days, default 21), e.g. the
+    // holiday hours on /gift-cards. Only owner-confirmed site.json closures are ever printed.
+    var factsWithin = function (n) {
+      var horizon = now.getTime() + n * 86400000;
+      var out = [];
+      list.forEach(function (c) {
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(c && c.date ? c.date : "");
+        if (!m) return;
+        var d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], 12));
+        var end = d.getTime() + 12 * 3600000;
+        if (end < now.getTime() || d.getTime() > horizon) return;
+        out.push({ d: d, reason: c.reason || "" });
+      });
+      return out;
+    };
+    Array.prototype.forEach.call(slots, function (slot) {
+      var n = parseInt(slot.getAttribute("data-days") || "21", 10);
+      var facts = factsWithin(n > 0 && n < 120 ? n : 21);
+      if (!facts.length) return;
+      (function () {
         var tpl = slot.getAttribute("data-fact") || "Closed {reason}, {date}.";
         var txt = facts.map(function (f) {
           var label = days[f.d.getUTCDay()] + " " + months[f.d.getUTCMonth()] + " " + f.d.getUTCDate();
@@ -127,7 +135,19 @@
         }).join(" ");
         slot.textContent = (slot.getAttribute("data-intro") ? slot.getAttribute("data-intro") + " " : "") + txt;
         slot.hidden = false;
-      });
-    }
+      })();
+    });
+  }
+
+  // 5. Seasonal lines (peak pass R2): printed at build time inside their window; a visitor who arrives
+  // after data-season-to (Pacific date) does not see a stale one.
+  var seasonal = doc.querySelectorAll("[data-season-to]");
+  if (seasonal.length) {
+    var today = "";
+    try { today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()); } catch (e) { today = ""; }
+    Array.prototype.forEach.call(seasonal, function (el) {
+      var to = el.getAttribute("data-season-to") || "";
+      if (today && to && today > to) el.hidden = true;
+    });
   }
 })();

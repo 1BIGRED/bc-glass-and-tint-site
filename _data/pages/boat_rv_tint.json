@@ -14,8 +14,14 @@
     "eyebrow_short": "Boat and RV tint.",
     "h1": "Boat and RV window tint.",
     "lede": "Curved boat windshields, cabin windows and side glass; RV cab, entry and slide-out windows. All done at our shop in Boulder City.",
-    "hero_strip": true,
+    "hero_strip": false,
     "proof": "Lifetime manufacturer warranty on the film.",
+    "how_steps": [
+      { "title": "Tell us about the boat or RV.", "text": "Call, text or request a time. Tell us what it is and which glass you want done." },
+      { "title": "Get your price.", "text": "We confirm the exact price before anything is booked." },
+      { "title": "Bring it to the shop.", "text": "Boats and RVs come to our Boulder City shop for tint, Tuesday to Saturday, 9 to 5." }
+    ],
+    "how_fear": "Tell us what you have and which glass. Just questions? That's fine.",
     "blocks": [
       {
         "type": "prose",

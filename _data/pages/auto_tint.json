@@ -11,7 +11,7 @@
     "form_service": "car",
     "source": "Car tint",
     "eyebrow": "Car tint. Boulder City shop.",
-    "h1": "Car window tint.",
+    "h1": "Car window&nbsp;tint.",
     "lede": "Ceramic film, computer-cut for your glass. It helps keep the cabin cooler, cuts glare, and blocks up to 99 percent of UV. Most vehicles are done the same day.",
     "hero_ramp": true,
     "hero_note": "Shades shown on screen. Ask to hold real film against your glass at the shop.",
@@ -24,6 +24,12 @@
       "h2": "Starting prices.",
       "lede": "Pick your vehicle type. We confirm the exact price before anything is booked.",
       "car": true,
+      "car_rows": [
+        { "label": "Front doors", "ref": "auto_tint.coverage.two_front_doors" },
+        { "label": "Full sides and back glass", "ref": "auto_tint.coverage.full_vehicle" },
+        { "label": "Windshield top strip", "ref": "auto_tint.panels.windshield-strip", "note": "Cuts glare at the visor line." },
+        { "label": "Sunroof", "ref": "auto_tint.panels.sunroof", "note": "Priced separately from the side and back glass." }
+      ],
       "shade": true,
       "review": "g-jessica-harrison",
       "moves": "What moves the price: the size and shape of your glass, which windows, and whether old tint has to come off first.",
@@ -51,12 +57,19 @@
       ]
     },
     "review": "g-steven-hamberg",
+    "how_steps": [
+      { "title": "Tell us your vehicle.", "text": "Call, text or request a time. Tell us the vehicle and which windows. If you built your tint, read us the code." },
+      { "title": "Get your price.", "text": "We confirm the exact price before anything is booked." },
+      { "title": "Pick a time.", "text": "Tuesday to Saturday, 9 to 5, at the shop. Most vehicles are done the same day." },
+      { "title": "See it first.", "text": "At the shop, ask to hold the film against your glass before we start." }
+    ],
+    "how_fear": "Tell us your vehicle and which windows. Just questions? That's fine.",
     "while": {
       "eyebrow": "While you are here",
       "h2": "Worth asking about.",
       "items": [
         { "title": "Windshield top strip", "text": "Cuts glare at the visor line. Nevada allows film on the top strip of the windshield only." },
-        { "title": "Sunroof", "text": "Ask when you book; it is priced separately from the side and back glass." },
+        { "title": "Sunroof", "text": "Ask when you book. It is priced separately from the side and back glass; its line is in the price list above." },
         { "title": "Headlight restoration", "text": "Clearer, better-looking lenses.", "link": "Headlights and taillights", "href": "/headlight-taillight" }
       ]
     },

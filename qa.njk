@@ -10,6 +10,7 @@ slug: qa
 page_key: qa
 og_image: logo.png
 bundles: ["service", "qa"]
+body_class: page-qa
 ---
 {%- import "v3-service/blocks.njk" as b with context -%}
 {%- set V = pages.qa.v3 -%}
@@ -20,7 +21,6 @@ bundles: ["service", "qa"]
       <p class="t-eyebrow">{{ V.eyebrow | safe }}</p>
       <h1 id="hero-h">{{ V.h1 | safe }}</h1>
       <p class="t-lead fg-2 measure">{{ V.lede | safe }}</p>
-      <nav class="ws5-topics" aria-label="{{ V.topics_label | safe }}">{% for g in V.groups %}<a href="#{{ g.id }}">{{ g.heading | safe }}</a>{% endfor %}</nav>
       <div class="ws5-search" data-qa-search data-js-only>
         <label for="qa-q">{{ V.search.label | safe }}</label>
         <input id="qa-q" type="search" placeholder="{{ V.search.placeholder }}" autocomplete="off">
@@ -31,8 +31,11 @@ bundles: ["service", "qa"]
   </div>
 </section>
 
-<section class="ws5-read bg-ink-0" aria-label="{{ V.h1 | safe }}">
-  <div class="wrap">
+{#- Peak pass R2 (visual R1 item 13): from 1024px the topic list is a sticky index in columns 1 to 3 and
+    the answers sit in columns 5 to 12 at a 36em measure; on phones the topics are one scrolling row. -#}
+<section class="ws5-read ws5-read--qa bg-ink-0" aria-label="{{ V.h1 | safe }}">
+  <div class="wrap ws5-qa">
+    <nav class="ws5-topics" aria-label="{{ V.topics_label | safe }}"><p class="t-label fg-2 ws5-topics__h">{{ V.topics_label | safe }}</p>{% for g in V.groups %}<a href="#{{ g.id }}">{{ g.heading | safe }}</a>{% endfor %}</nav>
     <div class="ws5-read__col">
 {%- for g in V.groups %}
       <div class="ws5-qa-group" id="{{ g.id }}" data-qa-group>

@@ -1,5 +1,6 @@
 {#- Phone call and text bar, every page (art direction CB-a to CB-e, blueprint 3.10). Owner: WS2.
-    Included once by layouts/v3.njk after the footer:  {% include "v3/sticky-bar.njk" %}
+    Included once by layouts/v3.njk right after the header (peak pass R2; it is fixed, so only the
+    parse and paint order changed):  {% include "v3/sticky-bar.njk" %}
 
     Shown under 768px only (30-actions.css), position fixed at the bottom, ink-1 ground, 1px line
     hairline on top, 8px above and calc(8px + env(safe-area-inset-bottom)) below a 56px control row,
