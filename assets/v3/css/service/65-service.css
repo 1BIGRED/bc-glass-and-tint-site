@@ -39,10 +39,13 @@
 .ws5-read__col h2 { margin-top: var(--sp-64); }
 .ws5-read__col h2 + * { margin-top: var(--sp-24); }
 .ws5-read__col p,
-.ws5-read__col li { font-size: 1.0625rem; }
+.ws5-read__col li { font-size: 1rem; }
 .ws5-read__col ul { padding-left: var(--sp-24); }
 .ws5-read__col li + li { margin-top: var(--sp-8); }
 .ws5-read__col a { color: var(--fg); }
+/* 320 px reflow (WCAG 1.4.10, fixes B): a long unbroken address or URL wraps instead of widening the page */
+.ws5-read__col p,
+.ws5-read__col li { overflow-wrap: anywhere; }
 .ws5-topics { display: flex; flex-wrap: wrap; gap: var(--sp-8); margin-top: var(--sp-32); }
 .ws5-topics a {
   display: inline-flex;
@@ -53,7 +56,7 @@
   border-radius: var(--radius);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9375rem;
+  font-size: 1rem;
 }
 .ws5-topics a:hover { background: var(--surface); }
 .ws5-qa-group { scroll-margin-top: calc(var(--header-h) + 16px); }
@@ -78,12 +81,12 @@
 .ws5-getting__i > * + * { margin-top: var(--sp-8); }
 @media (min-width: 1024px) { .ws5-getting { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); } }
 
-/* About: the map embed (privacy policy says it loads with this page) */
-.ws5-map { margin-top: var(--sp-32); aspect-ratio: 16 / 9; border: 1px solid var(--hair); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
-.ws5-map iframe { width: 100%; height: 100%; border: 0; display: block; }
+/* About: the map embed was removed (fixes B 2026-10-29, CEO ruling); "Find the shop." is the address
+   as text plus a plain "Get directions" link out to Google Maps. */
 .ws5-fact-h { font-family: var(--font-display); font-weight: 300; font-size: var(--t-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); text-transform: uppercase; }
 
 /* Spacing helpers for the info pages (8 px scale, G2) */
+.ws5-mt-8 { margin-top: var(--sp-8); }
 .ws5-mt-24 { margin-top: var(--sp-24); }
 .ws5-mt-32 { margin-top: var(--sp-32); }
 .ws5-svc-prices__links { margin-top: var(--sp-16); }
@@ -92,4 +95,9 @@
 @media (min-width: 1024px) {
   .ws5-hero--page .ws5-hero__media picture { display: flex; flex: 1 1 auto; min-height: 420px; }
   .ws5-hero--page .ws5-hero__media picture img { width: 100%; }
+  /* The square storefront crop keeps its own shape instead of filling a taller column, so the whole
+     logo decal (star tip to the last T) stays in frame and the file is never stretched (fixes B) */
+  .ws5-hero--page .ws5-hero__media:has([data-photo="storefront-shop"]) { align-self: center; }
+  .ws5-hero--page .ws5-hero__media [data-photo="storefront-shop"] picture { flex: 0 0 auto; min-height: 0; }
+  .ws5-hero--page .ws5-hero__media [data-photo="storefront-shop"] img { aspect-ratio: 1256 / 1196 !important; height: auto !important; min-height: 0; }
 }

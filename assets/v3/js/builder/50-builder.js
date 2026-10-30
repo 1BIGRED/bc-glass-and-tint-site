@@ -282,13 +282,58 @@
     try { document.dispatchEvent(new CustomEvent("bc:build", { detail: { code: c, service: "car", summary: summary, url: url } })); } catch (e) { /* old browser */ }
   }
 
-  function paint(opts) {
-    var q = quote();
-    var c = code();
+  // FIXES-A item 2: each preset tile's own price for the picked vehicle (gated server side; the tag
+  // shows only beside a draft number). Before a vehicle: the price every class shares, or nothing.
+  var ppKey = "";
+  function paintPresetPrices() {
+    var key = state.v || "";
+    if (key === ppKey) return;
+    ppKey = key;
+    $$("[data-bt-pp]").forEach(function (el) {
+      var p = byId(cfg.presets, el.getAttribute("data-bt-pp"));
+      if (!p) return;
+      var priced = p.prices && Object.keys(p.prices).length > 0;
+      var e = state.v ? (p.prices && p.prices[state.v]) || (priced ? { display: cfg.text.fallback, draft: false } : null) : p.any;
+      var v = el.querySelector("[data-bt-pp-v]"), tag = el.querySelector("[data-bt-pp-tag]");
+      if (v) v.textContent = e ? e.display : "";
+      if (tag) { if (e && e.draft) tag.removeAttribute("hidden"); else tag.setAttribute("hidden", ""); }
+      if (e) el.removeAttribute("hidden"); else el.setAttribute("hidden", "");
+    });
+  }
+
+  // FIXES-A item 4 (INP): a pick paints in two passes. First, in the same task, only what the eye
+  // checks right away: the running total and the code (the tile's own selection is native CSS).
+  // Then, after the next frame is on screen, everything else (stage, rows, add-ons, parts, legal
+  // lines, the tile prices, the hand-off event, storage). Rapid picks coalesce into one second
+  // pass, which always reads the latest state. In a hidden tab (no frames) the second pass runs as
+  // the next task; a 250 ms timer backs up the frame callback in case frames stall.
+  var restOpts = null, restToken = 0;
+  function scheduleRest(opts) {
+    var merged = restOpts || { quiet: true, keep: true };
+    // a pass that should announce or store wins over a quiet or keep one
+    merged.quiet = merged.quiet && !!(opts && opts.quiet);
+    merged.keep = merged.keep && !!(opts && opts.keep);
+    restOpts = merged;
+    var token = ++restToken;
+    var run = function () {
+      if (token !== restToken || !restOpts) return;
+      var o = restOpts;
+      restOpts = null;
+      paintRest(quote(), code(), o);
+    };
+    // A hidden tab draws no frames, so there the second pass simply runs next.
+    if (document.visibilityState === "hidden" || !window.requestAnimationFrame) { setTimeout(run, 0); return; }
+    window.requestAnimationFrame(function () { setTimeout(run, 0); });
+    setTimeout(run, 250);
+  }
+
+  function paintNow(q, c) {
     root.setAttribute("data-kind", q.kind);
     // P-b: "From" is set small before the number, the dollar figure in the price face.
     var from = q.kind === "price" ? /^(From|Typically)\s+(.*)$/.exec(q.text) : null;
     $$("[data-bt-total]").forEach(function (el) {
+      if (el.getAttribute("data-t") === q.text) return;
+      el.setAttribute("data-t", q.text);
       el.textContent = "";
       if (from) {
         var w = document.createElement("span");
@@ -301,12 +346,16 @@
       }
     });
     show("[data-bt-draft]", q.kind === "price" && !!q.draft);
+    setText("[data-bt-code]", c || cfg.text.code_empty);
+  }
+
+  var wordsCache = null;
+  function paintRest(q, c, opts) {
     show("[data-bt-pricenote]", q.kind === "price");
     show("[data-bt-fallbacknote]", q.kind === "fallback");
-    setText("[data-bt-code]", c || cfg.text.code_empty);
-    var summary = c ? BB.summary(c, { confirmed: cfg.confirmed, words: words() }) : "";
+    var summary = c ? BB.summary(c, { confirmed: cfg.confirmed, words: wordsCache || (wordsCache = words()) }) : "";
     var sumEl = $("[data-bt-summary]");
-    if (sumEl) { sumEl.textContent = summary; show("[data-bt-summary]", !!summary); }
+    if (sumEl) { if (sumEl.textContent !== summary) sumEl.textContent = summary; show("[data-bt-summary]", !!summary); }
     paintStage();
     paintSteps();
     paintWindows();
@@ -314,6 +363,7 @@
     paintParts(q);
     paintFvp();
     paintLegal();
+    paintPresetPrices();
     handOff(c, summary);
     // opts.keep: a vehicle preselected from ?class= is not a build yet, so it never overwrites a
     // saved build the visitor might still resume.
@@ -323,6 +373,15 @@
       emit("build_complete", { vehicle: state.v, preset_id: state.preset || "", code: c });
     }
     if (!(opts && opts.quiet)) announce(tpl(cfg.text.live_total, { total: q.text }) + (c ? " " + c + "." : ""));
+  }
+
+  // opts.now: both passes in this task (the first paint on load, so the page opens complete)
+  function paint(opts) {
+    var q = quote();
+    var c = code();
+    paintNow(q, c);
+    if (opts && opts.now) { restToken++; restOpts = null; paintRest(q, c, opts); }
+    else scheduleRest(opts);
   }
 
   // ---------- applying a build or a preset ----------
@@ -366,11 +425,17 @@
     var t = e.target;
     if (!t || !t.name) return;
     begin();
+    // The control the visitor just used is already in its new state, so only a preset (which sets
+    // the window radios) or a vehicle that drops an add-on needs the form rewritten.
+    var resync = false;
     if (t.name === "bt-v") {
+      var before = state.addons.length;
       state.v = t.value;
       dropUnavailableAddons();
+      resync = state.addons.length !== before;
     } else if (t.name === "bt-preset") {
       applyPreset(t.value);
+      resync = true;
       emit("preset_pick", { preset_id: t.value, vehicle: state.v || "" });
     } else if (t.name.indexOf("bt-w-") === 0) {
       var w = t.name.slice(5);
@@ -389,7 +454,8 @@
     } else {
       return;
     }
-    syncForm();
+    if (resync) syncForm();
+    else if (t.name.indexOf("bt-w-") === 0 && state.preset === null) setRadio("bt-preset", null);
     paint();
   });
 
@@ -497,5 +563,41 @@
   if (!reduce) root.classList.add("bt-anim");
   syncForm();
   readWindows();
-  paint({ quiet: true, keep: classOnly });
+  paint({ now: true, quiet: true, keep: classOnly });
+
+  // ---------- FIXES-A item 3: the total bar is pinned, so the phone call bar steps aside ----------
+  // The total bar sits at the top of the builder section and sticks under the header for as long
+  // as the section is there, so "pinned" is simply: the section crosses the band the bar occupies
+  // when stuck (from the header line to the bar's own bottom edge). One IntersectionObserver whose
+  // root is cut down to that band reports exactly that, including after a jump scroll (a state
+  // change is always reported; zero-height marks were not, a jump from below to above them is no
+  // change). No scroll listener. While pinned, <html data-bt-pinned> is set and "bc:bar-yield"
+  // { on } fires on document; 30-actions.js hides the call bar (position fixed, so nothing in the
+  // page moves) and the cookie bar drops to the bottom edge. The header call control stays.
+  var pinBar = $("[data-bt-bar]");
+  if (pinBar && "IntersectionObserver" in window) {
+    var pinned = false, io = null;
+    var setPinned = function (on) {
+      on = on && pinBar.offsetHeight > 0;
+      if (on === pinned) return;
+      pinned = on;
+      if (on) document.documentElement.setAttribute("data-bt-pinned", "");
+      else document.documentElement.removeAttribute("data-bt-pinned");
+      try { document.dispatchEvent(new CustomEvent("bc:bar-yield", { detail: { on: on, source: "builder" } })); } catch (e) { /* old browser */ }
+    };
+    var watch = function () {
+      if (io) io.disconnect();
+      var top = Math.round(parseFloat(getComputedStyle(pinBar).top) || 0);
+      var below = Math.max(0, window.innerHeight - top - pinBar.offsetHeight);
+      io = new IntersectionObserver(function (entries) {
+        // in the band = the bar is under the header (stuck, or in the last 48px before it sticks,
+        // which looks the same: the bar sits right under the header either way)
+        setPinned(entries[entries.length - 1].isIntersecting);
+      }, { rootMargin: (-top) + "px 0px " + (-below) + "px 0px", threshold: 0 });
+      io.observe(root);
+    };
+    watch();
+    var rz = null;
+    window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(watch, 200); });
+  }
 })();

@@ -1,7 +1,7 @@
 {
-  "_note": "Windshield page, overhaul v3 (WS5): 'Windshield chip repair and replacement, arranged' (blueprint 2 and 4.1). Chip repair first. Replacement is subcontracted: never claim the labour; allowed wording is glass ordered to the VIN, job booked, insurance claim help, finished on the appointment day (decisions-and-rules Voice). 'OEM-spec' and 'match what the manufacturer built' removed (C6). Never call replacement affordable. Legacy keys removed 2026-10-29.",
+  "_note": "Windshield page, overhaul v3 (WS5): chip and small crack repair at the shop first, replacement arranged (blueprint 2 and 4.1). Fixes B 2026-10-29 (CEO ruling): the H1 and title lead with the windshield work BC does at the shop; replacement is never headlined (decisions-and-rules lines 192 and 236) and stays in the body as arranged. Replacement is subcontracted: never claim the labour; allowed wording is glass ordered to the VIN, job booked, insurance claim help, finished on the appointment day (decisions-and-rules Voice). 'OEM-spec' and 'match what the manufacturer built' removed (C6). Never call replacement affordable. Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "Windshield Chip Repair, Replacement Arranged | BC Glass &amp; Tint",
+    "title": "Windshield Chip and Crack Repair, Boulder City | BC Glass &amp; Tint",
     "description": "Chip repair at our Boulder City shop. Too far gone? We arrange the replacement: glass ordered to your VIN, help with the insurance claim, done on your appointment day.",
     "image_alt": "Windshield chip repair tool on the glass in the shop bay"
   },
@@ -10,9 +10,9 @@
     "service": "chip",
     "form_service": "chip",
     "source": "Windshield",
-    "eyebrow": "Windshield. Chip repair first.",
-    "h1": "Windshield chip repair and replacement, arranged.",
-    "lede": "Chip repair is the job we do in our own shop, most often the same day. When the damage is too large to repair, we arrange the replacement with a glass specialist.",
+    "eyebrow": "Windshield. Done at our Boulder City shop.",
+    "h1": "Chip and small crack repair.",
+    "lede": "We repair windshield chips and small cracks in our own shop, and most chips are fixed the same day. When the damage is too large to repair, we arrange the replacement with a glass specialist.",
     "hero_photo": "chip-bridge-2",
     "proof": "Family owned since 1994.",
     "prices": {
@@ -44,6 +44,13 @@
       }
     ],
     "review": "g-dakota-gleason",
+    "how_steps": [
+      { "title": "Tell us about the glass.", "text": "Call, text or request a time. Tell us your vehicle and where the chip or crack is." },
+      { "title": "We look at it first.", "text": "The quote is free. Size, location and condition decide whether it can be repaired, so we check it before we promise anything." },
+      { "title": "Bring it to the shop.", "text": "1633 Boulder City Pkwy, Tuesday to Saturday, 9 to 5. Most chips are fixed the same day." },
+      { "title": "Too big to repair?", "text": "We tell you plainly, and we can arrange a replacement with a glass specialist, with the glass ordered to your VIN." }
+    ],
+    "how_fear": "Tell us your vehicle and where the damage is. Just questions? That's fine.",
     "while": {
       "eyebrow": "While you are here",
       "h2": "Two quick extras.",

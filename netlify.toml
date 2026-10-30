@@ -24,11 +24,14 @@
     X-Frame-Options = "DENY"
     Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.clarity.ms https://*.g.doubleclick.net https://www.google.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
 
-# The CMS at /admin/ loads Sveltia from unpkg.com and talks to GitHub.
+# The CMS at /admin/ loads Sveltia from unpkg.com and talks to GitHub. connect-src also allows
+# unpkg.com (Sveltia fetches its own chunks), www.githubstatus.com (Sveltia's GitHub status check),
+# and blob: and data: (in-browser previews of uploads) (fixes B 2026-10-29, CEO ruling).
+# No frame-src anywhere: the /about map embed was removed (fixes B), so no page frames a third party.
 [[headers]]
   for = "/admin/*"
   [headers.values]
-    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; connect-src 'self' https://api.github.com https://github.com https://*.githubusercontent.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://unpkg.com; font-src 'self' data: https:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; connect-src 'self' https://api.github.com https://github.com https://*.githubusercontent.com https://unpkg.com https://www.githubstatus.com blob: data:; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://unpkg.com; font-src 'self' data: https:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
 
 # Hashed bundles from the asset step in .eleventy.js (name carries a content hash): cache forever.
 [[headers]]

@@ -71,6 +71,39 @@
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
+/* When the phone call bar steps aside (the builder's pinned total, the keyboard, a form's own gold
+   button), 30-actions.js sets html[data-bar-away] and the cookie bar drops to the bottom edge. */
+html[data-bar-away] .v3-ck {
+  bottom: 0;
+}
+/* Phones (FIXES-A item 3): the same wording and the same two equal buttons, in less height.
+   Tighter padding, gap and line height; the buttons keep their 44px target and equal weight. */
+@media (max-width: 767px) {
+  .v3-ck__in {
+    gap: var(--sp-8);
+    padding: var(--sp-8) var(--sp-16);
+  }
+  .v3-ck__text {
+    line-height: 1.38;
+  }
+  .v3-ck__btn {
+    min-height: 44px;
+    padding: 0 var(--sp-8);
+  }
+}
+/* From 340px the two buttons stack in a narrow column beside the text instead of a row under it:
+   the text wraps to one or two more lines, but the row of buttons (44px plus a gap) is gone, so the
+   bar is about 34px shorter at 390 (159 to 125). Same size, same weight for Accept and Decline. */
+@media (min-width: 340px) and (max-width: 767px) {
+  .v3-ck__in {
+    grid-template-columns: minmax(0, 1fr) 96px;
+    align-items: center;
+    column-gap: var(--sp-12);
+  }
+  .v3-ck__btns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 @media (min-width: 768px) {
   .v3-ck__in {
     grid-template-columns: minmax(0, 1fr) auto;

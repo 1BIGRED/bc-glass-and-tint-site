@@ -30,7 +30,7 @@
         ] },
         { "type": "p", "text": "Please do not type medical information, insurance policy or claim numbers, or your driver's license number into the details box. If we need any of that to do your job, we will ask you for it by phone." },
         { "type": "p", "text": "Our website host, Netlify, also processes our form submissions and may automatically log standard technical information, such as your IP address, browser type, and the pages you visit, for security and basic site operation." },
-        { "type": "p", "text": "We run Google Ads on Google Search so people looking for our services can find us, and we use it only to measure which ads led to a call, a text or a quote request, including calls to a Google forwarding number shown in an ad. We do not use Google Ads for remarketing, and we do not build an advertising profile that follows you to other websites. Four third-party services receive some information when you visit, and each one is described below: Google Analytics and Google Ads, which work together for this measurement and run only while analytics is allowed, Microsoft Clarity, which also runs only while analytics is allowed, and the Google map embedded on our About page, which loads with that page." }
+        { "type": "p", "text": "We run Google Ads on Google Search so people looking for our services can find us, and we use it only to measure which ads led to a call, a text or a quote request, including calls to a Google forwarding number shown in an ad. We do not use Google Ads for remarketing, and we do not build an advertising profile that follows you to other websites. Three third-party services receive some information when you visit, and each one is described below: Google Analytics and Google Ads, which work together for this measurement and run only while analytics is allowed, and Microsoft Clarity, which also runs only while analytics is allowed." }
       ]
     },
     {
@@ -120,8 +120,7 @@
     {
       "heading": "Third-party content and links",
       "blocks": [
-        { "type": "p", "text": "Our About page includes a map embedded from Google. When that map loads, your browser connects to Google's servers, which means Google receives your IP address and may set its own cookies. This happens as the page loads, without you clicking anything. We do not receive or see any of that information. What Google does with it is governed by Google's privacy policy, not ours." },
-        { "type": "p", "text": "Our Site also links out to third-party sites such as Google, Yelp, Facebook and Nextdoor. We are not responsible for the privacy practices of those sites, and we encourage you to review their policies." }
+        { "type": "p", "text": "Our Site links out to third-party sites such as Google (including Google Maps for directions), Yelp, Facebook and Nextdoor. We are not responsible for the privacy practices of those sites, and we encourage you to review their policies." }
       ]
     },
     {

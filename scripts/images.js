@@ -186,7 +186,24 @@ async function masterInput(masterPath, blurs) {
   return base;
 }
 
-async function renderVariant(id, masterName, crop, focal, group, exposure, blurs) {
+// Optional global colour correction (manifest field "grade": { "rgb": [r, g, b], "saturation": s }).
+// Corrective only, the same on every pixel (no local edits, no AI): per-channel multipliers on the
+// sRGB values, then a saturation factor. Added in fixes B 2026-10-29 for the teal cast on the shop-bay
+// chip repair frames (visual audit finding 4: one warm-neutral treatment beside the warm stucco frames).
+function applyGrade(p, grade) {
+  if (!grade) return p;
+  if (Array.isArray(grade.rgb) && grade.rgb.length === 3) {
+    grade.rgb.forEach((v) => { if (typeof v !== "number" || v < 0.85 || v > 1.15) die("grade.rgb values must be numbers from 0.85 to 1.15 (corrective only)"); });
+    p = p.linear(grade.rgb, [0, 0, 0]);
+  }
+  if (grade.saturation != null) {
+    if (typeof grade.saturation !== "number" || grade.saturation < 0.7 || grade.saturation > 1.1) die("grade.saturation must be a number from 0.7 to 1.1 (corrective only)");
+    p = p.modulate({ saturation: grade.saturation });
+  }
+  return p;
+}
+
+async function renderVariant(id, masterName, crop, focal, group, exposure, blurs, grade) {
   const masterPath = path.join(SRC, masterName + ".jpg");
   if (!fs.existsSync(masterPath)) die("working master missing, run --sync first: " + masterPath);
   const meta = await sharp(masterPath).metadata();
@@ -206,7 +223,7 @@ async function renderVariant(id, masterName, crop, focal, group, exposure, blurs
     const base = () => {
       let p = sharp(input).extract(c).resize({ width: w, height: h, kernel: "lanczos3" });
       if (exposure) p = p.linear(exposureFactor(exposure), 0);
-      return p;
+      return applyGrade(p, grade);
     };
     const stem = id + "-" + w;
     const jobs = [base().avif({ quality: Q.avif, effort: 4 }).toFile(path.join(OUT, stem + ".avif"))];
@@ -298,7 +315,7 @@ async function build(entries, opts) {
       console.log("keep ", e.id);
       continue;
     }
-    const v = await renderVariant(e.id, e.master, e.crop, e.focal, e.group, e.exposure || 0, e.blur);
+    const v = await renderVariant(e.id, e.master, e.crop, e.focal, e.group, e.exposure || 0, e.blur, e.grade);
     const item = itemFrom(v, e.focal);
     item.alt = e.alt;
     item.group = e.group;
@@ -309,7 +326,7 @@ async function build(entries, opts) {
     item.source = e.src;
     if (e.phone) {
       const pm = e.phone.master || e.master;
-      const pv = await renderVariant(e.id + "-phone", pm, e.phone.crop, e.phone.focal, e.group, e.exposure || 0, e.blur);
+      const pv = await renderVariant(e.id + "-phone", pm, e.phone.crop, e.phone.focal, e.group, e.exposure || 0, e.blur, e.grade);
       const pitem = itemFrom(pv, e.phone.focal);
       pitem.sizes = e.phone.sizes || "100vw";
       pitem.aspect = pv.crop.width + "/" + pv.crop.height;

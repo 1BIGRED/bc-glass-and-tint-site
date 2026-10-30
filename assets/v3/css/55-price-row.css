@@ -40,11 +40,12 @@
 .v3-price__from {
   margin-right: var(--sp-4);
 }
-/* P-c: unconfirmed price words, Poppins 400 15px text-2, right aligned */
+/* P-c: unconfirmed price words, Poppins 400 16px text-2, right aligned (was 15px; fixes B
+   collapsed the 15 and 16 px near-duplicates into the body size) */
 .v3-price__fallback {
   font-family: var(--font-text);
   font-weight: 400;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   line-height: var(--lh-text);
 }
 /* P-d: preview builds only; never pushes a row past 375px (it wraps under the number) */

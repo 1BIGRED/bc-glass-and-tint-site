@@ -85,6 +85,12 @@
     "resume_label": "Resume your build",
     "start_over_label": "Start over"
   },
+  "handoff": {
+    "saved_note": "Your saved build {code} is filled in below.",
+    "remove": "Remove it",
+    "removed": "Build removed from this request. It is still saved on Build Your Tint.",
+    "vehicle_label": "Vehicle"
+  },
   "vehicles": {
     "car": { "label": "Car", "article": "a car", "noun": "car" },
     "suv": { "label": "SUV", "article": "an SUV", "noun": "SUV" },

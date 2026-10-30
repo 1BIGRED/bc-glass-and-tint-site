@@ -29,6 +29,8 @@ bundles: ["builder"]
 
 <section class="bt" id="build" data-bt data-kind="empty" data-price-mode="{{ C.mode }}" aria-label="{{ pg.hero.crumb | safe }}">
 
+  {#- FIXES-A item 3: while this bar is pinned under the header, 50-builder.js asks the phone call
+      bar to step aside, so the builder's own pinned UI is this 48px bar alone. -#}
   <div class="bt-bar" data-bt-bar role="region" aria-label="{{ pg.bar.label | safe }}">
     <div class="wrap bt-bar__in">
       <p class="bt-bar__total"><span class="vh">{{ pg.bar.total_label | safe }}: </span><span class="bt-bar__v t-price tnum" data-bt-total>{{ C.text.empty | safe }}</span>{% if C.mode == "preview" %}<span class="bt-draft t-label" data-bt-draft hidden>{{ pg.result.draft_tag | safe }}</span>{% endif %}</p>
@@ -103,8 +105,13 @@ bundles: ["builder"]
         <fieldset class="bt-step" data-bt-presets>
           <legend class="t-h3">{{ pg.presets.heading | safe }}</legend>
           <div class="bt-plist">
+{#- FIXES-A item 2: each tile carries its own price for the picked vehicle (bt_config presets[].prices,
+    gated like the total). The "Draft price" tag prints only beside a draft NUMBER, so a preview tile
+    shows the number and the tag together and a production tile never shows a lone tag. Before a
+    vehicle is picked the tile shows the one price every class shares, or nothing. 50-builder.js
+    fills [data-bt-pp] when the vehicle changes. -#}
 {%- for p in C.presets %}
-            <label class="bt-tile bt-preset"><input class="vh" type="radio" name="bt-preset" value="{{ p.id }}"><span class="bt-tile__box"><span class="bt-tile__t">{{ p.label | safe }}</span>{% if p.description %}<span class="bt-tile__d t-label fg-2">{{ p.description | safe }}</span>{% endif %}{% if p.draft %}<span class="bt-draft t-label">{{ pg.result.draft_tag | safe }}</span>{% endif %}</span></label>
+            <label class="bt-tile bt-preset"><input class="vh" type="radio" name="bt-preset" value="{{ p.id }}"><span class="bt-tile__box"><span class="bt-tile__t">{{ p.label | safe }}</span>{% if p.description %}<span class="bt-tile__d t-label fg-2">{{ p.description | safe }}</span>{% endif %}<span class="bt-tile__p t-label tnum" data-bt-pp="{{ p.id }}"{% if not p.any %} hidden{% endif %}><span data-bt-pp-v>{% if p.any %}{{ p.any.display | safe }}{% endif %}</span>{% if C.mode == "preview" %}<span class="bt-draft t-label" data-bt-pp-tag{% if not (p.any and p.any.draft) %} hidden{% endif %}>{{ pg.result.draft_tag | safe }}</span>{% endif %}</span></span></label>
 {%- endfor %}
           </div>
 {%- if bt_examples.length %}

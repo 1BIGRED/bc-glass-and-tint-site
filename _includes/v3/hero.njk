@@ -75,6 +75,14 @@
         </a>
 {%- endfor %}
       </nav>
+      {%- if hh.review %}
+      {#- Proof earlier (fixes B 2026-10-29): one verbatim Google review straight after the router, same
+          markup as the "In their words." quote (no stars, no logo, no quote glyphs, no heading). -#}
+      <figure class="ws5-quote ws5-quote--hero" data-review="{{ hh.review.id }}">
+        <blockquote><p>{{ hh.review.text | safe }}</p></blockquote>
+        <figcaption class="t-label fg-2"><a href="{{ (hh.review.url or reviews.listing_url) | safe }}" target="_blank" rel="noopener">{{ hh.review.author_display | safe }}{% if hh.review.month_year %}, {{ hh.review.month_year | safe }}{% endif %}, {{ pages.sections.words.attribution | safe }}</a></figcaption>
+      </figure>
+      {%- endif %}
       {{ proof(hh.proof) }}
     </div>
     <div class="ws5-hero__media">

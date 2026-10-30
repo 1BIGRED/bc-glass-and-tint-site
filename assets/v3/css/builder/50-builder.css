@@ -74,6 +74,24 @@
   color: var(--text);
 }
 
+/* Under 360px a preview build's draft tag shares the 48px bar with the total and the code: the tag
+   gets tighter and the number one step smaller, so the total is never cut to "$..." (production
+   has no tag, so the total keeps its 32px there) */
+@media (max-width: 359px) {
+  .bt-bar .bt-draft {
+    margin-left: 0;
+    padding: 0 2px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+  .bt-bar__total:has(.bt-draft:not([hidden])) .bt-bar__v {
+    font-size: 1.5rem;
+  }
+  .bt-bar__total {
+    gap: var(--sp-4);
+  }
+}
+
 /* ---------- Draft tag (P-d), preview builds only ---------- */
 .bt-draft {
   display: inline-block;
@@ -88,6 +106,16 @@
   text-transform: uppercase;
   white-space: nowrap;
   vertical-align: middle;
+}
+
+/* FIXES-A item 4: a pick restyles only its own part of the page. Layout and style containment
+   keeps a change in the stage, the window rows or the result from re-laying the rest of the page
+   (no paint containment, so focus rings and the 2px selection outlines are never clipped). */
+.bt-stage,
+.bt-tune,
+.bt-result,
+.bt-side {
+  contain: layout style;
 }
 
 /* ---------- App frame ---------- */
@@ -245,6 +273,20 @@
 .bt-tile__box .bt-draft,
 .bt-examples__list .bt-draft {
   align-self: flex-start;
+  margin-left: 0;
+}
+/* FIXES-A item 2: the tile's own price, with the draft tag beside the number (preview only) */
+.bt-tile__p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-8);
+  font-weight: 600;
+}
+.bt-tile__p[hidden] {
+  display: none;
+}
+.bt-tile__p .bt-draft {
   margin-left: 0;
 }
 .bt-tile__t {

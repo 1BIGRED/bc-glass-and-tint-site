@@ -1,5 +1,5 @@
 {
-  "_note": "About page, now 'The shop', overhaul v3 (WS5). Sells the visit: the place, the bay, what to expect, family owned since 1994. Owner and staff nameless and faceless. 'Family owned since 1994', never the LLC date (decisions-and-rules). No count or rating in title or meta (C15). The Google map embed stays: the approved privacy policy says it loads with this page. Legacy keys removed 2026-10-29.",
+  "_note": "About page, now 'The shop', overhaul v3 (WS5). Sells the visit: the place, the bay, what to expect, family owned since 1994. Owner and staff nameless and faceless. 'Family owned since 1994', never the LLC date (decisions-and-rules). No count or rating in title or meta (C15). Fixes B 2026-10-29 (CEO ruling): the Google map embed is gone; 'Find the shop.' is the address as text and a plain 'Get directions' link (site.maps_url); the privacy policy lines about the map were updated to match. The install line no longer promises an unrecorded workmanship remedy ('we take care of it'); it says where to go, which is true. Legacy keys removed 2026-10-29.",
   "meta": {
     "title": "The Shop | BC Glass &amp; Tint, Boulder City, NV Since 1994",
     "description": "BC Glass &amp; Tint, a family-owned window tint shop at 1633 Boulder City Pkwy since 1994. What to expect when you visit, our hours, and how to find us.",
@@ -9,18 +9,17 @@
     "eyebrow": "The shop. Boulder City since 1994.",
     "h1": "The shop.",
     "lede": "One shop, at 1633 Boulder City Pkwy. Vehicles come here for tint and chip repair. For homes and offices we come to you.",
-    "hero_photo": "storefront-wide",
+    "hero_photo": "storefront-shop",
     "fact": "Family owned since 1994.",
     "story": [
       "BC Glass and Tint is a family-owned and operated shop, tinting windows in Boulder City and across Southern Nevada since 1994.",
-      "Satisfaction guaranteed is written across our logo. The window film we install carries a lifetime manufacturer warranty on the film, and on the install, if anything is not right, tell us and we take care of it.",
+      "Satisfaction guaranteed is written across our logo. The window film we install carries a lifetime manufacturer warranty on the film. If something about your install is not right, call or stop by the shop, Tuesday to Saturday, 9 to 5.",
       "Licensed and insured."
     ],
     "bay_h2": "In the bay.",
     "bay_text": "Chip repair and car tint are done here, in our own bay. Most vehicles are tinted the same day, and most chips are fixed the same day. Ask to hold the film against your glass before we start.",
     "bay_photo": "chip-bridge",
     "find_h2": "Find the shop.",
-    "map_title": "Map showing BC Glass and Tint at 1633 Boulder City Pkwy, Boulder City, Nevada",
     "directions": "Get directions"
   },
   "schema": { "date_modified": "2026-10-29" }

@@ -1,5 +1,5 @@
 {
-  "_note": "Homepage wording, overhaul v3 (WS5). The legacy v1 and v2 keys (hero, ratings, band, services, new_construction, why, reviews, areas, quote, v2) were removed 2026-10-29 (engineering E9): none rendered, several carried banned claims. Section copy shared with the service and city pages lives in pages/sections.json. The FAQPage JSON-LD is built from v3.faq.items, the same list the page prints.",
+  "_note": "Homepage wording, overhaul v3 (WS5). The legacy v1 and v2 keys (hero, ratings, band, services, new_construction, why, reviews, areas, quote, v2) were removed 2026-10-29 (engineering E9): none rendered, several carried banned claims. Section copy shared with the service and city pages lives in pages/sections.json. The FAQPage JSON-LD is built from v3.faq.items, the same list the page prints. Fixes B 2026-10-29: v3.hero.review is one short verbatim featurable Google review printed right after the router (proof earlier, no heading); words_ids drops to one so the homepage still carries at most two reviews (integration ruling).",
   "meta": {
     "title": "Window Tint in Boulder City, NV | BC Glass &amp; Tint, Since 1994",
     "description": "Window tint and film for cars, homes and offices, and windshield chip repair, in Boulder City since 1994. Family owned. Call or text (702) 550-8840.",
@@ -12,6 +12,7 @@
       "sub": "Window tint and film for cars, homes and offices, plus windshield chip repair.",
       "router_label": "Pick what you need",
       "proof": "Lifetime manufacturer warranty on the film.",
+      "review": "g-kristie-bergman",
       "media_mode": "photo",
       "photo_image": "parade-hero",
       "media_note": "Shades shown on screen. Ask to hold real film against your glass at the shop.",
@@ -22,11 +23,11 @@
       { "id": "home", "label": "My home or office", "href": "#home", "micro": "Window film and blinds. Free in-home measure." },
       { "id": "windshield", "label": "My windshield", "href": "#windshield", "price_ref": "services.chip_repair_first", "price_tpl": "Chip repair, ${amount} first chip.", "fallback": "Most chips fixed the same day." }
     ],
-    "words_ids": ["g-steven-hamberg", "g-sean-rush"],
+    "words_ids": ["g-steven-hamberg"],
     "faq": {
       "items": [
         { "question": "How much does window tint cost?", "answer": "It depends on the vehicle or the rooms, which windows, and whether old film has to come off first. See the <a href=\"/prices\">price guide</a>, or <a href=\"/build-your-tint\">build your tint</a> to see the options on your type of vehicle. We confirm your exact price before anything is booked." },
-        { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. Film on your front side windows has to let through not less than 35 percent of light, with a 7 percent tolerance, counting the glass and the film together, and it has to be nonreflective. The windshield can only carry a strip across the very top, and that strip cannot be red or amber. Your back side windows and rear window can be tinted as long as the vehicle has outside mirrors on both sides. Source: Nevada Revised Statutes 484D.440." },
+        { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. Film on your front side windows has to let through not less than 35 percent of light, with a 7 percent tolerance, counting the glass and the film together, and it has to be nonreflective. The windshield can only carry a strip across the very top, and that strip cannot be red or amber. Your back side windows and rear window can be tinted as long as the vehicle has outside mirrors on both sides that show at least 200 feet behind you. Source: Nevada Revised Statutes 484D.440." },
         { "question": "How long does it take?", "answer": "Most vehicles are done the same day. Most chips are repaired the same day too." },
         { "question": "Is there a warranty?", "answer": "Yes. Lifetime manufacturer warranty on the window film." },
         { "question": "What if my chip cannot be repaired?", "answer": "We look at the chip first, because its size, location and condition decide whether it can be repaired. If it cannot, we can arrange a replacement with a glass specialist, with the glass ordered to your VIN and help with the insurance claim." },

@@ -56,6 +56,15 @@
   <p class="vh" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
   <p class="rq-build-note t-label" data-rq-build-note hidden>{{ f.build_note | safe }}</p>
+{#- FIXES-A item 1: no ?b= in the link, but this browser holds a build from Build Your Tint
+    (localStorage bc_build_v1): 40-request.js fills it in and shows this line, with a button that
+    takes it out of this request again. Wording: pages.build_your_tint.handoff. -#}
+{%- set ho = pages.build_your_tint.handoff %}
+  <div class="rq-saved" data-rq-saved hidden>
+    <p class="rq-build-note t-label" data-rq-saved-text data-tpl="{{ ho.saved_note }}"></p>
+    <button type="button" class="rq-saved__x t-label" data-rq-saved-remove>{{ ho.remove | safe }}</button>
+  </div>
+  <p class="rq-build-note t-label" data-rq-saved-gone data-vehicle-label="{{ ho.vehicle_label }}" role="status" hidden>{{ ho.removed | safe }}</p>
 
   <div class="rq-field">
     <label class="rq-label" for="{{ id }}-name">{{ f.name_label | safe }}</label>

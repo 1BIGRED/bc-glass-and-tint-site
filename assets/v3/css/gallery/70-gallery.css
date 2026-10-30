@@ -1,13 +1,31 @@
 /* BC Glass & Tint v3, gallery bundle (WS5). Front matter bundles: ["gallery"].
    Source: overhaul-v3\03-ART-DIRECTION-visual.md 3.5 and the gallery tile GT-a to GT-d.
    Filters are 44 px chips, radius 2, selection inverts (never gold); filter changes are instant. */
-.ws5-gal-head { padding-block: var(--sp-48) var(--sp-32); }
-.ws5-gal-head .wrap > * + * { margin-top: var(--sp-16); }
+/* Fixes B 2026-10-29 (visual audit finding 11, grid first): the photos start inside the first screen
+   at 390 and 1440. Head padding steps down one size; one filter row shows, the rest sit in a
+   disclosure. */
+.ws5-gal-head { padding-block: var(--sp-24) var(--sp-16); }
+.ws5-gal-head .wrap > * + * { margin-top: var(--sp-12); }
 .ws5-gal-head .t-eyebrow a { color: inherit; }
-@media (min-width: 1024px) { .ws5-gal-head { padding-block: var(--sp-96) var(--sp-48); } }
+@media (min-width: 1024px) { .ws5-gal-head { padding-block: var(--sp-48) var(--sp-24); } }
 
 .ws5-gal { padding-top: 0; }
-.ws5-gal__tools { display: grid; gap: var(--sp-16); margin-bottom: var(--sp-32); }
+.ws5-gal__tools { display: grid; gap: var(--sp-8); margin-bottom: var(--sp-24); }
+.ws5-gal__more { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.ws5-gal__more summary { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-16); min-height: 44px; list-style: none; cursor: pointer; font-weight: 600; }
+.ws5-gal__more summary::-webkit-details-marker { display: none; }
+.ws5-gal__more summary i { position: relative; flex: 0 0 16px; width: 16px; height: 16px; transition: transform var(--dur-fast) var(--ease-out); }
+.ws5-gal__more summary i::before,
+.ws5-gal__more summary i::after { content: ""; position: absolute; left: 0; top: 7px; width: 16px; height: 1.5px; background: currentColor; }
+.ws5-gal__more summary i::after { transform: rotate(90deg); }
+.ws5-gal__more[open] summary i { transform: rotate(45deg); }
+.ws5-gal__morebody { display: grid; gap: var(--sp-16); padding: var(--sp-8) 0 var(--sp-16); }
+/* Phones: the service chips wrap to two short rows (every choice stays visible); the "Service" label
+   gives way, the nav's aria-label still names the group. */
+@media (max-width: 639px) {
+  .ws5-gal__row--main .ws5-gal__lab { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .ws5-gal__more summary i { transition: none; } }
 .ws5-gal__search label { display: block; font-weight: 600; font-size: var(--t-label); color: var(--fg-2); margin-bottom: var(--sp-8); }
 .ws5-gal__searchrow { display: flex; gap: var(--sp-8); max-width: 35rem; }
 .ws5-gal__searchrow input {
@@ -38,7 +56,7 @@
   color: var(--text);
   font-family: var(--font-text);
   font-weight: 600;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
@@ -60,7 +78,7 @@
 .ws5-gt:hover .ws5-gt__img picture { display: block; height: 100%; }
 .ws5-gt__img img { aspect-ratio: auto !important; opacity: 0.96; }
 .ws5-gt figcaption { display: grid; gap: var(--sp-4); margin-top: var(--sp-8); }
-.ws5-gt__t { font-weight: 600; font-size: 0.9375rem; line-height: 1.35; }
+.ws5-gt__t { font-weight: 600; font-size: 1rem; line-height: 1.35; }
 .ws5-gt__a { justify-self: start; color: var(--text); padding: var(--sp-8) 0; }
 
 .ws5-gal__strip {

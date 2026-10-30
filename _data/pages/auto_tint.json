@@ -2,7 +2,7 @@
   "_note": "Car tint page, overhaul v3 (WS5). Template: layouts/service-v3.njk. Copy: blueprint 3.2 and 4.1; FAQ answers carried from the live Q&A page (_data/pages/qa.json) with the claims table 6.2 applied. Legacy v1 and v2 keys (hero, band, content, v2, price, reviews, also, quote) removed 2026-10-29.",
   "meta": {
     "title": "Car Window Tint in Boulder City, NV | BC Glass &amp; Tint",
-    "description": "Ceramic car window tint, computer-cut, at our Boulder City shop for Henderson and Las Vegas drivers too. Lifetime manufacturer warranty on the film.",
+    "description": "Ceramic car window tint, computer-cut, at our Boulder City shop. Lifetime manufacturer warranty on the film.",
     "image_alt": "BC Glass and Tint logo"
   },
   "v3": {
@@ -45,7 +45,7 @@
       "eyebrow": "What you get",
       "h2": "Two things we can prove.",
       "items": [
-        { "title": "Lifetime manufacturer warranty on the film.", "text": "The film is backed by its manufacturer, not only by our word. Every film we install is ceramic." },
+        { "title": "Lifetime manufacturer warranty on the film.", "text": "The film is backed by its manufacturer, not only by our word. We install ceramic film, and no dyed tint." },
         { "title": "Computer-cut for your vehicle.", "text": "The film is cut to your glass before it goes on, so there is no trimming on your car." }
       ]
     },

@@ -64,8 +64,18 @@
   letter-spacing: var(--tr-h3);
   text-transform: uppercase;
 }
-.ws5-route__m { grid-column: 1; font-size: 0.875rem; line-height: 1.4; color: var(--text-2); }
+.ws5-route__m { grid-column: 1; font-size: var(--t-label); line-height: 1.4; color: var(--text-2); }
 .ws5-route__chev { grid-column: 2; grid-row: 1 / span 2; color: var(--text-2); }
+
+/* Fixes B 2026-10-29: one verbatim review straight after the router (proof earlier). Lead size, so it
+   adds no new type size to the first screen; the hairline at the left is the review mark (V-a). */
+.ws5-hero__copy > .ws5-quote--hero { margin-top: var(--sp-24); padding-left: var(--sp-16); }
+.ws5-quote--hero blockquote p { font-size: var(--t-lead); line-height: 1.45; max-width: 34ch; }
+.ws5-quote--hero figcaption { margin-top: var(--sp-8); }
+@media (min-width: 1024px) {
+  .ws5-hero__copy > .ws5-quote--hero { margin-top: var(--sp-32); padding-left: var(--sp-24); }
+  .ws5-quote--hero blockquote p { font-size: var(--t-lead); max-width: 40ch; }
+}
 @media (prefers-reduced-motion: reduce) { .ws5-route:active { transform: none; } }
 @media (min-width: 1024px) {
   .ws5-router { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-12); margin-top: var(--sp-32) !important; }
@@ -108,7 +118,8 @@
   /* HL6, HL7: on phones the pinned call bar is the screen's action; the hero shows the status chip
      above the router instead of a second booking control. */
   .ws5-hero--home .ws5-hero__act { display: none; }
-  .ws5-hero--home .ws5-hero__status { display: flex; margin-top: var(--sp-16) !important; }
+  /* Fixes B 2026-10-29: the hero status line stays hidden on phones too. It repeated the pinned bar
+     ("Calls open ...") and the header's status chip, three readings of one fact on one screen. */
   .ws5-lane { padding-block: var(--sp-48); }
   .ws5-lane--car .ws5-lane__copy::before { margin-bottom: var(--sp-32); }
   .ws5-lane .ws5-head { margin-bottom: var(--sp-16); }

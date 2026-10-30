@@ -4,6 +4,7 @@
   "photos": {
     "_note": "Photo keys used by WS5 templates, resolved by lib/eleventy-ws5.js (global ws5photos) to WS6's _data/images.json entries (the ws6 list is tried in order). No key may resolve to stock, AI art, a customer car as a brand image, or a do-not-use file (the build stops). alts and captions are written to the photo actually shown. home-patio (patio doors 2026-07-26-1) is the BEFORE frame with no visible tint difference, so it is never used as a filmed window (WS6, 2026-10-29).",
     "storefront-hero": { "ws6": ["storefront-hero"], "captions": { "ws6": "" } },
+    "storefront-shop": { "ws6": ["storefront-hero"], "captions": { "ws6": "The shop at 1633 Boulder City Pkwy." } },
     "storefront-wide": { "ws6": ["storefront-wide", "storefront-hero"], "captions": { "ws6": "The shop at 1633 Boulder City Pkwy." } },
     "storefront-small": { "ws6": ["storefront-small", "storefront-wide"], "captions": { "ws6": "" } },
     "chip-bridge": { "ws6": ["windshield-lane", "chip-bridge-1"], "captions": { "ws6": "Chip repair at the shop." } },
@@ -165,7 +166,7 @@
     "map_link": "Get directions",
     "form_heading": "Request a time",
     "form_note": "Rather we reach out? Leave your name and number.",
-    "photo": "storefront-wide"
+    "photo": "storefront-shop"
   },
 
   "footer": {

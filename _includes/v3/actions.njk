@@ -36,7 +36,16 @@
                                if texts are confirmed, else Request a time
       bar                      same primary; when the shop is not open the secondary cell is the plain note
     The header slot is the one exception: its call control stays a tel: link in every state (engineering
-    3.2.2), so it carries data-fixed and the script leaves it alone. -#}
+    3.2.2), so it carries data-fixed and the script leaves it alone.
+
+    Screen rules the macro's CSS and script enforce (FIXES-A, 2026-10-29):
+      phones     the pinned bar is the one gold fill; an in-page generic or chip action drops its primary
+                 button (the bar shows the same action), keeping its secondary link and note
+                 (30-actions.css); the bar and menu sheet carry the page's one service (?s=) and, on the
+                 builder, the build code (30-actions.js)
+      768px up   at most one gold fill on screen: extra gold actions get data-quiet and show as the
+                 outline, a request form's submit wins (30-actions.js)
+      320px      no variant is wider than its line: labels wrap under 480px (WCAG 1.4.10) -#}
 
 {% macro statusChip(opts) -%}
 {%- set o = opts or {} -%}

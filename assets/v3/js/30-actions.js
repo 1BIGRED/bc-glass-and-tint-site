@@ -24,8 +24,12 @@
    plain links.
 
    Phone bar (art direction CB-e): hidden while a text field has focus (the on-screen keyboard is
-   open) and while any in-page gold primary ([data-gold-fill], e.g. the request form's own submit
-   button) has any part on screen. */
+   open), while any in-page gold primary ([data-gold-fill], e.g. the request form's own submit
+   button) has any part on screen, and while the builder's total bar is pinned (bc:bar-yield).
+
+   FIXES-A (2026-10-29): the bar and the menu sheet carry the build on the builder page; they carry
+   the page's one service when the page has one; one gold fill per screen is enforced on tablet and
+   desktop (data-quiet); on phones the in-page copy of the bar's own action is hidden by CSS. */
 (function () {
   "use strict";
   var core = window.BCStatus;
@@ -103,22 +107,59 @@
   document.addEventListener("visibilitychange", function () { if (!document.hidden) paint(); });
   if (hookOK) window.bcActions = { repaint: paint };
 
-  /* Build hand-off: carry the build code into the request and text links */
+  /* The pinned controls (phone bar, menu sheet) link Request a time to /book. When every in-page
+     action on the page is for one service (a chip page, the builder), they carry that service too,
+     /book?s=chip, so the request form opens on it (FIXES-A: the in-page duplicate of the bar's
+     Request a time is hidden on phones, and its ?s= must not be lost with it). */
+  var PINNED = '[data-bc-act][data-slot="bar"], [data-bc-act][data-slot="drawer"]';
+  (function pinnedService() {
+    var acts = document.querySelectorAll("[data-bc-act]"), svc = null, i, s, slot;
+    for (i = 0; i < acts.length; i++) {
+      slot = acts[i].getAttribute("data-slot");
+      if (slot === "bar" || slot === "drawer" || slot === "header") continue;
+      if (acts[i].getAttribute("data-kind") === "home") return;
+      s = acts[i].getAttribute("data-service") || "any";
+      if (s === "any") return;
+      if (svc && s !== svc) return;
+      svc = s;
+    }
+    if (!svc) return;
+    var links = document.querySelectorAll(PINNED.split(", ").map(function (p) { return p + ' a[data-act="request"]'; }).join(", "));
+    for (i = 0; i < links.length; i++) {
+      var h = links[i].getAttribute("href") || "";
+      if (h.indexOf("?") > -1) continue;
+      links[i].setAttribute("href", h + "?s=" + encodeURIComponent(svc));
+      links[i].removeAttribute("data-href0");
+    }
+  })();
+
+  /* Build hand-off: carry the build code into the request and text links of the builder's own
+     action AND of the pinned controls (phone bar, menu sheet), so every "Request a time" on the
+     builder page opens /book?s=car&b=<code> and every Text carries the build (FIXES-A item 1). */
   function applyBuild(detail) {
     var code = detail && detail.code ? String(detail.code) : "";
     var summary = detail && detail.summary ? String(detail.summary) : "";
-    var acts = document.querySelectorAll('[data-bc-act][data-build="true"]');
+    var service = detail && detail.service ? String(detail.service) : "";
+    var bodyEl = document.querySelector("[data-bc-act][data-build-body]");
+    var body0 = bodyEl ? bodyEl.getAttribute("data-build-body") || "" : "";
+    var acts = document.querySelectorAll('[data-bc-act][data-build="true"], ' + PINNED);
     for (var i = 0; i < acts.length; i++) {
       var el = acts[i];
-      var body = (el.getAttribute("data-build-body") || "").replace("{code}", code);
+      var body = (el.getAttribute("data-build-body") || body0).replace("{code}", code);
       var links = el.querySelectorAll("a[data-act]");
       for (var j = 0; j < links.length; j++) {
         var a = links[j], kind = a.getAttribute("data-act");
+        if (kind !== "request" && kind !== "text") continue;
         if (a.getAttribute("data-href0") == null) a.setAttribute("data-href0", a.getAttribute("href"));
         var base = a.getAttribute("data-href0");
         if (kind === "request") {
-          a.setAttribute("href", code ? base + (base.indexOf("?") > -1 ? "&" : "?") + "b=" + encodeURIComponent(code) : base);
-        } else if (kind === "text") {
+          if (!code) { a.setAttribute("href", base); continue; }
+          var parts = base.split("?"), qs = parts[1] || "";
+          var kept = qs ? qs.split("&").filter(function (kv) { return kv && kv.split("=")[0] !== "b"; }) : [];
+          if (service && !kept.some(function (kv) { return kv.split("=")[0] === "s"; })) kept.unshift("s=" + encodeURIComponent(service));
+          kept.push("b=" + encodeURIComponent(code));
+          a.setAttribute("href", parts[0] + "?" + kept.join("&"));
+        } else {
           a.setAttribute("href", code ? "sms:" + base.replace(/^sms:/, "").split("?")[0] + "?&body=" + encodeURIComponent((body + (summary ? " " + summary : "")).trim()) : base);
         }
       }
@@ -126,11 +167,71 @@
   }
   document.addEventListener("bc:build", function (e) { applyBuild(e && e.detail); });
 
+  /* One gold fill per screen on tablet and desktop (art direction C1, V5; FIXES-A item 7). From
+     768px wide and 481px tall the in-page booking buttons (hero, lane, contact, builder) are gold.
+     When two of them, or one and a request form's own submit ([data-gold-fill]), are on screen at
+     the same time, only one stays gold: the form's submit first, else the one highest on screen.
+     The others get data-quiet and show as an outline (a color change only, no size change, so
+     nothing moves). One IntersectionObserver, no scroll listener. Under 768px the pinned bar is the
+     one gold fill and the in-page buttons are outlines already, so nothing is marked there. */
+  (function oneGold() {
+    if (!("IntersectionObserver" in window) || !window.matchMedia) return;
+    var mq = window.matchMedia("(min-width: 768px) and (min-height: 481px)");
+    var acts = Array.prototype.slice.call(document.querySelectorAll("[data-bc-act][data-gold-zone]")).filter(function (el) {
+      var s = el.getAttribute("data-slot");
+      return s !== "header" && s !== "drawer" && s !== "bar" && s !== "price";
+    });
+    var fills = Array.prototype.slice.call(document.querySelectorAll("[data-gold-fill]"));
+    var all = fills.concat(acts);
+    if (all.length < 2) return;
+    var seen = [];
+    function settle() {
+      var keep = null, i;
+      if (mq.matches) {
+        var vis = seen.filter(function (el) { return el.offsetParent !== null || el.getClientRects().length > 0; });
+        var f = vis.filter(function (el) { return fills.indexOf(el) > -1; });
+        var pool = f.length ? f : vis;
+        pool.forEach(function (el) { if (!keep || el.getBoundingClientRect().top < keep.getBoundingClientRect().top) keep = el; });
+      }
+      for (i = 0; i < all.length; i++) {
+        var quiet = mq.matches && keep !== null && all[i] !== keep && seen.indexOf(all[i]) > -1;
+        if (quiet) { if (!all[i].hasAttribute("data-quiet")) all[i].setAttribute("data-quiet", ""); }
+        else if (all[i].hasAttribute("data-quiet")) all[i].removeAttribute("data-quiet");
+      }
+    }
+    /* the observer watches the primary cell of each action (the gold button lives there) and each
+       submit; an entry is mapped back to the action it belongs to */
+    var ownerOf = function (t) { return fills.indexOf(t) > -1 ? t : (t.closest && t.closest("[data-bc-act]")) || t; };
+    var io = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) {
+        var t = ownerOf(entries[k].target), at = seen.indexOf(t);
+        if (entries[k].isIntersecting && at === -1) seen.push(t);
+        else if (!entries[k].isIntersecting && at > -1) seen.splice(at, 1);
+      }
+      settle();
+    }, { threshold: 0 });
+    acts.forEach(function (el) { io.observe(el.querySelector(".v3-act__p") || el); });
+    fills.forEach(function (el) { io.observe(el); });
+    if (mq.addEventListener) mq.addEventListener("change", settle);
+  })();
+
   /* Phone bar out of the way of the keyboard and of the request form's own button */
   var bar = document.querySelector("[data-bc-sticky]");
   if (bar) {
-    var hideReasons = { kbd: false, form: false };
-    var sync = function () { bar.classList.toggle("is-away", hideReasons.kbd || hideReasons.form); };
+    var hideReasons = { kbd: false, form: false, pin: false };
+    /* While the bar is away, <html data-bar-away> lets the cookie bar drop to the bottom edge
+       (35-consent.css) instead of floating one bar height above it. */
+    var sync = function () {
+      var away = hideReasons.kbd || hideReasons.form || hideReasons.pin;
+      bar.classList.toggle("is-away", away);
+      if (away) root.setAttribute("data-bar-away", "");
+      else root.removeAttribute("data-bar-away");
+    };
+    /* FIXES-A item 3: the builder's own pinned total bar (50-builder.js) asks the bar to step aside
+       while it is pinned under the header, so the builder's pinned UI is that one 48px bar. The
+       header call control stays a tel: link in every state. */
+    document.addEventListener("bc:bar-yield", function (e) { hideReasons.pin = !!(e && e.detail && e.detail.on); sync(); });
+    if (root.hasAttribute("data-bt-pinned")) { hideReasons.pin = true; sync(); }
     var isField = function (t) {
       if (!t || !t.tagName) return false;
       var tag = t.tagName.toLowerCase();

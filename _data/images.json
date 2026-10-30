@@ -218,7 +218,7 @@
       "sizes": "100vw",
       "aspect": "2400/3000"
     },
-    "sig": "a09ab150712b"
+    "sig": "cd0599d6319e"
   },
   "commercial-maroon-awning": {
     "width": 1280,
@@ -1220,7 +1220,7 @@
       "/windshield hero"
     ],
     "source": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-2.jpg",
-    "sig": "f1b82f5a9dc7"
+    "sig": "ef91c9c9cebc"
   },
   "windshield-lane": {
     "width": 1800,
@@ -1250,6 +1250,6 @@
       "/about in the bay"
     ],
     "source": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
-    "sig": "bc9e12efa12f"
+    "sig": "8ef2e7001b2b"
   }
 }

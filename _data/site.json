@@ -54,14 +54,7 @@
     { "type": "City", "name": "Boulder City", "region": "NV" },
     { "type": "City", "name": "Henderson", "region": "NV" },
     { "type": "City", "name": "Las Vegas", "region": "NV" },
-    { "type": "City", "name": "North Las Vegas", "region": "NV" },
-    { "type": "City", "name": "Laughlin", "region": "NV" },
-    { "type": "Place", "name": "Summerlin, NV" },
-    { "type": "Place", "name": "Anthem, NV" },
-    { "type": "Place", "name": "Green Valley, Henderson, NV" },
-    { "type": "Place", "name": "Spring Valley, NV" },
-    { "type": "Place", "name": "Lake Mead National Recreation Area" },
-    { "type": "AdministrativeArea", "name": "Clark County, NV" }
+    { "type": "Place", "name": "Lake Mead" }
   ],
   "schema_images": [
     "https://bcglassandtint.com/images/hero.jpg",

@@ -81,6 +81,37 @@
   margin: 0;
   color: var(--fg-2);
 }
+/* FIXES-A item 1: the saved build line on /book, with its quiet "Remove it" button (44px target) */
+.rq-saved {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--sp-16);
+  padding-block: var(--sp-8);
+  border-block: 1px solid var(--line);
+}
+.rq-saved .rq-build-note {
+  color: var(--fg);
+}
+.rq-saved__x {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  font-family: var(--font-text);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.rq-saved__x:hover {
+  text-decoration-color: var(--gold);
+}
+.rq-saved__x:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
 .rq-live:empty {
   display: none;
 }
@@ -221,6 +252,15 @@
 }
 .rq-submit:active {
   transform: scale(0.98);
+}
+/* One gold fill per screen (FIXES-A item 7): a second submit on screen at the same time shows as an
+   outline (30-actions.js sets data-quiet; color only, same size) */
+@media (min-width: 768px) and (min-height: 481px) {
+  .rq-submit[data-quiet] {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--ctl-line);
+    color: var(--fg);
+  }
 }
 .rq-submit:disabled {
   opacity: 0.6;

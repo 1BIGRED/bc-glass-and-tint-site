@@ -1,8 +1,8 @@
 ---
 # About, now "The shop" (overhaul v3, WS5; blueprint 2; art direction 3.7): Showroom Black, hero =
-# the storefront wide crop, a second section with the bay frame, "Family owned since 1994." set as
-# the headline fact. Faceless throughout. The Google map embed stays (the approved privacy policy
-# says it loads with this page). Wording: _data/pages/about.json v3. JSON-LD: about.11tydata.js.
+# the square storefront crop, a second section with the bay frame, "Family owned since 1994." set as
+# the headline fact. Faceless throughout. No map embed (fixes B 2026-10-29, CEO ruling): the address
+# as text and a "Get directions" link. Wording: _data/pages/about.json v3. JSON-LD: about.11tydata.js.
 layout: layouts/v3.njk
 permalink: about.html
 slug: about
@@ -33,13 +33,14 @@ bundles: ["home", "service"]
   </div>
 </section>
 
-<section class="section--minor bg-ink-1" aria-labelledby="find-h">
+<section class="section--minor bg-ink-1 hair-bottom" aria-labelledby="find-h">
   <div class="wrap">
     <h2 id="find-h">{{ V.find_h2 | safe }}</h2>
-    <p class="t-body ws5-mt-24">{{ site.address.display | safe }}<br>{{ pages.sections.talk.hours | safe }}<br><a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ V.directions | safe }}</a></p>
-    <div class="ws5-map">
-      <iframe title="{{ V.map_title | safe }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3229.125768716298!2d-114.85933912364771!3d35.968350514147495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c92b72b46cc5db%3A0xbdb7c36540900252!2sBC%20Glass%20%26%20Tint!5e0!3m2!1sen!2sus!4v1787777120579!5m2!1sen!2sus"></iframe>
-    </div>
+    {#- Fixes B 2026-10-29 (CEO ruling): no map embed. The address as text and a plain link out to
+        Google Maps; no Google colors on the page and no third-party frame (CSP frame-src stays shut). -#}
+    <p class="t-lead ws5-mt-24">{{ site.address.display | safe }}</p>
+    <p class="t-body fg-2 ws5-mt-8">{{ pages.sections.talk.hours | safe }}</p>
+    <p class="t-body ws5-mt-24"><a class="ws5-btn" href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ V.directions | safe }}</a></p>
   </div>
 </section>
 

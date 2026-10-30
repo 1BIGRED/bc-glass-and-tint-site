@@ -1020,6 +1020,7 @@ collections:
                   - { label: "Paragraph", name: sub, widget: string }
                   - { label: "Router label", name: router_label, widget: string }
                   - { label: "Proof line", name: proof, widget: string }
+                  - { label: "Review id under the picker (studio only)", name: review, widget: string, required: false, hint: "Technical. One short featurable Google review shown right after the three picker tiles. Ask the studio before changing." }
                   - { label: "Media mode", name: media_mode, widget: string, hint: "Technical. Ask the studio before changing." }
                   - { label: "Photo image", name: photo_image, widget: string, hint: "Technical. Ask the studio before changing." }
                   - { label: "Media note", name: media_note, widget: string }
@@ -1603,6 +1604,17 @@ collections:
                       - { label: "Title", name: title, widget: string }
                       - { label: "Text", name: text, widget: text }
               - { label: "Review id (studio only)", name: review, widget: string, hint: "Technical. Ask the studio before changing." }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Chip and windshield steps. Never promise that a chip can be repaired before it is seen."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
               - label: "While"
                 name: while
                 widget: object
@@ -2202,6 +2214,17 @@ collections:
                       - { label: "Title", name: title, widget: string }
                       - { label: "Text", name: text, widget: text }
               - { label: "Review id (studio only)", name: review, widget: string, hint: "Technical. Ask the studio before changing." }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Chip and windshield steps. Never promise that a chip can be repaired before it is seen."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
               - label: "While"
                 name: while
                 widget: object
@@ -2443,7 +2466,6 @@ collections:
               - { label: "Bay text", name: bay_text, widget: text }
               - { label: "Bay photo", name: bay_photo, widget: string }
               - { label: "Find h2", name: find_h2, widget: string }
-              - { label: "Map title", name: map_title, widget: string }
               - { label: "Directions", name: directions, widget: string }
 
       - name: hoa_window_film
@@ -3183,6 +3205,16 @@ collections:
             hint: "Technical. Ask the studio before changing."
             fields:
               - { label: "Date last modified", name: date_modified, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Year-month-day, for example 2026-11-02." }
+          - label: "Request page note for a saved build"
+            name: handoff
+            widget: object
+            required: false
+            hint: "Shown on Request a time when a saved build is filled in. Words in braces, such as {code}, are filled in automatically. Keep them exactly as they are."
+            fields:
+              - { label: "Saved build note", name: saved_note, widget: string }
+              - { label: "Remove link", name: remove, widget: string }
+              - { label: "Removed message", name: removed, widget: string }
+              - { label: "Vehicle label", name: vehicle_label, widget: string }
       - name: gift_cards
         label: "Gift Cards page"
         file: "_data/pages/gift_cards.json"
@@ -3727,6 +3759,7 @@ collections:
               - { label: "All", name: all, widget: string }
               - { label: "Windows", name: windows, widget: string }
               - { label: "Look", name: look, widget: string }
+              - { label: "Search and more filters (disclosure label)", name: more, widget: string }
               - { label: "Reset", name: reset, widget: string }
           - label: "Search"
             name: search

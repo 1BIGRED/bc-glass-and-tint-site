@@ -227,7 +227,10 @@
       </details>
     </div>
     {%- if ws5photos[o.photo or T.photo] %}
-    <div class="ws5-talk__media">{{ photo(o.photo or T.photo, "(min-width: 1024px) 40vw, 100vw", { ratio: "45" }) }}</div>
+    {#- Fixes B 2026-10-29: the square storefront crop (storefront-hero, 1256 x 1196, the whole logo
+        decal) in a square box; sizes is the real rendered width (5 of 12 columns, about 37vw), so the
+        browser never picks a file narrower than the slot (the 3:2 crop in a 4:5 box was 1.54x upscaled). -#}
+    <div class="ws5-talk__media">{{ photo(o.photo or T.photo, "(min-width: 1024px) 37vw, calc(100vw - 40px)", { ratio: "11", cls: "ws5-talk__fig" }) }}</div>
     {%- endif %}
   </div>
 </section>
@@ -337,8 +340,12 @@
     <p class="t-label fg-2 ws5-words__label">{{ V.label | safe }}.{% if rv.google_as_of and (rv.google_as_of | ws5fresh(14)) %} {{ V.platform_line | replace("{rating}", rv.google_rating) | replace("{count}", rv.google_count) | replace("{month}", rv.google_as_of_label or rv.google_as_of) | safe }}.{% endif %} <a href="{{ reviews.listing_url | safe }}" target="_blank" rel="noopener">{{ V.all_link | safe }}</a> <span class="fg-2">&middot;</span> <a href="{{ V.page_href }}">{{ V.page_link | safe }}</a></p>
     {{ reviewRow(o.ids or V.ids) }}
     {%- if not o.no_shop %}
-    <div class="ws5-shopline">
+    <div class="ws5-shopline{% if o.shop_photo === false %} ws5-shopline--text{% endif %}">
+      {#- shop_photo: false prints the line without the photo (fixes B: one shop photo per page; the
+          homepage's "Talk to a person." already carries the storefront) -#}
+      {%- if o.shop_photo !== false %}
       {{ photo(V.shop_photo, "(min-width: 1024px) 320px, 50vw", { ratio: "43", cls: "ws5-shopline__img" }) }}
+      {%- endif %}
       <p class="t-body">{{ V.shop_line | safe }}</p>
     </div>
     {%- endif %}

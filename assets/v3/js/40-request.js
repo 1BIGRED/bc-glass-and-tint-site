@@ -213,15 +213,33 @@
 
     form.noValidate = true; /* our own messages replace the browser bubbles; without JS the native ones stay */
 
-    /* 1. pre-fill from the URL */
+    /* 1. pre-fill from the URL, else from the build saved on this browser (FIXES-A item 1) */
+    var savedBox = form.querySelector("[data-rq-saved]");
+    var savedGone = form.querySelector("[data-rq-saved-gone]");
+    var vehLabel = savedGone ? savedGone.getAttribute("data-vehicle-label") || "" : "";
+    /* The optional year, make and model the visitor typed on Build Your Tint (sessionStorage, never
+       a URL). The builder promises it goes with the request, so it rides in the details text. */
+    var model = "";
+    try { model = String(window.sessionStorage.getItem("bc_build_model_v1") || ""); } catch (eM) { model = ""; }
+    model = model.replace(/[\u0000-\u001f<>]/g, "").replace(/^\s+|\s+$/g, "").slice(0, 60);
+    function buildDetails(b) {
+      return "Build " + b.code + (b.summary ? ". " + b.summary : "") + (model && vehLabel ? " " + vehLabel + ": " + model + "." : "");
+    }
+    function applyBuildCode(b) {
+      setField(form, "build_code", b.code);
+      st.buildText = b.summary ? b.code + ". " + b.summary : b.code;
+      var text = buildDetails(b);
+      if (detailsEl && !detailsEl.value) detailsEl.value = text;
+      return text;
+    }
+    var gotBuild = false;
     var q = null;
     try { q = new URLSearchParams(window.location.search); } catch (e) { q = null; }
     if (q) {
       var b = decodeBuild(q.get("b"));
       if (b) {
-        setField(form, "build_code", b.code);
-        st.buildText = b.summary ? b.code + ". " + b.summary : b.code;
-        if (detailsEl && !detailsEl.value) detailsEl.value = "Build " + b.code + (b.summary ? ". " + b.summary : "");
+        applyBuildCode(b);
+        gotBuild = true;
         if (buildNote) buildNote.hidden = false;
       }
       var s = (q.get("s") || "").toLowerCase();
@@ -231,6 +249,41 @@
           opt = svcEl.options[i];
           if (opt.getAttribute("data-key") === s) { svcEl.selectedIndex = i; break; }
         }
+      }
+    }
+
+    /* No ?b= in the link: the build this browser saved on Build Your Tint (localStorage
+       bc_build_v1, the code only) fills in, shown in plain words with a button that takes it out
+       of this request. A vehicle with no window or add-on is not a build. Removing it is
+       remembered for this tab (sessionStorage), and the saved build itself stays on the builder. */
+    var SKIP = "bc_build_skip_v1";
+    var onBookPage = !!(form.elements.source && form.elements.source.value === "book");
+    if (!gotBuild && savedBox && onBookPage) {
+      var saved = null, skip = null;
+      try { saved = window.localStorage.getItem("bc_build_v1"); } catch (eS) { saved = null; }
+      try { skip = window.sessionStorage.getItem(SKIP); } catch (eK) { skip = null; }
+      var sb = saved && saved !== skip && !/^BC-[CSPV](?:00){2,3}$/i.test(saved) ? decodeBuild(saved) : null;
+      if (sb) {
+        var filled = applyBuildCode(sb);
+        if (svcEl && !svcEl.value) {
+          for (var si = 0; si < svcEl.options.length; si++) {
+            if (svcEl.options[si].getAttribute("data-key") === "car") { svcEl.selectedIndex = si; break; }
+          }
+        }
+        var tx = savedBox.querySelector("[data-rq-saved-text]");
+        if (tx) tx.textContent = (tx.getAttribute("data-tpl") || "").replace("{code}", sb.code);
+        savedBox.hidden = false;
+        var rm = savedBox.querySelector("[data-rq-saved-remove]");
+        if (rm) rm.addEventListener("click", function () {
+          var bc = form.querySelector('[name="build_code"]');
+          if (bc) bc.value = "";
+          st.buildText = "";
+          if (detailsEl && detailsEl.value === filled) detailsEl.value = "";
+          try { window.sessionStorage.setItem(SKIP, sb.code); } catch (eW) { /* storage blocked */ }
+          savedBox.hidden = true;
+          if (savedGone) savedGone.hidden = false;
+          if (detailsEl) { try { detailsEl.focus({ preventScroll: true }); } catch (eF) { detailsEl.focus(); } }
+        });
       }
     }
 

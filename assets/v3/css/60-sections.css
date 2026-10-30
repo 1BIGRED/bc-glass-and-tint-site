@@ -62,7 +62,7 @@
 }
 .ws5-quote blockquote { margin: 0; }
 .ws5-quote blockquote p {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--fg);
   max-width: 40ch;
@@ -88,7 +88,7 @@
 .ws5-prices .v3-prow:first-child { border-top: 1px solid var(--hair); }
 .ws5-prices .v3-prow__label { flex: 1 1 auto; min-width: 0; }
 .ws5-prices .v3-prow__value { margin: 0; flex: 0 1 auto; text-align: right; }
-.ws5-prices .v3-price__fallback { display: inline-block; font-size: 0.9375rem; line-height: 1.35; color: var(--fg-2); max-width: 19ch; }
+.ws5-prices .v3-price__fallback { display: inline-block; font-size: 1rem; line-height: 1.35; color: var(--fg-2); max-width: 19ch; }
 @media (min-width: 640px) { .ws5-prices .v3-price__fallback { max-width: none; } }
 .ws5-prices .v3-price__from { margin-right: var(--sp-4); }
 .ws5-prices .v3-prow__note { display: block; margin-top: var(--sp-4); font-size: var(--t-label); line-height: var(--lh-label); color: var(--fg-2); }
@@ -109,7 +109,7 @@
 /* No price can show for this class: the rows are labels only and the fallback words print once
    under the list (integration pass) */
 .ws5-prices--bare .v3-prow { min-height: 48px; }
-.ws5-prices__once { margin-top: var(--sp-12); font-size: 0.9375rem; line-height: var(--lh-text); }
+.ws5-prices__once { margin-top: var(--sp-12); font-size: 1rem; line-height: var(--lh-text); }
 .ws5-prices--bare + .ws5-prices__once { margin-top: 0; }
 .ws5-classes + .t-label { margin-top: var(--sp-12); }
 
@@ -134,7 +134,7 @@
   min-width: 64px;
   padding: 0 var(--sp-16);
   font-weight: 600;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   color: var(--fg);
   transition: background-color var(--dur-ui) var(--ease-out), color var(--dur-ui) var(--ease-out);
 }
@@ -231,7 +231,9 @@
 
 /* ---------- How booking works (art direction 3.1 #6): numerals, no icons, no circles ---------- */
 .ws5-steps { display: grid; gap: var(--sp-32); }
-.ws5-steps__i { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: var(--sp-16); padding-top: var(--sp-16); border-top: 1px solid var(--hair); }
+.ws5-steps__i { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: var(--sp-16); padding-top: var(--sp-16); border-top: 1px solid var(--hair); align-content: start; }
+/* align-content: start (fixes B): a shorter step no longer spreads its spare height into the numeral
+   row, so every step title sits on one line across the row (visual audit finding 13) */
 .ws5-steps__n { font-family: var(--font-display); font-weight: 300; font-size: 3rem; line-height: 0.9; color: var(--fg-2); font-variant-numeric: tabular-nums; }
 .ws5-steps__t { font-family: var(--font-text); font-weight: 600; font-size: var(--t-body); line-height: 1.4; letter-spacing: 0; text-transform: none; }
 .ws5-steps__i p { margin-top: var(--sp-4); }
@@ -256,7 +258,7 @@
   list-style: none;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.4;
 }
 .ws5-acc__i summary::-webkit-details-marker { display: none; }
@@ -369,6 +371,13 @@
 .ws5-shopline { display: grid; gap: var(--sp-16); margin-top: var(--sp-64); padding-top: var(--sp-32); border-top: 1px solid var(--hair); align-items: center; }
 .ws5-shopline__img { max-width: 320px; }
 @media (min-width: 640px) { .ws5-shopline { grid-template-columns: 320px minmax(0, 1fr); gap: var(--sp-32); } }
+.ws5-shopline.ws5-shopline--text { grid-template-columns: minmax(0, 1fr); }
+
+/* Talk to a person: the square storefront crop. Under 1024px the phone crop (5:4) sits in a wider box,
+   so the window is pulled down to keep "1633" and the whole logo decal in frame (fixes B). */
+@media (max-width: 1023px) {
+  .ws5-talk__fig img { object-position: 40% 82% !important; }
+}
 
 /* ---------- Work tiles (art direction GT-a, GT-b; gallery data) ---------- */
 .ws5-work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-8); }
@@ -377,7 +386,7 @@
 .ws5-work__img img { width: 100%; height: 100%; object-fit: cover; }
 .ws5-work figure { margin: 0; }
 .ws5-work figcaption { margin-top: var(--sp-8); }
-.ws5-work__t { font-weight: 600; font-size: 0.9375rem; }
+.ws5-work__t { font-weight: 600; font-size: 1rem; }
 @media (min-width: 1024px) { .ws5-work { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-16); } }
 
 /* ---------- Proof token ---------- */
@@ -461,4 +470,18 @@
   .ws5-footer__nav > div li:nth-child(n + 3) { margin-top: var(--sp-8); }
   .ws5-footer__legal { margin-top: var(--sp-32); }
   .ws5-talk__media .ws5-fig__img { aspect-ratio: 16 / 9; }
+  /* Fixes B 2026-10-29, every page on phones: the footer was 845px (a full screen). The "Visit" block
+     (address, hours, phone) repeats "Talk to a person.", which sits directly above the footer on every
+     page that has that block, so it gives way on phones there (pages without it, such as /prices, /book,
+     the builder and the 404, keep it; desktop always keeps it); the two link lists flow as one two-column
+     list (12 links in 6 rows instead of 5 + 7 side by side). The logo stays as the footer's mark. */
+  .ws5-footer { padding-top: var(--sp-32); }
+  .ws5-footer__grid { gap: var(--sp-24); }
+  body:has(.ws5-talk) .ws5-footer__visit { display: none; }
+  .ws5-footer__visit .t-eyebrow { display: none; }
+  .ws5-footer__nav { row-gap: var(--sp-4); column-gap: var(--sp-32); }
+  .ws5-footer__nav > ul { display: contents; }
+  .ws5-footer__nav li + li { margin-top: 0; }
+  .ws5-footer__nav > div { margin-top: var(--sp-16); }
+  .ws5-footer__legal { margin-top: var(--sp-24); padding-top: var(--sp-16); }
 }

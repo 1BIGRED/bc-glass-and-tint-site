@@ -55,4 +55,5 @@ layout: layouts/v3.njk
 {{ b.faq(V.faq.items, { uid: "faq", ground: "bg-ink-0" }) }}
 {%- endif %}
 
-{{ b.talk({ id: "quote", source: V.source, service: "any", uid: "talk", ground: "bg-ink-1" }) }}
+{#- photo "none": the hero already shows the storefront (fixes B, one shop photo per page) -#}
+{{ b.talk({ id: "quote", source: V.source, service: "any", uid: "talk", ground: "bg-ink-1", photo: "none" }) }}

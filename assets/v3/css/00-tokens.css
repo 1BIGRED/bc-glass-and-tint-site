@@ -174,7 +174,8 @@
     --t-h3: 1.75rem;
     --t-price: 2.5rem;
     --t-lead: 1.25rem;
-    --t-body: 1.0625rem;
+    /* --t-body stays 1rem at desktop (fixes B, 2026-10-29): the 17px body sat beside the 16px
+       buttons as a near-duplicate size on every screen (visual audit finding 6). */
     --section-pad: var(--sp-128);
     --section-pad-minor: var(--sp-96);
     --header-h: 80px;

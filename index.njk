@@ -24,7 +24,9 @@ body_class: page-home
 {%- import "v3-service/blocks.njk" as b with context -%}
 {%- from "v3/hero.njk" import homeHero with context -%}
 {%- set H = pages.home.v3 -%}
-{%- set heroData = { eyebrow: H.hero.eyebrow, h1: H.hero.h1, sub: H.hero.sub, router_label: H.hero.router_label, proof: H.hero.proof, media: hero } -%}
+{#- Fixes B 2026-10-29: one short verbatim featurable review right after the router (ws5review throws
+    unless the id is a featurable Google review), no heading. -#}
+{%- set heroData = { eyebrow: H.hero.eyebrow, h1: H.hero.h1, sub: H.hero.sub, router_label: H.hero.router_label, proof: H.hero.proof, media: hero, review: ((reviews | ws5review(H.hero.review)) if H.hero.review else null) } -%}
 {{ homeHero(heroData, ws5_router) }}
 
 {{ b.carLane({ uid: "car", slim: true, compact: true }) }}
@@ -33,7 +35,7 @@ body_class: page-home
 
 {{ b.chipLane({ uid: "ws", slim: true, compact: true }) }}
 
-{{ b.words({ ids: H.words_ids }) }}
+{{ b.words({ ids: H.words_ids, shop_photo: false }) }}
 
 {{ b.howBooking("any", { uid: "how" }) }}
 

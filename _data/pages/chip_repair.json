@@ -1,5 +1,5 @@
 {
-  "_note": "Windshield chip repair page, overhaul v3 (WS5): the paid landing page (blueprint 4.1 chip variant). The ads run in Henderson and Las Vegas; the drive-time eyebrow shows only once drive_time.approved is true (owner confirms 'About 20 minutes from Henderson' before reuse, blueprint 4.1; engineering 2.4). 'Sometimes covered by insurance' removed everywhere (C8). Never promise a chip is repairable before it is seen (area-profile banned_claims). Legacy keys removed 2026-10-29.",
+  "_note": "Windshield chip repair page, overhaul v3 (WS5): the paid landing page (blueprint 4.1 chip variant). The ads run in Henderson and Las Vegas; the drive-time eyebrow shows only once drive_time.approved is true (owner confirms 'About 20 minutes from Henderson' before reuse, blueprint 4.1; engineering 2.4). 'Sometimes covered by insurance' removed everywhere (C8). Never promise a chip is repairable before it is seen (area-profile banned_claims). Fixes B 2026-10-29: 'How booking works.' on this page uses the chip steps in v3.how_steps and v3.how_fear (no film, code or measuring steps); 'The quote is free' matches the live ad's Free Quotes callout (owner's 2026-10-15 office form answer; decisions-and-rules line 101); no photo-by-text promise (texts unconfirmed); drive time still gated on drive_time.approved. Legacy keys removed 2026-10-29.",
   "meta": {
     "title": "Windshield Chip Repair in Boulder City, NV | BC Glass &amp; Tint",
     "description": "Windshield chip and small crack repair at our Boulder City shop. Most chips are fixed the same day. Vehicles come to the shop. Call or text (702) 550-8840.",
@@ -38,6 +38,13 @@
       ]
     },
     "review": "g-dakota-gleason",
+    "how_steps": [
+      { "title": "Tell us about the chip.", "text": "Call, text or request a time. Tell us your vehicle and where the chip is on the glass." },
+      { "title": "We look at it first.", "text": "The quote is free. Size, location and condition decide whether a chip can be repaired, so we check it before we promise anything." },
+      { "title": "Bring it to the shop.", "text": "1633 Boulder City Pkwy, Tuesday to Saturday, 9 to 5. Most chips are fixed the same day." },
+      { "title": "Too big to repair?", "text": "We tell you plainly, and we can arrange a replacement with a glass specialist, with the glass ordered to your VIN." }
+    ],
+    "how_fear": "Tell us your vehicle and where the chip is. Just questions? That's fine.",
     "while": {
       "eyebrow": "While you are here",
       "h2": "Two quick extras.",

@@ -85,6 +85,7 @@
     {
       "id": "chip-repair-hero",
       "group": "page",
+      "grade": { "rgb": [1.025, 1.0, 0.965], "saturation": 0.84, "why": "fixes B 2026-10-29: gentle warm-neutral correction of the teal shop-bay cast (visual audit finding 4)" },
       "src": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
       "master": "chip-bridge-tool-1",
       "use": [
@@ -125,6 +126,7 @@
     {
       "id": "windshield-lane",
       "group": "page",
+      "grade": { "rgb": [1.025, 1.0, 0.965], "saturation": 0.84, "why": "fixes B 2026-10-29: gentle warm-neutral correction of the teal shop-bay cast (visual audit finding 4)" },
       "src": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-1.jpg",
       "master": "chip-bridge-tool-1",
       "use": [
@@ -154,6 +156,7 @@
     {
       "id": "windshield-hero",
       "group": "page",
+      "grade": { "rgb": [1.025, 1.0, 0.965], "saturation": 0.84, "why": "fixes B 2026-10-29: gentle warm-neutral correction of the teal shop-bay cast (visual audit finding 4)" },
       "src": "photo-library/install/bc-chip-repair-bridge-tool-on-windshield-2026-10-09-2.jpg",
       "master": "chip-bridge-tool-2",
       "use": [

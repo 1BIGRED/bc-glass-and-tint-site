@@ -56,6 +56,7 @@
     "all": "All",
     "windows": "Windows",
     "look": "Look",
+    "more": "Search and more filters",
     "reset": "Show all"
   },
   "search": { "label": "Search the gallery", "placeholder": "Make, model or service", "clear": "Clear" },

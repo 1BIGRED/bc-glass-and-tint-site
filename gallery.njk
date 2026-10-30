@@ -31,15 +31,21 @@ bundles: ["gallery", "service"]
 <section class="ws5-gal section--minor bg-ink-0" aria-label="{{ W.filters.label | safe }}" data-gallery>
   <div class="wrap">
     <div class="ws5-gal__tools">
-      <div class="ws5-gal__search" data-gal-search hidden>
-        <label for="gal-q">{{ W.search.label | safe }}</label>
-        <div class="ws5-gal__searchrow"><input id="gal-q" type="search" placeholder="{{ W.search.placeholder }}" autocomplete="off"><button type="button" class="ws5-btn ws5-gal__clear" data-gal-clear hidden>{{ W.search.clear | safe }}</button></div>
-      </div>
-      <nav class="ws5-gal__row" aria-label="{{ W.filters.services | safe }}">
+      {#- Fixes B 2026-10-29 (grid first): the service row stays in view; search, vehicle, windows and
+          look sit behind one "Search and more filters" disclosure, open on a vehicle page so the
+          current choice shows. Every link and control is still in the page for no-JS and the script. -#}
+      <nav class="ws5-gal__row ws5-gal__row--main" aria-label="{{ W.filters.services | safe }}">
         <span class="ws5-gal__lab t-label fg-2">{{ W.filters.services | safe }}</span>
         <a class="ws5-gchip" href="/gallery"{% if v.key == "all" %} aria-current="page"{% endif %}>{{ W.filters.all | safe }}</a>
         {%- for f in gallery_filters.services %}<a class="ws5-gchip" href="{{ f.href }}"{% if f.key == v.key %} aria-current="page"{% endif %}>{{ f.label | safe }}</a>{% endfor %}
       </nav>
+      <details class="ws5-gal__more"{% if v.kind == "body" %} open{% endif %}>
+      <summary><span>{{ W.filters.more | safe }}</span><i aria-hidden="true"></i></summary>
+      <div class="ws5-gal__morebody">
+      <div class="ws5-gal__search" data-gal-search hidden>
+        <label for="gal-q">{{ W.search.label | safe }}</label>
+        <div class="ws5-gal__searchrow"><input id="gal-q" type="search" placeholder="{{ W.search.placeholder }}" autocomplete="off"><button type="button" class="ws5-btn ws5-gal__clear" data-gal-clear hidden>{{ W.search.clear | safe }}</button></div>
+      </div>
       <nav class="ws5-gal__row" aria-label="{{ W.filters.bodies | safe }}">
         <span class="ws5-gal__lab t-label fg-2">{{ W.filters.bodies | safe }}</span>
         {%- for f in gallery_filters.bodies %}<a class="ws5-gchip" href="{{ f.href }}"{% if f.key == v.key %} aria-current="page"{% endif %}>{{ f.label | safe }}</a>{% endfor %}
@@ -57,6 +63,8 @@ bundles: ["gallery", "service"]
       </div>
       <p class="t-label fg-2 ws5-gal__lnote" data-gal-lnote hidden>{{ W.look_note | safe }}</p>
       {%- endif %}
+      </div>
+      </details>
       <p class="t-label fg-2 ws5-gal__status" aria-live="polite" data-gal-status data-one="{{ W.status.one }}" data-many="{{ W.status.many }}" data-zero="{{ W.status.zero }}">{{ W.status.one if v.count == 1 else W.status.many | replace("{n}", v.count) }}</p>
     </div>
 

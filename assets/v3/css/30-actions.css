@@ -123,6 +123,29 @@
 .v3-act[data-kind="chip"] .v3-act__btn {
   white-space: normal;
 }
+/* 320px reflow (WCAG 1.4.10, FIXES-A item 5). A cell is as wide as its widest variant, hidden ones
+   included (that is what keeps a swap from moving anything), so no variant may be wider than the
+   line it sits on: the cell and every button in it stop at the container width, and on narrow
+   screens a long label wraps (balanced) instead of pushing the page sideways. A phone number never
+   splits. */
+.v3-act__p,
+.v3-act__s {
+  max-width: 100%;
+  min-width: 0;
+}
+.v3-act__p > .v3-act__btn {
+  max-width: 100%;
+}
+.v3-act__btn .tnum {
+  white-space: nowrap;
+}
+@media (max-width: 479px) {
+  .v3-act__btn {
+    white-space: normal;
+    text-wrap: balance;
+    padding-block: var(--sp-8);
+  }
+}
 
 /* Secondary: a quiet text link (B-c), 44px tall target */
 .v3-act__link {
@@ -171,6 +194,19 @@
   .v3-act--drawer .v3-act__btn:active {
     background-color: var(--cta-press);
     border-color: var(--cta-press);
+  }
+}
+/* One gold fill per screen (FIXES-A item 7): 30-actions.js marks every gold action but one that is
+   on screen at the same time with data-quiet; it shows as the outline. Color only, same size. */
+@media (min-width: 768px) and (min-height: 481px) {
+  .v3-act[data-quiet] .v3-act__btn {
+    background-color: transparent;
+    border-color: var(--ctl-line);
+    color: var(--fg);
+  }
+  .v3-act[data-quiet] .v3-act__btn:hover {
+    background-color: transparent;
+    border-color: var(--fg);
   }
 }
 /* The price slot is always an outline and a little smaller */
@@ -278,6 +314,16 @@ body.v3 {
     --focus: var(--gold);
   }
   .v3-bar.is-away {
+    display: none;
+  }
+  /* FIXES-A item 6: while the bar is on screen it already shows this page's primary action in gold
+     (the same plan, the same state, the same texts flag), so the in-page outline copy of it right
+     above the bar is dropped on phones. Only kinds whose primary IS the bar's (generic and chip)
+     are dropped; the home measure and the builder's "with this build" controls stay. The rule is
+     static (no script toggling), so nothing moves when the state changes. The secondary link and
+     the hours note stay as the block's one quiet route. */
+  .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) > .v3-act__p,
+  .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) > .v3-act__p {
     display: none;
   }
   /* room at the end of the page so the bar never covers the last lines (the footer) */

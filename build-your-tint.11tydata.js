@@ -116,6 +116,7 @@ function builderConfig(pricing, pg, mode) {
   const confirmed = shades.rear.filter((s) => s.num).map((s) => s.v);
   const keyToWin = {};
   WINDOWS.forEach((w) => { keyToWin[W.panels[w].key] = w; });
+  const classes = (pr.vehicle_classes || []).map((c) => c.id);
   const presets = P.presetFor(pr, mode).map((p) => {
     const set = {};
     Object.keys(p.panels).forEach((k) => {
@@ -124,9 +125,21 @@ function builderConfig(pricing, pg, mode) {
       // A named shade the builder does not offer for that window becomes "pick a shade".
       set[w] = v != null && shades[w].some((s) => s.v === v) ? v : "x";
     });
-    return { id: p.id, label: p.label, description: p.description, set, draft: p.draft };
+    // FIXES-A item 2: the tile's own price per vehicle class, through the same gate as the total
+    // (quoteFor). Only classes whose price passes are listed, so a production page carries no
+    // draft number; draft is true only on preview builds. "any" is what the tile shows before a
+    // vehicle is picked: the one price every priced class shares, else nothing.
+    const order = WINDOWS.map((w) => W.panels[w].key).filter((k) => Object.keys(p.panels).indexOf(k) > -1);
+    const prices = {};
+    classes.forEach((cl) => {
+      const q = P.quoteFor(pr, cl, order, mode);
+      if (q.show) prices[cl] = { display: q.display, draft: q.draft === true };
+    });
+    const shown = Object.keys(prices).map((k) => prices[k]);
+    const same = shown.length > 0 && shown.length === classes.length && shown.every((x) => x.display === shown[0].display);
+    const any = same ? { display: shown[0].display, draft: shown.some((x) => x.draft) } : null;
+    return { id: p.id, label: p.label, description: p.description, set, draft: p.draft, prices, any };
   });
-  const classes = (pr.vehicle_classes || []).map((c) => c.id);
   const addons = {};
   const fvp = {};
   classes.forEach((cl) => {
