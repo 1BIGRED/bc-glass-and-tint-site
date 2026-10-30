@@ -13,9 +13,12 @@ You can change:
 - **Business Info & Review Counts**: the hours, the holiday closures, the days with hours not
   confirmed, the two owner switches (texts and chip photos), the review counts, the phone number,
   the address and the social links.
-- **Prices & Gallery Photos**: every price, and the photos in the gallery.
+- **Prices & Gallery Photos**: every price, the ready-made starting points in Build Your Tint, the
+  add-ons, and the photos in the gallery.
 - **Customer Reviews**: which real reviews the site is allowed to quote.
-- **Shared Wording, Homepage, Service Pages, Town Pages, Other Pages**: the words on the pages.
+- **Shared Wording, Homepage, Service Pages, Town Pages, Other Pages**: the words on the pages,
+  including the Request a Time page, the Gift Cards page and the Gallery pages. Under each page the
+  box called **Page wording (new design)** holds the words of the current design.
 
 You cannot change, and should not look for:
 
@@ -83,6 +86,12 @@ Under **Lines the site shows once the owner confirms them** are three short sent
 texts are answered, how fast a request gets confirmed, how long a call takes). Leave each one empty
 until the owner has confirmed exactly what the shop does. An empty line is not shown.
 
+## Drive time lines on the Henderson, Las Vegas and chip repair pages
+
+Each of these pages has a **Drive time** box with a switch, **The owner approved this drive time**.
+Leave it **off** until the owner has approved the wording. While it is off, the drive time line does
+not show on the site.
+
 ## The one rule about prices
 
 A price shows on the live site only when two things are true:
@@ -117,6 +126,18 @@ empty. Never type 0 to mean unknown.
 
 Full windshield film is on a legal hold. It has no price switch in the editor and the site never
 prints a price for it. Leave it alone.
+
+### Starting points and add-ons in Build Your Tint
+
+Under **Prices**, **Starting points in Build Your Tint** are the ready-made choices a visitor can
+pick first. They follow the same rule as a price: a starting point shows on the live site only when
+its **Status** is **Confirmed** and **Show on the live site** is on. Turn those on only after the
+owner has approved that exact starting point. Drafts show on the test copy of the site only.
+
+**Add-ons offered with a price** use the price of the line they point to, so they show a price only
+when that price is confirmed and switched on. **Add-ons to ask about** never show a price.
+**Prices last reviewed with the owner** is the date the Prices page prints; leave it empty until the
+owner has checked the whole list.
 
 ## Customer reviews
 
