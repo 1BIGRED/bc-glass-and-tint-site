@@ -42,13 +42,22 @@ const DO_NOT_USE = [
   [/(^|[\\/])lifestyle[\\/]/i, "lifestyle/: vendor imagery of unknown license"],
   [/04 - Stock Photos/i, "stock photo"],
   [/AI-HIGGSFIELD|AI-RUNWAY|AdobeStock/i, "AI or stock image"],
-  [/BC-Glass-Tint-site/i, "old site image (stock or parade)"],
+  [/BC-Glass-Tint-site/i, "old site image (stock or parade)"],   // lifted for ONE file only, see PARADE_FRAME
   [/stucco-arched-window-scaffold/i, "customer address visible"],
   [/exterior-modern-two-story-scaffold/i, "person on scaffold: waits on Chase's ruling"],
   [/white-ram-2500-truck/i, "National Park Service vehicle"],
   [/cover-shop-f150/i, "customer truck hides the sign"],
   [/bullseye-chip-interior-wide/i, "cabin clutter frame"]
 ];
+
+// ONE exception to the old-site block above. Chase, by text 2026-10-29 10:03 PM: "Let's do the same
+// picture as the current." The live homepage hero is the Boulder City parade frame (BC's sign truck and
+// the gold BC van), file 09 - Website/BC-Glass-Tint-site/images/hero.jpg. Logged in decisions-log.md
+// (2026-10-29 22:03 text). Exactly that path, read only, is allowed (and may sit outside photo-library/);
+// every other file in BC-Glass-Tint-site stays blocked, and so does every other block in the list.
+// Treatment is set in the manifest entry: a crop that keeps the truck and van as the subject and the
+// parade walkers out of frame, and a blur over the van's license plate.
+const PARADE_FRAME = /^\.\.[\\/]09 - Website[\\/]BC-Glass-Tint-site[\\/]images[\\/]hero\.jpg$/i;
 
 function die(msg) {
   console.error("images.js: " + msg);
@@ -73,6 +82,7 @@ function checkAlt(label, alt) {
 }
 
 function checkSource(rel) {
+  if (PARADE_FRAME.test(rel)) return; // Chase's 2026-10-29 10:03 PM ruling, this one frame only
   DO_NOT_USE.forEach(([re, why]) => {
     if (re.test(rel)) die("source " + rel + " is on the do-not-use list (" + why + ")");
   });
@@ -150,10 +160,37 @@ function exposureFactor(ev) {
   return Math.pow(Math.pow(2, ev), 1 / 2.2);
 }
 
-async function renderVariant(id, masterName, crop, focal, group, exposure) {
+// Optional local blur over regions of a master (manifest field "blur": [{ref:[w,h], x, y, w, h, sigma}]),
+// used for a license plate. Returns the master path, or a lossless PNG buffer with the regions blurred
+// (feathered edge). Cached per master and region list. The working master on disk is never changed.
+const blurCache = new Map();
+async function masterInput(masterPath, blurs) {
+  if (!blurs || !blurs.length) return masterPath;
+  const key = masterPath + JSON.stringify(blurs);
+  if (blurCache.has(key)) return blurCache.get(key);
+  const meta = await sharp(masterPath).metadata();
+  let base = await sharp(masterPath).png({ compressionLevel: 1 }).toBuffer();
+  for (const b of blurs) {
+    const sx = b.ref ? meta.width / b.ref[0] : 1;
+    const sy = b.ref ? meta.height / b.ref[1] : 1;
+    const left = Math.round(b.x * sx), top = Math.round(b.y * sy);
+    const width = Math.round(b.w * sx), height = Math.round(b.h * sy);
+    const pad = Math.max(2, Math.round(Math.min(width, height) * 0.12));
+    const svg = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '"><rect x="' + pad + '" y="' + pad + '" width="' + (width - 2 * pad) + '" height="' + (height - 2 * pad) + '" rx="' + pad + '" fill="#fff"/></svg>');
+    const mask = await sharp(svg).blur(Math.max(0.5, pad / 3)).png().toBuffer();
+    let patch = await sharp(base).extract({ left, top, width, height }).blur(b.sigma || 4).ensureAlpha().png().toBuffer();
+    patch = await sharp(patch).composite([{ input: mask, blend: "dest-in" }]).png().toBuffer();
+    base = await sharp(base).composite([{ input: patch, left, top }]).png({ compressionLevel: 1 }).toBuffer();
+  }
+  blurCache.set(key, base);
+  return base;
+}
+
+async function renderVariant(id, masterName, crop, focal, group, exposure, blurs) {
   const masterPath = path.join(SRC, masterName + ".jpg");
   if (!fs.existsSync(masterPath)) die("working master missing, run --sync first: " + masterPath);
   const meta = await sharp(masterPath).metadata();
+  const input = await masterInput(masterPath, blurs);
   const c = cropFor(crop, meta.width, meta.height, focal);
   const widths = widthsFor(c.width, group);
   const files = { avif: [], webp: [], jpg: [] };
@@ -167,7 +204,7 @@ async function renderVariant(id, masterName, crop, focal, group, exposure) {
   for (const w of widths) {
     const h = Math.round((c.height * w) / c.width);
     const base = () => {
-      let p = sharp(masterPath).extract(c).resize({ width: w, height: h, kernel: "lanczos3" });
+      let p = sharp(input).extract(c).resize({ width: w, height: h, kernel: "lanczos3" });
       if (exposure) p = p.linear(exposureFactor(exposure), 0);
       return p;
     };
@@ -261,7 +298,7 @@ async function build(entries, opts) {
       console.log("keep ", e.id);
       continue;
     }
-    const v = await renderVariant(e.id, e.master, e.crop, e.focal, e.group, e.exposure || 0);
+    const v = await renderVariant(e.id, e.master, e.crop, e.focal, e.group, e.exposure || 0, e.blur);
     const item = itemFrom(v, e.focal);
     item.alt = e.alt;
     item.group = e.group;
@@ -272,7 +309,7 @@ async function build(entries, opts) {
     item.source = e.src;
     if (e.phone) {
       const pm = e.phone.master || e.master;
-      const pv = await renderVariant(e.id + "-phone", pm, e.phone.crop, e.phone.focal, e.group, e.exposure || 0);
+      const pv = await renderVariant(e.id + "-phone", pm, e.phone.crop, e.phone.focal, e.group, e.exposure || 0, e.blur);
       const pitem = itemFrom(pv, e.phone.focal);
       pitem.sizes = e.phone.sizes || "100vw";
       pitem.aspect = pv.crop.width + "/" + pv.crop.height;

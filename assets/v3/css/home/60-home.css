@@ -165,3 +165,35 @@
   .ws5-hero--home .ws5-hero__media picture { display: flex; flex: 1 1 auto; }
   .ws5-hero--home .ws5-hero__media picture img { width: 100%; height: 100%; object-fit: cover; }
 }
+
+/* ---------- Hero photo mode: the parade frame (Chase, 2026-10-29 10:03 PM) ----------
+   The source is 1200 x 540 px, so the picture is never shown wider than its own crop at 1x: 900 px
+   for the desktop crop (5:3), 675 px for the phone and tablet crop (5:4). The box keeps the crop's own
+   shape (aspect-ratio from the data-art properties, no cover crop, no height fill) and sits below the
+   header with nothing over it (HL1, HL3, PH3). */
+.v3-hero-media--parade picture > img {
+  width: 100%;
+  max-width: 675px;
+  height: auto;
+  aspect-ratio: var(--ar-m);
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+/* Under 1024px the next section brings its own top padding, so the photo needs no bottom pad of
+   its own (phone length: every px counts toward the 9-screen ruling). */
+.hero-photo .ws5-hero--home .ws5-hero__media { padding-bottom: 0; }
+@media (min-width: 1024px) {
+  .hero-photo .ws5-hero--home .ws5-hero__media {
+    grid-column: 7 / -1;
+    align-self: center;
+    padding: 0 0 0 var(--sp-16);
+  }
+  .hero-photo .ws5-hero--home .ws5-hero__media > figure { flex: 0 1 auto; width: 100%; max-width: 900px; }
+  .hero-photo .ws5-hero--home .ws5-hero__media picture { flex: 0 1 auto; width: 100%; }
+  .hero-photo .ws5-hero--home .v3-hero-media--parade picture > img {
+    max-width: 900px;
+    height: auto;
+    aspect-ratio: var(--ar-d);
+    border-radius: 0;
+  }
+}

@@ -12,7 +12,8 @@
       "sub": "Window tint and film for cars, homes and offices, plus windshield chip repair.",
       "router_label": "Pick what you need",
       "proof": "Lifetime manufacturer warranty on the film.",
-      "media_mode": "ramp",
+      "media_mode": "photo",
+      "photo_image": "parade-hero",
       "media_note": "Shades shown on screen. Ask to hold real film against your glass at the shop.",
       "storefront_photo": "storefront-hero"
     },

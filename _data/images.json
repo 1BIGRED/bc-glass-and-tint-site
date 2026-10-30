@@ -717,6 +717,54 @@
     "source": "photo-library/_edited-masters/commercial/bc-commercial-tint-white-brick-window-2026-08-18-1-edited.jpg",
     "sig": "48047affd779"
   },
+  "parade-hero": {
+    "width": 900,
+    "height": 540,
+    "fallback": "/images/v3/parade-hero-640.jpg",
+    "avif": "/images/v3/parade-hero-480.avif 480w, /images/v3/parade-hero-640.avif 640w, /images/v3/parade-hero-900.avif 900w",
+    "webp": "/images/v3/parade-hero-480.webp 480w, /images/v3/parade-hero-900.webp 900w",
+    "jpeg": "/images/v3/parade-hero-640.jpg 640w",
+    "first_avif": "/images/v3/parade-hero-480.avif",
+    "widths": [
+      480,
+      640,
+      900
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "BC Glass and Tint's sign truck and van in a Boulder City parade.",
+    "group": "hero",
+    "aspect": "900/540",
+    "use": [
+      "home hero (Chase ruling 2026-10-29 10:03 PM: same picture as the current site)"
+    ],
+    "note": "Source is 1200 x 540, so nothing may be shown wider than 900 px (desktop crop) or 675 px (phone crop) at 1x. Walkers at the far left and the Lions truck are out of frame in both crops; plate blurred in the master copy used for every rendition; original file untouched.",
+    "source": "../09 - Website/BC-Glass-Tint-site/images/hero.jpg",
+    "phone": {
+      "width": 640,
+      "height": 512,
+      "fallback": "/images/v3/parade-hero-phone-640.jpg",
+      "avif": "/images/v3/parade-hero-phone-480.avif 480w, /images/v3/parade-hero-phone-640.avif 640w",
+      "webp": "/images/v3/parade-hero-phone-480.webp 480w",
+      "jpeg": "/images/v3/parade-hero-phone-640.jpg 640w",
+      "first_avif": "/images/v3/parade-hero-phone-480.avif",
+      "widths": [
+        480,
+        640
+      ],
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pos": "50% 50%",
+      "sizes": "(min-width: 640px) 675px, calc(100vw - 40px)",
+      "aspect": "675/540"
+    },
+    "sig": "20150242ba55"
+  },
   "porsche-taycan-front-three-quarter": {
     "width": 1280,
     "height": 960,

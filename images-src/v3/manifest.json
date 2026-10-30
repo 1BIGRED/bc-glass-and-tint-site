@@ -626,6 +626,63 @@
         "y": 0.5
       },
       "alt": "Window in a white brick wall reflecting parked cars, trees and a building across the street."
+    },
+    {
+      "id": "parade-hero",
+      "group": "hero",
+      "src": "../09 - Website/BC-Glass-Tint-site/images/hero.jpg",
+      "master": "parade-source",
+      "keepFull": true,
+      "use": [
+        "home hero (Chase ruling 2026-10-29 10:03 PM: same picture as the current site)"
+      ],
+      "crop": {
+        "ref": [
+          1200,
+          540
+        ],
+        "x": 300,
+        "y": 0,
+        "w": 900,
+        "h": 540
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "blur": [
+        {
+          "ref": [
+            1200,
+            540
+          ],
+          "x": 1090,
+          "y": 396,
+          "w": 86,
+          "h": 54,
+          "sigma": 4,
+          "note": "van license plate"
+        }
+      ],
+      "alt": "BC Glass and Tint's sign truck and van in a Boulder City parade.",
+      "phone": {
+        "crop": {
+          "ref": [
+            1200,
+            540
+          ],
+          "x": 330,
+          "y": 0,
+          "w": 675,
+          "h": 540
+        },
+        "focal": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "sizes": "(min-width: 640px) 675px, calc(100vw - 40px)"
+      },
+      "note": "Source is 1200 x 540, so nothing may be shown wider than 900 px (desktop crop) or 675 px (phone crop) at 1x. Walkers at the far left and the Lions truck are out of frame in both crops; plate blurred in the master copy used for every rendition; original file untouched."
     }
   ]
 }

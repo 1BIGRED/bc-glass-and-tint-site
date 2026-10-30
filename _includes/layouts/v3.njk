@@ -39,7 +39,7 @@
 {%- set metaDesc = m.description or meta_description or "" -%}
 {#- canonical path: the same function the sitemap uses (lib/filters.js canonicalPath), so the two cannot disagree -#}
 {%- set url = site.origin + (page.url | canonicalPath) -%}
-{%- set heroMode = "storefront" if (hero and hero.mode == "storefront" and hero.image) else "ramp" -%}
+{%- set heroMode = "photo" if (hero and hero.mode == "photo" and hero.image) else ("storefront" if (hero and hero.mode == "storefront" and hero.image) else "ramp") -%}
 {%- set moodName = "warm" if (theme == "warm" or mood == "warm") else "dark" -%}
 <!DOCTYPE html>
 <html lang="en" data-price-mode="{{ price_mode }}">
@@ -51,7 +51,7 @@
 {% include "head/ga4.njk" %}
 <link rel="preload" href="/assets/v3/fonts/barlow-condensed-v5.3.0-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/v3/fonts/poppins-v5.3.0-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-{% if heroMode == "storefront" %}{{ preload(hero.image, hero.sizes) }}
+{% if heroMode == "storefront" or heroMode == "photo" %}{{ preload(hero.image, hero.sizes) }}
 {% endif %}{% if assetsHash.css.core %}<link rel="stylesheet" href="{{ assetsHash.css.core }}">
 {% endif %}{% for b in bundles %}{% if assetsHash.css[b] %}<link rel="stylesheet" href="{{ assetsHash.css[b] }}">
 {% endif %}{% endfor %}{% if assetsHash.js.core %}<script src="{{ assetsHash.js.core }}" defer></script>

@@ -1,6 +1,10 @@
 {#- Hero macros (WS5; overhaul v3). The media slot contract from phase A is kept as is:
-      heroMedia(hero, { strip })  hero = { mode: "ramp" | "storefront", image, alt, sizes, note }
-    "ramp" is the default and the fallback; storefront without an image falls back to the ramp, so
+      heroMedia(hero, { strip })  hero = { mode: "ramp" | "storefront" | "photo", image, alt, sizes, note }
+    "photo" (Chase, 2026-10-29 10:03 PM: "Let's do the same picture as the current") is one
+    art-directed image item, the parade frame today (images["parade-hero"], home.json
+    v3.hero.photo_image). It is a low-resolution source (1200 px wide), so its CSS caps the shown
+    width at the crop's own pixels (80 and home bundle CSS), never an upscale at 1x.
+    "ramp" is the default and the fallback; storefront or photo without an image fall back to the ramp, so
     a missing photo never ships an empty box (CEO ruling; art direction 2.2 to 2.4, HF3). The
     storefront photo must be WS6's crop with the customer's Bronco fully out of frame; never a
     customer vehicle as the brand image (Chase note 1).
@@ -19,7 +23,15 @@
 {%- set o = opts or {} -%}
 {%- set hh = h or {} -%}
 {%- set isStore = (hh.mode == "storefront" and hh.image) -%}
-{%- if isStore %}
+{%- set isPhoto = (hh.mode == "photo" and hh.image) -%}
+{%- if isPhoto %}
+<figure class="v3-hero-media v3-hero-media--photo v3-hero-media--parade" data-hero-mode="photo">
+  {{ picture(hh.image, hh.sizes or "100vw", { alt: hh.alt, high: true }) }}
+{%- if hh.note %}
+  <figcaption class="v3-hero-media__note">{{ hh.note | safe }}</figcaption>
+{%- endif %}
+</figure>
+{%- elif isStore %}
 <figure class="v3-hero-media v3-hero-media--storefront" data-hero-mode="storefront">
   {{ picture(hh.image, hh.sizes or "100vw", { alt: hh.alt, high: true }) }}
 {%- if hh.note %}

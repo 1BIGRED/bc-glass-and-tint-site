@@ -1,5 +1,6 @@
 // Homepage data, overhaul v3 (WS5). Wording: _data/pages/home.json (v3) and pages/sections.json.
-//   hero        the layout's hero slot object: mode "ramp" (default) or "storefront" (Chase decides;
+//   hero        the layout's hero slot object: mode "photo" (the parade frame, Chase 2026-10-29 10:03 PM),
+//               "ramp" (the fallback when the image is missing) or "storefront" (Chase decides;
 //               a data switch in home.json v3.hero.media_mode). Storefront needs WS6's crop
 //               (ws5photos "storefront-hero", the customer's Bronco fully out of frame); without
 //               it the slot stays the Light Ramp, so a missing photo never ships an empty box.
@@ -30,6 +31,13 @@ module.exports = {
     hero: (data) => {
       const h = data.pages.home.v3.hero;
       const ph = data.ws5photos && data.ws5photos[h.storefront_photo];
+      // Chase, 2026-10-29 10:03 PM: "Let's do the same picture as the current." media_mode "photo"
+      // shows images[h.photo_image] (the parade frame, _data/images.json from scripts/images.js). It
+      // reads images.json directly, not ws5photos, so the ws5photos do-not-use guard stays whole.
+      const pimg = data.images && data.images[h.photo_image];
+      if (h.media_mode === "photo" && pimg && pimg.fallback) {
+        return { mode: "photo", image: pimg, alt: pimg.alt, sizes: "(min-width: 1024px) min(52vw, 900px), calc(100vw - 40px)", note: "" };
+      }
       if (h.media_mode === "storefront" && ph) {
         return { mode: "storefront", image: ph.item, alt: ph.alt, sizes: "(min-width: 1024px) 50vw, 100vw", note: "" };
       }
