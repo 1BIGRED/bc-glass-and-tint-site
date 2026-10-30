@@ -22,7 +22,7 @@ bundles: ["book"]
     <div class="rq-col stack stack-32">
       <header class="stack stack-16">
         <h1 id="rq-h1">{{ pg.hero.heading | safe }}</h1>
-        <p class="t-lead">{{ pg.hero.lead | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
+        <p class="t-lead">{{ (pg.hero.lead if site.texts_confirmed === true else pg.hero.lead_calls_only) | replace("{phone}", '<span class="rq-nowrap">{phone}</span>') | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
       </header>
       {{ requestForm({ source: "book", id: "rq" }) }}
       <div class="rq-routes stack stack-12">

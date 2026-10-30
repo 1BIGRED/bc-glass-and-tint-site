@@ -3,7 +3,8 @@
 
    What it does, for every form.v3-request[data-rq] on the page:
    1. Pre-fill. ?b=<build code> fills the hidden build_code field and, when the details box is
-      empty, a plain summary of the build. ?s=car|home|blinds|chip|other picks the service. A value
+      empty, a plain summary of the build (on /book, through the book bundle's
+      js/book/40-request-build.js, peak R1). ?s=car|home|blinds|chip|other picks the service. A value
       that is not a build code, or a service that is not on the list, is ignored without error.
       Nothing personal ever goes into a URL (a build code carries none).
    2. Lead source. utm_source, utm_medium, utm_campaign, gclid and a ref label (postcard, mail,
@@ -46,66 +47,11 @@
     return s;
   }
 
-  /* ---------- build code ---------- */
-  /* One source of truth is WS4's UMD file (assets/v3/js/builder/10-buildcode.js, window.BCBuild).
-     It lives in the page-only "builder" bundle, so on /book it is normally NOT loaded; when it is
-     (a page that also loads the builder), this file uses it. Otherwise the small decoder below reads
-     the same documented format and words, so the details box says the same thing either way.
-     Format: BC-<class letter><two or three shade tokens><add-on letters>. Class C Car, S SUV, P Pickup,
-     V Van. Tokens are two characters: "00" no film, "05" to "99" the shade, "xx" film with the shade
-     not picked. Two tokens = front doors, then rear doors and back glass together (BC-S3520T); three =
-     front, rear, back. Letters T top strip, R sunroof, W ask about windshield ceramic coating, H ask
-     about headlight restoration. A front shade below 35 is not a legal build and is not a code.
-     Shade words, not percentages, in the summary: the numbers print only for shades the owner has
-     confirmed, which this page cannot know. The raw code stays in the details box and in
-     build_code, so the shop still reads the exact numbers. */
-  var CLASSES = { C: "Car", S: "SUV", P: "Pickup", V: "Van" };
-  var SHADE_WORDS = { 70: "lightest shade", 50: "light shade", 35: "medium shade", 20: "dark shade", 15: "darker shade", 5: "darkest shade" };
-  var ADDON_WORDS = { T: "Windshield top strip", R: "Sunroof" };
-  var ASK_WORDS = { W: "windshield ceramic coating", H: "headlight restoration" };
-
-  function shadeText(tok) {
-    if (tok === "XX") return "shade to pick";
-    return SHADE_WORDS[parseInt(tok, 10)] || "shade picked";
-  }
-
-  /* Returns null when raw is not a build code, else { code, summary } (summary null when the code
-     has the shape of one but not a format decoded here). */
-  function decodeBuild(raw) {
-    if (typeof raw !== "string") return null;
-    var code = raw.replace(/^\s+|\s+$/g, "");
-    if (!/^BC-[A-Za-z0-9-]{3,22}$/i.test(code)) return null;
-    var lib = window.BCBuild;
-    if (lib && typeof lib.decode === "function" && typeof lib.summary === "function") {
-      var b = lib.decode(code);
-      return b ? { code: code, summary: lib.summary(b) || null } : null;
-    }
-    var m = /^BC-([CSPV])((?:\d\d|xx){2,3})([TRWH]{0,4})$/i.exec(code);
-    /* the older v2 shape (BC-C-35-15-15-0: class, front, rear, back, strip) is a real code but is not
-       decoded here; anything else that is not the documented format is not a code */
-    if (!m) return /^BC-[CSPV]-\d{1,2}-\d{1,2}-\d{1,2}(?:-\d{1,2})?$/i.test(code) ? { code: code, summary: null } : null;
-    var toks = m[2].toUpperCase().match(/\d\d|XX/g), i, n;
-    for (i = 0; i < toks.length; i++) {
-      if (toks[i] === "XX" || toks[i] === "00") continue;
-      n = parseInt(toks[i], 10);
-      if (n < 5 || (i === 0 && n < 35)) return null;
-    }
-    var out = [CLASSES[m[1].toUpperCase()] + "."];
-    if (toks[0] !== "00") out.push("Front doors, " + shadeText(toks[0]) + ".");
-    if (toks.length === 2 || toks[1] === toks[2]) {
-      if (toks[1] !== "00") out.push("Rear doors and back glass, " + shadeText(toks[1]) + ".");
-    } else {
-      if (toks[1] !== "00") out.push("Rear doors, " + shadeText(toks[1]) + ".");
-      if (toks[2] !== "00") out.push("Back glass, " + shadeText(toks[2]) + ".");
-    }
-    var letters = m[3].toUpperCase(), asks = [];
-    for (i = 0; i < letters.length; i++) {
-      if (ADDON_WORDS[letters.charAt(i)]) out.push(ADDON_WORDS[letters.charAt(i)] + ".");
-      else if (ASK_WORDS[letters.charAt(i)]) asks.push(ASK_WORDS[letters.charAt(i)]);
-    }
-    if (asks.length) out.push("Also ask about " + asks.join(" and ") + ".");
-    return { code: code, summary: out.join(" ") };
-  }
+  /* ---------- build code ----------
+     The build-code decoder, the ?b= pre-fill and the saved-build fallback are /book-only: they
+     live in the "book" page bundle, assets/v3/js/book/40-request-build.js (peak R1, core JS trim),
+     which registers window.bcRequestBuild(form, ctx) and window.bcRequest.decodeBuild. A form on
+     any other page carries no build (every "with this build" link goes to /book). */
 
   /* ---------- lead source (same rules and storage key as the v2 capture script) ---------- */
   var LS_KEY = "bcgt_leadsrc";
@@ -213,35 +159,11 @@
 
     form.noValidate = true; /* our own messages replace the browser bubbles; without JS the native ones stay */
 
-    /* 1. pre-fill from the URL, else from the build saved on this browser (FIXES-A item 1) */
-    var savedBox = form.querySelector("[data-rq-saved]");
-    var savedGone = form.querySelector("[data-rq-saved-gone]");
-    var vehLabel = savedGone ? savedGone.getAttribute("data-vehicle-label") || "" : "";
-    /* The optional year, make and model the visitor typed on Build Your Tint (sessionStorage, never
-       a URL). The builder promises it goes with the request, so it rides in the details text. */
-    var model = "";
-    try { model = String(window.sessionStorage.getItem("bc_build_model_v1") || ""); } catch (eM) { model = ""; }
-    model = model.replace(/[\u0000-\u001f<>]/g, "").replace(/^\s+|\s+$/g, "").slice(0, 60);
-    function buildDetails(b) {
-      return "Build " + b.code + (b.summary ? ". " + b.summary : "") + (model && vehLabel ? " " + vehLabel + ": " + model + "." : "");
-    }
-    function applyBuildCode(b) {
-      setField(form, "build_code", b.code);
-      st.buildText = b.summary ? b.code + ". " + b.summary : b.code;
-      var text = buildDetails(b);
-      if (detailsEl && !detailsEl.value) detailsEl.value = text;
-      return text;
-    }
-    var gotBuild = false;
+    /* 1. pre-fill: ?s= picks the service here; on /book the book bundle fills a build (?b=, else the
+       build saved on this browser, FIXES-A item 1) through window.bcRequestBuild */
     var q = null;
     try { q = new URLSearchParams(window.location.search); } catch (e) { q = null; }
     if (q) {
-      var b = decodeBuild(q.get("b"));
-      if (b) {
-        applyBuildCode(b);
-        gotBuild = true;
-        if (buildNote) buildNote.hidden = false;
-      }
       var s = (q.get("s") || "").toLowerCase();
       if (/^[a-z]{2,10}$/.test(s) && svcEl) {
         var i, opt;
@@ -252,39 +174,10 @@
       }
     }
 
-    /* No ?b= in the link: the build this browser saved on Build Your Tint (localStorage
-       bc_build_v1, the code only) fills in, shown in plain words with a button that takes it out
-       of this request. A vehicle with no window or add-on is not a build. Removing it is
-       remembered for this tab (sessionStorage), and the saved build itself stays on the builder. */
-    var SKIP = "bc_build_skip_v1";
-    var onBookPage = !!(form.elements.source && form.elements.source.value === "book");
-    if (!gotBuild && savedBox && onBookPage) {
-      var saved = null, skip = null;
-      try { saved = window.localStorage.getItem("bc_build_v1"); } catch (eS) { saved = null; }
-      try { skip = window.sessionStorage.getItem(SKIP); } catch (eK) { skip = null; }
-      var sb = saved && saved !== skip && !/^BC-[CSPV](?:00){2,3}$/i.test(saved) ? decodeBuild(saved) : null;
-      if (sb) {
-        var filled = applyBuildCode(sb);
-        if (svcEl && !svcEl.value) {
-          for (var si = 0; si < svcEl.options.length; si++) {
-            if (svcEl.options[si].getAttribute("data-key") === "car") { svcEl.selectedIndex = si; break; }
-          }
-        }
-        var tx = savedBox.querySelector("[data-rq-saved-text]");
-        if (tx) tx.textContent = (tx.getAttribute("data-tpl") || "").replace("{code}", sb.code);
-        savedBox.hidden = false;
-        var rm = savedBox.querySelector("[data-rq-saved-remove]");
-        if (rm) rm.addEventListener("click", function () {
-          var bc = form.querySelector('[name="build_code"]');
-          if (bc) bc.value = "";
-          st.buildText = "";
-          if (detailsEl && detailsEl.value === filled) detailsEl.value = "";
-          try { window.sessionStorage.setItem(SKIP, sb.code); } catch (eW) { /* storage blocked */ }
-          savedBox.hidden = true;
-          if (savedGone) savedGone.hidden = false;
-          if (detailsEl) { try { detailsEl.focus({ preventScroll: true }); } catch (eF) { detailsEl.focus(); } }
-        });
-      }
+    if (typeof window.bcRequestBuild === "function") {
+      try {
+        window.bcRequestBuild(form, { st: st, query: q, setField: setField, details: detailsEl, service: svcEl, buildNote: buildNote });
+      } catch (eB) { /* a build pre-fill must never stop the form */ }
     }
 
     /* 2. lead source */
@@ -482,13 +375,20 @@
     window.bcRequest.forms = handles;
   }
 
-  window.bcRequest = {
-    decodeBuild: decodeBuild,
-    makeRef: makeRef,
-    closedWeekdays: closedWeekdays,
-    forms: []
-  };
+  window.bcRequest = window.bcRequest || {};
+  window.bcRequest.makeRef = makeRef;
+  window.bcRequest.closedWeekdays = closedWeekdays;
+  window.bcRequest.forms = [];
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
-  else init();
+  /* DOMContentLoaded fires after every deferred script has run, so the book bundle (loaded after
+     core on /book) has registered window.bcRequestBuild before the forms are set up. A deferred
+     script runs while readyState is already "interactive", so only "complete" means
+     DOMContentLoaded is behind us; the load listener is a backstop, the flag keeps one run. */
+  var started = false;
+  function startOnce() { if (started) return; started = true; init(); }
+  if (document.readyState === "complete") startOnce();
+  else {
+    document.addEventListener("DOMContentLoaded", startOnce);
+    window.addEventListener("load", startOnce);
+  }
 })();

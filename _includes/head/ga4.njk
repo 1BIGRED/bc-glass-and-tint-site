@@ -1,8 +1,11 @@
 <!-- Google tag (gtag.js), consent-gated -->
-<script>(function(){var K='bcgt_analytics',ID='{{ site.ga4_id | safe }}',v=null;
+<script>document.documentElement.classList.add('js');/* peak pass R1 (technical 3): JS-only controls ([data-js-only]) show from first paint, no late shift */
+(function(){var K='bcgt_analytics',ID='{{ site.ga4_id | safe }}',v=null;
 try{v=localStorage.getItem(K)}catch(e){}
 if(!v){try{var m=document.cookie.match(/(?:^|;\s*)bcgt_analytics=(yes|no)/);if(m)v=m[1];}catch(e){}}
 window.__bcgtConsent=v;
+/* peak pass R1 (technical 2, part A request 1): with no stored choice the cookie bar shows from first paint (CSS in 35-consent.css), so it is never a late LCP */
+if(!v)document.documentElement.setAttribute('data-ck','open');
 window.dataLayer=window.dataLayer||[];
 window.gtag=function(){dataLayer.push(arguments)};
 /* Consent Mode v2. We run Google Ads for conversion measurement only, no remarketing

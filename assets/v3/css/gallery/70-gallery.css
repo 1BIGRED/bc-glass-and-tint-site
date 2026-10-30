@@ -80,6 +80,55 @@
 .ws5-gt figcaption { display: grid; gap: var(--sp-4); margin-top: var(--sp-8); }
 .ws5-gt__t { font-weight: 600; font-size: 1rem; line-height: 1.35; }
 .ws5-gt__a { justify-self: start; color: var(--text); padding: var(--sp-8) 0; }
+/* Peak pass R1: the tag line (visual G2) and "Build this look" on one baseline across a row (G8) */
+.ws5-gt figure { display: flex; flex-direction: column; height: 100%; }
+.ws5-gt figcaption { flex: 1 1 auto; align-content: start; }
+.ws5-gt__a { margin-top: auto; }
+.ws5-gt__l { font-weight: 600; letter-spacing: 0.04em; }
+
+/* Tap to enlarge (peak pass R1, visual G1): the photo is a link to the larger file; with JS it opens
+   the viewer. The focus ring sits on the photo box. */
+.ws5-gt__zoom { display: block; cursor: zoom-in; }
+.ws5-gt__zoom:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Photo viewer: native modal dialog, ink-0 backdrop at 92 percent, the photo contained (never
+   cropped), caption and 44px controls under it. Fades in over 200ms; instant under reduced motion. */
+.ws5-viewer {
+  width: min(100vw - 32px, 1280px);
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  overflow: visible;
+}
+.ws5-viewer::backdrop { background: rgba(11, 11, 12, 0.92); }
+.ws5-viewer[open] { animation: ws5-viewer-in 200ms var(--ease-out); }
+@keyframes ws5-viewer-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ws5-viewer[open] { animation: none; } }
+.ws5-viewer__in { display: grid; gap: var(--sp-12); }
+.ws5-viewer__img picture { display: block; }
+.ws5-viewer__img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100dvh - 32px - 140px);
+  object-fit: contain;
+  aspect-ratio: auto !important;
+  border-radius: var(--radius);
+  background: var(--ink-1);
+}
+.ws5-viewer__bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-8) var(--sp-16); align-items: center; }
+.ws5-viewer__cap { grid-column: 1 / -1; }
+.ws5-viewer__t { font-weight: 600; }
+.ws5-viewer__nav { display: flex; gap: var(--sp-8); justify-self: end; }
+.ws5-viewer__btn { min-height: 44px; min-width: 44px; padding: 0 var(--sp-12); color: var(--text); border-color: var(--line-ctl); }
+.ws5-viewer__btn:hover { background: var(--ink-2); }
+@media (min-width: 1024px) {
+  .ws5-viewer__bar { grid-template-columns: minmax(0, 1fr) auto auto; }
+  .ws5-viewer__cap { grid-column: 1; }
+}
 
 .ws5-gal__strip {
   grid-column: 1 / -1;

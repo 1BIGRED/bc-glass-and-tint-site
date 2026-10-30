@@ -113,9 +113,19 @@
   <p class="rq-fail" role="alert" data-rq-fail hidden>{{ f.send_error | rqFill(site) | safe }}</p>
 </form>
 
+{#- Peak R1: while site.texts_confirmed is false the lead says the shop calls (no "or text", CEO
+    ruling), and "Save our number" offers the shop's contact card (book/contact-card.njk, built from
+    site.json only) so the callback is not an unknown number (psychology 5). -#}
+{%- set sc = pages.book.save_contact %}
 <div class="rq-sent" data-rq-sent role="status" tabindex="-1" hidden>
   <p class="rq-sent__h t-h3">{{ sx.heading | safe }}</p>
-  <p class="t-lead">{{ sx.lead | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
+  <p class="t-lead">{{ (sx.lead if site.texts_confirmed === true else sx.lead_calls_only) | replace("{phone}", '<span class="rq-nowrap">{phone}</span>') | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
+{%- if sc %}
+  <div class="rq-save">
+    <p class="t-body">{{ sc.line | replace("{phone}", '<span class="rq-nowrap">{phone}</span>') | rqFill(site) | safe }}</p>
+    <a class="rq-save__btn t-button" href="/book/bc-glass-and-tint.vcf" download="{{ sc.file_name }}" type="text/vcard">{{ sc.button | safe }}</a>
+  </div>
+{%- endif %}
   <p class="t-body">{{ sx.not_booked | safe }}</p>
   <dl class="rq-recap">
     <div data-rq-recap="service" hidden><dt>{{ sx.service_label | safe }}</dt><dd></dd></div>

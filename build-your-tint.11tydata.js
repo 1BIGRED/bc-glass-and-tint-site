@@ -153,6 +153,9 @@ function builderConfig(pricing, pg, mode) {
     classes: classes.map((id) => Object.assign({ id }, pg.vehicles[id] || { label: id })),
     windows: WINDOWS.map((w) => ({ id: w, key: W.panels[w].key, label: W.panels[w].label, legal: W.panels[w].legal })),
     shades,
+    // Peak R1 (visual 4): columns per fine-tune row = the longest row (No film plus its shades), so
+    // a shade sits in the same column on every row.
+    scale_cols: Math.max.apply(null, WINDOWS.map((w) => shades[w].length + 1)),
     confirmed,
     words: W.words,
     presets,
@@ -169,6 +172,9 @@ function builderConfig(pricing, pg, mode) {
       draft_tag: mode === "preview" ? pg.result.draft_tag : "",
       code_empty: pg.result.code_empty,
       fronts_vs_full: pg.result.fronts_vs_full,
+      upgrade_heading: pg.result.upgrade_heading,
+      upgrade_button: pg.result.upgrade_button,
+      upgrade_button_price: pg.result.upgrade_button_price,
       unset: W.unset,
       no_film: W.no_film,
       strip_legal: W.strip_legal,

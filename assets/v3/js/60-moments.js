@@ -85,31 +85,7 @@
     io.observe(glare);
   }
 
-  // 5. Q&A search ([data-qa-search], /qa only): filters the rendered questions in place; open the
-  //    matches so the answer shows. Without JS the box stays hidden and every question prints.
-  var qa = doc.querySelector("[data-qa-search]");
-  if (qa) {
-    var qin = qa.querySelector("input");
-    var qcount = qa.querySelector("[data-qa-count]");
-    var qempty = qa.querySelector("[data-qa-empty]");
-    var qitems = Array.prototype.slice.call(doc.querySelectorAll("[data-qa-item]"));
-    var qgroups = Array.prototype.slice.call(doc.querySelectorAll("[data-qa-group]"));
-    qa.hidden = false;
-    qin.addEventListener("input", function () {
-      var terms = qin.value.toLowerCase().split(/\s+/).filter(Boolean);
-      var shown = 0;
-      qitems.forEach(function (it) {
-        var txt = it.textContent.toLowerCase();
-        var ok = terms.every(function (w) { return txt.indexOf(w) > -1; });
-        it.hidden = !ok;
-        it.open = !!(ok && terms.length);
-        if (ok) shown++;
-      });
-      qgroups.forEach(function (g) { g.hidden = !g.querySelector("[data-qa-item]:not([hidden])"); });
-      if (qcount) qcount.textContent = terms.length ? qcount.getAttribute("data-tpl").replace("{shown}", shown).replace("{total}", qcount.getAttribute("data-total")) : "";
-      if (qempty) qempty.hidden = shown !== 0;
-    });
-  }
+  // 5. Q&A search: moved to the qa page bundle, assets/v3/js/qa/50-qa.js (peak pass R1).
 
   // 6. Contact block request form ([data-talk-form]): a disclosure, open from 1024 px and whenever
   //    the visitor arrives on or jumps to #quote, so the long form does not lengthen the phone page.

@@ -11,7 +11,8 @@
     column-gap: var(--gutter);
     min-height: calc(min(75svh, 760px));
     max-width: none;
-    padding-left: max(var(--margin), calc((100vw - var(--content-max)) / 2));
+    /* 100%, not 100vw (peak pass R1, visual 15): 100vw counts the scrollbar (7px step at 1920) */
+    padding-left: max(var(--margin), calc((100% - var(--content-max)) / 2));
   }
   .ws5-hero--home .ws5-hero__copy {
     grid-column: 1 / span 6;
@@ -97,13 +98,15 @@
 .ws5-lane__media .ws5-fig { margin-inline: calc(-1 * var(--margin)); }
 .ws5-lane__media .ws5-fig__img { border-radius: 0; }
 .ws5-lane__media figcaption { padding-inline: var(--margin); }
+/* --sbw: the scrollbar width, set on <html> by 20-header.js (peak pass R1, visual 15). A lane photo
+   bleeds to the page edge, so it needs the page width without the scrollbar, which 100vw cannot give. */
 @media (min-width: 1024px) {
   .ws5-lane--car .ws5-lane__copy { grid-column: 1 / span 5; }
   .ws5-lane--car .ws5-lane__side { grid-column: 7 / span 6; align-self: start; position: sticky; top: calc(var(--header-h) + var(--sp-32)); }
   .ws5-lane__grid--mirror .ws5-lane__media { grid-column: 1 / span 6; grid-row: 1; align-self: start; position: sticky; top: calc(var(--header-h) + var(--sp-32)); }
   .ws5-lane__grid--mirror .ws5-lane__copy { grid-column: 8 / span 5; grid-row: 1; }
-  .ws5-lane__grid--mirror .ws5-lane__media .ws5-fig { margin-inline: 0; margin-left: calc(-1 * max(var(--margin), (100vw - var(--content-max)) / 2)); }
-  .ws5-lane__grid--mirror .ws5-lane__media figcaption { padding-inline: 0; padding-left: max(var(--margin), calc((100vw - var(--content-max)) / 2)); }
+  .ws5-lane__grid--mirror .ws5-lane__media .ws5-fig { margin-inline: 0; margin-left: calc(-1 * max(var(--margin), (100vw - var(--sbw, 0px) - var(--content-max)) / 2)); }
+  .ws5-lane__grid--mirror .ws5-lane__media figcaption { padding-inline: 0; padding-left: max(var(--margin), calc((100vw - var(--sbw, 0px) - var(--content-max)) / 2)); }
   .ws5-lane__grid--mirror:not(:has(.ws5-lane__media)) .ws5-lane__copy { grid-column: 1 / span 7; }
 }
 
@@ -178,28 +181,70 @@
 }
 
 /* ---------- Hero photo mode: the parade frame (Chase, 2026-10-29 10:03 PM) ----------
-   The source is 1200 x 540 px, so the picture is never shown wider than its own crop at 1x: 900 px
-   for the desktop crop (5:3), 675 px for the phone and tablet crop (5:4). The box keeps the crop's own
-   shape (aspect-ratio from the data-art properties, no cover crop, no height fill) and sits below the
-   header with nothing over it (HL1, HL3, PH3). */
+   The source is 1200 x 540 px, so the picture is never shown wider than its own crop at 1x (900 px,
+   both crops). Desktop crop 5:3; phone and tablet crop 2:1 (peak pass R1, visual 1: x 300 to 1200,
+   y 90 to 540). The box keeps the crop's own shape (aspect-ratio from the data-art properties) and sits
+   below the header with nothing over it (HL1, HL3, PH3). Graded in scripts/images.js (tone). */
 .v3-hero-media--parade picture > img {
   width: 100%;
-  max-width: 675px;
+  max-width: 900px;
   height: auto;
   aspect-ratio: var(--ar-m);
   object-fit: cover;
   border-radius: var(--radius);
 }
-/* Under 1024px the next section brings its own top padding, so the photo needs no bottom pad of
-   its own (phone length: every px counts toward the 9-screen ruling). */
-.hero-photo .ws5-hero--home .ws5-hero__media { padding-bottom: 0; }
+/* beats the shared 5:4 hero photo box in 60-sections.css, so each crop shows at its own shape */
+.ws5-hero--home .ws5-hero__media .v3-hero-media--parade picture > img { aspect-ratio: var(--ar-m); }
 @media (min-width: 1024px) {
+  .ws5-hero--home .ws5-hero__media .v3-hero-media--parade picture > img { aspect-ratio: var(--ar-d); }
+}
+.v3-hero-media__cap { margin-top: var(--sp-8); }
+.hero-photo .ws5-hero--home .ws5-hero__media { padding-bottom: 0; }
+
+/* Phone and tablet (peak pass R1, visual 1): the photo sits directly under the H1, inside screen 1.
+   Order: eyebrow, H1, photo and caption, route cards, subline (tablet only; on phones the route cards
+   say the same thing), review. The copy box steps aside (display: contents) so its children and the
+   photo share one column; the DOM order is unchanged, so focus order is unchanged (the photo and the
+   subline are not focusable). */
+@media (max-width: 1023px) {
+  .hero-photo .ws5-hero--home .ws5-hero__in { display: flex; flex-direction: column; padding-block: var(--sp-24) var(--sp-32); }
+  .hero-photo .ws5-hero--home .ws5-hero__copy { display: contents; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > * { margin-inline: var(--margin); }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .t-eyebrow { order: 1; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > h1 { order: 2; }
+  .hero-photo .ws5-hero--home .ws5-hero__media { order: 3; padding: 0 var(--margin); margin-top: var(--sp-16); }
+  .hero-photo .ws5-hero--home .ws5-router { order: 4; margin-top: var(--sp-16) !important; }
+  .hero-photo .ws5-hero--home .ws5-hero__sub { order: 5; margin-top: var(--sp-16); }
+  .hero-photo .ws5-hero--home .ws5-hero__act { order: 6; }
+  .hero-photo .ws5-hero--home .ws5-hero__status { order: 6; }
+  .hero-photo .ws5-hero--home .ws5-quote--hero { order: 7; }
+  .hero-photo .ws5-hero--home .ws5-hero__media .v3-hero-media__note { display: none; }
+}
+@media (max-width: 639px) {
+  .hero-photo .ws5-hero--home .ws5-hero__in { padding-block: var(--sp-16) var(--sp-24); }
+  .hero-photo .ws5-hero--home .ws5-hero__sub { display: none; }
+}
+
+/* Desktop (peak pass R1, visual 2d): the copy box steps aside here too, so the photo can span the
+   copy's rows 1 to 5 and end exactly on the route cards' bottom edge (was 4px off). The caption hangs
+   under the photo without moving that edge. */
+@media (min-width: 1024px) {
+  .hero-photo .ws5-hero--home .ws5-hero__in { align-content: center; padding-block: var(--sp-64); }
+  .hero-photo .ws5-hero--home .ws5-hero__copy { display: contents; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > * { grid-column: 1 / span 6; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .t-eyebrow { grid-row: 1; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > h1 { grid-row: 2; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .ws5-hero__sub { grid-row: 3; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .ws5-hero__act { grid-row: 4; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .ws5-router { grid-row: 5; }
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .ws5-quote--hero { grid-row: 6; }
   .hero-photo .ws5-hero--home .ws5-hero__media {
     grid-column: 7 / -1;
-    align-self: center;
+    grid-row: 1 / span 5;
+    align-self: end;
     padding: 0 0 0 var(--sp-16);
   }
-  .hero-photo .ws5-hero--home .ws5-hero__media > figure { flex: 0 1 auto; width: 100%; max-width: 900px; }
+  .hero-photo .ws5-hero--home .ws5-hero__media > figure { position: relative; flex: 0 1 auto; width: 100%; max-width: 900px; }
   .hero-photo .ws5-hero--home .ws5-hero__media picture { flex: 0 1 auto; width: 100%; }
   .hero-photo .ws5-hero--home .v3-hero-media--parade picture > img {
     max-width: 900px;
@@ -207,4 +252,43 @@
     aspect-ratio: var(--ar-d);
     border-radius: 0;
   }
+  .hero-photo .ws5-hero--home .v3-hero-media__cap { position: absolute; top: 100%; left: 0; right: var(--margin); }
+}
+
+/* ---------- Proof row (peak pass R1, visual 6): homepage section 2, three facts on file ----------
+   Ink-1 with a hairline above and below; numerals in Barlow Condensed 300; labels in 13px caps. */
+.ws5-proofrow { padding-block: var(--sp-48); border-block: 1px solid var(--line); }
+.ws5-proofrow__list { display: grid; gap: var(--sp-24); }
+.ws5-proofrow__i { display: flex; flex-direction: column; gap: var(--sp-8); }
+.ws5-proofrow__big {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 2.5rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--text);
+}
+.ws5-proofrow__lbl {
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+@media (max-width: 639px) {
+  .ws5-proofrow { padding-block: var(--sp-32); }
+  .ws5-proofrow__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-12); }
+  .ws5-proofrow__big { font-size: 1.75rem; }
+  .ws5-proofrow__lbl { letter-spacing: 0.06em; }
+}
+@media (min-width: 640px) {
+  .ws5-proofrow__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); }
+}
+@media (min-width: 1024px) {
+  .ws5-proofrow { padding-block: var(--sp-96); }
+  .ws5-proofrow__big { font-size: 3.5rem; }
 }

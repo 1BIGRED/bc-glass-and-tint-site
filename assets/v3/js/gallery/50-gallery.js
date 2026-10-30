@@ -23,9 +23,88 @@
   var state = { q: "", windows: "", look: "" };
 
   if (!tiles.length) return;
+  // Peak pass R1 (technical 3): the search box, the windows and look rows and the note are marked
+  // data-js-only and shown from first paint by the html.js class set in the head, so nothing above the
+  // grid appears late (CLS). Clearing a leftover hidden attribute stays harmless.
   if (search) search.hidden = false;
   groups.forEach(function (g) { g.hidden = false; });
   if (note) note.hidden = false;
+
+  /* Photo viewer (peak pass R1, visual G1). A native modal <dialog>: the browser keeps focus inside it
+     and closes it on Escape. Left and right arrows page through the photos the filters still show;
+     focus goes back to the tile that opened it. The enlarged image is the tile's own <picture>, cloned
+     with sizes for the dialog, so it uses the larger files already built (up to 1280 px). Alt text and
+     the caption come from the tile. No motion under reduced motion (CSS). */
+  var viewer = root.querySelector("[data-gal-viewer]");
+  if (viewer && typeof viewer.showModal === "function") {
+    var vImg = viewer.querySelector("[data-gal-vimg]");
+    var vTitle = viewer.querySelector("[data-gal-vtitle]");
+    var vAlt = viewer.querySelector("[data-gal-valt]");
+    var vCount = viewer.querySelector("[data-gal-vcount]");
+    var countTpl = viewer.getAttribute("data-count") || "{n} of {total}";
+    var current = -1;
+    var opener = null;
+    var SIZES = "(min-width: 1312px) 1280px, calc(100vw - 32px)";
+    function visible() { return tiles.filter(function (t) { return !t.hidden; }); }
+    function show(tile) {
+      var list = visible();
+      current = list.indexOf(tile);
+      var pic = tile.querySelector("picture");
+      var img = pic ? pic.querySelector("img") : null;
+      vImg.textContent = "";
+      if (pic) {
+        var copy = pic.cloneNode(true);
+        Array.prototype.forEach.call(copy.querySelectorAll("source"), function (s) { s.setAttribute("sizes", SIZES); });
+        var ci = copy.querySelector("img");
+        if (ci) { ci.setAttribute("sizes", SIZES); ci.removeAttribute("loading"); ci.removeAttribute("style"); ci.setAttribute("decoding", "async"); }
+        vImg.appendChild(copy);
+      }
+      var t = tile.querySelector(".ws5-gt__t");
+      vTitle.textContent = t ? t.textContent : "";
+      vAlt.textContent = img ? img.getAttribute("alt") : "";
+      vCount.textContent = countTpl.replace("{n}", String(current + 1)).replace("{total}", String(list.length));
+    }
+    function step(d) {
+      var list = visible();
+      if (!list.length) return;
+      var i = (current + d + list.length) % list.length;
+      show(list[i]);
+    }
+    root.addEventListener("click", function (e) {
+      var a = e.target.closest ? e.target.closest("[data-gal-open]") : null;
+      if (!a || e.ctrlKey || e.metaKey || e.shiftKey || e.button > 0) return;
+      e.preventDefault();
+      opener = a;
+      show(a.closest(".ws5-gt"));
+      viewer.showModal();
+      var closeBtn = viewer.querySelector("[data-gal-close]");
+      if (closeBtn) closeBtn.focus();
+    });
+    viewer.querySelector("[data-gal-prev]").addEventListener("click", function () { step(-1); });
+    viewer.querySelector("[data-gal-next]").addEventListener("click", function () { step(1); });
+    viewer.querySelector("[data-gal-close]").addEventListener("click", function () { viewer.close(); });
+    viewer.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+      else if (e.key === "Tab") {
+        // Keep Tab inside the viewer: a modal dialog makes the page inert, but Chrome still lets Tab
+        // leave the last control for the browser's own UI. Wrap between the first and last control.
+        var f = Array.prototype.slice.call(viewer.querySelectorAll("button"));
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && (document.activeElement === first || !viewer.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && (document.activeElement === last || !viewer.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+      }
+    });
+    // A click on the backdrop (outside the panel) closes it, as on every photo viewer.
+    viewer.addEventListener("click", function (e) { if (e.target === viewer) viewer.close(); });
+    viewer.addEventListener("close", function () {
+      vImg.textContent = "";
+      var list = visible();
+      var back = list[current] ? list[current].querySelector("[data-gal-open]") : opener;
+      if (back && back.focus) back.focus();
+    });
+  }
 
   function words(s) { return String(s || "").toLowerCase().split(/\s+/).filter(Boolean); }
 

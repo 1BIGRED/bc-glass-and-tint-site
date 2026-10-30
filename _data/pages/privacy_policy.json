@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Privacy Policy | BC Glass &amp; Tint",
-    "description": "Privacy policy for BC Glass and Tint, Boulder City NV. How we collect, use and protect the information you provide through our website and quote form.",
+    "description": "Privacy policy for BC Glass &amp; Tint, Boulder City NV. How we collect, use and protect the information you provide through our website and quote form.",
     "image_alt": "BC Glass and Tint branded box truck in the Boulder City parade"
   },
   "hero": {
@@ -48,7 +48,7 @@
     {
       "heading": "Text messages and calls",
       "blocks": [
-        { "type": "p", "text": "The form says, just above the button: \"By submitting this form, you agree that BC Glass and Tint may contact you about your request by phone, text, or email. Reply STOP to any text to stop receiving them.\"" },
+        { "type": "p", "text": "The form says, just above the button: \"By submitting this form, you agree that BC Glass &amp; Tint may contact you about your request by phone, text, or email. Reply STOP to any text to stop receiving them.\"" },
         { "type": "p", "text": "That permission covers the request you sent us, and nothing else. Texts are typed by a person here at the shop from 702-550-8840. Message and data rates may apply. You can stop them at any time by replying STOP, or simply by telling us to stop in a text, a call, or an email. We will honor it however you say it." },
         { "type": "p", "text": "We do not send promotional or marketing text messages. If that ever changes, we will ask for your permission separately first, and you will be able to say no without it affecting your service or your price. We do not sell or share mobile phone numbers or text-message consent with anyone for their own marketing." }
       ]

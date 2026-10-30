@@ -21,7 +21,10 @@ bundles: ["service"]
       <p class="t-eyebrow">{{ V.eyebrow | safe }}</p>
       <h1 id="hero-h">{{ V.h1 | safe }}</h1>
       <p class="t-lead fg-2 measure">{{ V.lede | safe }}</p>
-      <div class="ws5-hero__act"><a class="ws5-btn ws5-btn--ink" href="{{ pg.order_url | safe }}" target="_blank" rel="noopener" data-ev="gift_card_click">{{ V.buy | safe }}</a></div>
+      {#- Peak pass R1 (psychology 10): buying a card online is this page's job, so it is the page's gold fill.
+          data-gold-fill makes it the one gold in-page control from 768px (30-actions.js oneGold) and
+          data-gold-zone quiets the header call while it is on screen (20-header.js). -#}
+      <div class="ws5-hero__act"><a class="ws5-btn ws5-btn--gold" href="{{ pg.order_url | safe }}" target="_blank" rel="noopener" data-ev="gift_card_click" data-gold-fill data-gold-zone>{{ V.buy | safe }}</a></div>
       <p class="t-label fg-2">{{ V.buy_note | safe }}</p>
     </div>
   </div>

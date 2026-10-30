@@ -265,6 +265,8 @@ html[data-status-state]:not([data-status-state="open"]) .v3-header__call:active 
 }
 /* "Menu" as a word in a 44px tall button (H-d) */
 .v3-menubtn {
+  /* one width for MENU and CLOSE (peak pass R1, visual 15): the call icon and status chip no longer jump 6px */
+  min-width: 80px;
   padding-inline: var(--sp-12);
   font-family: var(--font-text);
   font-weight: 600;

@@ -331,3 +331,45 @@
 .rq-ref-note {
   color: var(--fg-2);
 }
+
+/* Peak R1 (psychology 5): "Save our number", with the shop's contact card as a quiet outline button
+   (B-b; the gold fill stays with the booking action). 56px tall, full width on phones. */
+.rq-save {
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-12);
+  padding-block: var(--sp-16);
+  border-block: 1px solid var(--line);
+}
+.rq-save p {
+  margin: 0;
+}
+.rq-nowrap {
+  white-space: nowrap;
+}
+.rq-sent .rq-save__btn,
+.rq-save__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 56px;
+  padding: 0 var(--sp-24);
+  border: 1px solid var(--ctl-line);
+  border-radius: var(--radius);
+  color: var(--fg);
+  text-decoration: none;
+  transition: border-color var(--dur-ui) var(--ease-out), background-color var(--dur-ui) var(--ease-out);
+}
+.rq-save__btn:hover {
+  border-color: var(--fg);
+}
+.rq-save__btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+@media (max-width: 479px) {
+  .rq-save {
+    justify-items: stretch;
+  }
+}

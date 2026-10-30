@@ -1,7 +1,7 @@
 {
   "_note": "Headlights and taillights page, overhaul v3 (WS5), secondary template. Headlight restoration is done at the shop (Chase, 2026-10-29). Smoked lamps are 'legal-depth smoke', never a percentage (decisions-and-rules). Statute lines carried verbatim in substance from the v2 page (NRS 484D.115, 484D.145). 'Protection film stops it coming back' removed (C7). No matched review exists, so none is featured. Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "Headlight Restoration and Lamp Film, Boulder City | BC Glass &amp; Tint",
+    "title": "Headlight Restoration and Film, Boulder City | BC Glass &amp; Tint",
     "description": "Cloudy headlights restored at our Boulder City shop, plus headlight and taillight protection film and legal-depth smoke. Most vehicles done the same day.",
     "image_alt": "BC Glass and Tint logo"
   },
@@ -11,9 +11,10 @@
     "form_service": "other",
     "source": "Headlights",
     "eyebrow": "Headlights and taillights. Done at the shop.",
+    "eyebrow_short": "Headlights. Done at the shop.",
     "h1": "Headlights and taillights.",
     "lede": "Cloudy, yellowed headlights restored back to clear, plus protection film and legal-depth smoke for headlights and taillights. Most vehicles are done the same day.",
-    "hero_strip": true,
+    "hero_strip": false,
     "proof": "Family owned since 1994.",
     "prices": {
       "eyebrow": "Price",

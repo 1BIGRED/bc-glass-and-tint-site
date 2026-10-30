@@ -217,7 +217,11 @@
 .ws5-chip[aria-pressed="true"] { color: var(--text); }
 .ws5-chip[aria-pressed="true"]::before { outline: 2px solid var(--gold); outline-offset: 2px; }
 .ws5-chip:focus-visible { outline: none; }
-.ws5-chip:focus-visible::before { outline: 2px solid var(--gold); outline-offset: 4px; }
+/* Peak pass R1 (technical 11, part A request 6): keyboard focus is a dashed text-colour ring, so it never
+   looks like the solid gold ring of the selected chip */
+.ws5-chip:focus-visible::before { outline: 2px dashed var(--text); outline-offset: 5px; }
+/* technical 13: at 320px the six chips wrap instead of clipping the last one */
+@media (max-width: 339px) { .ws5-shade__chips { flex-wrap: wrap; } }
 @media (min-width: 1024px) {
   .ws5-shade { padding: var(--sp-32); }
   .ws5-shade__pane { height: 220px; }
@@ -357,14 +361,33 @@
 .ws5-talk__form[open] summary i { transform: rotate(45deg); }
 .ws5-talk__formbody { margin-top: var(--sp-24); }
 .ws5-closures[hidden] { display: none; }
+/* The form now sits beside the copy in the DOM (peak pass R1): keep the phone rhythm it had inside
+   the copy column, and the 2:1 shop band under it. */
+.ws5-talk__grid { row-gap: 0; }
+.ws5-talk__media { margin-top: var(--sp-32); }
+.ws5-fig--21 .ws5-fig__img { aspect-ratio: 2 / 1; }
+/* Peak pass R1 2026-10-30 (visual finding 7): two columns from 1024px. Left: the contact details,
+   then the 2:1 shop band under them. Right: the request form, which opens by default on wide screens,
+   top-aligned with the status line. Measured before: about 1,930px with an empty right column. */
 @media (min-width: 1024px) {
-  .ws5-talk__copy { grid-column: 1 / span 6; }
-  .ws5-talk__media { grid-column: 8 / span 5; }
+  .ws5-talk__grid { grid-template-rows: auto 1fr; align-items: start; }
+  .ws5-talk__copy { grid-column: 1 / span 6; grid-row: 1; }
+  .ws5-talk__media { grid-column: 1 / span 6; grid-row: 2; margin-top: var(--sp-48); }
+  .ws5-talk__form { grid-column: 8 / span 5; grid-row: 1 / span 2; margin-top: 0 !important; padding-top: 0; border-top: 0; max-width: none; }
+  .ws5-talk__form summary { padding-bottom: var(--sp-16); border-bottom: 1px solid var(--hair); }
+  .ws5-talk:not(:has(.ws5-talk__media)) .ws5-talk__grid { grid-template-rows: auto; }
   .ws5-talk__num a { font-size: 4rem; }
 }
 
 /* WS3's request form inside WS5 contact blocks: layout only (fields are WS3's 40-request.css) */
 .ws5-talk__form .v3-request > * + * { margin-top: var(--sp-16); }
+/* Peak pass R1 (visual 7), desktop contact block only: name and phone share one row, so the form in
+   the right column is one field shorter. Field styles stay WS3's. */
+@media (min-width: 1024px) {
+  .ws5-talk__form .v3-request { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-16); align-items: start; }
+  .ws5-talk__form .v3-request > * { grid-column: 1 / -1; }
+  .ws5-talk__form .v3-request > .rq-field:has(> input.rq-input) { grid-column: auto; }
+}
 
 /* ---------- In their words: the shop line ---------- */
 .ws5-words__label a { color: var(--fg); }
@@ -373,11 +396,8 @@
 @media (min-width: 640px) { .ws5-shopline { grid-template-columns: 320px minmax(0, 1fr); gap: var(--sp-32); } }
 .ws5-shopline.ws5-shopline--text { grid-template-columns: minmax(0, 1fr); }
 
-/* Talk to a person: the square storefront crop. Under 1024px the phone crop (5:4) sits in a wider box,
-   so the window is pulled down to keep "1633" and the whole logo decal in frame (fixes B). */
-@media (max-width: 1023px) {
-  .ws5-talk__fig img { object-position: 40% 82% !important; }
-}
+/* Talk to a person: the 2:1 storefront band at every width (peak pass R1 visual finding 8). The box
+   is the crop's own shape, so no object-position nudge is needed (the old 40% 82% rule is gone). */
 
 /* ---------- Work tiles (art direction GT-a, GT-b; gallery data) ---------- */
 .ws5-work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-8); }
@@ -396,6 +416,14 @@
 /* Bottom padding is the 32px rhythm only: body.v3 already reserves the call bar (and the cookie
    bar) under 768px in 30-actions.css, so adding --scb here left an empty 72px band (integration pass) */
 .ws5-footer { padding-block: var(--sp-64) var(--sp-32); }
+/* Peak pass R1 (visual 17): the room body.v3 keeps at the end of the page for the call bar and the
+   cookie bar (30-actions.css) showed the body's own ground, a 72px cream band under the dark footer on
+   cream pages. The footer now reaches into that room (padding) and gives the same amount back
+   (negative margin), so the page height is unchanged and the band is the footer's ink. */
+.ws5-footer { padding-bottom: calc(var(--sp-32) + var(--ckh, 0px)); margin-bottom: calc(-1 * var(--ckh, 0px)); }
+@media (max-width: 767px) {
+  .ws5-footer { padding-bottom: calc(var(--sp-32) + var(--scb) + var(--ckh, 0px)); margin-bottom: calc(-1 * (var(--scb) + var(--ckh, 0px))); }
+}
 .ws5-footer__grid { display: grid; gap: var(--sp-48); }
 .ws5-footer__logo img { height: 40px; width: auto; }
 .ws5-footer__brand > * + * { margin-top: var(--sp-16); }
@@ -436,12 +464,29 @@
 .ws5-hero__media .v3-hero-media--photo img { aspect-ratio: 5 / 4; width: 100%; height: auto; object-fit: cover; border-radius: var(--radius); }
 .ws5-hero__strip { margin-top: var(--sp-32) !important; }
 
+/* JS-only controls (peak pass R1, technical 3): marked data-js-only in the markup instead of hidden, and
+   shown from first paint when the head script has set html.js, so nothing above a photo grid or the
+   Q&A list appears late and shoves the page down (CLS). Without JavaScript they never show. */
+html:not(.js) [data-js-only] { display: none !important; }
+
+/* Eyebrow phone form (peak pass R1, visual 14): caps stay on one line under 640px. The two spans are
+   printed only when a page has a short form (v3/hero.njk eyebrowLine). */
+.t-eyebrow .eb-short { display: none; }
+@media (max-width: 639px) {
+  .t-eyebrow .eb-long { display: none; }
+  .t-eyebrow .eb-short { display: inline; }
+}
+
 /* ---------- Generic page blocks ---------- */
 .ws5-block .ws5-head { max-width: 48rem; }
 
 /* Ink primary for a non-booking link on cream (gift cards to Square): art direction C3 cream button */
 .ws5-btn--ink { background: var(--ink-w); color: var(--paper); border-color: var(--ink-w); }
 .ws5-btn--ink:hover { background: #3a3732; border-color: #3a3732; }
+/* Gold fill for a page whose one job is a non-call action (peak pass R1, psychology 10: /gift-cards).
+   Ink text on gold is 8.2:1; gold is a fill here, never text on cream (decisions-and-rules line 74). */
+.ws5-btn--gold { background: var(--gold); color: var(--ink-0); border-color: var(--gold); }
+.ws5-btn--gold:hover { background: var(--goldd); border-color: var(--goldd); color: var(--ink-0); }
 
 /* ---------- Phone compaction for the shared sections (8 px scale, G2) ---------- */
 @media (max-width: 639px) {
@@ -469,7 +514,6 @@
   .ws5-footer__nav > div li + li { margin-top: 0; }
   .ws5-footer__nav > div li:nth-child(n + 3) { margin-top: var(--sp-8); }
   .ws5-footer__legal { margin-top: var(--sp-32); }
-  .ws5-talk__media .ws5-fig__img { aspect-ratio: 16 / 9; }
   /* Fixes B 2026-10-29, every page on phones: the footer was 845px (a full screen). The "Visit" block
      (address, hours, phone) repeats "Talk to a person.", which sits directly above the footer on every
      page that has that block, so it gives way on phones there (pages without it, such as /prices, /book,

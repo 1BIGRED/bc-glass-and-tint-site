@@ -45,6 +45,8 @@
     { "id": "medium", "label": "Medium" },
     { "id": "dark", "label": "Dark" }
   ],
+  "look_tag": "Reads {look}",
+  "viewer": { "label": "Photo viewer", "close": "Close", "prev": "Previous photo", "next": "Next photo", "open": "Enlarge photo: {title}", "count": "{n} of {total}" },
   "look_note": "Look is how the glass reads in each photo, judged by eye. Shade numbers come once the shop records the shade on each job.",
 
   "honesty": "Photos and screens differ from real life. Ask to hold the film against your glass at the shop.",

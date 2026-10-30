@@ -2,14 +2,14 @@
 # Questions and answers, overhaul v3 (WS5; art direction 3.7): a reading column, H2 per topic,
 # accordion rows. Every question and answer prints in the page (closed details) and the FAQPage
 # JSON-LD (qa.11tydata.js) is built from the same items. The search box is progressive enhancement
-# (rendered hidden; assets/v3/js/60-moments.js reveals it). One conversion path: no per-answer
+# (marked data-js-only, shown from first paint under html.js, peak pass R1; 60-moments.js wires it). One conversion path: no per-answer
 # calls to action. Wording: _data/pages/qa.json v3.
 layout: layouts/v3.njk
 permalink: qa.html
 slug: qa
 page_key: qa
 og_image: logo.png
-bundles: ["service"]
+bundles: ["service", "qa"]
 ---
 {%- import "v3-service/blocks.njk" as b with context -%}
 {%- set V = pages.qa.v3 -%}
@@ -21,7 +21,7 @@ bundles: ["service"]
       <h1 id="hero-h">{{ V.h1 | safe }}</h1>
       <p class="t-lead fg-2 measure">{{ V.lede | safe }}</p>
       <nav class="ws5-topics" aria-label="{{ V.topics_label | safe }}">{% for g in V.groups %}<a href="#{{ g.id }}">{{ g.heading | safe }}</a>{% endfor %}</nav>
-      <div class="ws5-search" data-qa-search hidden>
+      <div class="ws5-search" data-qa-search data-js-only>
         <label for="qa-q">{{ V.search.label | safe }}</label>
         <input id="qa-q" type="search" placeholder="{{ V.search.placeholder }}" autocomplete="off">
         <p class="t-label fg-2" aria-live="polite" data-qa-count data-tpl="{{ V.search.count_some }}" data-total="{{ total }}"></p>

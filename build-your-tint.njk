@@ -131,16 +131,20 @@ bundles: ["builder"]
       <div class="bt-tune" data-bt-tune>
         <h2 class="t-h3">{% if C.presets.length %}{{ pg.windows.heading_with_presets | safe }}{% else %}{{ pg.windows.heading_without_presets | safe }}{% endif %}</h2>
         <p class="t-body fg-2">{{ pg.windows.intro | safe }}</p>
+{#- Peak R1 (visual 4): every row has as many columns as the longest row (No film plus every
+    shade, bt_config.scale_cols), so a shade sits in the same column on every row and the front
+    row visibly stops at Nevada's line. -#}
+{%- set btCols = C.scale_cols -%}
 {%- for w in C.windows %}
         <fieldset class="bt-wrow" data-bt-window="{{ w.id }}">
           <legend class="bt-wrow__h"><span class="bt-wrow__name">{{ w.label | safe }}</span> <span class="bt-wrow__val t-label fg-2" data-bt-wval>{{ pg.windows.no_film | safe }}</span></legend>
-          <div class="bt-scale">
+          <div class="bt-scale" style="--cols:{{ btCols }};--n:{{ C.shades[w.id].length + 1 }}">
             <label class="bt-pane bt-pane--none"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="0" checked><span class="bt-pane__glass" aria-hidden="true"></span><span class="bt-pane__t t-label">{{ pg.windows.no_film | safe }}</span></label>
 {%- for s in C.shades[w.id] %}
             <label class="bt-pane"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="{{ s.v }}"><span class="bt-pane__glass" style="--a:{{ s.a }}" aria-hidden="true"></span>{% if s.num %}<span class="bt-pane__t t-label tnum">{{ s.name }}</span>{% else %}<span class="vh">{{ s.name | safe }}</span>{% endif %}</label>
 {%- endfor %}
           </div>
-          <p class="bt-scale__ends t-label fg-2" aria-hidden="true"><span>{{ pg.windows.lighter | safe }}</span><span>{{ pg.windows.darker | safe }}</span></p>
+          <p class="bt-scale__ends t-label fg-2" style="--cols:{{ btCols }};--n:{{ C.shades[w.id].length + 1 }}" aria-hidden="true"><span>{{ pg.windows.lighter | safe }}</span><span>{{ pg.windows.darker | safe }}</span></p>
           <p class="bt-wrow__legal t-label fg-2">{{ w.legal | safe }}</p>
         </fieldset>
 {%- endfor %}
@@ -168,7 +172,17 @@ bundles: ["builder"]
           <p class="t-label fg-2">{{ pg.result.parts_label | safe }}</p>
           <dl class="bt-parts" data-bt-parts></dl>
         </div>
-        <p class="t-body bt-fvp" data-bt-fvp hidden></p>
+        {#- Peak R1 (psychology 8): a fronts-only build gets a one-tap path to the whole vehicle. The
+            button adds the rear doors and back glass at the front doors' shade (never preselected);
+            the price line prints only when the fronts, rear and full prices all pass the gate and
+            add up (lib/pricing.js fullVsParts). "Back to front doors only" undoes it in one tap. -#}
+        <div class="bt-up" data-bt-up hidden>
+          <p class="t-body bt-up__h" data-bt-up-h></p>
+          <p class="t-label fg-2">{{ pg.result.upgrade_benefit | safe }}</p>
+          <button type="button" class="bt-btn bt-up__go" data-bt-up-go>{{ pg.result.upgrade_button | safe }}</button>
+          <p class="t-label fg-2 bt-fvp" data-bt-fvp hidden></p>
+        </div>
+        <p class="bt-up__done" data-bt-up-undo-wrap hidden><span class="t-label fg-2">{{ pg.result.upgrade_done | safe }}</span> <button type="button" class="bt-link" data-bt-up-undo>{{ pg.result.upgrade_undo | safe }}</button></p>
 
         <fieldset class="bt-extras" data-bt-addons hidden>
           <legend class="t-label bt-extras__h">{{ pg.result.addons_heading | safe }}</legend>

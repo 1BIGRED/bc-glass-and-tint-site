@@ -41,6 +41,15 @@
 {%- set url = site.origin + (page.url | canonicalPath) -%}
 {%- set heroMode = "photo" if (hero and hero.mode == "photo" and hero.image) else ("storefront" if (hero and hero.mode == "storefront" and hero.image) else "ramp") -%}
 {%- set moodName = "warm" if (theme == "warm" or mood == "warm") else "dark" -%}
+{#- Link previews (peak pass R1, technical 10): a page with no photo of its own used to share
+    logo.png (1612 x 600), which every platform crops. It now shares the 1200 x 630 storefront crop
+    built by scripts/images.js, with its own size and alt (global og_share, lib/eleventy-og.js). -#}
+{%- set ogShare = og_share or null -%}
+{%- set useShare = ogShare and ((not og_image) or og_image == "logo.png") -%}
+{%- set ogImg = ogShare.path if useShare else og_image -%}
+{%- set ogW = ogShare.width if useShare else og_image_width -%}
+{%- set ogH = ogShare.height if useShare else og_image_height -%}
+{%- set ogAlt = ogShare.alt if useShare else m.image_alt -%}
 <!DOCTYPE html>
 <html lang="en" data-price-mode="{{ price_mode }}">
 <head>
@@ -67,12 +76,12 @@
 <meta property="og:title" content="{{ metaTitle | fill | safe }}">
 {% if metaDesc %}<meta property="og:description" content="{{ metaDesc | fill | safe }}">
 {% endif %}<meta property="og:url" content="{{ url | safe }}">
-{% if og_image %}<meta property="og:image" content="{{ site.origin | safe }}/{{ og_image | safe }}">
-{% if og_image_width %}<meta property="og:image:width" content="{{ og_image_width | safe }}">
-<meta property="og:image:height" content="{{ og_image_height | safe }}">
-{% endif %}{% if m.image_alt %}<meta property="og:image:alt" content="{{ m.image_alt | safe }}">
+{% if ogImg %}<meta property="og:image" content="{{ site.origin | safe }}/{{ ogImg | safe }}">
+{% if ogW %}<meta property="og:image:width" content="{{ ogW | safe }}">
+<meta property="og:image:height" content="{{ ogH | safe }}">
+{% endif %}{% if ogAlt %}<meta property="og:image:alt" content="{{ ogAlt | safe }}">
 {% endif %}<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="{{ site.origin | safe }}/{{ og_image | safe }}">
+<meta name="twitter:image" content="{{ site.origin | safe }}/{{ ogImg | safe }}">
 {% endif %}<meta name="twitter:title" content="{{ metaTitle | fill | safe }}">
 {% if metaDesc %}<meta name="twitter:description" content="{{ metaDesc | fill | safe }}">
 {% endif %}{% include "head/icons.njk" %}

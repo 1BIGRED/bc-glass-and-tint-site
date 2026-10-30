@@ -50,8 +50,16 @@ function prep(it) {
     const code = B.encode({ v: body, front: set.has("front-doors") ? "x" : 0, rear: set.has("rear-doors") ? "x" : 0, back: set.has("back-glass") ? "x" : 0, addons: [] });
     if (code) build = "/build-your-tint?b=" + encodeURIComponent(code);
   }
+  // Peak pass R1 (visual G2): one short tag line per tile instead of the same sentence on 15 tiles.
+  // Every part comes from this item's own record: body type, windows, and the look in this photo
+  // (car tint); the service name otherwise. Never a shade number or a city.
+  const winDef = (W.windows_filter || []).find((w) => w.id === windows);
+  const lookDef = (W.look_filter || []).find((l) => l.id === it.look);
+  const tags = it.service === "auto-tint"
+    ? [bodyDef ? bodyDef.label : "", winDef ? winDef.label : (panelWords.length ? cap(join(panelWords)) : ""), lookDef && W.look_tag ? W.look_tag.replace("{look}", lower(lookDef.label)) : ""].filter(Boolean)
+    : [svc.line_label];
   return {
-    id: it.id, service: it.service, body: body, make: v.make || "", title: it.title,
+    id: it.id, service: it.service, body: body, make: v.make || "", title: it.title, tags: tags,
     line2: line2, look: it.look || "", lookLine: lookLine, windows: windows,
     alt: it.alt, image: IMAGES[it.id], q: q, build: build
   };

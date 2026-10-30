@@ -50,3 +50,31 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=604800, must-revalidate"
+
+# Peak pass R1 (technical 15, part A request 3): the web app manifest was served as
+# application/octet-stream, and the icons at max-age=0. One week, then revalidate (no content hash).
+[[headers]]
+  for = "/site.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=604800"
+[[headers]]
+  for = "/icon-*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+[[headers]]
+  for = "/apple-touch-icon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+
+# The "Save our number" contact card on the request success page (fixes A, peak pass R1). Served as a
+# vCard download; the real MIME on Netlify is UNKNOWN until fetched (curl.exe -sI .../book/bc-glass-and-tint.vcf).
+[[headers]]
+  for = "/book/bc-glass-and-tint.vcf"
+  [headers.values]
+    Content-Type = "text/vcard; charset=utf-8"
+    Content-Disposition = "attachment; filename=\"BC Glass and Tint.vcf\""

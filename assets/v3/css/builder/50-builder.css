@@ -18,6 +18,14 @@
   background-color: var(--ink-head);
   border-bottom: 1px solid var(--line);
 }
+/* Peak R1 (technical 12): on short screens (phone landscape, 200 percent zoom) the header scrolls
+   away (20-header.css rule 7), so the total bar pins to the very top instead of leaving a 64px strip
+   of page showing above it */
+@media (max-height: 480px) {
+  .bt-bar {
+    top: 0;
+  }
+}
 .bt-bar__in {
   height: 100%;
   display: flex;
@@ -43,6 +51,19 @@
   font-weight: 600;
   font-size: var(--t-body);
   line-height: var(--lh-text);
+}
+/* Peak R1: on narrow phones the words in the bar ("Price confirmed on the call", "Pick a starting
+   point") wrap to two short lines instead of being cut to "Price confirmed on t..." */
+@media (max-width: 419px) {
+  .bt:not([data-kind="price"]) .bt-bar__total {
+    white-space: normal;
+  }
+  .bt:not([data-kind="price"]) .bt-bar__v {
+    font-size: var(--t-label);
+    line-height: 1.2;
+    white-space: normal;
+    text-overflow: clip;
+  }
 }
 .bt-from {
   font-family: var(--font-text);
@@ -405,11 +426,16 @@
 .bt-wrow.is-current .bt-wrow__name {
   color: var(--text);
 }
+/* Peak R1 (visual 4): every row has the same column count (--cols, the longest row), so a shade sits
+   in the same column on every row and the front doors visibly stop at Nevada's line; the
+   Lighter/Darker ends span only the row's own --n columns. */
 .bt-scale {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(var(--cols, 7), minmax(0, 1fr));
   gap: var(--sp-8);
+}
+.bt-scale__ends {
+  width: calc((100% + var(--sp-8)) * var(--n, 7) / var(--cols, 7) - var(--sp-8));
 }
 .bt-pane {
   display: flex;
@@ -439,12 +465,35 @@
   color: var(--text-2);
   white-space: nowrap;
 }
-/* C2: the selected shade carries the gold ring; the focus ring is the same 2px gold (radio groups
-   move focus with the selection) */
-.bt-pane input:checked + .bt-pane__glass,
-.bt-pane input:focus-visible + .bt-pane__glass {
+/* C2: the selected shade carries the solid 2px gold ring. Peak R1 (technical 11): keyboard focus is
+   a different mark, a 2px light ring further out (a box-shadow, so it shows together with the gold
+   ring when the focused shade is also the selected one), and the shade's label is underlined. */
+.bt-pane input:checked + .bt-pane__glass {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
+}
+.bt-pane input:focus-visible + .bt-pane__glass {
+  box-shadow: 0 0 0 5px var(--bg), 0 0 0 7px var(--text);
+}
+.bt-pane input:focus-visible ~ .bt-pane__t {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* 320px (technical 13): seven panes share about 280px, so the one visible label ("No film") may
+   wrap inside its own pane instead of running into the next one; no pane is ever cut off */
+@media (max-width: 419px) {
+  .bt-scale {
+    gap: var(--sp-4);
+  }
+  .bt-scale__ends {
+    width: calc((100% + var(--sp-4)) * var(--n, 7) / var(--cols, 7) - var(--sp-4));
+  }
+  .bt-pane__t {
+    white-space: normal;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
 }
 .bt-pane input:checked ~ .bt-pane__t {
   color: var(--text);
@@ -506,6 +555,48 @@
 }
 .bt-fvp {
   max-width: var(--measure);
+}
+/* Peak R1 (psychology 8): the one-tap whole-vehicle upgrade, an outline button (never gold, the
+   booking action keeps the one fill) with its benefit line and the honest arithmetic under it */
+.bt-up {
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-8);
+  max-width: var(--measure);
+  padding-block: var(--sp-16);
+  border-block: 1px solid var(--line);
+}
+.bt-up[hidden],
+.bt-up__done[hidden] {
+  display: none;
+}
+.bt-up__h {
+  font-weight: 600;
+}
+.bt-up__go {
+  margin-top: var(--sp-4);
+  text-align: left;
+}
+.bt-up__done {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--sp-12);
+  max-width: var(--measure);
+}
+.bt-btn:focus-visible,
+.bt-link:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+/* a focused row or anchor lands clear of the header and the 48px total bar pinned under it */
+html[data-bt-pinned] {
+  scroll-padding-top: calc(var(--header-h) + 48px + 16px);
+}
+@media (max-height: 480px) {
+  html[data-bt-pinned] {
+    scroll-padding-top: calc(48px + 16px);
+  }
 }
 .bt-extras {
   margin: 0;

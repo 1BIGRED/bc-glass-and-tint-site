@@ -29,8 +29,15 @@
 .v3-act[data-secondary="text"] .v3-act__s [data-v="text"],
 .v3-act[data-secondary="request"] .v3-act__s [data-v="request"],
 .v3-act[data-note="calls"] [data-v="note-calls"],
-.v3-act[data-note="hours"] [data-v="note-hours"] {
+.v3-act[data-note="hours"] [data-v="note-hours"],
+.v3-act[data-state="open"][data-primary="call"] [data-v="note-open"] {
   visibility: visible;
+}
+/* Peak R1 (psychology 7): "Someone from the shop answers." sits under Call only while the shop is
+   open. It shares the note line's one grid cell with the other notes (which are all "none" while
+   open), so the line's height never changes when it appears. */
+.v3-act__note--open {
+  color: var(--fg);
 }
 /* On /book (data-on-book) a cell can be empty (no Request a time there, no Text until texts are
    confirmed): it takes no room */
@@ -144,6 +151,16 @@
     white-space: normal;
     text-wrap: balance;
     padding-block: var(--sp-8);
+  }
+  /* Peak R1 (visual 4): the builder's "Call (702) 550-8840 with this build" takes the full line, so
+     it sets on one line from about 360px and in two even lines below that, never a cramped stack */
+  .v3-act--builder > .v3-act__p {
+    flex: 1 1 100%;
+    justify-items: stretch;
+  }
+  .v3-act--builder > .v3-act__p > .v3-act__btn {
+    width: 100%;
+    padding-inline: var(--sp-16);
   }
 }
 
@@ -326,6 +343,36 @@ body.v3 {
   .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) > .v3-act__p {
     display: none;
   }
+  /* Peak R1: with no button above it, the block's own link does not start with "or" (visual 5,
+     psychology 18), and the "Someone from the shop answers." line goes with the hidden Call (the
+     bar's Call carries the action here). Static rules, so a state change moves nothing. */
+  .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or,
+  .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or,
+  .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) [data-v="note-open"],
+  .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) [data-v="note-open"] {
+    display: none;
+  }
+  /* With Text gone (texts unconfirmed) the secondary cell would hold nothing on a closed day, and
+     dropping it would move the content below the block when the script paints (the server prints
+     the no-JS Request a time there). On phones the primary is hidden for these kinds, so the
+     block's one route stays the Request a time link in every state: same height open, closed and
+     before the script runs. */
+  .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer):not([data-on-book])[data-secondary="none"] > .v3-act__s,
+  .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer):not([data-on-book])[data-secondary="none"] > .v3-act__s {
+    display: grid;
+  }
+  .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer):not([data-on-book])[data-primary="request"] .v3-act__s [data-v="request"],
+  .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer):not([data-on-book])[data-primary="request"] .v3-act__s [data-v="request"] {
+    visibility: visible;
+  }
+  .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or__rest,
+  .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or__rest {
+    display: inline-block;
+  }
+  .v3-act[data-kind="generic"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or__rest::first-letter,
+  .v3-act[data-kind="chip"]:not(.v3-act--bar):not(.v3-act--header):not(.v3-act--drawer) .v3-or__rest::first-letter {
+    text-transform: uppercase;
+  }
   /* room at the end of the page so the bar never covers the last lines (the footer) */
   body.v3 {
     padding-bottom: calc(var(--scb) + var(--ckh, 0px));
@@ -391,5 +438,22 @@ body.v3 {
   }
   .v3-act--bar {
     gap: 4px;
+  }
+}
+/* Peak R1 (technical 12): short screens (phone landscape, 200 percent zoom at 640x400) get a 44px
+   control row in a 57px bar instead of 56px in 73px, so the pinned UI stays a minority of the
+   screen. 44px is still the full touch target. */
+@media (max-height: 480px) {
+  :root {
+    --scb: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+  .v3-bar {
+    padding-block: 6px calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+  .v3-act--bar,
+  .v3-act--bar .v3-act__btn,
+  .v3-act--bar .v3-act__note {
+    height: 44px;
+    min-height: 44px;
   }
 }

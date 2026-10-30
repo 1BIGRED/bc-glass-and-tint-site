@@ -45,7 +45,18 @@
                  builder, the build code (30-actions.js)
       768px up   at most one gold fill on screen: extra gold actions get data-quiet and show as the
                  outline, a request form's submit wins (30-actions.js)
-      320px      no variant is wider than its line: labels wrap under 480px (WCAG 1.4.10) -#}
+      320px      no variant is wider than its line: labels wrap under 480px (WCAG 1.4.10)
+
+    Peak pass R1, part A (2026-10-30):
+      texting    while site.texts_confirmed is false (CEO ruling) NO slot prints an sms: link or an
+                 "or text" line: not the in-page actions, not the bar, not the menu sheet, not the
+                 builder. 30-actions.js swaps a planned Text secondary for Request a time where the
+                 slot has one, else for nothing. When the flag is true every Text variant returns.
+      open line  hero, lane, contact and builder slots (not home) print pages.book.call_answer
+                 ("Someone from the shop answers.") in the note line; 30-actions.css shows it only
+                 while the shop is open and Call is the visible primary.
+      "or"       a secondary label that starts with "or " carries it in span.v3-or, which phones
+                 drop where the primary above it is hidden (no sentence starts with "or"). -#}
 
 {% macro statusChip(opts) -%}
 {%- set o = opts or {} -%}
@@ -59,7 +70,9 @@
 {%- set sv = o.service or "any" -%}
 {%- set onBook = o.on_book or false -%}
 {%- set showReq = not onBook -%}
-{%- set showTxt = (not onBook) or site.texts_confirmed -%}
+{#- CEO ruling (peak R1): no Text anywhere until the shop confirms the line takes texts. With the
+    flag true this is the old rule ((not on_book) or texts_confirmed), which is then always true. -#}
+{%- set showTxt = site.texts_confirmed === true -%}
 {%- set A = pages.shared.v3.actions -%}
 {%- set tel = site.phone.tel -%}
 {%- set num = site.phone.display_call -%}
@@ -85,10 +98,22 @@
 {%- if kind == "chip" -%}{%- set sText = A.s_text_chip_photo if photo else A.s_text_chip_plain -%}
 {%- elif kind == "build" -%}{%- set sText = A.s_text_build -%}
 {%- else -%}{%- set sText = A.s_text -%}{%- endif -%}
+{%- set sReq = A.s_request | string -%}
+{#- a leading "or " rides in its own span so phones can drop it where no button sits above -#}
+{%- if sReq.slice(0, 3) == "or " %}{% set sReq = '<span class="v3-or">or </span><span class="v3-or__rest">' + sReq.slice(3) + '</span>' %}{% endif -%}
+{%- set sText = sText | string -%}
+{%- if sText.slice(0, 3) == "or " %}{% set sText = '<span class="v3-or">or </span><span class="v3-or__rest">' + sText.slice(3) + '</span>' %}{% endif -%}
 {%- set gold = (sl == "hero" or sl == "lane" or sl == "contact" or sl == "builder") -%}
-{#- no-JS plan: Call primary, Text secondary, hours printed (home: the measure primary, Call secondary) -#}
+{#- "Someone from the shop answers." beside Call, open state only (CSS), never for the home measure -#}
+{%- set answer = pages.book.call_answer if (gold and kind != "home" and pages.book and pages.book.call_answer) else "" -%}
+{#- no-JS plan: Call primary, Text secondary, hours printed (home: the measure primary, Call secondary).
+    Without Text the secondary is Request a time where the slot has one; the bar shows the hours. -#}
 {%- set p0 = "measure" if kind == "home" else "call" -%}
-{%- set s0 = "call" if kind == "home" else ("text" if showTxt else "none") -%}
+{%- if kind == "home" -%}{%- set s0 = "call" -%}
+{%- elif showTxt -%}{%- set s0 = "text" -%}
+{%- elif sl == "bar" -%}{%- set s0 = "note" -%}
+{%- elif showReq -%}{%- set s0 = "request" -%}
+{%- else -%}{%- set s0 = "none" -%}{%- endif -%}
 <div class="v3-act v3-act--{{ sl }}" data-bc-act data-slot="{{ sl }}" data-service="{{ sv }}" data-kind="{{ kind }}" data-state="nojs" data-primary="{{ p0 }}" data-secondary="{{ s0 }}" data-note="hours"{% if onBook %} data-on-book="true"{% endif %}{% if gold %} data-gold-zone{% endif %}{% if o.build %} data-build="true" data-build-body="{{ A.build_body }}"{% endif %}>
   <div class="v3-act__p">
 {%- if kind == "home" %}
@@ -123,13 +148,16 @@
     <a class="v3-act__link" data-v="text" data-act="text" href="{{ smsHref | safe }}"><span>{{ sText | safe }}</span></a>
 {%- endif %}
 {%- if showReq %}
-    <a class="v3-act__link" data-v="request" data-act="request" href="{{ reqHref }}"><span>{{ A.s_request | safe }}</span></a>
+    <a class="v3-act__link" data-v="request" data-act="request" href="{{ reqHref }}"><span>{{ sReq | safe }}</span></a>
 {%- endif %}
 {%- endif %}
   </div>
   <p class="v3-act__n">
     <span class="v3-act__note" data-v="note-calls"></span>
     <span class="v3-act__note" data-v="note-hours">{{ hoursText | safe }}</span>
+{%- if answer %}
+    <span class="v3-act__note v3-act__note--open" data-v="note-open">{{ answer | safe }}</span>
+{%- endif %}
   </p>
 {%- endif %}
 </div>

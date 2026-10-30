@@ -1,7 +1,7 @@
 {
   "_note": "Office and storefront film page, overhaul v3 (WS5), Warm Gallery. 'Licensed' kept off this quote area until the NSCB question is answered (blueprint lesson L22). Security film never implies unbreakable glass (decisions-and-rules). Legacy keys removed 2026-10-29.",
   "meta": {
-    "title": "Office and Storefront Window Film, Boulder City | BC Glass &amp; Tint",
+    "title": "Office and Storefront Film, Boulder City | BC Glass &amp; Tint",
     "description": "Window film for offices and storefronts in Boulder City, Henderson and Las Vegas. Helps cut glare and heat; privacy and security films available. Free measure.",
     "image_alt": "Storefront window under a maroon awning"
   },
@@ -11,6 +11,7 @@
     "form_service": "home",
     "source": "Commercial film",
     "eyebrow": "Office and storefront film. We come to your building.",
+    "eyebrow_short": "Office film. We come to you.",
     "h1": "Office and storefront film.",
     "lede": "Window film for offices and storefronts. It helps cut glare and heat at the glass, with privacy and security films where you need them.",
     "hero_photo": "commercial",
@@ -20,7 +21,7 @@
       "h2": "Free measure and quote.",
       "lede": "Every building is different, so we measure first. The measure and the quote are free for a space of any size.",
       "rows": [ { "label": "Office and storefront glass", "ref": "services.office_glass" } ],
-      "fallback": "home",
+      "fallback": "commercial",
       "links": [ { "label": "All prices", "href": "/prices" } ]
     },
     "looks": {
@@ -40,6 +41,13 @@
       ]
     },
     "review": "g-john-s",
+    "how_steps": [
+      { "title": "Tell us about the space.", "text": "Call, text or request a time. Tell us about the building and which glass gets the sun." },
+      { "title": "We measure on site.", "text": "Windows do not move, so we come to your building. The measure and the quote are free for a space of any size." },
+      { "title": "Book your install.", "text": "Nothing is booked until we confirm a time with you." },
+      { "title": "Know what each film does.", "text": "We walk you through what each film does and does not do before anything goes on the glass." }
+    ],
+    "how_fear": "Tell us about the building and the windows. Just questions? That's fine.",
     "faq": {
       "items": [
         { "question": "Can you do large storefronts and offices?", "answer": "Yes. We give free quotes for offices, retail, restaurants and more, including security and privacy film." },

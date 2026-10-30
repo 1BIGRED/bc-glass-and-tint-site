@@ -227,12 +227,30 @@
     });
   }
 
+  // Peak R1 (psychology 8): a fronts-only build offers the whole vehicle in one tap. The block shows
+  // for any fronts-only build with a vehicle; the price words (button and arithmetic line) only when
+  // fullVsParts passed the gate for this class and front + rear equals full.
+  var upSnap = null; // the build right after an upgrade tap, so "Back to front doors only" can undo it
+  function frontsOnly() { return state.front !== 0 && state.rear === 0 && state.back === 0; }
+  function upgradedNow() {
+    return !!upSnap && upSnap.v === state.v && state.front === upSnap.front && state.rear === upSnap.front && state.back === upSnap.front;
+  }
   function paintFvp() {
-    var el = $("[data-bt-fvp]");
+    var box = $("[data-bt-up]");
     var c = cls();
     var f = state.v && cfg.fvp[state.v];
-    var frontsOnly = state.front !== 0 && state.rear === 0 && state.back === 0;
-    if (!el || !c || !f || !frontsOnly) { show("[data-bt-fvp]", false); return; }
+    var on = !!(box && c && frontsOnly());
+    if (upSnap && !upgradedNow()) upSnap = null;
+    show("[data-bt-up-undo-wrap]", upgradedNow());
+    show("[data-bt-up]", on);
+    if (!on) return;
+    var h = $("[data-bt-up-h]");
+    if (h) h.textContent = tpl(cfg.text.upgrade_heading, { vehicle: c.noun || c.label });
+    var go = $("[data-bt-up-go]");
+    if (go) go.textContent = f ? tpl(cfg.text.upgrade_button_price, { rear: lowerFirst(f.rear.display) }) : cfg.text.upgrade_button;
+    var el = $("[data-bt-fvp]");
+    if (!el) return;
+    if (!f) { show("[data-bt-fvp]", false); return; }
     el.textContent = tpl(cfg.text.fronts_vs_full, { vehicle: c.noun || c.label, article: c.article || c.label, rear: lowerFirst(f.rear.display), full: lowerFirst(f.full.display) });
     if (f.draft) {
       var tag = document.createElement("span");
@@ -485,6 +503,44 @@
       if (inp) { try { inp.focus({ preventScroll: true }); } catch (err2) { inp.focus(); } }
     }
     paint({ quiet: true });
+  });
+
+  // Peak R1 (psychology 8): the one-tap upgrade and its undo. Both paint in this task so focus can
+  // move straight to the control that replaces the one just used (the tapped button disappears).
+  // They change only state.rear and state.back, so the stage, the code and bc:build follow as for
+  // any other pick.
+  function focusEl(el) { if (el) { try { el.focus({ preventScroll: true }); } catch (err) { el.focus(); } } }
+  function matchPreset() {
+    state.preset = null;
+    cfg.presets.forEach(function (p) { if (!state.preset && presetMatches(p)) state.preset = p.id; });
+  }
+  var upGo = $("[data-bt-up-go]"), upUndo = $("[data-bt-up-undo]");
+  if (upGo) upGo.addEventListener("click", function () {
+    if (!state.v || !frontsOnly()) return;
+    begin();
+    // the front doors' own shade on the rear doors and back glass (the rear rows offer every front
+    // shade, so it is always a real choice there); an unset front ("x") stays unset behind
+    var s = state.front;
+    state.rear = s;
+    state.back = s;
+    state.current = null;
+    matchPreset();
+    upSnap = { v: state.v, front: s };
+    emit("upgrade_tap", { vehicle: state.v, shade: typeof s === "number" ? String(s) : "unset" });
+    syncForm();
+    paint({ now: true });
+    focusEl(upUndo);
+  });
+  if (upUndo) upUndo.addEventListener("click", function () {
+    if (!upgradedNow()) return;
+    state.rear = 0;
+    state.back = 0;
+    state.current = null;
+    matchPreset();
+    upSnap = null;
+    syncForm();
+    paint({ now: true });
+    focusEl(upGo);
   });
 
   $$("[data-bt-example]").forEach(function (b) {

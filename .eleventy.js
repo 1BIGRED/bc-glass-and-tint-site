@@ -57,7 +57,12 @@ function buildV3Bundles() {
     Object.keys(sources).forEach((name) => {
       const parts = sources[name].map((f) => {
         const rel = path.relative(V3_SRC, f).split(path.sep).join("/");
-        const body = fs.readFileSync(f, "utf8").replace(/^\uFEFF/, "");
+        let body = fs.readFileSync(f, "utf8").replace(/^\uFEFF/, "");
+        // Peak pass R1 (technical 7, part A request 4): JS only, drop comments that START a line (block
+        // comments that open a line, and // line comments), so the core bundle fits its 15 KB brotli
+        // budget. Code and end-of-line comments are untouched. Every bundle is checked with node --check
+        // after the build (see PEAK-R1-B.md). Never start a line inside a template string with /* or //.
+        if (type === "js") body = body.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*\r?\n/gm, "").replace(/^[ \t]*\/\/[^\n]*\n/gm, "");
         return "/* " + rel + " */\n" + body.replace(/\s+$/, "") + "\n";
       });
       // JS parts are joined with a lone semicolon so one file can never run into the next.
@@ -109,6 +114,9 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.on("eleventy.before", () => {
     // Guard 1 (lib/validate.js): a bad value in _data/site.json stops the build in every context.
     validate.checkSiteData();
+    // Guard 1b (lib/validate.js, peak pass R1): a bare numeric, boolean or null `name:` in
+    // admin/config.yml stops the CMS from starting, so it stops the build too.
+    validate.checkCmsConfig();
     buildV3Bundles();
   });
   eleventyConfig.on("eleventy.after", (args) => {

@@ -11,9 +11,9 @@
      status_state (the <html data-status-state> value the action system sets, else "na").
 
    Events: call_click, text_click, email_click, router_click, price_view, build_start, preset_pick,
-   panel_change, addon_toggle, build_complete (builder.js raises bc:ev), form_start, generate_lead,
-   request_error, gift_card_click, directions_click, review_click, cookie_banner_shown,
-   cookie_accept. Test hook: window.bcEvents. */
+   panel_change, addon_toggle, build_complete, upgrade_tap (builder.js raises bc:ev), form_start,
+   generate_lead, request_error, gift_card_click, directions_click, review_click, contact_save,
+   cookie_banner_shown, cookie_accept. Test hook: window.bcEvents. */
 (function () {
   "use strict";
 
@@ -94,6 +94,9 @@
       send("text_click", { link_type: "sms", prefill: pre === "build" || pre === "chip_photo" ? pre : "plain" }, a);
     } else if (h.indexOf("mailto:") === 0) {
       send("email_click", { link_type: "mailto" }, a);
+    } else if (/\.vcf$/i.test(h)) {
+      /* peak R1: "Add to contacts" on the request success screen (the shop's card, no personal data) */
+      send("contact_save", { link_type: "vcf" }, a);
     } else if (SQUARE.test(hostOf(h))) {
       send("gift_card_click", { link_host: hostOf(h) }, a);
     } else if (h.indexOf("google.com/maps") > -1) {
@@ -150,14 +153,18 @@
   });
 
   /* ---------- builder and consent events: bc:ev { name, params } ---------- */
+  /* Peak R1: builder.js names its events in detail.event, consent in detail.name; both are read
+     (before this fix every builder event was dropped here). upgrade_tap is the one-tap whole
+     vehicle upgrade on the builder result. */
   var FORWARD = {
     build_start: 1, preset_pick: 1, panel_change: 1, addon_toggle: 1, build_complete: 1,
-    cookie_banner_shown: 1, cookie_accept: 1
+    upgrade_tap: 1, cookie_banner_shown: 1, cookie_accept: 1
   };
   document.addEventListener("bc:ev", function (e) {
     var d = (e && e.detail) || {};
-    if (!FORWARD[d.name]) return;
-    send(d.name, d.params || {}, e.target && e.target.nodeType === 1 ? e.target : null);
+    var name = d.name || d.event;
+    if (typeof name !== "string" || !FORWARD[name]) return;
+    send(name, d.params || {}, e.target && e.target.nodeType === 1 ? e.target : null);
   });
 
   /* ---------- price_view: a price block first enters view, once per block per page view ----------

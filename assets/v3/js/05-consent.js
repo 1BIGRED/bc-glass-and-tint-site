@@ -115,9 +115,17 @@
     }
   }
 
+  /* Peak R1 (technical 2): the head script (head/ga4.njk) sets <html data-ck="open"> before the
+     body paints when no choice is stored, and 35-consent.css shows the bar from the first paint, so
+     it is no longer a late LCP. Once a choice is made (or found) the attribute goes. */
+  function releaseFirstPaint() {
+    try { document.documentElement.removeAttribute("data-ck"); } catch (e) { /* ignore */ }
+  }
+
   function hide() {
     var hadFocus = bar.contains(document.activeElement);
     bar.hidden = true;
+    releaseFirstPaint();
     document.body.classList.remove("ck-open");
     try { document.documentElement.style.removeProperty("--ckh"); } catch (e) { /* ignore */ }
     if (ro) { try { ro.disconnect(); } catch (e2) { /* ignore */ } ro = null; }
@@ -168,6 +176,8 @@
     if (readChoice() === null) {
       show(false);
       note("cookie_banner_shown");
+    } else {
+      releaseFirstPaint();
     }
     window.bcConsent = {
       read: readChoice,

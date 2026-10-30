@@ -27,7 +27,10 @@
 {%- if isPhoto %}
 <figure class="v3-hero-media v3-hero-media--photo v3-hero-media--parade" data-hero-mode="photo">
   {{ picture(hh.image, hh.sizes or "100vw", { alt: hh.alt, high: true }) }}
-{%- if hh.note %}
+{%- if hh.caption %}
+  {#- Peak pass R1 (visual 2c): one line saying only what is in the frame, at every width. -#}
+  <figcaption class="v3-hero-media__cap t-label fg-2">{{ hh.caption | safe }}</figcaption>
+{%- elif hh.note %}
   <figcaption class="v3-hero-media__note">{{ hh.note | safe }}</figcaption>
 {%- endif %}
 </figure>
@@ -60,7 +63,7 @@
 <section class="ws5-hero ws5-hero--home mood-dark bg-ink-0" aria-labelledby="hero-h">
   <div class="ws5-hero__in">
     <div class="ws5-hero__copy">
-      <p class="t-eyebrow">{{ hh.eyebrow | safe }}</p>
+      {{ eyebrowLine(hh.eyebrow, hh.eyebrow_short) }}
       <h1 id="hero-h">{{ hh.h1 | safe }}</h1>
       <p class="t-lead fg-2 ws5-hero__sub">{{ hh.sub | safe }}</p>
       <div class="ws5-hero__act">{{ action({ slot: "hero", service: "any" }) }}</div>
@@ -83,7 +86,8 @@
         <figcaption class="t-label fg-2"><a href="{{ (hh.review.url or reviews.listing_url) | safe }}" target="_blank" rel="noopener">{{ hh.review.author_display | safe }}{% if hh.review.month_year %}, {{ hh.review.month_year | safe }}{% endif %}, {{ pages.sections.words.attribution | safe }}</a></figcaption>
       </figure>
       {%- endif %}
-      {{ proof(hh.proof) }}
+      {#- Peak pass R1 (visual 6): the floating 13px warranty line is gone; the proof row below the
+          hero (proofRow) carries it with the other facts on file. -#}
     </div>
     <div class="ws5-hero__media">
       {{ heroMedia(hh.media) }}
@@ -92,18 +96,50 @@
 </section>
 {%- endmacro %}
 
+{#- Eyebrow with an optional phone form (peak pass R1, visual 14): caps longer than one line read as
+    a label that ran out of room, so under 640px a short string of 30 characters or fewer shows
+    instead. Only one of the two is ever displayed (display: none hides the other from screen
+    readers too). -#}
+{% macro eyebrowLine(long, short) -%}
+{%- if short and short != long -%}
+<p class="t-eyebrow"><span class="eb-long">{{ long | safe }}</span><span class="eb-short">{{ short | safe }}</span></p>
+{%- elif long -%}
+<p class="t-eyebrow">{{ long | safe }}</p>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Proof row (peak pass R1, visual 6): homepage section 2, facts on file only, never a review count or
+    rating. items = [{ big, label }]. Sources: family owned since 1994 (decisions-and-rules line 52),
+    lifetime manufacturer warranty on the film (line 66), licensed and insured (line 102). -#}
+{% macro proofRow(p) -%}
+{%- if p and p.items and p.items.length %}
+<section class="ws5-proofrow mood-dark bg-ink-1" aria-label="{{ p.label | safe }}">
+  <div class="wrap">
+    <ul class="ws5-proofrow__list list-plain">
+{%- for it in p.items %}
+      <li class="ws5-proofrow__i"><span class="ws5-proofrow__big">{{ it.big | safe }}</span> <span class="ws5-proofrow__lbl">{{ it.label | safe }}</span></li>
+{%- endfor %}
+    </ul>
+  </div>
+</section>
+{%- endif %}
+{%- endmacro %}
+
 {#- o = { eyebrow, h1, lede, service, photo (ws5photos key), ramp (true = Light Ramp media),
           strip (true = ramp as a strip under the copy), build_link, build_href, proof, mood,
           ground, note, crumb_parent } -#}
 {% macro pageHero(o) -%}
 {%- set ph = ws5photos[o.photo] if o.photo else null -%}
-{%- set hasMedia = ph or o.ramp -%}
+{%- set hasMedia = ph or o.ramp or (o.typelist and o.typelist.length) -%}
 <section class="ws5-hero ws5-hero--page {{ o.ground or ('bg-paper-2' if o.mood == 'warm' else 'bg-ink-0') }}{% if not hasMedia %} ws5-hero--solo{% endif %}" aria-labelledby="hero-h">
   <div class="ws5-hero__in">
     <div class="ws5-hero__copy">
-      {% if o.eyebrow %}<p class="t-eyebrow">{{ o.eyebrow | safe }}</p>{% endif %}
+      {{ eyebrowLine(o.eyebrow, o.eyebrow_short) }}
       <h1 id="hero-h">{{ o.h1 | safe }}</h1>
       {% if o.lede %}<p class="t-lead fg-2 ws5-hero__sub measure">{{ o.lede | safe }}</p>{% endif %}
+      {%- if o.price_line %}
+      <p class="t-body ws5-hero__price measure">{{ o.price_line | safe }}{% if o.price_draft %} <span class="v3-prow__draft t-label">{{ pages.sections.draft_label | safe }}</span>{% endif %}</p>
+      {%- endif %}
       {%- if o.service %}
       <div class="ws5-hero__act">
         {%- if o.build_link %}<a class="ws5-btn" href="{{ o.build_href or '/build-your-tint' }}" data-build-link>{{ o.build_link | safe }}</a>{% endif %}
@@ -122,6 +158,10 @@
         {{ picture(ph.item, "(min-width: 1024px) 50vw, 100vw", { alt: ph.alt, high: true }) }}
         {% if ph.caption %}<figcaption class="v3-hero-media__note">{{ ph.caption | safe }}</figcaption>{% endif %}
       </figure>
+      {%- elif o.typelist and o.typelist.length %}
+      {#- Peak pass R1 (visual 11): a page with no real photo (blinds) sets its subjects as a type list in
+          the right column instead of leaving it empty. Decorative: the same names are in the page body. -#}
+      <ul class="ws5-typelist list-plain" aria-hidden="true">{% for t in o.typelist %}<li>{{ t | safe }}</li>{% endfor %}</ul>
       {%- else %}
       {{ heroMedia({ mode: "ramp", note: o.note }) }}
       {%- endif %}

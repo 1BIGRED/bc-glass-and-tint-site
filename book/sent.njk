@@ -5,22 +5,33 @@
 # robots_noindex also keeps analytics off this page: it fires no event (engineering 3.4).
 # Netlify drops the posted fields on this redirect, so a static page cannot restate the request
 # or the reference code; it says only what is true for every request.
+# Peak R1: the lead says the shop calls while site.texts_confirmed is false (CEO ruling, no "or
+# text"), and "Save our number" offers the shop's contact card (book/contact-card.njk). The "book"
+# bundle brings the success panel's styles.
 layout: layouts/v3.njk
 permalink: book/sent/index.html
 slug: book/sent
 meta_title: "Request received | BC Glass &amp; Tint"
-meta_description: "Your request reached BC Glass and Tint. Someone from the shop confirms your time by call or text."
+meta_description: "Your request reached BC Glass and Tint. Someone from the shop confirms your time."
 robots_noindex: true
 eleventyExcludeFromCollections: true
 mood: dark
 header_raised: true
+bundles: ["book"]
 ---
 {%- set pg = pages.book.sent -%}
+{%- set sc = pages.book.save_contact -%}
 <section class="section section--minor rq-page" aria-labelledby="rq-sent-h1" data-section="request-sent">
   <div class="wrap">
     <div class="rq-col stack stack-24">
       <h1 id="rq-sent-h1">{{ pg.heading | safe }}</h1>
-      <p class="t-lead">{{ pg.lead | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
+      <p class="t-lead">{{ (pg.lead if site.texts_confirmed === true else pg.lead_calls_only) | replace("{phone}", '<span class="rq-nowrap">{phone}</span>') | rqFill(site) | safe }}{% if site.lines and site.lines.request_confirm %} {{ site.lines.request_confirm | safe }}{% endif %}</p>
+{%- if sc %}
+      <div class="rq-save">
+        <p class="t-body">{{ sc.line | replace("{phone}", '<span class="rq-nowrap">{phone}</span>') | rqFill(site) | safe }}</p>
+        <a class="rq-save__btn t-button" href="/book/bc-glass-and-tint.vcf" download="{{ sc.file_name }}" type="text/vcard">{{ sc.button | safe }}</a>
+      </div>
+{%- endif %}
       <p class="t-body">{{ pg.not_booked | safe }}</p>
       <p class="t-body">{{ pg.talk | rqFill(site) | safe }}</p>
       <p class="t-body"><a href="/">{{ pg.home_link | safe }}</a></p>

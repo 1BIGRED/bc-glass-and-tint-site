@@ -11,6 +11,19 @@
       keeps Tab inside the button and the sheet while open (art direction H-f).
    3. One gold fill per view (art direction H-c): while an in-page gold control
       ([data-gold-zone]) is on screen, the header call goes to outline (.is-quiet). */
+/* 0. --sbw on <html> (peak pass R1, visual 15): the vertical scrollbar's width, so CSS that bleeds a
+   photo to the page edge can use the page width without it (100vw counts the scrollbar). Set once
+   and on resize; 0px on phones and overlay scrollbars. */
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  function setSbw() {
+    var w = Math.max(0, window.innerWidth - root.clientWidth);
+    root.style.setProperty("--sbw", w + "px");
+  }
+  setSbw();
+  window.addEventListener("resize", setSbw, { passive: true });
+})();
 (function () {
   "use strict";
   var header = document.querySelector("[data-v3-header]");

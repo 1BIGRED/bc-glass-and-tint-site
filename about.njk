@@ -11,13 +11,27 @@ bundles: ["home", "service"]
 ---
 {%- import "v3-service/blocks.njk" as b with context -%}
 {%- from "v3/hero.njk" import pageHero with context -%}
+{%- from "v3/media.njk" import picture -%}
 {%- set V = pages.about.v3 -%}
-{{ pageHero({ eyebrow: V.eyebrow, h1: V.h1, lede: V.lede, service: "any", photo: V.hero_photo, ground: "bg-ink-0" }) }}
+{{ pageHero({ eyebrow: V.eyebrow, eyebrow_short: V.eyebrow_short, h1: V.h1, lede: V.lede, service: "any", photo: V.hero_photo, ground: "bg-ink-0" }) }}
 
-<section class="section bg-ink-1" aria-labelledby="fact-h">
-  <div class="wrap">
-    <h2 id="fact-h" class="ws5-fact-h">{{ V.fact | safe }}</h2>
-    <div class="ws5-prose measure stack-16 ws5-mt-32">{% for p in V.story %}<p>{{ p | safe }}</p>{% endfor %}</div>
+{#- Peak pass R1 (visual 13): the family section was text only with an empty right half at 1440. It now
+    pairs the story with the shop's own parade frame (the graded homepage hero file, same caption). -#}
+{%- set fam = images["parade-hero"] -%}
+<section class="section bg-ink-1 ws5-fact" aria-labelledby="fact-h">
+  <div class="wrap grid ws5-fact__grid">
+    <div class="ws5-fact__copy">
+      <h2 id="fact-h" class="ws5-fact-h">{{ V.fact | safe }}</h2>
+      <div class="ws5-prose measure stack-16 ws5-mt-32">{% for p in V.story %}<p>{{ p | safe }}</p>{% endfor %}</div>
+    </div>
+    {%- if fam %}
+    <figure class="ws5-fact__fig">
+      {{ picture(fam, "(min-width: 1024px) 40vw, calc(100vw - 40px)", { alt: fam.alt }) }}
+      {%- if pages.home.v3.hero.photo_caption %}
+      <figcaption class="t-label fg-2">{{ pages.home.v3.hero.photo_caption | safe }}</figcaption>
+      {%- endif %}
+    </figure>
+    {%- endif %}
   </div>
 </section>
 

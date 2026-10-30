@@ -17,7 +17,7 @@ layout: layouts/v3.njk
 {%- set V = pg.v3 -%}
 {%- set dt = pg.drive_time if (pg.drive_time and pg.drive_time.approved) else null -%}
 
-{{ pageHero({ eyebrow: V.eyebrow, h1: V.h1, lede: V.lede, service: "any", photo: V.hero_photo, proof: V.proof, ground: "bg-ink-0" }) }}
+{{ pageHero({ eyebrow: V.eyebrow, h1: V.h1, lede: V.lede, service: "any", photo: V.hero_photo, ground: "bg-ink-0" }) }}
 
 <section class="ws5-getting-sec section--minor bg-ink-1" aria-labelledby="get-h">
   <div class="wrap">

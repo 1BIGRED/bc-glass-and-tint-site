@@ -12,8 +12,10 @@
     "form_service": "chip",
     "source": "Chip repair",
     "eyebrow": "Windshield chip repair. Boulder City shop.",
+    "eyebrow_short": "Chip repair. Boulder City.",
     "h1": "Windshield chip repair.",
     "lede": "Chips and small cracks. Vehicles come to the shop. Most chips are fixed the same day.",
+    "hero_price": { "first_ref": "services.chip_repair_first", "more_ref": "services.chip_repair_additional", "tpl": "Chip repair: {first} for the first chip, {more} for each one after. Small cracks are priced after we see them." },
     "hero_photo": "chip-bridge-portrait",
     "proof": "Family owned since 1994.",
     "prices": {

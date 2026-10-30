@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Window Tint and Glass Prices, Boulder City NV | BC Glass &amp; Tint",
-    "description": "Window tint and glass prices at BC Glass & Tint in Boulder City: starting prices by vehicle, what moves a price, and your exact price confirmed before anything is booked.",
+    "description": "Window tint and glass prices at BC Glass &amp; Tint in Boulder City: starting prices by vehicle, what moves a price, and your exact price before booking.",
     "image_alt": "Price list from BC Glass and Tint, Boulder City, NV"
   },
   "hero": {
@@ -43,6 +43,7 @@
       "moves_heading": "What moves the price",
       "moves": ["The size and shape of your vehicle", "How much glass you cover", "Old film to remove"],
       "builder_link": "Build your tint and see the price",
+      "review": "g-jessica-harrison",
       "builder_link_without_prices": "Build your tint and see it on screen"
     },
     "home": {

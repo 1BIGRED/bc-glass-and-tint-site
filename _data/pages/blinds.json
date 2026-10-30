@@ -11,9 +11,11 @@
     "form_service": "blinds",
     "source": "Blinds",
     "eyebrow": "Blinds and shades. Measured at your home.",
+    "eyebrow_short": "Blinds and shades.",
     "h1": "Blinds and shades.",
     "lede": "Light, privacy and the feel of the room. Every blind and shade is measured at your windows and built to fit, motorized if you want it.",
     "proof": "Family owned since 1994.",
+    "hero_list": ["Roller", "Cellular", "Roman", "Motorized"],
     "prices": {
       "eyebrow": "Price",
       "h2": "Free in-home measure and quote.",
@@ -45,6 +47,13 @@
       ]
     },
     "review": "g-db-realty",
+    "how_steps": [
+      { "title": "Tell us about the rooms.", "text": "Call, text or request a time. Tell us which rooms and roughly how many windows." },
+      { "title": "We measure at your home.", "text": "The measure and the quote are free. We talk through light, privacy and how each room is used." },
+      { "title": "Pick your shades.", "text": "Roller, cellular or Roman, motorized if you want it. Every shade is ordered to your measurements." },
+      { "title": "Installed and checked.", "text": "We install every unit and check how it works before we leave." }
+    ],
+    "how_fear": "Tell us the rooms you want done. Just questions? That's fine.",
     "while": {
       "eyebrow": "While we are there",
       "h2": "Window film.",

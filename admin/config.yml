@@ -1016,6 +1016,7 @@ collections:
                 widget: object
                 fields:
                   - { label: "Small line above the heading", name: eyebrow, widget: string }
+                  - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
                   - { label: "Main heading", name: h1, widget: string }
                   - { label: "Paragraph", name: sub, widget: string }
                   - { label: "Router label", name: router_label, widget: string }
@@ -1023,8 +1024,23 @@ collections:
                   - { label: "Review id under the picker (studio only)", name: review, widget: string, required: false, hint: "Technical. One short featurable Google review shown right after the three picker tiles. Ask the studio before changing." }
                   - { label: "Media mode", name: media_mode, widget: string, hint: "Technical. Ask the studio before changing." }
                   - { label: "Photo image", name: photo_image, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Photo caption (only what is in the photo)", name: photo_caption, widget: string, required: false }
                   - { label: "Media note", name: media_note, widget: string }
                   - { label: "Storefront photo", name: storefront_photo, widget: string }
+              - label: "Proof row under the hero (facts on file only, never a review count or rating)"
+                name: proof_row
+                widget: object
+                required: false
+                fields:
+                  - { label: "Label for screen readers", name: label, widget: string }
+                  - label: "Facts"
+                    name: items
+                    widget: list
+                    label_singular: "Fact"
+                    summary: "{{fields.big}}"
+                    fields:
+                      - { label: "Big word or number", name: big, widget: string }
+                      - { label: "Small line", name: label, widget: string }
               - label: "Router"
                 name: router
                 widget: list
@@ -1125,6 +1141,7 @@ collections:
                   - { label: "Car", name: car, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
                   - { label: "Shade", name: shade, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
                   - { label: "Moves", name: moves, widget: text }
+                  - { label: "Review id beside the prices (studio only)", name: review, widget: string, required: false, hint: "Technical. One featurable Google review about price. Ask the studio before changing." }
                   - { label: "Build link text, with price", name: build_price, widget: string }
                   - { label: "Build link text, no price", name: build_plain, widget: string }
                   - label: "Links"
@@ -1237,6 +1254,19 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - { label: "Hero type list, desktop right column", name: hero_list, widget: list, required: false, hint: "Short words, one per line (styles). Shown only on wide screens.", field: { label: "Word", name: word, widget: string } }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only. Blinds steps never mention vehicles or film."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Proof line", name: proof, widget: string }
               - label: "Prices"
@@ -1368,6 +1398,7 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero strip", name: hero_strip, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
               - { label: "Proof line", name: proof, widget: string }
@@ -1440,6 +1471,7 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero strip", name: hero_strip, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
               - { label: "Proof line", name: proof, widget: string }
@@ -1560,6 +1592,15 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "Hero price line (shows only when both prices are confirmed and published)"
+                name: hero_price
+                widget: object
+                required: false
+                fields:
+                  - { label: "First chip price source (studio only)", name: first_ref, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Each additional chip price source (studio only)", name: more_ref, widget: string, hint: "Technical. Ask the studio before changing." }
+                  - { label: "Wording", name: tpl, widget: string, hint: "Words in braces, such as {first}, are filled in automatically. Leave them exactly as they are." }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: string }
               - { label: "Hero photo", name: hero_photo, widget: string }
               - { label: "Proof line", name: proof, widget: string }
@@ -1686,6 +1727,7 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero strip", name: hero_strip, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
               - { label: "Proof line", name: proof, widget: string }
@@ -1799,6 +1841,18 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only. Blinds steps never mention vehicles or film."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero photo", name: hero_photo, widget: string }
               - { label: "Proof line", name: proof, widget: string }
@@ -1910,6 +1964,7 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero strip", name: hero_strip, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
               - { label: "Proof line", name: proof, widget: string }
@@ -2037,6 +2092,18 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only. Blinds steps never mention vehicles or film."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero photo", name: hero_photo, widget: string }
               - { label: "Proof line", name: proof, widget: string }
@@ -2166,6 +2233,7 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero photo", name: hero_photo, widget: string }
               - { label: "Proof line", name: proof, widget: string }
@@ -2453,6 +2521,7 @@ collections:
             fields:
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero photo", name: hero_photo, widget: string }
               - { label: "Fact", name: fact, widget: string }
@@ -2497,6 +2566,17 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only. Blinds steps never mention vehicles or film."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero photo", name: hero_photo, widget: string }
               - label: "Blocks"
@@ -2661,6 +2741,18 @@ collections:
               - { label: "Source", name: source, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Main heading", name: h1, widget: string }
+              - label: "How booking works: steps for this page"
+                name: how_steps
+                widget: list
+                required: false
+                label_singular: "Step"
+                summary: "{{fields.title}}"
+                hint: "Steps for this service only. Blinds steps never mention vehicles or film."
+                fields:
+                  - { label: "Title", name: title, widget: string }
+                  - { label: "Text", name: text, widget: text }
+              - { label: "How booking works: line under the steps", name: how_fear, widget: string, required: false }
+              - { label: "Small line above the heading, phones (30 characters or fewer)", name: eyebrow_short, widget: string, required: false, hint: "Shown under 640px wide so the line stays on one line." }
               - { label: "Lead paragraph", name: lede, widget: text }
               - { label: "Hero photo", name: hero_photo, widget: string }
               - { label: "Proof line", name: proof, widget: string }
@@ -2938,6 +3030,7 @@ collections:
                     field: { label: "Item", name: value, widget: string }
                   - { label: "Builder link", name: builder_link, widget: string }
                   - { label: "Builder link without prices", name: builder_link_without_prices, widget: string }
+                  - { label: "Review id beside the car prices (studio only)", name: review, widget: string, required: false, hint: "Technical. One featurable Google review about price. Ask the studio before changing." }
               - label: "Home"
                 name: home
                 widget: object
@@ -3042,6 +3135,12 @@ collections:
               - { label: "Parts label", name: parts_label, widget: string }
               - { label: "Code hint", name: code_hint, widget: string }
               - { label: "Fronts vs full", name: fronts_vs_full, widget: text, hint: "Words in braces, such as {google_count}, are filled in automatically. Leave them exactly as they are." }
+              - { label: "Upgrade heading", name: upgrade_heading, widget: string, required: false, hint: "Words in braces, such as {vehicle}, are filled in automatically. Leave them exactly as they are." }
+              - { label: "Upgrade benefit", name: upgrade_benefit, widget: string, required: false }
+              - { label: "Upgrade button", name: upgrade_button, widget: string, required: false }
+              - { label: "Upgrade button with price", name: upgrade_button_price, widget: string, required: false, hint: "Words in braces, such as {rear}, are filled in automatically. Leave them exactly as they are." }
+              - { label: "Upgrade done", name: upgrade_done, widget: string, required: false }
+              - { label: "Upgrade undo", name: upgrade_undo, widget: string, required: false }
               - label: "Part labels"
                 name: part_labels
                 widget: object
@@ -3099,12 +3198,12 @@ collections:
                 name: words
                 widget: object
                 fields:
-                  - { label: "70", name: 70, widget: string }
-                  - { label: "50", name: 50, widget: string }
-                  - { label: "35", name: 35, widget: string }
-                  - { label: "20", name: 20, widget: string }
-                  - { label: "15", name: 15, widget: string }
-                  - { label: "5", name: 5, widget: string }
+                  - { label: "70", name: "70", widget: string }
+                  - { label: "50", name: "50", widget: string }
+                  - { label: "35", name: "35", widget: string }
+                  - { label: "20", name: "20", widget: string }
+                  - { label: "15", name: "15", widget: string }
+                  - { label: "5", name: "5", widget: string }
               - { label: "Word fallback", name: word_fallback, widget: string }
               - label: "Panels"
                 name: panels
@@ -3260,6 +3359,7 @@ collections:
             fields:
               - { label: "Auto", name: auto, widget: string }
               - { label: "Home", name: home, widget: string }
+              - { label: "Commercial (on-site measure)", name: commercial, widget: string, required: false }
               - { label: "Crack", name: crack, widget: string }
               - { label: "Replace", name: replace, widget: string }
               - { label: "Service", name: service, widget: string, hint: "Technical. Ask the studio before changing." }
@@ -3497,6 +3597,7 @@ collections:
             fields:
               - { label: "Heading", name: heading, widget: string }
               - { label: "Lead", name: lead, widget: text, hint: "Words in braces, such as {google_count}, are filled in automatically. Leave them exactly as they are." }
+              - { label: "Lead when texts are off", name: lead_calls_only, widget: text, required: false, hint: "Words in braces, such as {phone}, are filled in automatically. Leave them exactly as they are." }
           - label: "Form"
             name: form
             widget: object
@@ -3536,12 +3637,22 @@ collections:
               - { label: "Heading", name: heading, widget: string }
               - { label: "Lead", name: lead, widget: string, hint: "Words in braces, such as {google_count}, are filled in automatically. Leave them exactly as they are." }
               - { label: "Not booked", name: not_booked, widget: string }
+              - { label: "Lead when texts are off", name: lead_calls_only, widget: string, required: false, hint: "Words in braces, such as {phone}, are filled in automatically. Leave them exactly as they are." }
               - { label: "Service label", name: service_label, widget: string }
               - { label: "Build label", name: build_label, widget: string }
               - { label: "Days label", name: days_label, widget: string }
               - { label: "Ref label", name: ref_label, widget: string }
               - { label: "Ref note", name: ref_note, widget: string }
               - { label: "Talk", name: talk, widget: string, hint: "Words in braces, such as {google_count}, are filled in automatically. Leave them exactly as they are." }
+          - { label: "Who answers (open hours)", name: call_answer, widget: string, required: false }
+          - label: "Save our number"
+            name: save_contact
+            widget: object
+            required: false
+            fields:
+              - { label: "Line", name: line, widget: string, hint: "Words in braces, such as {phone}, are filled in automatically. Leave them exactly as they are." }
+              - { label: "Button", name: button, widget: string }
+              - { label: "File name", name: file_name, widget: string, hint: "Technical. Ask the studio before changing." }
           - label: "Routes"
             name: routes
             widget: object
@@ -3554,6 +3665,7 @@ collections:
               - { label: "Heading", name: heading, widget: string }
               - { label: "Lead", name: lead, widget: string, hint: "Words in braces, such as {google_count}, are filled in automatically. Leave them exactly as they are." }
               - { label: "Not booked", name: not_booked, widget: string }
+              - { label: "Lead when texts are off", name: lead_calls_only, widget: string, required: false, hint: "Words in braces, such as {phone}, are filled in automatically. Leave them exactly as they are." }
               - { label: "Talk", name: talk, widget: string, hint: "Words in braces, such as {google_count}, are filled in automatically. Leave them exactly as they are." }
               - { label: "Home link", name: home_link, widget: string }
       - name: gallery_page
@@ -3748,6 +3860,18 @@ collections:
               - { label: "Id", name: id, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Label", name: label, widget: string }
           - { label: "Look note", name: look_note, widget: text }
+          - { label: "Look tag on each photo", name: look_tag, widget: string, required: false, hint: "Words in braces, such as {look}, are filled in automatically. Leave them exactly as they are." }
+          - label: "Photo viewer"
+            name: viewer
+            widget: object
+            required: false
+            fields:
+              - { label: "Viewer name for screen readers", name: label, widget: string }
+              - { label: "Close button", name: close, widget: string }
+              - { label: "Previous photo", name: prev, widget: string }
+              - { label: "Next photo", name: next, widget: string }
+              - { label: "Enlarge photo label", name: open, widget: string, hint: "Words in braces, such as {title}, are filled in automatically." }
+              - { label: "Photo count", name: count, widget: string, hint: "Words in braces, such as {n}, are filled in automatically." }
           - { label: "Honesty", name: honesty, widget: string }
           - label: "Filters"
             name: filters

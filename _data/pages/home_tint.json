@@ -11,6 +11,7 @@
     "form_service": "home",
     "source": "Home film",
     "eyebrow": "Home and office film. We come to you.",
+    "eyebrow_short": "Home and office film.",
     "h1": "Home window film.",
     "lede": "Window film keeps your view and helps cut glare and heat on sun-facing glass. It helps protect floors and furniture from UV fading.",
     "hero_photo": "home-lane",
@@ -45,6 +46,13 @@
       ]
     },
     "review": "g-gregory-hill",
+    "how_steps": [
+      { "title": "Tell us about the rooms.", "text": "Call, text or request a time. Tell us which rooms and which windows get the sun." },
+      { "title": "We measure at your home.", "text": "The measure and the quote are free. We walk you through the film options." },
+      { "title": "Book your install.", "text": "Nothing is booked until we confirm a time with you." },
+      { "title": "Done in one visit.", "text": "On install day the work is usually done in a single visit." }
+    ],
+    "how_fear": "Tell us the rooms you want done. Just questions? That's fine.",
     "while": {
       "eyebrow": "While we are there",
       "h2": "Blinds and shades.",

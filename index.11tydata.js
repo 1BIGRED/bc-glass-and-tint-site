@@ -36,7 +36,8 @@ module.exports = {
       // reads images.json directly, not ws5photos, so the ws5photos do-not-use guard stays whole.
       const pimg = data.images && data.images[h.photo_image];
       if (h.media_mode === "photo" && pimg && pimg.fallback) {
-        return { mode: "photo", image: pimg, alt: pimg.alt, sizes: "(min-width: 1024px) min(52vw, 900px), calc(100vw - 40px)", note: "" };
+        // caption: peak pass R1 (visual 2c), only what is in the frame (home.json v3.hero.photo_caption)
+        return { mode: "photo", image: pimg, alt: pimg.alt, sizes: "(min-width: 1024px) min(52vw, 900px), calc(100vw - 40px)", note: "", caption: h.photo_caption || "" };
       }
       if (h.media_mode === "storefront" && ph) {
         return { mode: "storefront", image: ph.item, alt: ph.alt, sizes: "(min-width: 1024px) 50vw, 100vw", note: "" };

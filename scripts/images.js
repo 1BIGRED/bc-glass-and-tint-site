@@ -56,7 +56,8 @@ const DO_NOT_USE = [
 // (2026-10-29 22:03 text). Exactly that path, read only, is allowed (and may sit outside photo-library/);
 // every other file in BC-Glass-Tint-site stays blocked, and so does every other block in the list.
 // Treatment is set in the manifest entry: a crop that keeps the truck and van as the subject and the
-// parade walkers out of frame, and a blur over the van's license plate.
+// parade walkers out of frame. No plate blur: client rule (decisions-and-rules line 116, 2026-07-23)
+// says visible plates are fine, no blur, no crop, no hold (CEO ruling, peak pass R1 2026-10-30).
 const PARADE_FRAME = /^\.\.[\\/]09 - Website[\\/]BC-Glass-Tint-site[\\/]images[\\/]hero\.jpg$/i;
 
 function die(msg) {
@@ -203,11 +204,83 @@ function applyGrade(p, grade) {
   return p;
 }
 
-async function renderVariant(id, masterName, crop, focal, group, exposure, blurs, grade) {
+// Optional global tonal pass (manifest field "tone"), peak pass R1 2026-10-30 (visual finding 2a and
+// gallery G3). Lightroom-style sliders, the same function on every pixel (no local edit, no mask, no
+// AI), bounded so it can only correct, never restyle:
+//   exposure      EV, -1 to 1 (linear light)
+//   highlights    -60 to 60, acts on tones above mid grey (smooth ramp from luma 0.45)
+//   whites        -60 to 60, acts on the top of the range only (from luma 0.7)
+//   shadows       -60 to 60, acts on tones below mid grey (fades out by luma 0.5)
+//   temperature   -15 to 15, warms (+) or cools (-) by trading red against blue
+//   blue_saturation, blue_luminance   -40 to 40, a hue band centred on sky blue (215 deg, +/- 45 deg)
+// Returns a lossless PNG buffer of the whole master; the working master on disk is never changed.
+const TONE_LIMITS = { exposure: 1, highlights: 60, whites: 60, shadows: 60, temperature: 15, blue_saturation: 40, blue_luminance: 40 };
+function checkTone(tone) {
+  Object.keys(tone).forEach((k) => {
+    if (k === "why" || k === "note") return;
+    if (!(k in TONE_LIMITS)) die("tone." + k + " is not a known slider (" + Object.keys(TONE_LIMITS).join(", ") + ")");
+    const v = tone[k];
+    if (typeof v !== "number" || Math.abs(v) > TONE_LIMITS[k]) die("tone." + k + " must be a number from -" + TONE_LIMITS[k] + " to " + TONE_LIMITS[k] + " (corrective only)");
+  });
+}
+function smooth(e0, e1, x) {
+  const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0)));
+  return t * t * (3 - 2 * t);
+}
+function toLin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+function toSrgb(c) { return c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
+function tonePixel(r, g, b, t, ev) {
+  if (t.temperature) { r *= 1 + 0.0025 * t.temperature; b *= 1 - 0.0025 * t.temperature; }
+  if (ev !== 1) { r = toSrgb(Math.min(1, toLin(Math.min(1, r)) * ev)); g = toSrgb(Math.min(1, toLin(g) * ev)); b = toSrgb(Math.min(1, toLin(Math.min(1, b)) * ev)); }
+  const y = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  let dy = 0;
+  if (t.highlights) dy += (t.highlights / 100) * 0.35 * smooth(0.45, 1, y) * (y - 0.35);
+  if (t.whites) dy += (t.whites / 100) * 0.2 * smooth(0.7, 1, y) * y;
+  if (t.shadows) dy += (t.shadows / 100) * 0.3 * (1 - smooth(0, 0.5, y)) * (0.5 - y);
+  if (dy && y > 0.002) { const k = (y + dy) / y; r *= k; g *= k; b *= k; } else if (dy) { r += dy; g += dy; b += dy; }
+  if (t.blue_saturation || t.blue_luminance) {
+    const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
+    if (d > 0.004) {
+      let h;
+      if (mx === r) h = 60 * (((g - b) / d) % 6);
+      else if (mx === g) h = 60 * ((b - r) / d + 2);
+      else h = 60 * ((r - g) / d + 4);
+      if (h < 0) h += 360;
+      const w = Math.max(0, 1 - Math.abs(h - 215) / 45) * Math.min(1, d / 0.08);
+      if (w > 0) {
+        const yy = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        if (t.blue_saturation) { const s = 1 + (t.blue_saturation / 100) * w; r = yy + (r - yy) * s; g = yy + (g - yy) * s; b = yy + (b - yy) * s; }
+        if (t.blue_luminance) { const l = 1 + (t.blue_luminance / 100) * 0.6 * w; r *= l; g *= l; b *= l; }
+      }
+    }
+  }
+  return [r, g, b];
+}
+const toneCache = new Map();
+async function toneInput(input, tone, cacheKey) {
+  if (!tone) return input;
+  checkTone(tone);
+  const key = cacheKey + JSON.stringify(tone);
+  if (toneCache.has(key)) return toneCache.get(key);
+  const { data, info } = await sharp(input).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const ev = tone.exposure ? Math.pow(2, tone.exposure) : 1;
+  const out = Buffer.alloc(data.length);
+  for (let i = 0; i < data.length; i += 3) {
+    const px = tonePixel(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255, tone, ev);
+    out[i] = Math.round(Math.min(1, Math.max(0, px[0])) * 255);
+    out[i + 1] = Math.round(Math.min(1, Math.max(0, px[1])) * 255);
+    out[i + 2] = Math.round(Math.min(1, Math.max(0, px[2])) * 255);
+  }
+  const png = await sharp(out, { raw: { width: info.width, height: info.height, channels: 3 } }).png({ compressionLevel: 1 }).toBuffer();
+  toneCache.set(key, png);
+  return png;
+}
+
+async function renderVariant(id, masterName, crop, focal, group, exposure, blurs, grade, tone) {
   const masterPath = path.join(SRC, masterName + ".jpg");
   if (!fs.existsSync(masterPath)) die("working master missing, run --sync first: " + masterPath);
   const meta = await sharp(masterPath).metadata();
-  const input = await masterInput(masterPath, blurs);
+  const input = await toneInput(await masterInput(masterPath, blurs), tone, masterPath + JSON.stringify(blurs || []));
   const c = cropFor(crop, meta.width, meta.height, focal);
   const widths = widthsFor(c.width, group);
   const files = { avif: [], webp: [], jpg: [] };
@@ -315,7 +388,7 @@ async function build(entries, opts) {
       console.log("keep ", e.id);
       continue;
     }
-    const v = await renderVariant(e.id, e.master, e.crop, e.focal, e.group, e.exposure || 0, e.blur, e.grade);
+    const v = await renderVariant(e.id, e.master, e.crop, e.focal, e.group, e.exposure || 0, e.blur, e.grade, e.tone);
     const item = itemFrom(v, e.focal);
     item.alt = e.alt;
     item.group = e.group;
@@ -326,7 +399,7 @@ async function build(entries, opts) {
     item.source = e.src;
     if (e.phone) {
       const pm = e.phone.master || e.master;
-      const pv = await renderVariant(e.id + "-phone", pm, e.phone.crop, e.phone.focal, e.group, e.exposure || 0, e.blur, e.grade);
+      const pv = await renderVariant(e.id + "-phone", pm, e.phone.crop, e.phone.focal, e.group, e.exposure || 0, e.blur, e.grade, e.tone);
       const pitem = itemFrom(pv, e.phone.focal);
       pitem.sizes = e.phone.sizes || "100vw";
       pitem.aspect = pv.crop.width + "/" + pv.crop.height;
@@ -350,6 +423,8 @@ async function build(entries, opts) {
   });
   // logo: 3x raster of the displayed size, from the original raster (never redrawn)
   await buildLogo(table);
+  // link-preview image: one 1200 x 630 crop of the real storefront (peak pass R1, technical 10)
+  await buildOgShare(table);
   const ordered = {};
   Object.keys(table).sort().forEach((k) => (ordered[k] = table[k]));
   fs.writeFileSync(DATA, JSON.stringify(ordered, null, 2) + "\n");
@@ -377,6 +452,24 @@ async function buildLogo(table) {
     note: "3x the displayed 40 px height; replaces the 640 x 238 logo-hero.png shown at about 108 x 40"
   };
   console.log("logo", w + "x" + h);
+}
+
+// Link previews (og:image, twitter:image), peak pass R1 2026-10-30, technical finding 10: one 1200 x 630
+// crop of the real storefront for pages without a photo of their own. Crop, size and alt live in
+// lib/og-share.js (also read by lib/eleventy-og.js). The file is written next to the other renditions;
+// it is not an images.json entry (that table holds picture() items only).
+const OG = require(path.join(ROOT, "lib", "og-share.js"));
+// eslint-disable-next-line no-unused-vars
+async function buildOgShare(table) {
+  const masterPath = path.join(SRC, OG.master + ".jpg");
+  if (!fs.existsSync(masterPath)) return;
+  checkAlt("_og", OG.alt);
+  const meta = await sharp(masterPath).metadata();
+  const c = cropFor(OG.crop, meta.width, meta.height);
+  if (c.width < OG.width) die("og share crop is narrower than 1200 px (would upscale)");
+  await sharp(masterPath).extract(c).resize({ width: OG.width, height: OG.height, kernel: "lanczos3", fit: "fill" })
+    .jpeg({ quality: 82, mozjpeg: true, progressive: true }).toFile(path.join(OUT, OG.file));
+  console.log("og share", OG.width + "x" + OG.height, "from", JSON.stringify(c));
 }
 
 (async () => {

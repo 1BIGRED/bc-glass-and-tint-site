@@ -11,6 +11,7 @@
     "form_service": "home",
     "source": "New construction",
     "eyebrow": "New construction. Boulder City.",
+    "eyebrow_short": "New construction.",
     "h1": "New home window film and blinds.",
     "lede": "An empty, just-finished home is the easiest and cleanest place to add window film and blinds, before the furniture, rugs and artwork arrive.",
     "hero_photo": "home-living",
@@ -49,7 +50,7 @@
         "type": "list",
         "eyebrow": "Communities",
         "heading": "Boulder City new builds.",
-        "lede": "BC Glass and Tint is not affiliated with, endorsed by, or working on behalf of any homebuilder named here.",
+        "lede": "BC Glass &amp; Tint is not affiliated with, endorsed by, or working on behalf of any homebuilder named here.",
         "items": [
           { "title": "Liberty Ridge", "text": "Single and two-story homes off Adams Boulevard, with larger windows and open layouts." },
           { "title": "Iron Pointe", "text": "Homes next to the golf club with covered patios." },
@@ -58,6 +59,13 @@
       }
     ],
     "review": "g-gregory-hill",
+    "how_steps": [
+      { "title": "Tell us about the rooms.", "text": "Call, text or request a time. Tell us which rooms and which windows get the sun." },
+      { "title": "We measure at your home.", "text": "The measure and the quote are free. We walk you through the film options." },
+      { "title": "Book your install.", "text": "Nothing is booked until we confirm a time with you." },
+      { "title": "Done in one visit.", "text": "On install day the work is usually done in a single visit." }
+    ],
+    "how_fear": "Tell us the rooms you want done. Just questions? That's fine.",
     "faq": {
       "items": [
         { "question": "When is the best time to tint a new home?", "answer": "As soon as you take possession, ideally before you move in. An empty home is the fastest, cleanest install." },

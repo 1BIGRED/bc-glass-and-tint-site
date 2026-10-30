@@ -21,6 +21,13 @@
 .v3-ck[hidden] {
   display: none;
 }
+/* Peak R1 (technical 2): a first visit shows the bar from the first paint. head/ga4.njk sets
+   <html data-ck="open"> when no choice is stored; 05-consent.js removes it on a choice. The
+   !important is needed to beat the global [hidden] rule (10-base.css). Without JavaScript the
+   attribute is never set, so the bar stays hidden, as before. */
+html[data-ck="open"] .v3-ck[hidden] {
+  display: block !important;
+}
 .v3-ck:focus,
 .v3-ck:focus-visible {
   outline: none;
@@ -112,6 +119,27 @@ html[data-bar-away] .v3-ck {
   }
   .v3-ck__btns {
     grid-template-columns: repeat(2, minmax(7rem, auto));
+  }
+}
+/* Peak R1 (technical 12): short screens (phone landscape, 200 percent zoom at 640x400). The same
+   wording and the same two equal buttons, side by side to the right of the text, in tighter
+   padding, so the notice and the call bar together leave most of the screen to the page. */
+@media (max-height: 480px) {
+  .v3-ck__in {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sp-4) var(--sp-12);
+    padding: var(--sp-4) var(--sp-16);
+  }
+  .v3-ck__text {
+    line-height: 1.3;
+  }
+  .v3-ck__btns {
+    grid-template-columns: repeat(2, auto);
+  }
+  .v3-ck__btn {
+    min-height: 40px;
+    padding: 0 var(--sp-12);
   }
 }
 @media (prefers-reduced-motion: reduce) {

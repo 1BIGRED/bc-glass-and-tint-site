@@ -11,9 +11,10 @@
     "form_service": "other",
     "source": "Ceramic coating",
     "eyebrow": "Ceramic coating. Boulder City shop.",
+    "eyebrow_short": "Ceramic coating. At the shop.",
     "h1": "Ceramic coating.",
     "lede": "A coating bonded to your paint by hand, so water and dirt slide off instead of baking on in the desert sun.",
-    "hero_strip": true,
+    "hero_strip": false,
     "proof": "Family owned since 1994.",
     "prices": {
       "eyebrow": "Price",

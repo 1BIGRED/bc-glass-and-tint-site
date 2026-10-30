@@ -9,10 +9,10 @@ layout: layouts/v3.njk
 permalink: prices.html
 slug: prices
 page_key: prices
-og_image: images/hero.jpg
 bundles: ["prices"]
 ---
 {%- from "v3/actions.njk" import action with context -%}
+{%- import "v3-service/blocks.njk" as b with context -%}
 {%- from "v3/price.njk" import priceRow, priceValue with context -%}
 {%- set pg = pages.prices -%}
 {%- set sc = pg.sections.car -%}
@@ -103,6 +103,10 @@ bundles: ["prices"]
       </div>
 {%- if pr_reviewed %}
       <p class="t-label fg-2">{{ pr_reviewed }}</p>
+{%- endif %}
+{%- if sc.review %}
+      {#- Peak pass R1 (psychology 9): one verbatim featurable Google review about price beside the car rows. -#}
+      {{ b.quote(reviews | ws5review(sc.review), { cls: "ws5-quote--price" }) }}
 {%- endif %}
     </div>
   </div>

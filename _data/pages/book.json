@@ -1,12 +1,14 @@
 {
   "meta": {
     "title": "Request a Time | BC Glass &amp; Tint",
-    "description": "Ask for a time at BC Glass and Tint in Boulder City. Send your name, number and what you need, and someone from the shop confirms your time by call or text.",
+    "description": "Ask for a time at BC Glass and Tint in Boulder City. Send your name, number and what you need, and someone from the shop confirms your time.",
     "image_alt": ""
   },
+  "call_answer": "Someone from the shop answers.",
   "hero": {
     "heading": "Request a time.",
-    "lead": "Tell us what you need and when you are free. Someone from the shop confirms your time by call or text from {phone}. Nothing is booked until we confirm."
+    "lead": "Tell us what you need and when you are free. Someone from the shop confirms your time by call or text from {phone}. Nothing is booked until we confirm.",
+    "lead_calls_only": "Tell us what you need and when you are free. Someone from the shop calls you from {phone} to confirm your time. Nothing is booked until we confirm."
   },
   "form": {
     "name_label": "Name",
@@ -40,6 +42,7 @@
   "success": {
     "heading": "Request received.",
     "lead": "We have your request. Someone from the shop will confirm your time by call or text from {phone}.",
+    "lead_calls_only": "We have your request. Someone from the shop will call you from {phone} to confirm your time.",
     "not_booked": "Nothing is booked until we confirm.",
     "service_label": "What it is for",
     "build_label": "Your build",
@@ -48,12 +51,18 @@
     "ref_note": "Mention it if you call about this request.",
     "talk": "Need to talk sooner? Call {phone_link}, {hours}."
   },
+  "save_contact": {
+    "line": "Save our number so you know it is us when we call: {phone}.",
+    "button": "Add to contacts",
+    "file_name": "BC Glass and Tint.vcf"
+  },
   "routes": {
     "talk": "Prefer to talk? The shop takes calls {hours}."
   },
   "sent": {
     "heading": "Request received.",
     "lead": "We have your request. Someone from the shop will confirm your time by call or text from {phone}.",
+    "lead_calls_only": "We have your request. Someone from the shop will call you from {phone} to confirm your time.",
     "not_booked": "Nothing is booked until we confirm.",
     "talk": "Need to talk sooner? Call {phone_link}, {hours}.",
     "home_link": "Back to the home page"

@@ -2,7 +2,7 @@
   "_note": "Henderson city page, overhaul v3 (WS5). Out-of-town organic rule: lead with residential film and windshield chip repair, never auto tint, never blinds as the lead (decisions-and-rules Markets). The drive time ('About 20 minutes from Henderson', on the v2 page) renders only once the owner approves its reuse (blueprint 4.1 and 4.2): drive_time.approved. The unverified climate figures (300 sunny days) and the neighbourhood list were dropped (status.md; one substantive hub, no doorway lists). 'Mobile' wording removed (C9). Legacy keys removed 2026-10-29.",
   "meta": {
     "title": "Window Film and Chip Repair for Henderson, NV | BC Glass &amp; Tint",
-    "description": "Home window film and windshield chip repair for Henderson, from our Boulder City shop. For homes we come to you; vehicles come to the shop. Family owned since 1994.",
+    "description": "Home window film and windshield chip repair for Henderson, from our Boulder City shop. For homes we come to you. Family owned since 1994.",
     "image_alt": "The BC Glass and Tint shop entry in Boulder City"
   },
   "drive_time": { "approved": false, "line": "About 20 minutes from Henderson. Roughly 11 miles; traffic changes it." },

@@ -8,15 +8,25 @@
   "v3": {
     "hero": {
       "eyebrow": "Boulder City, Nevada. Family owned since 1994.",
-      "h1": "Window tint for the desert sun.",
+      "eyebrow_short": "Boulder City, NV. Since 1994.",
+      "h1": "Window&nbsp;tint for the desert sun.",
       "sub": "Window tint and film for cars, homes and offices, plus windshield chip repair.",
       "router_label": "Pick what you need",
       "proof": "Lifetime manufacturer warranty on the film.",
       "review": "g-kristie-bergman",
       "media_mode": "photo",
       "photo_image": "parade-hero",
+      "photo_caption": "The shop's truck and van in a Boulder City parade.",
       "media_note": "Shades shown on screen. Ask to hold real film against your glass at the shop.",
       "storefront_photo": "storefront-hero"
+    },
+    "proof_row": {
+      "label": "About the shop",
+      "items": [
+        { "big": "1994", "label": "Family owned since" },
+        { "big": "Lifetime", "label": "Manufacturer warranty on the film" },
+        { "big": "Licensed", "label": "And insured" }
+      ]
     },
     "router": [
       { "id": "car", "label": "My car", "href": "#car", "price_ref": "auto_tint.coverage.two_front_doors", "price_tpl": "Ceramic tint. Front doors from ${amount}.", "fallback": "Ceramic tint. See prices and shades." },

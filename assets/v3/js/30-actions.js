@@ -21,7 +21,7 @@
    { detail: { code: "BC-S3520T", summary: "SUV. Front doors 35." } })). Every [data-build] control
    then links with the build: Request a time to /book?s=car&b=BC-S3520T, Text this build to an sms:
    link whose body is the labelled sentence plus the summary. A detail with no code restores the
-   plain links.
+   plain links. The listener lives in the builder bundle (builder/40-actions-build.js, peak R1).
 
    Phone bar (art direction CB-e): hidden while a text field has focus (the on-screen keyboard is
    open), while any in-page gold primary ([data-gold-fill], e.g. the request form's own submit
@@ -91,6 +91,11 @@
       if (el.getAttribute("data-fixed") === "true") continue;
       var slot = el.getAttribute("data-slot") || "lane";
       var p = core.plan(st.state, el.getAttribute("data-kind") || "generic", texts, slot, hasNext, el.getAttribute("data-on-book") === "true");
+      /* Peak R1 (CEO ruling): while texts are unconfirmed the macro prints no Text variant, so a
+         planned Text secondary becomes Request a time where this slot has one, else nothing. */
+      if (!texts && p.secondary === "text") {
+        p = { primary: p.primary, secondary: p.primary !== "request" && el.querySelector('.v3-act__s [data-v="request"]') ? "request" : "none", note: p.note };
+      }
       setAttr(el, "data-state", st.state);
       setAttr(el, "data-primary", p.primary);
       setAttr(el, "data-secondary", p.secondary);
@@ -133,39 +138,9 @@
     }
   })();
 
-  /* Build hand-off: carry the build code into the request and text links of the builder's own
-     action AND of the pinned controls (phone bar, menu sheet), so every "Request a time" on the
-     builder page opens /book?s=car&b=<code> and every Text carries the build (FIXES-A item 1). */
-  function applyBuild(detail) {
-    var code = detail && detail.code ? String(detail.code) : "";
-    var summary = detail && detail.summary ? String(detail.summary) : "";
-    var service = detail && detail.service ? String(detail.service) : "";
-    var bodyEl = document.querySelector("[data-bc-act][data-build-body]");
-    var body0 = bodyEl ? bodyEl.getAttribute("data-build-body") || "" : "";
-    var acts = document.querySelectorAll('[data-bc-act][data-build="true"], ' + PINNED);
-    for (var i = 0; i < acts.length; i++) {
-      var el = acts[i];
-      var body = (el.getAttribute("data-build-body") || body0).replace("{code}", code);
-      var links = el.querySelectorAll("a[data-act]");
-      for (var j = 0; j < links.length; j++) {
-        var a = links[j], kind = a.getAttribute("data-act");
-        if (kind !== "request" && kind !== "text") continue;
-        if (a.getAttribute("data-href0") == null) a.setAttribute("data-href0", a.getAttribute("href"));
-        var base = a.getAttribute("data-href0");
-        if (kind === "request") {
-          if (!code) { a.setAttribute("href", base); continue; }
-          var parts = base.split("?"), qs = parts[1] || "";
-          var kept = qs ? qs.split("&").filter(function (kv) { return kv && kv.split("=")[0] !== "b"; }) : [];
-          if (service && !kept.some(function (kv) { return kv.split("=")[0] === "s"; })) kept.unshift("s=" + encodeURIComponent(service));
-          kept.push("b=" + encodeURIComponent(code));
-          a.setAttribute("href", parts[0] + "?" + kept.join("&"));
-        } else {
-          a.setAttribute("href", code ? "sms:" + base.replace(/^sms:/, "").split("?")[0] + "?&body=" + encodeURIComponent((body + (summary ? " " + summary : "")).trim()) : base);
-        }
-      }
-    }
-  }
-  document.addEventListener("bc:build", function (e) { applyBuild(e && e.detail); });
+  /* Build hand-off (FIXES-A item 1): the code is carried into the request and text links of the
+     builder's own action and of the pinned controls by assets/v3/js/builder/40-actions-build.js,
+     which ships only with the builder (peak R1: builder-only code out of the core bundle). */
 
   /* One gold fill per screen on tablet and desktop (art direction C1, V5; FIXES-A item 7). From
      768px wide and 481px tall the in-page booking buttons (hero, lane, contact, builder) are gold.

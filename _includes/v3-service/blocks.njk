@@ -221,16 +221,20 @@
       <p class="t-body ws5-closures" data-closures data-intro="{{ T.closures_intro }}" data-fact="{{ T.closed_fact }}" hidden></p>
       <p class="t-body">{{ site.address.display | safe }}<br><a href="{{ site.maps_url | safe }}" target="_blank" rel="noopener">{{ T.map_link | safe }}</a></p>
       <p class="t-body fg-2">{{ T.where | safe }}</p>
-      <details class="ws5-talk__form" data-talk-form>
-        <summary><span class="t-h3">{{ T.form_heading | safe }}</span><span class="t-label fg-2">{{ T.form_note | safe }}</span><i aria-hidden="true"></i></summary>
-        <div class="ws5-talk__formbody">{{ requestForm({ source: o.source or "contact", service: o.form_service, id: uid + "-rq" }) }}</div>
-      </details>
     </div>
+    {#- Peak pass R1 2026-10-30 (visual finding 7): two columns from 1024px. The contact details and the
+        shop photo share the left half; the request form (auto-open on wide screens, 60-moments.js) fills
+        the right half, so the block is about one screen tall instead of 1,930px with a dead column.
+        Phone order is unchanged: details, form, photo. -#}
+    <details class="ws5-talk__form" data-talk-form>
+      <summary><span class="t-h3">{{ T.form_heading | safe }}</span><span class="t-label fg-2">{{ T.form_note | safe }}</span><i aria-hidden="true"></i></summary>
+      <div class="ws5-talk__formbody">{{ requestForm({ source: o.source or "contact", service: o.form_service, id: uid + "-rq" }) }}</div>
+    </details>
     {%- if ws5photos[o.photo or T.photo] %}
-    {#- Fixes B 2026-10-29: the square storefront crop (storefront-hero, 1256 x 1196, the whole logo
-        decal) in a square box; sizes is the real rendered width (5 of 12 columns, about 37vw), so the
-        browser never picks a file narrower than the slot (the 3:2 crop in a 4:5 box was 1.54x upscaled). -#}
-    <div class="ws5-talk__media">{{ photo(o.photo or T.photo, "(min-width: 1024px) 37vw, calc(100vw - 40px)", { ratio: "11", cls: "ws5-talk__fig" }) }}</div>
+    {#- The 2:1 storefront band (storefront-band, peak pass R1 visual finding 8): "1633", the whole logo
+        panel, no customer vehicle, no door decal. sizes is the real rendered width (6 of 12 columns,
+        about 46vw from 1024px). -#}
+    <div class="ws5-talk__media">{{ photo(o.photo or T.photo, "(min-width: 1440px) 640px, (min-width: 1024px) 46vw, calc(100vw - 40px)", { ratio: "21", cls: "ws5-talk__fig" }) }}</div>
     {%- endif %}
   </div>
 </section>

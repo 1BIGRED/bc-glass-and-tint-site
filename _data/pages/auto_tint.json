@@ -25,6 +25,7 @@
       "lede": "Pick your vehicle type. We confirm the exact price before anything is booked.",
       "car": true,
       "shade": true,
+      "review": "g-jessica-harrison",
       "moves": "What moves the price: the size and shape of your glass, which windows, and whether old tint has to come off first.",
       "build_price": "Build your tint and see the price",
       "build_plain": "Build your tint and see it on screen",

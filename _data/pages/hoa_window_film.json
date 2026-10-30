@@ -2,7 +2,7 @@
   "_note": "Window film and your HOA, overhaul v3 (WS5), Warm Gallery. Statute provisions carried verbatim from the v2 page, each cited; no reflectivity percentage for any community (none is verified, area-profile banned_claims). 'Mobile' wording removed (C9). Legacy keys removed 2026-10-29.",
   "meta": {
     "title": "Window Film and Your HOA in Nevada | BC Glass &amp; Tint",
-    "description": "Nevada law protects your right to add shutters for energy costs. It does not say the same about window film. Here is what NRS 116.2111 says and how to get film approved.",
+    "description": "Nevada law protects adding shutters for energy costs and does not say the same about window film. What NRS 116.2111 says and how to get film approved.",
     "image_alt": "Living room windows looking out to the desert"
   },
   "v3": {
@@ -13,6 +13,13 @@
     "eyebrow": "Nevada law, NRS 116.2111.",
     "h1": "Window film and your HOA.",
     "lede": "If your home sits in a community association anywhere in the Las Vegas valley, the question is almost always the same: am I allowed to put film on my windows? Nevada's law answers part of it, and your association's own documents answer the rest. This is not legal advice.",
+    "how_steps": [
+      { "title": "Tell us about the rooms.", "text": "Call, text or request a time. Tell us which rooms and which windows get the sun." },
+      { "title": "We measure at your home.", "text": "The measure and the quote are free. We walk you through the film options." },
+      { "title": "Book your install.", "text": "Nothing is booked until we confirm a time with you." },
+      { "title": "Done in one visit.", "text": "On install day the work is usually done in a single visit." }
+    ],
+    "how_fear": "Tell us the rooms you want done. Just questions? That's fine.",
     "hero_photo": "home-living",
     "blocks": [
       {

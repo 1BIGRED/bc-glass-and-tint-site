@@ -11,9 +11,10 @@
     "form_service": "other",
     "source": "Clear bra",
     "eyebrow": "Paint protection film. Done at the shop.",
+    "eyebrow_short": "Clear bra. Done at the shop.",
     "h1": "Clear bra.",
     "lede": "A clear, self-healing film across the front of your car, so rock chips and road debris hit the film instead of your paint.",
-    "hero_strip": true,
+    "hero_strip": false,
     "proof": "Family owned since 1994.",
     "prices": {
       "eyebrow": "Price",

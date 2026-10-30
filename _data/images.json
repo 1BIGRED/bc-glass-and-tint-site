@@ -741,29 +741,30 @@
     "use": [
       "home hero (Chase ruling 2026-10-29 10:03 PM: same picture as the current site)"
     ],
-    "note": "Source is 1200 x 540, so nothing may be shown wider than 900 px (desktop crop) or 675 px (phone crop) at 1x. Walkers at the far left and the Lions truck are out of frame in both crops; plate blurred in the master copy used for every rendition; original file untouched.",
+    "note": "Source is 1200 x 540, so nothing may be shown wider than 900 px at 1x. Desktop crop 900 x 540 (5:3); phone and tablet crop 900 x 450 (2:1, x 300 to 1200, y 90 to 540, peak pass R1 visual finding 1), placed directly under the H1 below 1024 px. Walkers at the far left and the Lions truck are out of frame in both crops. No plate blur (client rule, decisions-and-rules line 116: visible plates are fine). Original file untouched.",
     "source": "../09 - Website/BC-Glass-Tint-site/images/hero.jpg",
     "phone": {
-      "width": 640,
-      "height": 512,
+      "width": 900,
+      "height": 450,
       "fallback": "/images/v3/parade-hero-phone-640.jpg",
-      "avif": "/images/v3/parade-hero-phone-480.avif 480w, /images/v3/parade-hero-phone-640.avif 640w",
-      "webp": "/images/v3/parade-hero-phone-480.webp 480w",
+      "avif": "/images/v3/parade-hero-phone-480.avif 480w, /images/v3/parade-hero-phone-640.avif 640w, /images/v3/parade-hero-phone-900.avif 900w",
+      "webp": "/images/v3/parade-hero-phone-480.webp 480w, /images/v3/parade-hero-phone-900.webp 900w",
       "jpeg": "/images/v3/parade-hero-phone-640.jpg 640w",
       "first_avif": "/images/v3/parade-hero-phone-480.avif",
       "widths": [
         480,
-        640
+        640,
+        900
       ],
       "focal": {
         "x": 0.5,
         "y": 0.5
       },
       "pos": "50% 50%",
-      "sizes": "(min-width: 640px) 675px, calc(100vw - 40px)",
-      "aspect": "675/540"
+      "sizes": "(min-width: 640px) calc(100vw - 80px), calc(100vw - 40px)",
+      "aspect": "900/450"
     },
-    "sig": "20150242ba55"
+    "sig": "bb86e1035a22"
   },
   "porsche-taycan-front-three-quarter": {
     "width": 1280,
@@ -927,6 +928,36 @@
       "aspect": "2256/1800"
     },
     "alias_of": "home-patio"
+  },
+  "storefront-band": {
+    "width": 1280,
+    "height": 640,
+    "fallback": "/images/v3/storefront-band-960.jpg",
+    "avif": "/images/v3/storefront-band-480.avif 480w, /images/v3/storefront-band-640.avif 640w, /images/v3/storefront-band-960.avif 960w, /images/v3/storefront-band-1280.avif 1280w",
+    "webp": "/images/v3/storefront-band-480.webp 480w, /images/v3/storefront-band-960.webp 960w, /images/v3/storefront-band-1280.webp 1280w",
+    "jpeg": "/images/v3/storefront-band-640.jpg 640w, /images/v3/storefront-band-960.jpg 960w",
+    "first_avif": "/images/v3/storefront-band-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1280
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "pos": "50% 50%",
+    "alt": "The front of the BC Glass and Tint shop in Boulder City: the number 1633 above the shop window and the BC logo on the glass.",
+    "group": "page",
+    "aspect": "1320/660",
+    "use": [
+      "talk to a person, every page",
+      "about and city heroes"
+    ],
+    "note": "Peak pass R1 2026-10-30, visual finding 8: 2:1 band (x 2205, y 690, 1320 x 660 of the 4032 x 3024 master). Holds 1633, the whole star and logo panel and the arch shadow; no Bronco (its fender reaches x 2270 only below y 1310), no door (from x 3540, carries the old @bcglassandtint decal, decisions-and-rules line 42), no cut words. Never use the wider fork C crop (x 2060 to 3920), which shows the door decal.",
+    "source": "photo-library/storefront/bc-storefront-bronco-at-shop-sign-2026-08-18-1.jpg",
+    "sig": "c270df0d1908"
   },
   "storefront-hero": {
     "width": 1256,

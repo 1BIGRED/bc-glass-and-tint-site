@@ -42,7 +42,7 @@ bundles: ["gallery", "service"]
       <details class="ws5-gal__more"{% if v.kind == "body" %} open{% endif %}>
       <summary><span>{{ W.filters.more | safe }}</span><i aria-hidden="true"></i></summary>
       <div class="ws5-gal__morebody">
-      <div class="ws5-gal__search" data-gal-search hidden>
+      <div class="ws5-gal__search" data-gal-search data-js-only>
         <label for="gal-q">{{ W.search.label | safe }}</label>
         <div class="ws5-gal__searchrow"><input id="gal-q" type="search" placeholder="{{ W.search.placeholder }}" autocomplete="off"><button type="button" class="ws5-btn ws5-gal__clear" data-gal-clear hidden>{{ W.search.clear | safe }}</button></div>
       </div>
@@ -51,17 +51,17 @@ bundles: ["gallery", "service"]
         {%- for f in gallery_filters.bodies %}<a class="ws5-gchip" href="{{ f.href }}"{% if f.key == v.key %} aria-current="page"{% endif %}>{{ f.label | safe }}</a>{% endfor %}
       </nav>
       {%- if v.windows.length > 1 %}
-      <div class="ws5-gal__row" role="group" aria-label="{{ W.filters.windows | safe }}" data-gal-group="windows" hidden>
+      <div class="ws5-gal__row" role="group" aria-label="{{ W.filters.windows | safe }}" data-gal-group="windows" data-js-only>
         <span class="ws5-gal__lab t-label fg-2">{{ W.filters.windows | safe }}</span>
         {%- for f in v.windows %}<button type="button" class="ws5-gchip" aria-pressed="false" data-val="{{ f.id }}">{{ f.label | safe }}</button>{% endfor %}
       </div>
       {%- endif %}
       {%- if v.looks.length > 1 %}
-      <div class="ws5-gal__row" role="group" aria-label="{{ W.filters.look | safe }}" data-gal-group="look" hidden>
+      <div class="ws5-gal__row" role="group" aria-label="{{ W.filters.look | safe }}" data-gal-group="look" data-js-only>
         <span class="ws5-gal__lab t-label fg-2">{{ W.filters.look | safe }}</span>
         {%- for f in v.looks %}<button type="button" class="ws5-gchip" aria-pressed="false" data-val="{{ f.id }}">{{ f.label | safe }}</button>{% endfor %}
       </div>
-      <p class="t-label fg-2 ws5-gal__lnote" data-gal-lnote hidden>{{ W.look_note | safe }}</p>
+      <p class="t-label fg-2 ws5-gal__lnote" data-gal-lnote data-js-only>{{ W.look_note | safe }}</p>
       {%- endif %}
       </div>
       </details>
@@ -73,16 +73,19 @@ bundles: ["gallery", "service"]
 {%- for it in v.items %}
       <li class="ws5-gt" data-q="{{ it.q }}" data-windows="{{ it.windows }}" data-look="{{ it.look }}">
         <figure>
-          <div class="ws5-gt__img">{{ picture(it.image, "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw", { alt: it.alt, eager: loop.index <= 4 }) }}</div>
+          {#- Peak pass R1 (visual G1): every tile opens the photo viewer (a native dialog, 50-gallery.js).
+              Without JavaScript the link opens the larger file itself. -#}
+          <a class="ws5-gt__img ws5-gt__zoom" href="{{ it.image.fallback }}" data-gal-open aria-label="{{ W.viewer.open | replace('{title}', it.title) }}">{{ picture(it.image, "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw", { alt: it.alt, eager: loop.index <= 4 }) }}</a>
           <figcaption>
             <span class="ws5-gt__t">{{ it.title | safe }}</span>
-            <span class="ws5-gt__l t-label fg-2">{{ it.line2 | safe }}{% if it.lookLine %}. {{ it.lookLine | safe }}{% endif %}.</span>
+            <span class="ws5-gt__l t-label fg-2">{% for tg in it.tags %}{{ tg | safe }}{% if not loop.last %} <span aria-hidden="true">&middot;</span> {% endif %}{% endfor %}</span>
             {%- if it.build %}<a class="ws5-gt__a t-label" href="{{ it.build }}">{{ W.build_link | safe }}</a>{% endif %}
           </figcaption>
         </figure>
       </li>
-{%- if loop.index == 4 or loop.index == 8 %}
-      <li class="ws5-gal__strip ws5-gal__strip--{{ 'phone' if loop.index == 4 else 'wide' }}" data-gal-strip>
+{#- Peak pass R1 (visual G6): the strip spans the grid after tile 6 (2 and 3 columns) or tile 8 (4 columns), so no tile is orphaned. -#}
+{%- if loop.index == 6 or loop.index == 8 %}
+      <li class="ws5-gal__strip ws5-gal__strip--{{ 'phone' if loop.index == 6 else 'wide' }}" data-gal-strip>
         <p class="t-body">{{ W.strip.text | safe }}</p>
         <div class="ws5-gal__stripact"><a class="ws5-btn" href="{{ W.strip.build_href }}">{{ W.strip.build | safe }}</a>{{ action({ slot: "lane", service: "car" if (v.key == "all" or v.kind == "body" or v.val == "auto-tint") else ("chip" if v.val == "chip-repair" else "home") }) }}</div>
       </li>
@@ -93,6 +96,24 @@ bundles: ["gallery", "service"]
     <p class="t-body ws5-gal__empty" data-gal-empty{% if v.count %} hidden{% endif %}>{{ W.empty | safe }}{% if v.pageLink %} <a href="{{ v.pageHref }}">{{ v.pageLink | safe }}</a>{% endif %}</p>
     <p class="t-label fg-2 ws5-gal__reset"><button type="button" class="ws5-linkbtn" data-gal-reset hidden>{{ W.filters.reset | safe }}</button></p>
   </div>
+  {%- if v.count %}
+  {#- Photo viewer (peak pass R1, visual G1): native modal dialog, so focus stays inside it and Escape
+      closes it; arrow keys page through the photos still shown; focus returns to the tile. -#}
+  <dialog class="ws5-viewer" data-gal-viewer aria-label="{{ W.viewer.label | safe }}" data-count="{{ W.viewer.count }}">
+    <div class="ws5-viewer__in">
+      <div class="ws5-viewer__img" data-gal-vimg></div>
+      <div class="ws5-viewer__bar">
+        <p class="ws5-viewer__cap"><span class="ws5-viewer__t" data-gal-vtitle></span> <span class="t-label fg-2" data-gal-valt></span></p>
+        <p class="t-label fg-2 ws5-viewer__n tnum" data-gal-vcount aria-live="polite"></p>
+        <div class="ws5-viewer__nav">
+          <button type="button" class="ws5-btn ws5-viewer__btn" data-gal-prev aria-label="{{ W.viewer.prev | safe }}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          <button type="button" class="ws5-btn ws5-viewer__btn" data-gal-next aria-label="{{ W.viewer.next | safe }}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          <button type="button" class="ws5-btn ws5-viewer__btn ws5-viewer__close" data-gal-close>{{ W.viewer.close | safe }}</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  {%- endif %}
 </section>
 
 {{ b.talk({ id: "quote", source: "Gallery", service: "any", uid: "talk", ground: "bg-ink-1" }) }}
