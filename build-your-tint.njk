@@ -52,37 +52,21 @@ bundles: ["builder"]
     </div>
 
     <div class="bt-grid">
+      {#- The drawn vehicle (05-CAR-GRAPHIC-SPEC.md): four generic classes x Side, Front, Rear, built in
+          build-your-tint.11tydata.js. Each window is its own clipped group: outside light, far-pane
+          film, the empty cabin, near-pane film (true black, alpha 1 - VLT^(1/2.2)), reflections.
+          The drawing is aria-hidden; the window rows and the view buttons are the real controls. -#}
       <figure class="bt-stage" data-bt-stage>
         <div class="bt-stage__view">
-          <svg class="bt-svg" data-bt-svg viewBox="40 44 730 262" width="730" height="262" aria-hidden="true" focusable="false">
-            <defs>
-{%- for bd in bt_bodies %}
-              <path id="btb-{{ bd.id }}" d="{{ bd.body }}"/>
-{%- endfor %}
-            </defs>
-            <ellipse class="bt-floor" cx="405" cy="294" rx="330" ry="9"/>
-{%- for bd in bt_bodies %}
-            <g class="bt-body" data-body="{{ bd.id }}"{% if not loop.first %} hidden{% endif %}>
-{%- for w in ["front", "rear", "back"] %}
-              <g class="bt-win" data-win="{{ w }}">
-                <path class="bt-win__glass" d="{{ bd.glass[w] }}"/>
-                <path class="bt-win__tint" d="{{ bd.glass[w] }}" data-tint="{{ w }}"/>
-                <path class="bt-win__edge" d="{{ bd.glass[w] }}"/>
-              </g>
-{%- endfor %}
-              <use href="#btb-{{ bd.id }}" class="bt-line"/>
-{%- for s in bd.seams %}
-              <path class="bt-line bt-line--seam" d="{{ s }}"/>
-{%- endfor %}
-{%- for wh in bd.wheels %}
-              <circle class="bt-line" cx="{{ wh[0] }}" cy="{{ wh[1] }}" r="{{ bd.r }}"/>
-              <circle class="bt-line bt-line--seam" cx="{{ wh[0] }}" cy="{{ wh[1] }}" r="{{ bd.r * 0.6 }}"/>
-{%- endfor %}
-            </g>
-{%- endfor %}
-          </svg>
+          <svg class="bt-svg" data-bt-svg viewBox="{{ bt_stage_vb }}" aria-hidden="true" focusable="false">{{ bt_stage_svg | safe }}</svg>
         </div>
-        <figcaption class="bt-cap t-label fg-2">{{ pg.stage.caption | safe }}</figcaption>
+        <div class="bt-views" role="group" aria-label="{{ pg.stage.views_label | safe }}" data-bt-views>
+{%- for v in ["side", "front", "rear"] %}
+          <button type="button" class="bt-view" data-bt-view="{{ v }}" aria-pressed="{% if loop.first %}true{% else %}false{% endif %}">{{ pg.stage.views[v] | safe }}</button>
+{%- endfor %}
+          <button type="button" class="bt-link bt-seefront" data-bt-seefront hidden>{{ pg.stage.see_front | safe }}</button>
+        </div>
+        <figcaption class="bt-cap t-label fg-2"><span>{{ pg.stage.caption | safe }}</span> <span data-bt-note>{{ pg.stage.note | safe }}</span></figcaption>
       </figure>
 
       <div class="bt-side stack-48">
@@ -91,7 +75,7 @@ bundles: ["builder"]
           <div class="bt-vgrid">
 {%- for c in C.classes %}
 {%- set bd = bt_body_ids[c.id] %}
-            <label class="bt-tile bt-veh"><input class="vh" type="radio" name="bt-v" value="{{ c.id }}"><span class="bt-tile__box">{% if bd %}<svg class="bt-veh__svg" viewBox="56 56 704 240" aria-hidden="true" focusable="false"><use href="#btb-{{ c.id }}"/>{% for wh in bd.wheels %}<circle cx="{{ wh[0] }}" cy="{{ wh[1] }}" r="{{ bd.r }}"/>{% endfor %}</svg>{% endif %}<span class="bt-tile__t">{{ c.label | safe }}</span></span></label>
+            <label class="bt-tile bt-veh"><input class="vh" type="radio" name="bt-v" value="{{ c.id }}"><span class="bt-tile__box">{% if bd %}<svg class="bt-veh__svg" viewBox="{{ bd.tile }}" aria-hidden="true" focusable="false"><use href="#btb-{{ c.id }}"/>{% for wh in bd.wheels %}<circle cx="{{ wh[0] }}" cy="{{ wh[1] }}" r="{{ bd.r }}"/>{% endfor %}</svg>{% endif %}<span class="bt-tile__t">{{ c.label | safe }}</span></span></label>
 {%- endfor %}
           </div>
           <div class="bt-model">
@@ -131,6 +115,7 @@ bundles: ["builder"]
       <div class="bt-tune" data-bt-tune>
         <h2 class="t-h3">{% if C.presets.length %}{{ pg.windows.heading_with_presets | safe }}{% else %}{{ pg.windows.heading_without_presets | safe }}{% endif %}</h2>
         <p class="t-body fg-2">{{ pg.windows.intro | safe }}</p>
+        <p class="t-label fg-2" data-bt-vlt>{{ pg.windows.vlt_note | safe }}{% if not C.shades.rear[0].num %} {{ pricing.example_shades.label | safe }}.{% endif %}</p>
 {#- Peak R1 (visual 4): every row has as many columns as the longest row (No film plus every
     shade, bt_config.scale_cols), so a shade sits in the same column on every row and the front
     row visibly stops at Nevada's line. -#}
@@ -141,18 +126,13 @@ bundles: ["builder"]
           <div class="bt-scale" style="--cols:{{ btCols }};--n:{{ C.shades[w.id].length + 1 }}">
             <label class="bt-pane bt-pane--none"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="0" checked><span class="bt-pane__glass" aria-hidden="true"></span><span class="bt-pane__t t-label">{{ pg.windows.no_film | safe }}</span></label>
 {%- for s in C.shades[w.id] %}
-            <label class="bt-pane"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="{{ s.v }}"><span class="bt-pane__glass" style="--a:{{ s.a }}" aria-hidden="true"></span>{% if s.num %}<span class="bt-pane__t t-label tnum">{{ s.name }}</span>{% else %}<span class="vh">{{ s.name | safe }}</span>{% endif %}</label>
+            <label class="bt-pane"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="{{ s.v }}"><span class="bt-pane__glass" style="--a:{{ s.a }}" aria-hidden="true"></span><span class="bt-pane__t t-label tnum">{{ s.label }}</span></label>
 {%- endfor %}
           </div>
           <p class="bt-scale__ends t-label fg-2" style="--cols:{{ btCols }};--n:{{ C.shades[w.id].length + 1 }}" aria-hidden="true"><span>{{ pg.windows.lighter | safe }}</span><span>{{ pg.windows.darker | safe }}</span></p>
           <p class="bt-wrow__legal t-label fg-2">{{ w.legal | safe }}</p>
         </fieldset>
 {%- endfor %}
-{%- if not C.shades.rear[0].num %}
-        <p class="t-label fg-2">{{ pricing.example_shades.label | safe }}. {{ pg.stage.note | safe }}</p>
-{%- else %}
-        <p class="t-label fg-2">{{ pg.stage.note | safe }}</p>
-{%- endif %}
       </div>
 
       <div class="bt-result" data-bt-result aria-labelledby="bt-result-h">

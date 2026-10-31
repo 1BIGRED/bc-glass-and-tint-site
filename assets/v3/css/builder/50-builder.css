@@ -188,56 +188,268 @@
   /* ONE overhead light pool: ink-2 lifted at top center, falling to ink-0 at the edges */
   background-image: radial-gradient(ellipse 70% 80% at 50% 0%, color-mix(in srgb, var(--ink-2) 90%, var(--text) 10%) 0%, var(--ink-2) 45%, var(--ink-0) 100%);
 }
+/* ---------- The drawn vehicle (05-CAR-GRAPHIC-SPEC.md, "Technical line, lit glass") ----------
+   --film is the tint layer only: true black, because a near-black film lets its own light back in
+   and misses the VLT by up to 4 points at the dark end (spec 5.0.2). Never a ground or text color.
+   Kept here (builder scope) because the tokens file belongs to another builder. Every other color
+   below is a 00-tokens.css token. */
+.bt {
+  --film: #000000;
+}
 .bt-svg {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  max-height: 100%;
+  height: 100%;
 }
-.bt-floor {
+.bt-svg path,
+.bt-svg circle,
+.bt-svg rect,
+.bt-svg ellipse {
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.bt-body.is-in {
+  animation: bt-in var(--dur-ui) var(--ease-out);
+}
+@keyframes bt-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* 4.3 body fill: one vertical gradient, ink-2 at the top to ink-0 at the rocker */
+.bt-st-hi { stop-color: var(--ink-2); }
+.bt-st-lo { stop-color: var(--ink-0); }
+.bt-bodyfill {
+  fill: url(#bt-bodygrad);
+}
+/* 4.6 ground shadow: one radial gradient, plus a contact ellipse under each tire */
+.bt-st-sh { stop-color: var(--ink-0); stop-opacity: 0.85; }
+.bt-st-sh0 { stop-color: var(--ink-0); stop-opacity: 0; }
+.bt-shadow {
+  fill: url(#bt-shadowgrad);
+}
+.bt-contact {
   fill: var(--ink-0);
-  opacity: 0.7;
+  fill-opacity: 0.9;
 }
-.bt-line {
+/* 4.2 two line weights: the body outline and tires, and the details */
+.bt-lines {
+  pointer-events: none;
+}
+.bt-ln,
+.bt-tire {
+  stroke: var(--text);
+  stroke-opacity: 0.85;
+  stroke-width: 1.75;
+}
+.bt-ln {
+  fill: none;
+}
+.bt-tire {
+  fill: var(--ink-0);
+}
+.bt-dt,
+.bt-mirror {
   fill: none;
   stroke: var(--text-2);
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
+  stroke-width: 1;
 }
-.bt-line--seam {
-  stroke-opacity: 0.45;
+.bt-mirror {
+  fill: var(--ink-1);
 }
+/* 4.4 one highlight: the belt crease again, just above itself */
+.bt-hl {
+  fill: none;
+  stroke: var(--text);
+  stroke-opacity: 0.25;
+  stroke-width: 1;
+}
+@media (max-width: 639px) {
+  .bt-ln,
+  .bt-tire {
+    stroke-width: 1.5;
+  }
+}
+/* phone detail level: under a 480px stage, no handles, lamp inner lines or rim inner rings */
+@media (max-width: 511px) {
+  .bt-d2 {
+    display: none;
+  }
+}
+.bt-svg.is-empty .bt-lines {
+  opacity: 0.7;
+}
+/* ---------- 5: the glass, bottom to top inside each window's clip ---------- */
 .bt-win {
   cursor: pointer;
 }
-.bt-win__glass {
-  fill: var(--glare);
+.bt-win.is-off {
+  cursor: default;
+  pointer-events: none;
 }
-/* LR-a: ink-0 at alpha 1 - (VLT/100)^(1/2.2) over the glare "outside" */
+.bt-glass-fixed {
+  pointer-events: none;
+}
+.bt-win__base {
+  fill: var(--ink-2);
+}
+/* 5.1 the outside light through the far-side windows: glare at 90 percent in the middle, text at 78
+   percent at the edges, over ink-2 */
+.bt-win__outside {
+  fill: url(#bt-glare);
+}
+.bt-st-glare { stop-color: var(--glare); stop-opacity: 0.9; }
+.bt-st-glare-edge { stop-color: var(--text); stop-opacity: 0.78; }
+/* 5.3 far-pane film and 5.4 near-pane film: true black at alpha 1 - VLT^(1/2.2) (50-builder.js) */
+.bt-win__far,
 .bt-win__tint {
-  fill: var(--ink-0);
+  fill: var(--film);
   fill-opacity: 0;
 }
+.bt-anim .bt-win__far,
 .bt-anim .bt-win__tint {
   transition: fill-opacity var(--dur-raise) var(--ease-out);
 }
+/* 5.2 the empty cabin: far-side door trim and sill, far pillar, seats and headrests, steering wheel */
+.bt-cab__trim {
+  fill: var(--ink-1);
+}
+.bt-cab__sill {
+  fill: none;
+  stroke: var(--text-2);
+  stroke-opacity: 0.35;
+  stroke-width: 1;
+}
+.bt-seat {
+  fill: var(--ink-2);
+}
+.bt-seat__rim {
+  fill: none;
+  stroke: var(--text-2);
+  stroke-opacity: 0.55;
+  stroke-width: 1;
+}
+.bt-seat__post {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 3;
+}
+.bt-cab__wheel {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 4;
+}
+/* the transmission test patch (spec 9 item 11): hidden except in test mode */
+.bt-cal {
+  fill: var(--text-2);
+  visibility: hidden;
+}
+.bt-svg[data-bt-test="transmission"] .bt-cal {
+  visibility: visible;
+}
+.bt-svg[data-bt-test="transmission"] .bt-refl {
+  display: none;
+}
+/* 5.5 reflections, on top and never darkened: a 5 percent veil, two streaks, a line inside the top */
+.bt-refl {
+  pointer-events: none;
+}
+.bt-refl__veil {
+  fill: var(--text);
+  fill-opacity: 0.05;
+}
+.bt-refl__wide {
+  fill: var(--text);
+  fill-opacity: 0.1;
+}
+.bt-refl__thin {
+  fill: var(--text);
+  fill-opacity: 0.06;
+}
+.bt-refl__top {
+  fill: none;
+  stroke: var(--text);
+  stroke-opacity: 0.35;
+  stroke-width: 2;
+}
+/* 5.6 glass edge, dashed while a window is picked with no shade yet */
 .bt-win__edge {
   fill: none;
   stroke: var(--text-2);
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
+  stroke-width: 1;
 }
 .bt-win.is-unset .bt-win__edge {
   stroke-dasharray: 4 3;
 }
-/* B6: the selected window carries the 2px gold ring (the selected-shade ring rule, extended) */
-.bt-win.is-current .bt-win__edge {
+@media (hover: hover) {
+  .bt-win:hover .bt-win__edge {
+    stroke: var(--text);
+  }
+}
+/* 7.4 thin windows get a 24px tap stroke */
+.bt-win__hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 24;
+  pointer-events: stroke;
+}
+/* 6.1 the selected window: 2px gold on a 4px ink-0 keyline, so it clears 3:1 on bright glass too */
+.bt-win__key,
+.bt-win__ring {
+  fill: none;
+  pointer-events: none;
+  visibility: hidden;
+}
+.bt-win__key {
+  stroke: var(--ink-0);
+  stroke-width: 4;
+}
+.bt-win__ring {
   stroke: var(--gold);
   stroke-width: 2;
+}
+.bt-win.is-current .bt-win__key,
+.bt-win.is-current .bt-win__ring {
+  visibility: visible;
+}
+.bt-win.is-current .bt-win__edge {
   stroke-dasharray: none;
 }
-.bt-svg.is-empty .bt-line {
-  stroke-opacity: 0.7;
+/* 2.6 the view switch: three text buttons under the stage, 44px tall at least */
+.bt-views {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-8);
+  margin-top: var(--sp-8);
+}
+.bt-view {
+  min-width: 64px;
+  min-height: 44px;
+  padding: 0 var(--sp-16);
+  border: 1px solid var(--line-ctl);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.bt-view[aria-pressed="true"] {
+  background-color: var(--text);
+  border-color: var(--text);
+  color: var(--ink-0);
+}
+.bt-view:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.bt-seefront[hidden] {
+  display: none;
 }
 .bt-cap {
   margin-top: var(--sp-8);
@@ -453,11 +665,12 @@
   background-color: var(--glare);
   overflow: hidden;
 }
+/* the chip's film: the same true black as the car (spec 5.0.2), so chip and car are one system */
 .bt-pane__glass::after {
   content: "";
   position: absolute;
   inset: 0;
-  background-color: var(--ink-0);
+  background-color: var(--film);
   opacity: var(--a, 0);
 }
 .bt-pane__t {
@@ -730,6 +943,90 @@ html[data-bt-pinned] {
   color: var(--text-2);
 }
 
+/* ---------- Phones and tablets: the vehicle switch sits right under the stage ----------
+   Car graphic brief: at 390 x 844 the view buttons and the vehicle switch are on the first screen,
+   above the phone call bar (771px). The stage and the vehicle column give up their boxes
+   (display: contents) so their parts can be ordered: stage, view buttons, vehicle switch, caption,
+   then the rest. The drawing is aria-hidden; reading order of the controls is unchanged in the DOM
+   for every other part. */
+@media (max-width: 1023px) {
+  .bt-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .bt-stage,
+  .bt-side {
+    display: contents;
+  }
+  .bt-stage__view {
+    order: 1;
+    contain: layout style;
+  }
+  .bt-views {
+    order: 2;
+  }
+  .bt-side > [data-bt-vehicles] {
+    order: 3;
+    margin-top: var(--sp-8);
+  }
+  .bt-cap {
+    order: 4;
+    margin-top: var(--sp-16);
+  }
+  .bt-side > [data-bt-presets] {
+    order: 5;
+    margin-top: var(--sp-48);
+  }
+  .bt-tune {
+    order: 6;
+    margin-top: var(--sp-48);
+  }
+  .bt-result {
+    order: 7;
+    margin-top: var(--sp-48);
+  }
+}
+@media (max-width: 639px) {
+  .bt-top {
+    padding-block: var(--sp-16) var(--sp-8);
+  }
+  .bt-app {
+    padding-top: var(--sp-12);
+  }
+  .bt-grid {
+    margin-top: var(--sp-12);
+  }
+  .bt-stage__view {
+    aspect-ratio: 16 / 9;
+    padding: 0;
+  }
+  /* compact vehicle tiles: picture and name in a 52px tile; the legend stays for screen readers */
+  [data-bt-vehicles] > legend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .bt-veh .bt-tile__box {
+    aspect-ratio: auto;
+    min-height: 52px;
+    padding: var(--sp-4) var(--sp-8);
+    gap: 2px;
+  }
+  .bt-veh__svg {
+    width: auto;
+    height: 20px;
+    max-width: 100%;
+  }
+  .bt-veh .bt-tile__t {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+}
+
 /* ---------- Tablet and desktop ---------- */
 @media (min-width: 640px) {
   .bt-top {
@@ -769,8 +1066,12 @@ html[data-bt-pinned] {
 /* ---------- Reduced motion: the light change is instant (motion 4.3) ---------- */
 @media (prefers-reduced-motion: reduce) {
   .bt-win__tint,
+  .bt-win__far,
   .bt-tile__box,
   .bt-btn {
     transition: none;
+  }
+  .bt-body.is-in {
+    animation: none;
   }
 }

@@ -11,6 +11,9 @@
      [data-bt-total] [data-bt-draft] [data-bt-code] [data-bt-summary] [data-bt-parts] [data-bt-fvp]
      [data-bt-addons] [data-bt-addon-list] [data-bt-ask-dyn] [data-bt-legal]
      [data-bt-primary] (the WS2 action macro) [data-bt-resume] [data-bt-live]
+     [data-bt-svg] the drawn vehicle (05-CAR-GRAPHIC-SPEC.md): g[data-body][data-view][data-bb],
+       [data-win] and [data-addon] panels, [data-tint] near-pane and [data-far] far-pane film
+     [data-bt-view] Side / Front / Rear buttons   [data-bt-seefront] "See it from the front"
 
    Hand-off: <html data-bc-build="BC-..."> and a "bc:build" event { code, service, summary, url } on document, on every change.
    The action system (WS2, 30-actions.js) links its Request a time to /book?s=car&b=<code> (WS3)
@@ -89,24 +92,83 @@
     $$('input[name="bt-ask"]').forEach(function (i) { i.checked = state.addons.indexOf(i.value) > -1; });
   }
 
-  // ---------- the stage ----------
+  // ---------- the stage (05-CAR-GRAPHIC-SPEC.md) ----------
+  // One <g data-body data-view> per vehicle per view; the one for the picked vehicle (car until one
+  // is picked) and the current view shows. Each window carries two film layers, both true black at
+  // alpha 1 - VLT^(1/2.2) (the shade's a): [data-tint=w] the near pane (over the cabin and the
+  // outside light) and [data-far=w] the far pane the outside light also crosses (spec 5.3: Side the
+  // same window on the other side, Front the back glass, Rear none). The view changes only when the
+  // visitor presses Side, Front or Rear.
+  var view = "side";
+  var shownKey = "";
+  function alphaOf(w, s) { var sh = typeof s === "number" && s > 0 ? shadeOf(w, s) : null; return sh ? sh.a : 0; }
+  function stripOn() { return state.addons.indexOf("top-strip") > -1; }
+  function addonAvailable(id) {
+    return addonsFor(state.v || "car").some(function (a) { return a.id === id; });
+  }
+  // Safe area (spec 3.3): desktop 86 percent of the stage width and 66 percent of its height; phone
+  // (stage under 640px) 90 percent of the width and 60 percent of the height (the phone stage is
+  // 16:9 so the vehicle switch fits on the first screen; 50 percent of that would shrink the Front
+  // and Rear views to about 100px). The view box is the drawing's own box scaled up so the drawing
+  // can never pass either share, whatever the stage's shape.
+  function frame(svg, g) {
+    var bb = (g.getAttribute("data-bb") || "").split(" ").map(Number);
+    if (bb.length !== 4) return;
+    var wide = (svg.parentNode && svg.parentNode.clientWidth >= 640);
+    var fx = wide ? 0.86 : 0.9, fy = wide ? 0.66 : 0.6;
+    var w = bb[2] / fx, h = bb[3] / fy;
+    var vb = Math.round(bb[0] + bb[2] / 2 - w / 2) + " " + Math.round(bb[1] + bb[3] / 2 - h / 2) + " " + Math.round(w) + " " + Math.round(h);
+    if (svg.getAttribute("viewBox") !== vb) svg.setAttribute("viewBox", vb);
+  }
   function paintStage() {
     var svg = $("[data-bt-svg]");
     if (!svg) return;
     var shown = state.v || "car";
-    Array.prototype.forEach.call(svg.querySelectorAll("[data-body]"), function (g) {
-      if (g.getAttribute("data-body") === shown) g.removeAttribute("hidden"); else g.setAttribute("hidden", "");
+    var key = shown + "|" + view;
+    var cur = null;
+    Array.prototype.forEach.call(svg.querySelectorAll("g[data-body]"), function (g) {
+      var on = g.getAttribute("data-body") === shown && g.getAttribute("data-view") === view;
+      if (on) { cur = g; if (g.hasAttribute("hidden")) g.removeAttribute("hidden"); }
+      else if (!g.hasAttribute("hidden")) g.setAttribute("hidden", "");
     });
+    if (cur) {
+      frame(svg, cur);
+      if (shownKey && shownKey !== key && !reduce) {
+        cur.classList.remove("is-in");
+        void cur.getBoundingClientRect();
+        cur.classList.add("is-in");
+      }
+    }
+    shownKey = key;
     svg.classList.toggle("is-empty", !state.v);
     WINS.forEach(function (w) {
-      var s = state[w], sh = typeof s === "number" && s > 0 ? shadeOf(w, s) : null;
+      var s = state[w], a = String(alphaOf(w, s));
       Array.prototype.forEach.call(svg.querySelectorAll('[data-win="' + w + '"]'), function (g) {
-        var t = g.querySelector("[data-tint]");
-        if (t) t.style.fillOpacity = sh ? String(sh.a) : "0";
         g.classList.toggle("is-unset", s === "x");
         g.classList.toggle("is-current", state.current === w);
       });
+      Array.prototype.forEach.call(svg.querySelectorAll('[data-tint="' + w + '"],[data-far="' + w + '"]'), function (t) {
+        if (t.style.fillOpacity !== a) t.style.fillOpacity = a;
+      });
     });
+    var stripA = stripOn() ? String(cfg.strip_a) : "0";
+    Array.prototype.forEach.call(svg.querySelectorAll('[data-tint="top-strip"]'), function (t) { t.style.fillOpacity = stripA; });
+    Array.prototype.forEach.call(svg.querySelectorAll("[data-addon]"), function (g) {
+      var id = g.getAttribute("data-addon");
+      g.classList.toggle("is-off", !addonAvailable(id));
+      g.classList.toggle("is-current", state.current === id);
+    });
+    // view buttons and the "See it from the front" link (shown when the strip is picked)
+    $$("[data-bt-view]").forEach(function (b) {
+      var on = b.getAttribute("data-bt-view") === view ? "true" : "false";
+      if (b.getAttribute("aria-pressed") !== on) b.setAttribute("aria-pressed", on);
+    });
+    show("[data-bt-seefront]", stripOn() && view !== "front");
+  }
+  function setView(v) {
+    if (v !== "side" && v !== "front" && v !== "rear") return;
+    view = v;
+    paintStage();
   }
 
   // ---------- price ----------
@@ -150,7 +212,7 @@
       if (!row) return;
       var s = state[w], sh = typeof s === "number" && s > 0 ? shadeOf(w, s) : null;
       var val = row.querySelector("[data-bt-wval]");
-      if (val) val.textContent = s === "x" ? cfg.text.unset : sh ? sh.name : cfg.text.no_film;
+      if (val) val.textContent = s === "x" ? cfg.text.unset : sh ? (sh.label || sh.name) : cfg.text.no_film;
       row.classList.toggle("is-current", state.current === w);
       row.classList.toggle("is-unset", s === "x");
     });
@@ -371,7 +433,8 @@
   function paintRest(q, c, opts) {
     show("[data-bt-pricenote]", q.kind === "price");
     show("[data-bt-fallbacknote]", q.kind === "fallback");
-    var summary = c ? BB.summary(c, { confirmed: cfg.confirmed, words: wordsCache || (wordsCache = words()) }) : "";
+    // every offered shade prints as its number ("35 percent"), Chase's ruling 2026-10-30
+    var summary = c ? BB.summary(c, { confirmed: cfg.numbers || cfg.confirmed, words: wordsCache || (wordsCache = words()) }) : "";
     var sumEl = $("[data-bt-summary]");
     if (sumEl) { if (sumEl.textContent !== summary) sumEl.textContent = summary; show("[data-bt-summary]", !!summary); }
     paintStage();
@@ -489,21 +552,45 @@
 
   // Tap a window on the stage: select it and move to its row (pointer convenience; the rows are the
   // real, keyboard-reachable controls, so the drawing stays aria-hidden).
+  // The windshield top strip (data-addon) goes to its add-on checkbox the same way; the windshield
+  // below the strip is not selectable (it never takes film).
   var svgEl = $("[data-bt-svg]");
   if (svgEl) svgEl.addEventListener("click", function (e) {
-    var g = e.target && e.target.closest ? e.target.closest("[data-win]") : null;
-    if (!g) return;
+    var g = e.target && e.target.closest ? e.target.closest("[data-win],[data-addon]") : null;
+    if (!g || g.classList.contains("is-off")) return;
     begin();
     var w = g.getAttribute("data-win");
-    state.current = w;
-    var row = root.querySelector('[data-bt-window="' + w + '"]');
+    var add = g.getAttribute("data-addon");
+    var row = null, inp = null;
+    if (w) {
+      state.current = w;
+      row = root.querySelector('[data-bt-window="' + w + '"]');
+      if (row) inp = row.querySelector("input:checked") || row.querySelector("input");
+    } else if (add) {
+      state.current = add;
+      inp = root.querySelector('input[name="bt-addon"][value="' + add + '"]');
+      row = inp ? inp.closest("label") : null;
+    }
     if (row) {
-      var inp = row.querySelector("input:checked") || row.querySelector("input");
       try { row.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" }); } catch (err) { row.scrollIntoView(); }
       if (inp) { try { inp.focus({ preventScroll: true }); } catch (err2) { inp.focus(); } }
     }
     paint({ quiet: true });
   });
+
+  // Side, Front, Rear: native buttons (keyboard and screen readers), aria-pressed on the current one.
+  $$("[data-bt-view]").forEach(function (b) {
+    b.addEventListener("click", function () { setView(b.getAttribute("data-bt-view")); });
+  });
+  var seeFront = $("[data-bt-seefront]");
+  if (seeFront) seeFront.addEventListener("click", function () {
+    setView("front");
+    var fb = $('[data-bt-view="front"]');
+    if (fb) { try { fb.focus({ preventScroll: true }); } catch (err) { fb.focus(); } }
+  });
+  // the safe-area frame depends on the stage width (phone or desktop shares)
+  var rzStage = null;
+  window.addEventListener("resize", function () { clearTimeout(rzStage); rzStage = setTimeout(paintStage, 150); });
 
   // Peak R1 (psychology 8): the one-tap upgrade and its undo. Both paint in this task so focus can
   // move straight to the control that replaces the one just used (the tapped button disappears).

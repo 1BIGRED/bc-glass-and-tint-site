@@ -42,6 +42,7 @@
     "heading_with_presets": "Fine-tune any window",
     "heading_without_presets": "Pick your windows",
     "intro": "Tap a window on the car or below, then pick a shade.",
+    "vlt_note": "Shades are VLT, the percent of light the film lets through.",
     "no_film": "No film",
     "unset": "Pick a shade",
     "lighter": "Lighter",
@@ -57,7 +58,10 @@
   },
   "stage": {
     "caption": "Illustration, not a photo of your vehicle.",
-    "note": "Light, interior color and factory glass change the real look. Ask to see the film on your glass at the shop."
+    "note": "Shades on screen match each film's VLT as closely as a screen can. Your screen and your factory glass change the real look. Ask to see the film on your glass at the shop.",
+    "views_label": "View",
+    "views": { "side": "Side", "front": "Front", "rear": "Rear" },
+    "see_front": "See it from the front"
   },
   "result": {
     "heading": "Your build",
