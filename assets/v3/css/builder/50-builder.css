@@ -1086,3 +1086,60 @@ html[data-bt-pinned] {
   background-position: calc(var(--i, 0) / (var(--cols, 7) - 1) * 100%) 45%;
   background-repeat: no-repeat;
 }
+
+/* Vehicle switch (Chase 2026-10-31: "the car suv truck van selector is currently black on black"). Each
+   tile now carries its own side outline (v3/windows.njk vehicle(); the old tiles pointed at the stage's
+   body shapes and showed only the wheels). Tiles sit on the raised ground with a visible control border;
+   the outline follows the tile's text colour, so it inverts with the selected tile. */
+.bt-veh .bt-tile__box {
+  background-color: var(--ink-1);
+  border-color: var(--line-ctl);
+  gap: var(--sp-8);
+}
+.bt-veh .v3-veh {
+  display: block;
+  width: 100%;
+  max-width: 6rem;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+.bt-veh .v3-veh .v3-win__g { stroke: currentColor; }
+.bt-veh .v3-veh .v3-win__mark { fill: currentColor; }
+@media (max-width: 639px) {
+  .bt-veh .v3-veh { width: auto; height: 20px; max-width: 100%; }
+  .bt-veh .bt-tile__box { gap: 2px; }
+}
+
+/* The car stays in view while you pick (Chase 2026-10-31: "the options for the shades and which windows,
+   those selections need to be able to be done while looking at the line art car").
+   Desktop: the stage holds columns 1 to 7 and stays pinned under the header and the total bar; the
+   vehicle switch, starting points, window rows and the result run down columns 8 to 12 beside it.
+   Phones and tablets: the drawing pins under the total bar while the controls scroll under it. */
+@media (min-width: 1024px) {
+  .bt-stage {
+    grid-column: 1 / span 7;
+    grid-row: 1 / span 3;
+    position: sticky;
+    top: calc(var(--header-h) + 48px + var(--sp-16));
+  }
+  .bt-side { grid-column: 8 / span 5; grid-row: 1; }
+  .bt-tune { grid-column: 8 / span 5; grid-row: 2; }
+  .bt-result { grid-column: 8 / span 5; grid-row: 3; }
+  .bt-grid { row-gap: var(--sp-48); }
+  .bt-stage__view { padding: var(--sp-16) var(--sp-24); }
+}
+@media (max-width: 1023px) {
+  .bt-stage__view {
+    position: sticky;
+    top: calc(var(--header-h) + 48px);
+    z-index: 2;
+    background-color: var(--bg);
+    box-shadow: 0 1px 0 var(--line);
+  }
+}
+/* Below 1024px the pinned drawing keeps the wide 16:9 frame (a 4:3 frame took half a tablet screen), and a
+   window row brought into view (tapping the car's glass) stops under the drawing instead of behind it. */
+@media (max-width: 1023px) {
+  .bt-stage__view { aspect-ratio: 16 / 9; padding: 0; }
+  .bt-wrow { scroll-margin-top: calc(var(--header-h) + 48px + 56.25vw + var(--sp-16)); }
+}

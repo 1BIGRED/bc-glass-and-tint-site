@@ -13,6 +13,7 @@ og_image: images/hero.jpg
 bundles: ["builder"]
 ---
 {%- from "v3/actions.njk" import action with context -%}
+{%- from "v3/windows.njk" import vehicle -%}
 {%- set pg = pages.build_your_tint -%}
 {%- set C = bt_config -%}
 {%- set steps = pg.steps.with_presets if C.presets.length else pg.steps.without_presets -%}
@@ -64,7 +65,6 @@ bundles: ["builder"]
 {%- for v in ["side", "front", "rear"] %}
           <button type="button" class="bt-view" data-bt-view="{{ v }}" aria-pressed="{% if loop.first %}true{% else %}false{% endif %}">{{ pg.stage.views[v] | safe }}</button>
 {%- endfor %}
-          <button type="button" class="bt-link bt-seefront" data-bt-seefront hidden>{{ pg.stage.see_front | safe }}</button>
         </div>
         <figcaption class="bt-cap t-label fg-2"><span>{{ pg.stage.caption | safe }}</span> <span data-bt-note>{{ pg.stage.note | safe }}</span></figcaption>
       </figure>
@@ -75,7 +75,7 @@ bundles: ["builder"]
           <div class="bt-vgrid">
 {%- for c in C.classes %}
 {%- set bd = bt_body_ids[c.id] %}
-            <label class="bt-tile bt-veh"><input class="vh" type="radio" name="bt-v" value="{{ c.id }}"><span class="bt-tile__box">{% if bd %}<svg class="bt-veh__svg" viewBox="{{ bd.tile }}" aria-hidden="true" focusable="false"><use href="#btb-{{ c.id }}"/>{% for wh in bd.wheels %}<circle cx="{{ wh[0] }}" cy="{{ wh[1] }}" r="{{ bd.r }}"/>{% endfor %}</svg>{% endif %}<span class="bt-tile__t">{{ c.label | safe }}</span></span></label>
+            <label class="bt-tile bt-veh"><input class="vh" type="radio" name="bt-v" value="{{ c.id }}"><span class="bt-tile__box">{{ vehicle(c.id) }}<span class="bt-tile__t">{{ c.label | safe }}</span></span></label>
 {%- endfor %}
           </div>
           <div class="bt-model">
