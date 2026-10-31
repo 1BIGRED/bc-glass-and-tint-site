@@ -104,6 +104,41 @@
   .v3-win,
   .v3-prow--win .v3-win { width: 18rem; }
 }
+/* Phones, under 640px (peak pass R3, visual P1): the three views get the whole row, up to 22rem, so each
+   car reads about 105 px wide at 390 instead of 62 (the 12.5rem box above is the fallback for the
+   .v3-win that is not in a price row). The label and its price sit together on one line under the
+   drawing. The row is a wrapping flex line: the label (dt) drops out of the box tree with display:
+   contents so the drawing, the label text and the price (dd) are the row's own flex items; a 100% wide
+   empty ::after forces the break after the drawing. The drawing never shares a line with the price, so
+   a wide price or a Draft price tag can no longer squeeze it (the old min-width: auto / max-width: none
+   rules in 60-sections.css stay as they are and are harmless here). dt keeps its term role
+   (display: contents is safe on a dl row in current Chrome, Firefox and Safari). */
+@media (max-width: 639px) {
+  div.v3-prow.v3-prow--win {
+    flex-wrap: wrap;
+    align-items: baseline;
+    row-gap: 0;
+  }
+  div.v3-prow--win .v3-prow__label { display: contents; }
+  div.v3-prow--win .v3-win {
+    order: 0;
+    width: min(22rem, 100%);
+    max-width: none;
+    margin-bottom: var(--sp-8);
+  }
+  div.v3-prow--win::after {
+    content: "";
+    order: 1;
+    flex: 0 0 100%;
+    height: 0;
+  }
+  div.v3-prow--win .v3-prow__txt {
+    order: 2;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  div.v3-prow--win .v3-prow__value { order: 2; }
+}
 /* Front and back cues (Chase 2026-10-31: "for car make it distinct which way is front"): the side
    mirror, headlights and taillights are solid secondary-colour marks, so they never read as lit glass. */
 .v3-win__mark { fill: var(--fg-2); stroke: none; }

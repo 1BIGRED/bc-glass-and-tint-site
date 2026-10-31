@@ -8,6 +8,13 @@
   padding-block: var(--sp-48) var(--sp-32);
 }
 .bt-crumb a { color: inherit; }
+/* Peak 10-31 W8: the H1 at the h2 size (it is still the page's one H1, display face, light weight),
+   so the drawing and the vehicle switch reach the first screen on a laptop */
+.bt-top__h {
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--tr-h2);
+}
 
 /* ---------- B8: the 48px running total, pinned directly under the header ---------- */
 .bt-bar {
@@ -210,10 +217,19 @@
   stroke-linejoin: round;
   stroke-linecap: round;
 }
+/* the view fade: 50-builder.js alternates is-in and is-in2 on each show; the change of animation
+   name restarts the fade with no layout read (peak 10-31 T2) */
 .bt-body.is-in {
   animation: bt-in var(--dur-ui) var(--ease-out);
 }
+.bt-body.is-in2 {
+  animation: bt-in2 var(--dur-ui) var(--ease-out);
+}
 @keyframes bt-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes bt-in2 {
   from { opacity: 0; }
   to { opacity: 1; }
 }
@@ -512,9 +528,6 @@
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
-.bt-seefront[hidden] {
-  display: none;
-}
 .bt-cap {
   margin-top: var(--sp-8);
 }
@@ -785,6 +798,11 @@
   margin-top: var(--sp-8);
   max-width: var(--measure);
 }
+/* Peak 10-31 W3: the darker-than-Nevada note shows only while the row's pick needs it
+   (50-builder.js sets data-on). It keeps its line either way, so nothing under it moves. */
+.bt-wrow__dark:not([data-on]) {
+  visibility: hidden;
+}
 
 /* ---------- B9: the result ---------- */
 .bt-result > * + * {
@@ -866,13 +884,15 @@
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
-/* a focused row or anchor lands clear of the header and the 48px total bar pinned under it */
+/* a focused row or anchor lands clear of the header, the 48px total bar pinned under it and, under
+   1024px, the pinned drawing (--bt-pin: its height plus its 8px band, written by 50-builder.js;
+   0 on desktop, where the drawing pins beside the controls). Peak 10-31 W2, WCAG 2.4.11. */
 html[data-bt-pinned] {
-  scroll-padding-top: calc(var(--header-h) + 48px + 16px);
+  scroll-padding-top: calc(var(--header-h) + 48px + var(--bt-pin, 0px) + 16px);
 }
 @media (max-height: 480px) {
   html[data-bt-pinned] {
-    scroll-padding-top: calc(48px + 16px);
+    scroll-padding-top: calc(48px + var(--bt-pin, 0px) + 16px);
   }
 }
 .bt-extras {
@@ -1092,18 +1112,16 @@ html[data-bt-pinned] {
 }
 
 /* ---------- Tablet and desktop ---------- */
+/* Peak 10-31 W8: hero padding-block 48px (was 64 here and 96 from 1024px) */
 @media (min-width: 640px) {
   .bt-top {
-    padding-block: var(--sp-64) var(--sp-32);
+    padding-block: var(--sp-48) var(--sp-24);
   }
   .bt-plist {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {
-  .bt-top {
-    padding-block: var(--sp-96) var(--sp-48);
-  }
   .bt-grid {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -1135,7 +1153,8 @@ html[data-bt-pinned] {
   .bt-btn {
     transition: none;
   }
-  .bt-body.is-in {
+  .bt-body.is-in,
+  .bt-body.is-in2 {
     animation: none;
   }
 }
@@ -1143,11 +1162,15 @@ html[data-bt-pinned] {
 /* Shades over the real view (Chase 2026-10-31): each shade's glass is a slice of one outdoor picture
    under its film, so a row reads as tint bars across one view (--i its column, --cols the scale's
    columns, so the front row's slices sit where they sit on the other rows). */
+/* Peak 10-31 (visual W6): under the photo sits --view-ph (10-base.css), a 216-byte blurred inline copy
+   of the same view at the same proportions, sliced the same way, so before the photo arrives the six
+   shades still read as films over a light view, not as identical dark squares. ink-2 is the last
+   resort for a browser with neither. */
 .bt-pane__glass {
   background-color: var(--ink-2);
-  background-image: var(--view-lg);
-  background-size: calc(var(--cols, 7) * 100%) auto;
-  background-position: calc(var(--i, 0) / (var(--cols, 7) - 1) * 100%) 45%;
+  background-image: var(--view-lg), var(--view-ph);
+  background-size: calc(var(--cols, 7) * 100%) auto, calc(var(--cols, 7) * 100%) auto;
+  background-position: calc(var(--i, 0) / (var(--cols, 7) - 1) * 100%) 45%, calc(var(--i, 0) / (var(--cols, 7) - 1) * 100%) 45%;
   background-repeat: no-repeat;
 }
 
@@ -1192,18 +1215,29 @@ html[data-bt-pinned] {
   .bt-grid { row-gap: var(--sp-48); }
   .bt-stage__view { padding: var(--sp-16) var(--sp-24); }
 }
+/* Peak 10-31 W7: the pinned drawing carries a solid 8px band of page ground on every side and a
+   hairline under the band, so rings and chips scrolling under it never peek out beside it and
+   the content passing under it has a clean seam. */
 @media (max-width: 1023px) {
   .bt-stage__view {
     position: sticky;
     top: calc(var(--header-h) + 48px);
     z-index: 2;
     background-color: var(--bg);
-    box-shadow: 0 1px 0 var(--line);
+    box-shadow: 0 0 0 8px var(--bg), 0 1px 0 8px var(--line);
   }
 }
-/* Below 1024px the pinned drawing keeps the wide 16:9 frame (a 4:3 frame took half a tablet screen), and a
-   window row brought into view (tapping the car's glass) stops under the drawing instead of behind it. */
+@media (max-width: 1023px) and (max-height: 480px) {
+  .bt-stage__view { top: 48px; }
+}
+/* Below 1024px the pinned drawing keeps the wide 16:9 frame (a 4:3 frame took half a tablet screen),
+   capped in height (peak 10-31 W9: at 768 x 1024 the 16:9 frame took 385px, half the screen with the
+   header and the total bar); the drawing then fills the height, centred (the SVG keeps its own
+   proportions). 200px is the floor at which the picked windows still read in all three views.
+   A window row brought into view (tapping the car's glass) stops under the drawing, not behind it. */
 @media (max-width: 1023px) {
-  .bt-stage__view { aspect-ratio: 16 / 9; padding: 0; }
-  .bt-wrow { scroll-margin-top: calc(var(--header-h) + 48px + 56.25vw + var(--sp-16)); }
+  /* width: 100% keeps the box full width when the cap binds (aspect-ratio would otherwise narrow
+     it, and content scrolling under it would show beside it) */
+  .bt-stage__view { aspect-ratio: 16 / 9; padding: 0; width: 100%; max-height: max(200px, 30vh); }
+  .bt-wrow { scroll-margin-top: calc(var(--header-h) + 48px + var(--bt-pin, 0px) + var(--sp-16)); }
 }

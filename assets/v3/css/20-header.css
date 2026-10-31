@@ -347,6 +347,16 @@ html.v3-menu-open {
   }
 }
 
+/* 360 to 374px (peak pass P11): at 36px the row left only 7px between the logo and the status word at
+   360px (logo 97 + status 76 + call 44 + Menu 80 + two 8px gaps = 313px in a 320px content box).
+   A 32px logo (86px wide) gives about 18px at 360px and 29px at 374px. The status stays, the call icon
+   and Menu stay. From 375px the 36px logo has 17px or more, so the full size returns there. */
+@media (min-width: 360px) and (max-width: 374px) {
+  .v3-logo img {
+    height: 32px;
+  }
+}
+
 /* Desktop (H-b): logo, text links, status, the call control; number printed from 1280px */
 @media (min-width: 1024px) {
   .v3-logo img {
@@ -388,4 +398,31 @@ html.v3-menu-open {
   html {
     scroll-padding-top: 16px;
   }
+}
+
+/* Link-looking button (peak pass T9): "Cookie choices" in the footer opens the cookie bar, so it is
+   a <button>, but it must read exactly like the text links beside it. Mirrors the global "a" rule
+   in 10-base.css (inherited colour, 1px underline at 4px offset, gold hover on dark) with the
+   button chrome removed. Lives here because 10-base.css and 60-sections.css belong to other
+   passes; this file loads on every page. Focus ring comes from the global :focus-visible rule. */
+.v3-linkbtn {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: text-decoration-color var(--dur-ui) var(--ease-out);
+}
+.v3-linkbtn:hover {
+  text-decoration-color: var(--link-hover);
 }

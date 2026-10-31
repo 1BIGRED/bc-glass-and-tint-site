@@ -6,11 +6,15 @@
     the style's heading names it, so each drawing is aria-hidden. Styles: .ws5-art in
     assets/v3/css/60-sections.css. Data: blinds.json blocks[].items[].art.
 
+    Geometry: the sill line starts at x=8 and the frame at x=12 in a 120 wide box, so the viewBox starts at
+    x=7 (same size, same scale): the leftmost ink then sits on the text edge instead of 8 to 14px right of
+    it (peak pass P7). Keep the box 120 wide; 60-sections.css sizes it by width.
+
     Import:  {% from "v3/blinds-art.njk" import blindArt %}
     Use:     {{ blindArt("cellular") }}   roller | cellular | roman | motorized; anything else prints nothing. -#}
 {% macro blindArt(kind) -%}
 {%- if kind in ["roller", "cellular", "roman", "motorized"] -%}
-<svg class="ws5-art ws5-art--{{ kind }}" viewBox="0 0 120 100" width="120" height="100" aria-hidden="true" focusable="false">
+<svg class="ws5-art ws5-art--{{ kind }}" viewBox="7 0 120 100" width="120" height="100" aria-hidden="true" focusable="false">
   <rect class="ws5-art__frame" x="12" y="8" width="96" height="84" rx="2"/>
   <path class="ws5-art__frame" d="M8 96h104"/>
 {%- if kind == "roller" or kind == "motorized" %}

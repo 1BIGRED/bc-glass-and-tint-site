@@ -68,7 +68,7 @@
   max-width: 12em;
 }
 
-/* P-f: one class at a time below 560px, a 44px segmented switch; no JavaScript needed */
+/* P-f: one class at a time below 720px (was 560; the grid needs about 653px plus the 40px page margins, so 560 to 695 ran off the edge or into the margin, peak pass R3), a 44px segmented switch; no JavaScript needed */
 .pr-table--grid { display: none; }
 .pr-seg {
   display: grid;
@@ -110,7 +110,7 @@
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
-@media (min-width: 560px) {
+@media (min-width: 720px) {
   .pr-table--grid { display: table; }
   .pr-phone { display: none; }
 }
@@ -253,4 +253,32 @@
   justify-content: flex-end;
   gap: var(--sp-4);
   margin-bottom: var(--sp-8);
+}
+
+/* ======================= Peak pass R3 (2026-10-31) ======================= */
+/* Visual P1: in the one-class phone tables each row is two table rows, a decorative one that holds the
+   which-windows drawing across the whole row (aria-hidden, the label says the same in words) and the
+   label row under it, label left and price right on one line. */
+.pr-ct .pr-ct__art td {
+  padding: var(--sp-12) 0 0;
+  border-bottom: 0;
+  text-align: left;
+}
+.pr-ct .pr-ct__art .v3-win {
+  width: min(22rem, 100%);
+  max-width: none;
+}
+.pr-ct .pr-ct__art + tr th,
+.pr-ct .pr-ct__art + tr td {
+  padding-top: var(--sp-8);
+  vertical-align: baseline;
+}
+
+/* Visual W1: from 1024 to 1279px the 8-column body (about 590px) cannot hold an 18rem drawing plus three
+   price columns, so the car table ran off the right edge and the Van column was cut. In that range every
+   section stacks: the heading and its lede above, the body across the full grid (about 900px at 1024).
+   From 1280px the two-column layout fits again. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .pr-sec__head,
+  .pr-sec__body { grid-column: 1 / -1; }
 }

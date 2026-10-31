@@ -264,11 +264,13 @@ collections:
         label: "Prices"
         file: "_data/pricing.json"
         fields:
-          - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Every price the website can show. Only a price the owner has confirmed may be published: a price shows on the live site only when Status is Confirmed AND Show on the live site is on. Everything else shows Call for a quote. Draft prices never show on the live site. Never type a guess, a competitor's number, or 0 to mean unknown. The lines on legal hold are locked and cannot be switched on here. Year-month-day, for example 2026-11-02. Change it to today's date whenever you change a price." }
+          - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "Every price the website can show. Only a price the owner has confirmed may be published: a price shows on the live site only when Status is Confirmed AND Show on the live site is on. Everything else shows Call for a quote. Draft prices never show on the live site. Never type a guess, a competitor's number, or 0 to mean unknown. Year-month-day, for example 2026-11-02. Change it to today's date whenever you change a price." }
           - { label: "Currency", name: currency, widget: string, hint: "Do not change." }
           - { label: "Prices last reviewed with the owner", name: reviewed_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "The day the whole price list was last checked with the owner. The Prices page prints Prices reviewed on this date. Leave it empty until that check has happened." }
           - { label: "Lowest legal shade for front doors (studio only)", name: front_min_vlt, widget: hidden }
           - { label: "Where that limit comes from (studio only)", name: front_min_vlt_source, widget: hidden }
+          - { label: "Full windshield shades the shop installs (studio only)", name: windshield_shades, widget: hidden }
+          - { label: "Where the windshield shade list comes from (studio only)", name: windshield_shades_source, widget: hidden }
           - label: "Starting points in Build Your Tint (presets)"
             name: presets
             widget: list
@@ -493,11 +495,11 @@ collections:
                       - { label: "SUV", name: suv, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
                       - { label: "Pickup", name: pickup, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
                       - { label: "Van", name: van, widget: object, collapsed: true, summary: "{{fields.status}} {{fields.display}}", fields: *price_fields }
-              - label: "Full windshield film (ON LEGAL HOLD)"
+              - label: "Full windshield film (medical exemption or show use)"
                 name: full_windshield_film
                 widget: object
                 collapsed: true
-                hint: "On legal hold. Do not publish until the studio has ruled on Nevada law. The site never prints this line, in any mode, whatever is typed here. The hold switch and the live-site switch are hidden on purpose."
+                hint: "Offered in Build Your Tint at 70, 50 and 45 percent with a legal note: Nevada allows windshield tint only above the AS-1 line for driving, so full windshield film is for a medical exemption or show use. Like every price, it shows on the live site only when the owner has confirmed it. The live-site switch for this line is studio only."
                 fields:
                   - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
                   - label: "Status"
@@ -508,21 +510,21 @@ collections:
                       - { label: "Unknown, no number yet", value: unknown }
                       - { label: "Draft, not signed off by the owner", value: draft }
                       - { label: "Confirmed, the owner gave this exact number", value: confirmed }
-                    hint: "On legal hold. Do not publish until the studio has ruled on Nevada law. Leave this as Draft."
-                  - { label: "Amount (number only)", name: amount, widget: number, value_type: float, min: 0, required: false, hint: "On legal hold. Do not change." }
-                  - { label: "Words the site prints", name: display, widget: string, required: false, hint: "On legal hold. Do not change." }
+                    hint: "Draft until the owner gives this exact number. Then pick Confirmed and tell the studio, which switches it on."
+                  - { label: "Amount (number only)", name: amount, widget: number, value_type: float, min: 0, required: false, hint: "A plain number with no dollar sign. Leave empty if unknown. Never type 0 to mean unknown. Never type a guess or a competitor's number." }
+                  - { label: "Words the site prints", name: display, widget: string, required: false, hint: "Exactly what customers read, for example From $150. Fill it in when the status is Confirmed." }
                   - { label: "Where the number came from", name: source, widget: string, required: false, hint: "Reference only. Do not change." }
                   - { label: "How the number was worked out", name: basis, widget: text, required: false, hint: "Reference only. Do not change." }
-                  - { label: "Legal hold (studio only)", name: legal_hold, widget: hidden }
-                  - { label: "Why it is on hold", name: legal_note, widget: text, required: false, hint: "On legal hold. Do not publish until the studio has ruled on Nevada law. Reference only; do not change." }
-                  - { label: "Confirmed by", name: confirmed_by, widget: string, required: false, hint: "On legal hold. Leave empty." }
-                  - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "On legal hold. Leave empty." }
+                  - { label: "Legal note", name: legal_note, widget: text, required: false, hint: "Legal note, NRS 484D.440, do not remove. Reference only; do not change." }
+                  - { label: "Confirmed by", name: confirmed_by, widget: string, required: false, hint: "Who gave the number, by name or role. Required before you set the status to Confirmed." }
+                  - { label: "Confirmed on", name: confirmed_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "The day the owner gave the number." }
                   - { label: "Show on the live site (studio only)", name: publish, widget: hidden }
 
       - name: gallery
         label: "Gallery Photos"
         file: "_data/gallery.json"
         fields:
+          - { label: "Note for the studio (read only)", name: _note, widget: hidden }
           - { label: "Date last updated", name: updated, widget: string, required: true, pattern: ['^\d{4}-\d{2}-\d{2}$', "Write the date as year-month-day, for example 2026-11-02."], hint: "The photos on the Gallery page and the homepage. Add a photo only when it shows no faces and no personal items and the customer is OK with it. Never guess a shade. Year-month-day, for example 2026-11-02. Change it to today's date whenever you add or change a photo." }
           - label: "Photos"
             name: items
@@ -544,10 +546,22 @@ collections:
                 name: vehicle
                 widget: object
                 required: false
-                hint: "Fill in for vehicle photos only. Leave all three empty for a home, office or chip repair photo. Only write a make and model you are sure of from the job record."
+                hint: "Fill in for vehicle photos only. Leave every vehicle field empty for a home, office or chip repair photo. Only write a make, model, year or trim you are sure of from the job record."
                 fields:
                   - { label: "Make", name: make, widget: string, required: false }
                   - { label: "Model", name: model, widget: string, required: false, hint: "Leave empty if you do not know the model for sure." }
+                  - { label: "Year", name: year, widget: number, value_type: int, min: 1980, max: 2100, required: false, hint: "Four-digit model year, only if the job record names it. Leave empty if unknown. Never guess from the photo." }
+                  - { label: "Trim", name: trim, widget: string, required: false, hint: "For example Lariat or Rubicon, only if the job record names it. Leave empty if unknown." }
+                  - label: "Vehicle type"
+                    name: type
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Car", value: car }
+                      - { label: "SUV", value: suv }
+                      - { label: "Pickup", value: pickup }
+                      - { label: "Van", value: van }
+                    hint: "Used by the Gallery search. Pick the same type as Body below."
                   - label: "Body"
                     name: body
                     widget: select
@@ -557,6 +571,49 @@ collections:
                       - { label: "SUV", value: suv }
                       - { label: "Pickup", value: pickup }
                       - { label: "Van", value: van }
+                    hint: "Older field kept in step with Vehicle type. Pick the same type."
+              - label: "Windows done and their shades"
+                name: windows
+                widget: object
+                required: false
+                hint: "For each window: turn Done on only if film went on that window in this job. Shade is the percent of light let through, from the job record. Leave the shade empty if unknown. Never guess from the photo."
+                fields:
+                  - label: "Front doors"
+                    name: front_doors
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: "Done", name: done, widget: boolean, default: false, required: false }
+                      - { label: "Shade (percent of light let through)", name: shade, widget: number, value_type: int, min: 35, max: 99, required: false, hint: "Nevada allows front doors no darker than 35 percent (NRS 484D.440). The site does not show a darker number. Leave empty if unknown." }
+                  - label: "Rear doors"
+                    name: rear_doors
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: "Done", name: done, widget: boolean, default: false, required: false }
+                      - { label: "Shade (percent of light let through)", name: shade, widget: number, value_type: int, min: 1, max: 99, required: false, hint: "Leave empty if unknown." }
+                  - label: "Back glass"
+                    name: back_glass
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: "Done", name: done, widget: boolean, default: false, required: false }
+                      - { label: "Shade (percent of light let through)", name: shade, widget: number, value_type: int, min: 1, max: 99, required: false, hint: "Leave empty if unknown." }
+                  - label: "Windshield top strip"
+                    name: top_strip
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: "Done", name: done, widget: boolean, default: false, required: false }
+                      - { label: "Shade (percent of light let through)", name: shade, widget: number, value_type: int, min: 1, max: 99, required: false, hint: "Leave empty if unknown." }
+                  - label: "Sunroof"
+                    name: sunroof
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: "Done", name: done, widget: boolean, default: false, required: false }
+                      - { label: "Shade (percent of light let through)", name: shade, widget: number, value_type: int, min: 1, max: 99, required: false, hint: "Leave empty if unknown." }
+              - { label: "Film", name: film, widget: string, required: false, hint: "The film name, only if the job record names it. Leave empty if unknown. Never guess." }
               - label: "Windows with film in this photo"
                 name: panels
                 widget: select
@@ -588,6 +645,61 @@ collections:
               - { label: "Look", name: look, widget: string, required: false }
               - { label: "Excluded", name: excluded, widget: text, required: false }
           - { label: "Shade board (studio only)", name: shade_board, widget: hidden }
+          - label: "Gallery search panel wording"
+            name: search_ui
+            widget: object
+            collapsed: true
+            hint: "The words on the Gallery search panel. Words in braces, such as {n}, {label} and {filter}, are filled in automatically. Keep them exactly as they are."
+            fields:
+              - { label: "Note for the studio (read only)", name: _note, widget: hidden }
+              - { label: "Search box label", name: search_label, widget: string }
+              - { label: "Search box example", name: search_placeholder, widget: string }
+              - { label: "Year", name: year, widget: string }
+              - { label: "Make", name: make, widget: string }
+              - { label: "Model", name: model, widget: string }
+              - { label: "Any year", name: any_year, widget: string }
+              - { label: "Any make", name: any_make, widget: string }
+              - { label: "Any model", name: any_model, widget: string }
+              - { label: "Vehicle type", name: type, widget: string }
+              - { label: "Windows done", name: windows, widget: string }
+              - { label: "Look", name: look, widget: string }
+              - { label: "Front shade", name: shade_front, widget: string }
+              - { label: "Rear shade", name: shade_rear, widget: string }
+              - { label: "Any shade", name: any_shade, widget: string }
+              - { label: "Shade number", name: shade_value, widget: string, hint: "Keep the {n} token. It is replaced by the shade number." }
+              - { label: "More filters", name: more, widget: string }
+              - { label: "Showing", name: active, widget: string }
+              - { label: "Remove a filter", name: remove, widget: string, hint: "Keep the {label} token." }
+              - { label: "Clear all", name: clear_all, widget: string }
+              - { label: "Closest match", name: nearest, widget: string, hint: "Keep the {n} and {filter} tokens." }
+              - { label: "See every job", name: see_all, widget: string }
+              - label: "Window names in the filter"
+                name: windows_opts
+                widget: object
+                fields:
+                  - { label: "Front doors", name: front_doors, widget: string }
+                  - { label: "Rear doors", name: rear_doors, widget: string }
+                  - { label: "Back glass", name: back_glass, widget: string }
+                  - { label: "Full sides and back", name: full, widget: string }
+                  - { label: "Windshield top strip", name: top_strip, widget: string }
+                  - { label: "Sunroof", name: sunroof, widget: string }
+              - label: "Photo detail line words"
+                name: spec
+                widget: object
+                fields:
+                  - { label: "Vehicle", name: vehicle, widget: string }
+                  - { label: "Type", name: type, widget: string }
+                  - { label: "Service", name: service, widget: string }
+                  - { label: "Windows", name: windows, widget: string }
+                  - { label: "Shades", name: shades, widget: string }
+                  - { label: "Film", name: film, widget: string }
+                  - { label: "Look", name: look, widget: string }
+                  - { label: "Front", name: front, widget: string }
+                  - { label: "Rear", name: rear, widget: string }
+                  - { label: "Back", name: back, widget: string }
+                  - { label: "Top strip", name: strip, widget: string }
+                  - { label: "Sunroof", name: roof, widget: string }
+              - { label: "Word between the last two items", name: spec_and, widget: string }
 
   # ================================================================
   # Customer reviews: which ones the site may quote (_data/reviews.json).
@@ -627,7 +739,9 @@ collections:
               - { label: "Reviewer name, exactly as the platform shows it", name: author_display, widget: string, required: true, hint: "Copy it exactly as it shows on the listing." }
               - { label: "Month and year of the review", name: month_year, widget: string, required: false, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', "Write the month as year-month, for example 2026-08."], hint: "Year-month, for example 2026-08. Leave empty if you have not read it on the listing." }
               - { label: "Link to the review or the listing", name: url, widget: string, required: false, hint: "Leave empty if you do not have it." }
-              - { label: "Review text (word for word)", name: text, widget: text, required: false, hint: "Required for a Google review: copy the words exactly, no edits. Leave EMPTY for a Yelp review on purpose, because Yelp wording never goes on the site." }
+              - { label: "Review text (word for word)", name: text, widget: text, required: false, hint: "Exact Google words only. Never edit. Required for a Google review: copy the words exactly, no edits. Leave EMPTY for a Yelp review on purpose, because Yelp wording never goes on the site." }
+              - { label: "Stars on the Google listing", name: stars, widget: number, value_type: int, min: 1, max: 5, required: false, hint: "The star rating exactly as the live Google listing shows it, 1 to 5. Leave empty if you have not read it there. Stars only show on the site when Stars checked on is set." }
+              - { label: "Stars checked on", name: stars_checked_on, widget: datetime, type: date, required: false, pattern: ['^\d{4}-\d{2}-\d{2}$', "Pick the day with the date picker. It must be a real date written like 2026-11-02."], hint: "The day someone read these stars on the live Google listing. Stars only show on the site when this date is set. Leave it empty if the stars were not checked." }
               - label: "Jobs this review fits"
                 name: services
                 widget: select
@@ -3224,6 +3338,7 @@ collections:
                   - { label: "Rear doors and back glass", name: rear_doors_and_back_glass, widget: string }
                   - { label: "Full vehicle", name: full_vehicle, widget: string }
                   - { label: "Windshield strip", name: windshield-strip, widget: string }
+                  - { label: "Full windshield", name: full_windshield_film, widget: string }
                   - { label: "Sunroof", name: sunroof, widget: string }
               - { label: "Request note", name: request_note, widget: string }
               - { label: "Ask price", name: ask_price, widget: string }
@@ -3258,6 +3373,15 @@ collections:
             fields:
               - { label: "Caption", name: caption, widget: string }
               - { label: "Note", name: note, widget: text }
+              - { label: "Label for the view buttons (screen readers)", name: views_label, widget: string, hint: "Read aloud for the group of Side, Front and Rear view buttons. Not seen by most visitors." }
+              - label: "View button names"
+                name: views
+                widget: object
+                hint: "The words on the three view buttons. The view they switch to is fixed in the page; only the words change."
+                fields:
+                  - { label: "Side view button", name: side, widget: string }
+                  - { label: "Front view button", name: front, widget: string }
+                  - { label: "Rear view button", name: rear, widget: string }
           - label: "Windows"
             name: windows
             widget: object
@@ -3265,16 +3389,19 @@ collections:
               - { label: "Heading with presets", name: heading_with_presets, widget: string }
               - { label: "Heading without presets", name: heading_without_presets, widget: string }
               - { label: "Intro", name: intro, widget: string }
+              - { label: "Shade scale note", name: vlt_note, widget: string, hint: "The line under the shade choices that says what the percent means. Keep it saying VLT is the percent of light the film lets through." }
               - { label: "No film", name: no_film, widget: string }
               - { label: "Unset", name: unset, widget: string }
               - { label: "Lighter", name: lighter, widget: string }
               - { label: "Darker", name: darker, widget: string }
+              - { label: "Front-door dark rule (studio only)", name: dark_rule, widget: hidden }
               - label: "Words"
                 name: words
                 widget: object
                 fields:
                   - { label: "70", name: "70", widget: string }
                   - { label: "50", name: "50", widget: string }
+                  - { label: "45", name: "45", widget: string }
                   - { label: "35", name: "35", widget: string }
                   - { label: "20", name: "20", widget: string }
                   - { label: "15", name: "15", widget: string }
@@ -3290,22 +3417,33 @@ collections:
                     fields:
                       - { label: "Label", name: label, widget: string }
                       - { label: "Key", name: key, widget: string, hint: "Technical. Ask the studio before changing." }
-                      - { label: "Legal", name: legal, widget: text }
+                      - { label: "Legal", name: legal, widget: text, required: true, hint: "Legal note, NRS 484D.440, do not remove" }
+                      - { label: "Note for shades darker than Nevada allows", name: dark, widget: text, required: true, hint: "Legal note, NRS 484D.440, do not remove. Shown on the front-door row when a shade darker than 35 percent is picked (medical exemption or show use)." }
                   - label: "Rear"
                     name: rear
                     widget: object
                     fields:
                       - { label: "Label", name: label, widget: string }
                       - { label: "Key", name: key, widget: string, hint: "Technical. Ask the studio before changing." }
-                      - { label: "Legal", name: legal, widget: string }
+                      - { label: "Legal", name: legal, widget: string, required: true, hint: "Legal note, NRS 484D.440, do not remove" }
                   - label: "Back"
                     name: back
                     widget: object
                     fields:
                       - { label: "Label", name: label, widget: string }
                       - { label: "Key", name: key, widget: string, hint: "Technical. Ask the studio before changing." }
-                      - { label: "Legal", name: legal, widget: string }
-              - { label: "Strip legal", name: strip_legal, widget: string }
+                      - { label: "Legal", name: legal, widget: string, required: true, hint: "Legal note, NRS 484D.440, do not remove" }
+                  - label: "Full windshield"
+                    name: windshield
+                    widget: object
+                    fields:
+                      - { label: "Label", name: label, widget: string }
+                      - { label: "Key (studio only)", name: key, widget: hidden }
+                      - { label: "Legal", name: legal, widget: text, required: true, hint: "Legal note, NRS 484D.440, do not remove. Always shown on the windshield row." }
+                      - { label: "Note for full windshield film", name: dark, widget: text, required: true, hint: "Legal note, NRS 484D.440, do not remove. Shown on the windshield row and in the build summary when a full windshield shade is picked (medical exemption or show use)." }
+              - { label: "Top strip name", name: strip_label, widget: string }
+              - { label: "Top strip covered note", name: strip_covered, widget: string, hint: "Shown on the top strip row while the full windshield has film." }
+              - { label: "Strip legal", name: strip_legal, widget: string, required: true, hint: "Legal note, NRS 484D.440, do not remove" }
           - label: "Presets"
             name: presets
             widget: object

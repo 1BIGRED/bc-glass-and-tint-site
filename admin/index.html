@@ -23,10 +23,11 @@
   a floating address such as .../@sveltia/cms/dist/... or @latest: a new release
   could change how a saved field behaves without anyone testing it on this site.
   To upgrade: pick a release that is at least two weeks old, change the number in
-  the one script address below, run Scripts\Test-CmsConfig.ps1, then open the editor
-  on a test branch and save one entry before it goes to main. Record the number and
+  the one script address below, recompute its integrity hash (sha384, base64, of the exact file
+  at that address; the editor will not load if the hash is stale), run Scripts\Test-CmsConfig.ps1,
+  then open the editor on a test branch and save one entry before it goes to main. Record the number and
   the date in overhaul-v3\build-logs\WS7.md.
 -->
-<script src="https://unpkg.com/@sveltia/cms@0.244.0/dist/sveltia-cms.js"></script>
+<script src="https://unpkg.com/@sveltia/cms@0.244.0/dist/sveltia-cms.js" integrity="sha384-N6DG+rT3HWTIWug2+4YZ9cPFY2Zd6bX9oXgD3uff8MA9ujwKDrVTCqjyDpYEgtbF" crossorigin="anonymous"></script>
 </body>
 </html>

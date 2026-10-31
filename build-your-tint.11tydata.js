@@ -17,6 +17,7 @@
 const S = require("./lib/schema");
 const { fill } = require("./lib/filters");
 const P = require("./lib/pricing");
+const BCODE = require("./lib/buildcode");
 
 const MODE = P.priceMode(process.env);
 const WINDOWS = ["front", "rear", "back", "windshield"];
@@ -157,8 +158,16 @@ function builderConfig(pricing, pg, mode) {
     mode,
     front_min: P.frontMin(pr),
     classes: classes.map((id) => Object.assign({ id }, pg.vehicles[id] || { label: id })),
-    // dark: the front-door note for shades darker than front_min (Chase 2026-10-31); empty elsewhere
-    windows: wins.map((w) => ({ id: w, key: W.panels[w].key, label: W.panels[w].label, legal: W.panels[w].legal, dark: W.panels[w].dark || "" })),
+    // dark: the Nevada note (Chase 2026-10-31) for a pick under dark_below: front doors darker than
+    // front_min, and every full windshield shade (peak 10-31 W3: 101, so 70, 50 and 45 all carry
+    // it; the top strip is an add-on and never does). The windshield words come from the page data
+    // when it has windows.panels.windshield.dark, else from the build code's own label (the same
+    // line the summary and /book print), so the row, the result and the hand-off say one thing.
+    windows: wins.map((w) => ({
+      id: w, key: W.panels[w].key, label: W.panels[w].label, legal: W.panels[w].legal,
+      dark: W.panels[w].dark || (w === "windshield" ? BCODE.LABELS.windshield_dark : ""),
+      dark_below: w === "windshield" ? 101 : P.frontMin(pr)
+    })),
     shades,
     // Peak R1 (visual 4): columns per fine-tune row = the longest row (No film plus its shades), so
     // a shade sits in the same column on every row.

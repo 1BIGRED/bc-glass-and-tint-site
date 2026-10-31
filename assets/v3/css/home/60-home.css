@@ -333,3 +333,60 @@
   .ws5-lane--car .ws5-lane__copy { grid-column: 1 / span 8; }
   .ws5-lane--car .ws5-lane__side { grid-column: 1 / -1; grid-row: 2; position: static; }
 }
+
+/* ======================= Peak pass 2026-10-31 ======================= */
+
+/* Router chevrons (visual P3): one height on every card. The chevron centred on its own grid rows, which
+   wrap differently per card (y 617, 629 and 608 at 1440); it now centres on the card itself. Out of the
+   grid flow (grid-area: auto, so its box is the card, not its grid cell); the 16px column it used stays
+   reserved, so text never runs under it. Same right edge as before. */
+.ws5-route__chev {
+  position: absolute;
+  grid-area: auto;
+  right: var(--sp-16);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Router at 1024 to 1279px (visual W4, psychologist's amended fix): the three cards were 148 px wide,
+   six-line micro lines, and below the fold at 1024 x 768. Here they take one row across the full
+   content width, directly under the H1 and the Call (the Call stays above them). The parade photo sits
+   beside the H1 rows only, cropped shorter (2:1, bottom kept, the same framing as the phone crop), with
+   its caption under it in the flow. Same order, same words, every micro line, no gold. 1280 and up are
+   unchanged. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hero-photo .ws5-hero--home .ws5-hero__copy > .ws5-router {
+    grid-column: 1 / -1;
+    margin-right: var(--margin);
+  }
+  .hero-photo .ws5-hero--home .ws5-hero__media { grid-row: 1 / span 4; }
+  .hero-photo .ws5-hero--home .v3-hero-media--parade picture > img {
+    aspect-ratio: 2 / 1;
+    object-position: 50% 100% !important; /* beats the inline 50% 50% focal point, this range only */
+  }
+  .hero-photo .ws5-hero--home .v3-hero-media__cap { position: static; }
+}
+
+/* Car lane at 1024px and up (visual P2): the prices keep columns 1 to 8 (capped at 40rem in
+   60-sections.css) and one verified car review takes columns 9 to 12 beside them, top-aligned with the
+   class switch and price rows. The lane copy becomes the 12-column grid so the review can sit beside the
+   rows without moving them. Under 1024px the review is hidden: phones keep the two-review homepage. */
+.ws5-quote--lane { display: none; }
+@media (min-width: 1024px) {
+  .page-home .ws5-lane--car .ws5-lane__copy:has(> .ws5-quote--lane) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-content: start;
+  }
+  .page-home .ws5-lane--car .ws5-lane__copy:has(> .ws5-quote--lane) > * { grid-column: 1 / span 8; }
+  .page-home .ws5-lane--car .ws5-lane__copy:has(> .ws5-quote--lane)::before { grid-column: 1 / span 8; }
+  .page-home .ws5-lane--car .ws5-lane__copy > .ws5-quote--lane {
+    display: block;
+    grid-column: 9 / span 4;
+    grid-row: 3 / span 4;
+    align-self: start;
+    margin-top: 0;
+  }
+}

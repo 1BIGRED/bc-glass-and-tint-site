@@ -16,7 +16,8 @@
      [data-bt-svg] the drawn vehicle (05-CAR-GRAPHIC-SPEC.md): g[data-body][data-view][data-bb],
        [data-win] and [data-addon] panels, [data-tint] near-pane and [data-far] far-pane film
      [data-bt-view] Side / Front 3/4 / Rear 3/4 buttons (ids side, front, rear)
-     [data-bt-seefront] "See it from the front"
+     [data-bt-dark] a row's Nevada note, kept in the layout and shown (data-on) only while that row's
+       pick needs it: front doors darker than cfg.front_min, any full windshield shade (peak 10-31 W3)
 
    Hand-off: <html data-bc-build="BC-..."> and a "bc:build" event { code, service, summary, url } on document, on every change.
    The action system (WS2, 30-actions.js) links its Request a time to /book?s=car&b=<code> (WS3)
@@ -131,10 +132,17 @@
   // 16:9 so the vehicle switch fits on the first screen; 50 percent of that would shrink the Front
   // and Rear views to about 100px). The view box is the drawing's own box scaled up so the drawing
   // can never pass either share, whatever the stage's shape.
+  // Peak 10-31 T2 (INP): "wide" is the stage's own width (clientWidth >= 640), cached by the
+  // ResizeObserver below, which reads it after layout, so a view switch never forces a layout. It is
+  // NOT a viewport query: the stage is the wrap width under 1024px (wide from about 680px of
+  // viewport) and columns 1 to 7 from 1024px (narrow at 1024, wide again near 1280), so a
+  // matchMedia flag would frame 1024 to 1279 wrongly. Until the first observation (before the first
+  // paint) the server's viewBox stays and frame() waits.
+  var stageWide = null, curBody = null;
   function frame(svg, g) {
     var bb = (g.getAttribute("data-bb") || "").split(" ").map(Number);
-    if (bb.length !== 4) return;
-    var wide = (svg.parentNode && svg.parentNode.clientWidth >= 640);
+    if (bb.length !== 4 || stageWide === null) return;
+    var wide = stageWide;
     var fx = wide ? 0.86 : 0.9, fy = wide ? 0.66 : 0.6;
     var w = bb[2] / fx, h = bb[3] / fy;
     var vb = Math.round(bb[0] + bb[2] / 2 - w / 2) + " " + Math.round(bb[1] + bb[3] / 2 - h / 2) + " " + Math.round(w) + " " + Math.round(h);
@@ -152,11 +160,15 @@
       else if (!g.hasAttribute("hidden")) g.setAttribute("hidden", "");
     });
     if (cur) {
+      curBody = cur;
       frame(svg, cur);
+      // the fade-in: alternate two classes whose animations differ only in name, so every show
+      // restarts the fade (no remove, read, add: that read forced a full layout, T2; an SVG body
+      // leaving display:none did not restart a kept animation in Chrome, measured)
       if (shownKey && shownKey !== key && !reduce) {
-        cur.classList.remove("is-in");
-        void cur.getBoundingClientRect();
-        cur.classList.add("is-in");
+        var again = cur.classList.contains("is-in");
+        cur.classList.remove(again ? "is-in" : "is-in2");
+        cur.classList.add(again ? "is-in2" : "is-in");
       }
     }
     shownKey = key;
@@ -180,12 +192,10 @@
       if (state.current === id) ensureRing(g);
       g.classList.toggle("is-current", state.current === id);
     });
-    // view buttons and the "See it from the front" link (shown when the strip is picked)
     $$("[data-bt-view]").forEach(function (b) {
       var on = b.getAttribute("data-bt-view") === view ? "true" : "false";
       if (b.getAttribute("aria-pressed") !== on) b.setAttribute("aria-pressed", on);
     });
-    show("[data-bt-seefront]", stripOn() && view !== "front");
   }
   function setView(v) {
     if (v !== "side" && v !== "front" && v !== "rear") return;
@@ -237,7 +247,20 @@
       if (val) val.textContent = s === "x" ? cfg.text.unset : sh ? (sh.label || sh.name) : cfg.text.no_film;
       row.classList.toggle("is-current", state.current === w);
       row.classList.toggle("is-unset", s === "x");
+      // W3: the row's Nevada note shows only while its pick needs it; the line keeps its space
+      // either way (CSS), so nothing under it moves when it appears
+      var dk = row.querySelector("[data-bt-dark]");
+      if (dk) {
+        var on = isDark(w, s);
+        if (dk.hasAttribute("data-on") !== on) { if (on) dk.setAttribute("data-on", ""); else dk.removeAttribute("data-on"); }
+      }
     });
+  }
+  // A pick that carries the Nevada note (Chase 2026-10-31): a front-door shade darker than
+  // cfg.front_min, or any full windshield shade (dark_below 101). Never No film or "pick a shade".
+  function isDark(w, s) {
+    var win = windowOf(w);
+    return !!(win && win.dark && typeof s === "number" && s > 0 && s < win.dark_below);
   }
 
   function paintAddons() {
@@ -375,8 +398,9 @@
       var li = document.createElement("li");
       li.textContent = win.label + ": " + win.legal;
       ul.appendChild(li);
-      // Chase 2026-10-31: a front shade darker than the line is offered, with this plain note
-      if (win.dark && typeof state[w] === "number" && state[w] < cfg.front_min) {
+      // Chase 2026-10-31: a front shade darker than the line, and the full windshield, are
+      // offered with this plain note
+      if (isDark(w, state[w])) {
         var dk = document.createElement("li");
         dk.textContent = win.label + ": " + win.dark;
         ul.appendChild(dk);
@@ -632,15 +656,60 @@
   $$("[data-bt-view]").forEach(function (b) {
     b.addEventListener("click", function () { setView(b.getAttribute("data-bt-view")); });
   });
-  var seeFront = $("[data-bt-seefront]");
-  if (seeFront) seeFront.addEventListener("click", function () {
-    setView("front");
-    var fb = $('[data-bt-view="front"]');
-    if (fb) { try { fb.focus({ preventScroll: true }); } catch (err) { fb.focus(); } }
+  // ---------- the stage's size: framing (T2) and the pinned drawing's height (W2, W9) ----------
+  // One ResizeObserver on the drawing's box. Its callback runs after layout, so reading the box
+  // there costs nothing. It (1) caches stageWide for frame() and reframes the shown body when that
+  // flips, and (2) publishes --bt-pin on <html>: the pinned drawing's height plus its 8px band (W7)
+  // under 1024px, where the drawing pins above the controls, else 0 (desktop pins it beside them).
+  // 50-builder.css adds --bt-pin to scroll-padding-top while the total bar is pinned, so a focused
+  // or scrolled-to control stops under the drawing, never behind it (WCAG 2.4.11).
+  var stageView = $(".bt-stage__view");
+  var stackedMq = window.matchMedia ? window.matchMedia("(max-width: 1023px)") : null;
+  var pinPx = -1;
+  function setPin(h) {
+    var px = stackedMq && stackedMq.matches ? Math.ceil(h) + 9 : 0;
+    if (px === pinPx) return;
+    pinPx = px;
+    document.documentElement.style.setProperty("--bt-pin", px + "px");
+  }
+  function measureStage(el) {
+    var wide = el.clientWidth >= 640;
+    setPin(el.offsetHeight);
+    if (wide !== stageWide) {
+      stageWide = wide;
+      var svg = $("[data-bt-svg]");
+      if (svg && curBody) frame(svg, curBody);
+    }
+  }
+  if (stageView && "ResizeObserver" in window) {
+    new ResizeObserver(function (entries) { measureStage(entries[entries.length - 1].target); }).observe(stageView);
+    // the stacked layout can change without the box changing size (rare): re-read on that switch
+    if (stackedMq) { var mqFn = function () { pinPx = -1; measureStage(stageView); }; if (stackedMq.addEventListener) stackedMq.addEventListener("change", mqFn); else if (stackedMq.addListener) stackedMq.addListener(mqFn); }
+  } else if (stageView) {
+    // no ResizeObserver (very old browser): read once after load, and again after a resize
+    var rzStage = null;
+    var readStage = function () { measureStage(stageView); };
+    window.addEventListener("load", readStage);
+    window.addEventListener("resize", function () { clearTimeout(rzStage); rzStage = setTimeout(readStage, 150); });
+  }
+
+  // W2: keyboard focus inside the builder never lands under the pinned drawing. scroll-padding
+  // (CSS) handles most moves; this catches the rest (for example a browser that ignores
+  // scroll-padding for focus). Keyboard only (:focus-visible), so a tap or click never scrolls.
+  root.addEventListener("focusin", function (e) {
+    var t = e.target;
+    if (!t || !stageView || pinPx <= 0 || !document.documentElement.hasAttribute("data-bt-pinned")) return;
+    try { if (!t.matches(":focus-visible")) return; } catch (err) { return; }
+    // only controls that come after the drawing (the ones that scroll under it), never the total
+    // bar, the steps or the resume line above it
+    if (stageView.contains(t) || !(stageView.compareDocumentPosition(t) & 4)) return;
+    var box = (t.closest && t.closest("label")) || t;
+    var st = stageView.getBoundingClientRect();
+    if (st.bottom <= 0) return;
+    var r = box.getBoundingClientRect();
+    var clear = st.bottom + 9 + 8; // the 8px band, its hairline and a little air
+    if (r.top < clear) window.scrollBy(0, r.top - clear);
   });
-  // the safe-area frame depends on the stage width (phone or desktop shares)
-  var rzStage = null;
-  window.addEventListener("resize", function () { clearTimeout(rzStage); rzStage = setTimeout(paintStage, 150); });
 
   // Peak R1 (psychology 8): the one-tap upgrade and its undo. Both paint in this task so focus can
   // move straight to the control that replaces the one just used (the tapped button disappears).

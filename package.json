@@ -4,7 +4,8 @@
   "private": true,
   "description": "BC Glass & Tint: Eleventy site edited with Sveltia CMS.",
   "scripts": {
-    "build": "eleventy",
+    "cms-coverage": "node scripts/cms-coverage.js",
+    "build": "node scripts/cms-coverage.js && eleventy",
     "dev": "eleventy --serve"
   },
   "devDependencies": {

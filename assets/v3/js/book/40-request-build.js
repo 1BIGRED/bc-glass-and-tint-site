@@ -18,7 +18,7 @@
    front, rear, back. Then F and a token for the full windshield when it has film (BC-C3535F70).
    Letters T top strip, R sunroof, W ask about windshield ceramic coating, H ask about headlight
    restoration. A front shade below 35 is a real code (Chase 2026-10-31, medical exemption or show
-   use); the summary then carries the Nevada note.
+   use); the summary then carries the Nevada note, and so does a full windshield shade.
    Shade words, not percentages, in the summary: the numbers print only for shades the owner has
    confirmed, which this page cannot know. The raw code stays in the details box and in
    build_code, so the shop still reads the exact numbers. */
@@ -26,6 +26,9 @@
   "use strict";
   var CLASSES = { C: "Car", S: "SUV", P: "Pickup", V: "Van" };
   var FRONT_DARK = "Darker than Nevada allows on front doors for driving (35 percent, NRS 484D.440). For a medical exemption or show use.";
+  /* the same words as 10-buildcode.js LABELS.windshield_dark: every picked full windshield shade
+     carries it (Chase 2026-10-31; peak 10-31 W3); the price line below is unchanged */
+  var WS_DARK = "Darker than Nevada allows on the windshield for driving (tint only above the AS-1 line, NRS 484D.440). For a medical exemption or show use.";
   var SHADE_WORDS = { 70: "lightest shade", 50: "light shade", 45: "light to medium shade", 35: "medium shade", 20: "dark shade", 15: "darker shade", 5: "darkest shade" };
   var ADDON_WORDS = { T: "Windshield top strip", R: "Sunroof" };
   var ASK_WORDS = { W: "windshield ceramic coating", H: "headlight restoration" };
@@ -69,7 +72,10 @@
       if (toks[1] !== "00") out.push("Rear doors, " + shadeText(toks[1]) + ".");
       if (toks[2] !== "00") out.push("Back glass, " + shadeText(toks[2]) + ".");
     }
-    if (ws) out.push("Full windshield, " + shadeText(ws) + ".");
+    if (ws) {
+      out.push("Full windshield, " + shadeText(ws) + ".");
+      if (ws !== "XX") out.push(WS_DARK);
+    }
     var letters = m[4].toUpperCase(), asks = [];
     for (i = 0; i < letters.length; i++) {
       if (ADDON_WORDS[letters.charAt(i)]) out.push(ADDON_WORDS[letters.charAt(i)] + ".");

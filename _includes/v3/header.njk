@@ -19,7 +19,10 @@
 {%- if not curUrl %}{% set curUrl = "/" %}{% endif -%}
 <header class="v3-header" data-v3-header{% if header_raised %} data-raised="always"{% endif %}>
   <div class="v3-header__in wrap">
-    <a class="v3-logo" href="/"><picture><source type="image/webp" srcset="{{ images._logo.webp | safe }}"><img class="v3-logo-img" src="{{ images._logo.png | safe }}" width="{{ images._logo.width }}" height="{{ images._logo.height }}" alt="{{ w.logo_alt | safe }}" decoding="async"></picture></a>
+    {#- Peak pass 2026-10-31 (technical 7): AVIF and WebP at 107, 214 and 321 px wide (1x, 2x, 3x of the 40px desktop slot), cut from the
+        brand kit original by images-src/v3/build-logo-renditions.js. sizes = the logo's real CSS width at each header size
+        (20-header.css: height 40 from 1024 = 107px; 36 = 97px; 32 from 360 to 374 = 86px). The PNG src stays the fallback. -#}
+    <a class="v3-logo" href="/"><picture><source type="image/avif" srcset="/images/v3/logo-107.avif 107w, /images/v3/logo-214.avif 214w, /images/v3/logo-321.avif 321w" sizes="(min-width: 1024px) 107px, (min-width: 375px) 97px, (min-width: 360px) 86px, 97px"><source type="image/webp" srcset="/images/v3/logo-107.webp 107w, /images/v3/logo-214.webp 214w, /images/v3/logo-321.webp 321w" sizes="(min-width: 1024px) 107px, (min-width: 375px) 97px, (min-width: 360px) 86px, 97px"><img class="v3-logo-img" src="{{ images._logo.png | safe }}" width="{{ images._logo.width }}" height="{{ images._logo.height }}" alt="{{ w.logo_alt | safe }}" decoding="async"></picture></a>
     <nav class="v3-nav" aria-label="{{ w.nav_label | safe }}">
 {%- for l in w.nav %}
       <a href="{{ l.href | safe }}"{% if curUrl == l.href or (l.href != "/" and curUrl.indexOf(l.href + "/") == 0) %} aria-current="page"{% endif %}>{{ l.label | safe }}</a>

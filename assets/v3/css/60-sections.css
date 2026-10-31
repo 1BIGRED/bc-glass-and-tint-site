@@ -76,6 +76,9 @@
 
 /* ---------- Price rows inside WS5 containers (P-a to P-d) ---------- */
 .ws5-prices { margin: var(--sp-24) 0 var(--sp-16); }
+/* Peak pass 2026-10-31 (visual P2): the car lane's price list keeps a reading width, so each price sits
+   near its label (was about 500px apart at 1440) */
+.ws5-lane--car .v3-prices { max-width: 40rem; }
 .ws5-prices .v3-prow {
   display: flex;
   align-items: center;
@@ -455,6 +458,10 @@
 }
 .ws5-hero__copy { padding: var(--sp-24) var(--margin) var(--sp-32); }
 .ws5-hero__copy > * + * { margin-top: var(--sp-12); }
+/* Peak pass 2026-10-31 (technical 4): a hero H1 can never widen the page. A word that cannot fit the
+   column (a long word, or a hard &nbsp; widow guard such as "storefront&nbsp;film.") breaks instead of
+   pushing the layout viewport past the screen at 320 wide (WCAG 1.4.10). */
+.ws5-hero h1 { overflow-wrap: anywhere; }
 .ws5-hero__sub { margin-top: var(--sp-12); }
 .ws5-hero__act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-16); margin-top: var(--sp-24) !important; }
 .ws5-proof { margin-top: var(--sp-16) !important; }
@@ -684,12 +691,22 @@ html:not(.js) [data-js-only] { display: none !important; }
    The pane shows the chosen film over the outdoor picture; the chips join into one strip of that same
    picture, each slice under its own film, so the row reads as tint bars across one view. Each chip
    carries --i (its place) and the row --n (how many): slice i shows the picture from i/(n-1). */
+/* Peak pass 2026-10-31 (visual W6): under the photo sits --view-ph, a 216-byte blurred inline copy of
+   the same view (10-base.css), so on a slow connection every shade still reads as a film over a light
+   view, not as one near-black box. ink-2 is only the last layer, for a browser with neither. */
 .ws5-shade__pane {
   background-color: var(--ink-2);
-  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0))), var(--view-lg);
-  background-size: auto, cover;
-  background-position: 0 0, var(--view-pos);
+  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0))), var(--view-lg), var(--view-ph);
+  background-size: auto, cover, cover;
+  background-position: 0 0, var(--view-pos), var(--view-pos);
   background-repeat: no-repeat;
+}
+/* Peak pass 2026-10-31 (visual W5): the 1px border left a 1px ring of raw, untinted photo around the
+   film at dark shades (the background ran under the border). No border; the hairline is an inset
+   shadow drawn over the film, so the film covers the whole box. Film alpha unchanged. */
+.ws5-shade__pane {
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 .ws5-shade__chips { gap: 0; }
 .ws5-chip::before {
@@ -699,9 +716,9 @@ html:not(.js) [data-js-only] { display: none !important; }
   border: 0;
   box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.35);
   background-color: var(--ink-2);
-  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0))), var(--view-lg);
-  background-size: auto, calc(var(--n, 6) * 100%) auto;
-  background-position: 0 0, calc(var(--i, 0) / (var(--n, 6) - 1) * 100%) 45%;
+  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0))), var(--view-lg), var(--view-ph);
+  background-size: auto, calc(var(--n, 6) * 100%) auto, calc(var(--n, 6) * 100%) auto;
+  background-position: 0 0, calc(var(--i, 0) / (var(--n, 6) - 1) * 100%) 45%, calc(var(--i, 0) / (var(--n, 6) - 1) * 100%) 45%;
   background-repeat: no-repeat;
 }
 .ws5-chip:first-child::before { box-shadow: none; border-radius: var(--radius) 0 0 var(--radius); }
@@ -730,6 +747,12 @@ html:not(.js) [data-js-only] { display: none !important; }
   column-gap: var(--sp-16);
 }
 .ws5-shade__read .ws5-shade__legal { margin-top: 0; }
+/* Peak pass 2026-10-31 (visual P5): under 1280px the legal line always takes its own line, so a longer
+   line at 20, 15 or 5 no longer wraps down and pushes the bars under the finger (18px at 390; the same
+   19px jump showed in the narrow read-out column at 1024). From 1280 both lines fit beside the number. */
+@media (max-width: 1279px) {
+  .ws5-shade__read .ws5-shade__legal { flex-basis: 100%; }
+}
 .ws5-shade__num .t-numeral { font-size: 3.5rem; }
 @media (min-width: 1024px) {
   .ws5-shade__num .t-numeral { font-size: 5rem; }

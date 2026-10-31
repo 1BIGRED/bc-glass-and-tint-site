@@ -27,7 +27,7 @@ You cannot change, and should not look for:
 - The page layout files. They are not in the editor at all.
 - Any line marked **Technical**, **studio only** or **Ask the studio before changing**. If you see
   one, leave it alone and ask the studio.
-- The legal hold on full windshield film. It is locked on purpose and the editor has no switch for it.
+- The live-site switch for full windshield film. It is studio only on purpose.
 
 ## A bad entry is stopped, not published
 
@@ -124,8 +124,9 @@ The site goes back to "Call for a quote" for that line.
 If you do not know a price yet, set Status to **Unknown** and leave Amount and Words the site prints
 empty. Never type 0 to mean unknown.
 
-Full windshield film is on a legal hold. It has no price switch in the editor and the site never
-prints a price for it. Leave it alone.
+Full windshield film is offered for a medical exemption or show use, with a legal note on the page.
+When the owner gives its price, fill in the price like any other line and tell the studio, which
+switches it on. Never remove its legal note.
 
 ### Starting points and add-ons in Build Your Tint
 

@@ -284,6 +284,11 @@
       {%- if not o.compact %}
       {{ quote(reviews | ws5review(C.review)) }}
       {%- endif %}
+      {#- opts.review: a review id printed at the end of the copy (homepage, peak pass 2026-10-31 visual P2:
+          proof beside the price from 1024px; 60-home.css places and hides it) -#}
+      {%- if o.review %}
+      {{ quote(reviews | ws5review(o.review), { cls: "ws5-quote--lane" }) }}
+      {%- endif %}
     </div>
     {%- if not mini %}
     <div class="ws5-lane__side">

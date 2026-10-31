@@ -38,7 +38,13 @@ bundles: ["gallery", "service"]
       <p class="t-lead fg-2 measure">{{ v.lead | safe }}</p>
       <p class="t-label fg-2">{{ honest | safe }}</p>
     </div>
-    {{ b.photo("storefront-shop", "(min-width: 1440px) 520px, 36vw", { ratio: "21", cls: "ws5-gal-head__fig" }) }}
+    {#- Peak pass 2026-10-31 (visual P9): the head shows this view's own best job frame in 4:3 (picked in
+        gallery.11tydata.js, HEAD_PICK), not the storefront on every page. -#}
+    {%- if v.head %}
+    <figure class="ws5-fig ws5-fig--43 ws5-gal-head__fig" data-head-photo="{{ v.key }}">
+      <div class="ws5-fig__img">{{ picture(v.head.image, "(min-width: 1440px) 520px, 36vw", { alt: v.head.alt }) }}</div>
+    </figure>
+    {%- endif %}
   </div>
 </section>
 

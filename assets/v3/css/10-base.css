@@ -559,12 +559,25 @@ main:focus {
   --view-sm: url("/images/v3/shade-view-480.webp");
   --view-lg: url("/images/v3/shade-view-1122.webp");
   --view-pos: 50% 45%;
+  /* Peak pass 2026-10-31 (visual W6): the placeholder layer under every shade view. A 40 x 18 px copy of
+     shade-view-480.webp (216 bytes, sharp, webp q85), stretched by the browser into a soft blur of the
+     same light view, so a shade never reads as near-black while the photo is still on its way. The CSP
+     img-src allows data: (netlify.toml). Same aspect ratio as the photo, so it sits exactly under it. */
+  --view-ph: url("data:image/webp;base64,UklGRtAAAABXRUJQVlA4IMQAAABQBgCdASooABIAPlEijkSjoiEYCqwAOAUEsoBkVP/wCisz/3eeibF6ajMjjQLbtgaHslY6GsJwijRYgAD+/XqlEKZskBLphejP98w7deEMutwWb3qlI/j3K6FZXW9cXNE0XIwknOYeZ60Yz5wSP1XG92q5jP/Hu7O5ePNmpR0GlPIX+ecvLuI1PtPuiOEVj+0vR09VMqMhBAj0tR5CRf/JoymlNfrWn7o6CnRY0zPWAkzZ1QDzjOEgSMh807hAEJzwAAAA");
+}
+/* Phones get the 480 px rendition (6 KB) instead of the 1122 px one (21 KB). */
+@media (max-width: 639px) {
+  :root { --view-lg: var(--view-sm); }
 }
 /* The Light Ramp: seven bars (Clear, 70 to 5) cut from one picture, hairline mullions, labelled */
 .v3-ramp {
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 0;
-  background: var(--ink-2) var(--view-lg) var(--view-pos) / cover no-repeat;
+  background-color: var(--ink-2);
+  background-image: var(--view-lg), var(--view-ph);
+  background-size: cover, cover;
+  background-position: var(--view-pos), var(--view-pos);
+  background-repeat: no-repeat;
 }
 .v3-ramp > * {
   position: relative;
@@ -574,18 +587,24 @@ main:focus {
 .v3-ramp > *::after {
   content: attr(data-l);
   position: absolute;
-  left: 4px;
+  left: 2px;
   bottom: 4px;
-  padding: 2px 4px;
+  padding: 2px 3px;
   border-radius: 2px;
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
   font-family: var(--font-text);
-  font-size: 0.6875rem;
+  /* Peak pass 2026-10-31 (visual P4): the label size token (13px) at every width, never 11px. The
+     offsets and padding are trimmed so the widest label, "Clear" (36px of text), fits its bar: 44px in
+     a 46px bar at 360, 39px in a 40px bar at 320, 52px in a 55px bar at 1024. */
+  font-size: var(--t-label);
   font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
 }
+@media (max-width: 359px) {
+  .v3-ramp > *::after { left: 1px; padding: 2px 1px; }
+}
 @media (min-width: 640px) {
-  .v3-ramp > *::after { left: 8px; bottom: 8px; padding: 3px 6px; font-size: var(--t-label); }
+  .v3-ramp > *::after { left: 6px; bottom: 8px; padding: 3px 5px; font-size: var(--t-label); }
 }

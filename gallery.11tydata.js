@@ -211,6 +211,38 @@ function facets(items) {
   };
 }
 
+// Head photo of each view (peak pass 2026-10-31, visual P9): from 1024px the head shows its own best job
+// frame in 4:3 instead of the storefront on every page. Chosen by looking at the pixels: sharp, well lit,
+// the work clearly visible, 1280 px wide so a 2x screen at about 520 CSS px is never upscaled. Each id is a
+// checked job record in _data/gallery.json (a record that stops being a job falls back to the view's first
+// item); the chip repair page takes the bridge tool frame from the site's image set, since its only job
+// tile is a dim cabin close-up. Never the red roll-door shed.
+const HEAD_PICK = {
+  all: "tesla-model-3-white-front-three-quarter",
+  "svc_auto-tint": "ford-f-150-raptor-side",
+  "svc_home-film": "home-slider-window-split-glare",
+  "svc_commercial-film": "office-window-white-brick",
+  "svc_chip-repair": { image: "chip-repair-hero" },
+  "body_suv": "subaru-outback-front-three-quarter",
+  "body_pickup": "chevrolet-silverado-3500hd-side",
+  "body_car": "porsche-taycan-front-three-quarter"
+};
+
+function headPhoto(key, items) {
+  const pick = HEAD_PICK[key];
+  let hit = null;
+  if (pick && typeof pick === "object") {
+    const im = IMAGES[pick.image];
+    // A copy without the phone art-direction crop: the head figure only shows from 1024px.
+    if (im) hit = { image: Object.assign({}, im, { phone: undefined }), alt: im.alt };
+  } else if (pick) {
+    const it = items.find((i) => i.id === pick);
+    if (it && it.image) hit = { image: it.image, alt: it.alt };
+  }
+  if (!hit && items[0] && items[0].image) hit = { image: items[0].image, alt: items[0].alt };
+  return hit;
+}
+
 function makeView(def, key, kind, val, slug, items) {
   const makes = join(items.map((i) => i.make).filter((m, idx, a) => m && a.indexOf(m) === idx));
   const first = items[0] || null;
@@ -225,6 +257,7 @@ function makeView(def, key, kind, val, slug, items) {
     pageLink: def.page_link || "", pageHref: def.page_href || "",
     ogImage: fb ? fb.replace(/^\//, "") : "logo.png",
     imageAlt: first ? first.alt : "",
+    head: headPhoto(key, items),
     facets: facets(items),
     // Vehicle type links show on the hub, car tint and vehicle pages (where car photos are).
     showTypes: items.some((i) => i.type),

@@ -99,7 +99,13 @@ ok(B.encode({ v: "suv", front: 35, rear: 20, back: 20, windshield: 70, addons: [
 ok(same(B.decode("BC-S3520F45"), { v: "suv", front: 35, rear: 20, back: 20, windshield: 45, addons: [] }), "F45 decodes");
 ok(B.encode({ v: "car", front: 35, rear: 35, back: 35, windshield: 50, addons: ["top-strip", "headlights"] }) === "BC-C3535F50H", "a filmed windshield drops the top strip from the code");
 ok(B.decode("BC-C3535F50T") === null, "a code with both the full windshield and the strip is not canonical, so refused");
-ok(B.summary("BC-C0000F70", { confirmed: [70] }) === "Car. Full windshield, 70 percent.", "summary names the full windshield: " + B.summary("BC-C0000F70", { confirmed: [70] }));
+// peak 10-31 W3: a picked full windshield shade carries the Nevada note; the top strip and an
+// unpicked ("xx") windshield shade never do
+ok(B.summary("BC-C0000F70", { confirmed: [70] }) === "Car. Full windshield, 70 percent. " + B.LABELS.windshield_dark, "summary names the full windshield and carries the note: " + B.summary("BC-C0000F70", { confirmed: [70] }));
+ok(/Darker than Nevada allows on the windshield for driving/.test(B.LABELS.windshield_dark) && /medical exemption or show use/.test(B.LABELS.windshield_dark), "the windshield note says darker than Nevada allows for driving, medical exemption or show use");
+ok(B.summary("BC-C3535T", { confirmed: [35] }).indexOf(B.LABELS.windshield_dark) < 0, "the top strip never carries the windshield note");
+ok(B.summary("BC-C0000Fxx").indexOf(B.LABELS.windshield_dark) < 0, "a windshield with the shade still to pick carries no note");
+ok(B.summary("BC-C3535", { confirmed: [35] }).indexOf("Darker than Nevada") < 0, "a 35 build carries no note at all");
 ok(B.encode({ v: "truck", front: 35, rear: 0, back: 0, addons: [] }) === null, "encode refuses an unknown class");
 ok(B.encode({ v: "car", front: 35, rear: 0, back: 0, addons: ["top-strip", "top-strip"] }) === null, "encode refuses a repeated add-on");
 ok(B.encode({ v: "car", front: 35, rear: 0, back: 0, addons: ["full-windshield"] }) === null, "encode refuses an unknown add-on (no full windshield)");

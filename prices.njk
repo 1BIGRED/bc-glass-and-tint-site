@@ -3,7 +3,7 @@
 # _data/pages/prices.json. Every price: _data/pricing.json through lib/pricing.js in
 # prices.11tydata.js (pr_car, pr_home, pr_ws). A price that does not pass the gate prints the
 # blueprint 6.1 words for its context; a preview draft carries the "Draft price" tag. Full windshield
-# film is on legal hold and has no row anywhere. Below 560px the car table is one class at a time
+# film is on legal hold and has no row anywhere. Below 720px the car table is one class at a time
 # (CSS radio switch, works without JavaScript); every table is real <table> markup.
 layout: layouts/v3.njk
 permalink: prices.html
@@ -51,7 +51,7 @@ bundles: ["prices"]
       </table>
       <div class="pr-phone" role="radiogroup" aria-label="{{ sc.switch_label | safe }}">
 {%- for c in pr_car.cols %}
-        <input class="vh pr-phone__in" type="radio" name="pr-class" id="pr-c-{{ c.id }}" value="{{ c.id }}"{% if loop.first %} checked{% endif %}>
+        <input class="vh pr-phone__in" type="radio" name="pr-class" id="pr-c-{{ c.id }}" value="{{ c.id }}" aria-label="{{ c.label | striptags | safe }}"{% if loop.first %} checked{% endif %}>
 {%- endfor %}
         <div class="pr-seg" aria-hidden="true" style="--n: {{ pr_car.cols.length }}">
 {%- for c in pr_car.cols %}
@@ -66,7 +66,8 @@ bundles: ["prices"]
             <thead><tr><th scope="col">{{ sc.column_label | safe }}</th><th scope="col">{{ c.label | safe }}</th></tr></thead>
             <tbody>
 {%- for r in pr_car.rows_by_col %}
-              <tr><th scope="row"><span class="pr-rowlabel">{{ windows(r.key, c.id) }}{{ r.label | safe }}</span></th><td>{{ cell(r.cells[ci], sc.fallback) }}</td></tr>
+              <tr class="pr-ct__art" aria-hidden="true"><td colspan="2">{{ windows(r.key, c.id) }}</td></tr>
+              <tr><th scope="row"><span class="pr-rowlabel">{{ r.label | safe }}</span></th><td>{{ cell(r.cells[ci], sc.fallback) }}</td></tr>
 {%- endfor %}
             </tbody>
           </table>
@@ -84,7 +85,7 @@ bundles: ["prices"]
 {%- else %}
       <dl class="v3-prices">
 {%- for r in pr_car.rows %}
-        <div class="v3-prow v3-prow--win" data-price-block><dt class="v3-prow__label t-body">{{ windows(r.key) }}{{ r.label | safe }}</dt><dd class="v3-prow__value"><span class="v3-price__fallback fg-2">{{ sc.fallback | safe }}</span></dd></div>
+        <div class="v3-prow v3-prow--win" data-price-block><dt class="v3-prow__label t-body">{{ windows(r.key) }}<span class="v3-prow__txt">{{ r.label | safe }}</span></dt><dd class="v3-prow__value"><span class="v3-price__fallback fg-2">{{ sc.fallback | safe }}</span></dd></div>
 {%- endfor %}
       </dl>
       <p class="t-body fg-2 measure">{{ sc.no_prices_note | safe }}</p>

@@ -32,7 +32,11 @@ body_class: page-home
 {#- Peak pass R1 (visual 6): section 2 is a fact row (facts on file only), not a service. -#}
 {{ proofRow(H.proof_row) }}
 
-{{ b.carLane({ uid: "car", slim: true, compact: true }) }}
+{#- Peak pass 2026-10-31 (visual P2; psychologist ruling A): from 1024px the car lane carries one verified car
+    review beside the prices (blueprint 3.2, proof beside the price); under 1024px it is hidden (60-home.css),
+    so phones keep at most two homepage reviews. The lane's own review (sections.car.review) is the hero's, so
+    this is the price-matched car review chosen for /prices (prices.json sections.car.review). -#}
+{{ b.carLane({ uid: "car", slim: true, compact: true, review: pages.prices.sections.car.review }) }}
 
 {{ b.homeLane({ uid: "home", slim: true, compact: true }) }}
 

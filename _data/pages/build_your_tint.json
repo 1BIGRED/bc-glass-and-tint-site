@@ -50,10 +50,10 @@
     "words": { "70": "Lightest shade", "50": "Light shade", "45": "Light to medium shade", "35": "Medium shade", "20": "Dark shade", "15": "Darker shade", "5": "Darkest shade" },
     "word_fallback": "Shade",
     "panels": {
-      "front": { "label": "Front doors", "key": "front-doors", "legal": "Front doors stop at Nevada's line: at least 35 percent of light, with a 7 percent tolerance, nonreflective. NRS 484D.440.", "dark": "Darker than Nevada allows on front doors for driving (35 percent, NRS 484D.440). For a medical exemption or show use." },
+      "front": { "label": "Front doors", "key": "front-doors", "legal": "Nevada's line for front doors: at least 35 percent of light, with a 7 percent tolerance, nonreflective. NRS 484D.440.", "dark": "Darker than Nevada allows on front doors for driving (35 percent, NRS 484D.440). For a medical exemption or show use." },
       "rear": { "label": "Rear doors", "key": "rear-doors", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." },
       "back": { "label": "Back glass", "key": "back-glass", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." },
-      "windshield": { "label": "Full windshield", "key": "windshield", "legal": "Nevada allows windshield tint only above the AS-1 line for driving. Full windshield film is for a medical exemption or show use." }
+      "windshield": { "label": "Full windshield", "key": "windshield", "legal": "Nevada allows windshield tint only above the AS-1 line for driving. NRS 484D.440.", "dark": "Darker than Nevada allows on the windshield for driving (tint only above the AS-1 line, NRS 484D.440). For a medical exemption or show use." }
     },
     "dark_rule": "Front-door shades darker than 35 show the dark line on the row, in the result's rules list and in the summary (Chase 2026-10-31). The full windshield covers the top strip, so the strip add-on is switched off while the full windshield has film.",
     "strip_label": "Windshield top strip",
@@ -64,8 +64,7 @@
     "caption": "Illustration, not a photo of your vehicle.",
     "note": "Shades on screen match each film's VLT as closely as a screen can. Your screen and your factory glass change the real look. Ask to see the film on your glass at the shop.",
     "views_label": "View",
-    "views": { "side": "Side", "front": "Front 3/4", "rear": "Rear 3/4" },
-    "see_front": "See it from the front"
+    "views": { "side": "Side", "front": "Front 3/4", "rear": "Rear 3/4" }
   },
   "result": {
     "heading": "Your build",

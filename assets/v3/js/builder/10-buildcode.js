@@ -19,6 +19,7 @@
    Nevada line (NRS 484D.440): front doors at least 35 percent for driving. Chase ruled 2026-10-31
    that the builder offers every shade on the front doors (medical exemption or show use), so a
    darker front shade encodes and decodes; summary() then adds the plain line LABELS.front_dark.
+   A filmed full windshield adds LABELS.windshield_dark the same way (a picked shade, not "xx").
    FRONT_MIN stays as that line (used for the note, never as a block).
 
    Old v2 codes ("BC-C-35-15-15-0" or "C-35-15-15-0": front, rear, back, strip) still decode.
@@ -57,6 +58,8 @@
     back: "Back glass",
     windshield: "Full windshield",
     front_dark: "Darker than Nevada allows on front doors for driving (35 percent, NRS 484D.440). For a medical exemption or show use.",
+    // every full windshield shade carries this note (Chase 2026-10-31; peak 10-31 W3); the top strip never does
+    windshield_dark: "Darker than Nevada allows on the windshield for driving (tint only above the AS-1 line, NRS 484D.440). For a medical exemption or show use.",
     rear_back: "Rear doors and back glass",
     unset: "shade to pick",
     picked: "shade picked",
@@ -194,7 +197,11 @@
       if (b.rear) { out.push(L.rear + ", " + shadeText(b.rear) + "."); any = true; }
       if (b.back) { out.push(L.back + ", " + shadeText(b.back) + "."); any = true; }
     }
-    if (b.windshield) { out.push(L.windshield + ", " + shadeText(b.windshield) + "."); any = true; }
+    if (b.windshield) {
+      out.push(L.windshield + ", " + shadeText(b.windshield) + ".");
+      if (typeof b.windshield === "number" && L.windshield_dark) out.push(L.windshield_dark);
+      any = true;
+    }
     b.addons.forEach(function (id) {
       if (L.addons[id]) { out.push(L.addons[id] + "."); any = true; }
     });

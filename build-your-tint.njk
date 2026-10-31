@@ -23,8 +23,10 @@ bundles: ["builder"]
 <section class="bt-top" aria-labelledby="bt-h">
   <div class="wrap stack-16">
     <nav class="bt-crumb t-label fg-2" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">{{ pg.hero.crumb | safe }}</span></nav>
-    <p class="t-eyebrow">{{ pg.hero.eyebrow | safe }}</p>
-    <h1 id="bt-h">{% if bt_has_price %}{{ pg.hero.heading | safe }}{% else %}{{ pg.hero.heading_without_prices | safe }}{% endif %}</h1>
+    {#- Peak 10-31 W8: the eyebrow (pg.hero.eyebrow, kept in the data) repeated the breadcrumb, so it is
+        not rendered; the H1 keeps its element at the h2 size, so the drawing and the vehicle switch
+        reach the first screen on a laptop. -#}
+    <h1 id="bt-h" class="bt-top__h">{% if bt_has_price %}{{ pg.hero.heading | safe }}{% else %}{{ pg.hero.heading_without_prices | safe }}{% endif %}</h1>
     <p class="t-lead measure">{{ pg.hero.intro | safe }}</p>
   </div>
 </section>
@@ -119,7 +121,9 @@ bundles: ["builder"]
         <p class="t-label fg-2" data-bt-vlt>{{ pg.windows.vlt_note | safe }}{% if not C.shades.rear[0].num %} {{ pricing.example_shades.label | safe }}.{% endif %}</p>
 {#- Peak R1 (visual 4): every row has as many columns as the longest row (No film plus every
     shade, bt_config.scale_cols), so a shade sits in the same column on every row. Front-door
-    shades darker than front_min carry bt-pane--over and the row prints the dark note. -#}
+    shades darker than front_min, and every full windshield shade, carry bt-pane--over; the row's
+    dark note keeps its space and 50-builder.js shows it (data-on) only while such a shade is
+    picked (peak 10-31 W3). -#}
 {%- set btCols = C.scale_cols -%}
 {%- for w in C.windows %}
         <fieldset class="bt-wrow" data-bt-window="{{ w.id }}">
@@ -127,7 +131,7 @@ bundles: ["builder"]
           <div class="bt-scale" style="--cols:{{ btCols }};--n:{{ C.shades[w.id].length + 1 }}">
             <label class="bt-pane bt-pane--none"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="0" checked><span class="bt-pane__glass" style="--i:0" aria-hidden="true"></span><span class="bt-pane__t t-label">{{ pg.windows.no_film | safe }}</span></label>
 {%- for s in C.shades[w.id] %}
-            <label class="bt-pane{% if w.dark and s.v < C.front_min %} bt-pane--over{% endif %}"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="{{ s.v }}"><span class="bt-pane__glass" style="--a:{{ s.a }};--i:{{ loop.index }}" aria-hidden="true"></span><span class="bt-pane__t t-label tnum">{{ s.label }}</span></label>
+            <label class="bt-pane{% if w.dark and s.v < w.dark_below %} bt-pane--over{% endif %}"><input class="vh" type="radio" name="bt-w-{{ w.id }}" value="{{ s.v }}"><span class="bt-pane__glass" style="--a:{{ s.a }};--i:{{ loop.index }}" aria-hidden="true"></span><span class="bt-pane__t t-label tnum">{{ s.label }}</span></label>
 {%- endfor %}
           </div>
           <p class="bt-scale__ends t-label fg-2" style="--cols:{{ btCols }};--n:{{ C.shades[w.id].length + 1 }}" aria-hidden="true"><span>{{ pg.windows.lighter | safe }}</span><span>{{ pg.windows.darker | safe }}</span></p>
