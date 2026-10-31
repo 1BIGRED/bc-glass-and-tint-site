@@ -679,3 +679,35 @@ html:not(.js) [data-js-only] { display: none !important; }
 @media (min-width: 1024px) {
   .ws5-art { width: 8.5rem; }
 }
+
+/* ---------- Shade preview over the real view (Chase 2026-10-31) ----------
+   The pane shows the chosen film over the outdoor picture; the chips join into one strip of that same
+   picture, each slice under its own film, so the row reads as tint bars across one view. Each chip
+   carries --i (its place) and the row --n (how many): slice i shows the picture from i/(n-1). */
+.ws5-shade__pane {
+  background-color: var(--ink-2);
+  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0))), var(--view-lg);
+  background-size: auto, cover;
+  background-position: 0 0, var(--view-pos);
+  background-repeat: no-repeat;
+}
+.ws5-shade__chips { gap: 0; }
+.ws5-chip::before {
+  align-self: stretch;
+  width: auto;
+  border-radius: 0;
+  border: 0;
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.35);
+  background-color: var(--ink-2);
+  background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0))), var(--view-lg);
+  background-size: auto, calc(var(--n, 6) * 100%) auto;
+  background-position: 0 0, calc(var(--i, 0) / (var(--n, 6) - 1) * 100%) 45%;
+  background-repeat: no-repeat;
+}
+.ws5-chip:first-child::before { box-shadow: none; border-radius: var(--radius) 0 0 var(--radius); }
+.ws5-chip:last-child::before { border-radius: 0 var(--radius) var(--radius) 0; }
+.ws5-chip[aria-pressed="true"]::before { outline-offset: -2px; position: relative; z-index: 1; }
+.ws5-chip:focus-visible::before { outline-offset: -5px; }
+@media (min-width: 1024px) {
+  .ws5-chip::before { width: auto; height: 64px; }
+}

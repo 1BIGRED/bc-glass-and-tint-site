@@ -729,6 +729,28 @@
         "sizes": "(min-width: 640px) calc(100vw - 80px), calc(100vw - 40px)"
       },
       "note": "Source is 1200 x 540, so nothing may be shown wider than 900 px at 1x. Desktop crop 900 x 540 (5:3); phone and tablet crop 900 x 450 (2:1, x 300 to 1200, y 90 to 540, peak pass R1 visual finding 1), placed directly under the H1 below 1024 px. Walkers at the far left and the Lions truck are out of frame in both crops. No plate blur (client rule, decisions-and-rules line 116: visible plates are fine). Original file untouched."
+    },
+    {
+      "id": "shade-view",
+      "group": "page",
+      "src": "photo-library/_edited-masters/residential/bc-residential-tint-grid-window-desert-view-2026-07-26-1-mountain-view-stitched.jpg",
+      "master": "shade-view-1",
+      "keepFull": true,
+      "use": [
+        "every on-screen shade: hero Light Ramp bars, shade preview pane and chips, Build Your Tint swatches"
+      ],
+      "crop": {
+        "fx": 0,
+        "fy": 0,
+        "fw": 1,
+        "fh": 1
+      },
+      "focal": {
+        "x": 0.5,
+        "y": 0.45
+      },
+      "alt": "Desert mountains and a roof line seen from a home window in the area.",
+      "note": "Studio-made master (2026-10-31, Chase: shades shown as a picture of the outside with tint bars, not white to black). The two upper-left panes of the 2026-07-26 desert-view job photo, cropped to the outdoor view (sky, the mountains, the roof line) and joined with the muntin between them cut out and a 16 px feathered seam. 1122 x 492 at the source resolution, so nothing is shown wider than about 1122 px at 1x. Used only as a CSS background behind the tint overlays. Original job photo untouched."
     }
   ]
 }

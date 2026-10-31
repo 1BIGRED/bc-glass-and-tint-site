@@ -122,9 +122,9 @@
     <div class="ws5-shade__glare" aria-hidden="true"></div>
   </div>
   <div class="ws5-shade__meter" aria-hidden="true"><i data-shade-meter style="transform: scaleX(0.35)"></i></div>
-  <div class="ws5-shade__chips" role="group" aria-label="{{ W.group_aria | safe }}">
+  <div class="ws5-shade__chips" role="group" aria-label="{{ W.group_aria | safe }}" style="--n: {{ sh.items.length }}">
 {%- for s in sh.items %}
-    <button type="button" class="ws5-chip" data-vlt="{{ s.vlt }}" data-alpha="{{ s.alpha }}" data-front="{{ 'yes' if s.legal_front else 'no' }}" aria-pressed="{{ 'true' if s.vlt == start else 'false' }}" aria-label="{{ W.chip_aria | replace('{vlt}', s.vlt) }}" style="--pane-a: {{ s.alpha }}"><span class="tnum">{{ s.vlt }}</span></button>
+    <button type="button" class="ws5-chip" data-vlt="{{ s.vlt }}" data-alpha="{{ s.alpha }}" data-front="{{ 'yes' if s.legal_front else 'no' }}" aria-pressed="{{ 'true' if s.vlt == start else 'false' }}" aria-label="{{ W.chip_aria | replace('{vlt}', s.vlt) }}" style="--pane-a: {{ s.alpha }}; --i: {{ loop.index0 }}"><span class="tnum">{{ s.vlt }}</span></button>
 {%- endfor %}
   </div>
   <p class="t-label fg-2 measure">{{ W.caption | safe }}</p>

@@ -547,3 +547,45 @@ main:focus {
   align-items: center;
   min-height: 44px;
 }
+
+/* ---------- Shades over a real view (Chase 2026-10-31: "the shades need to be a picture of the
+   outside with the tint being bars of varying level VLT because white to black doesnt get the point
+   across"). Every on-screen shade sits over one outdoor photo (images/v3/shade-view: desert
+   mountains and a roof line from a BC job, CSS background only). The film is still pure black at
+   1 - (VLT/100)^(1/2.2) (--ramp-a-*, lib/eleventy-ws5.js shadeChips), so each bar passes its VLT of
+   the view's light, whatever the pixel. webp only: every supported browser reads it, and a plain url()
+   keeps a custom property valid where image-set() type() is not. */
+:root {
+  --view-sm: url("/images/v3/shade-view-480.webp");
+  --view-lg: url("/images/v3/shade-view-1122.webp");
+  --view-pos: 50% 45%;
+}
+/* The Light Ramp: seven bars (Clear, 70 to 5) cut from one picture, hairline mullions, labelled */
+.v3-ramp {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0;
+  background: var(--ink-2) var(--view-lg) var(--view-pos) / cover no-repeat;
+}
+.v3-ramp > * {
+  position: relative;
+  background-color: transparent;
+}
+.v3-ramp > * + * { box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.35); }
+.v3-ramp > *::after {
+  content: attr(data-l);
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-family: var(--font-text);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+@media (min-width: 640px) {
+  .v3-ramp > *::after { left: 8px; bottom: 8px; padding: 3px 6px; font-size: var(--t-label); }
+}

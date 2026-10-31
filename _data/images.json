@@ -929,6 +929,35 @@
     },
     "alias_of": "home-patio"
   },
+  "shade-view": {
+    "width": 1122,
+    "height": 492,
+    "fallback": "/images/v3/shade-view-960.jpg",
+    "avif": "/images/v3/shade-view-480.avif 480w, /images/v3/shade-view-640.avif 640w, /images/v3/shade-view-960.avif 960w, /images/v3/shade-view-1122.avif 1122w",
+    "webp": "/images/v3/shade-view-480.webp 480w, /images/v3/shade-view-960.webp 960w, /images/v3/shade-view-1122.webp 1122w",
+    "jpeg": "/images/v3/shade-view-640.jpg 640w, /images/v3/shade-view-960.jpg 960w",
+    "first_avif": "/images/v3/shade-view-480.avif",
+    "widths": [
+      480,
+      640,
+      960,
+      1122
+    ],
+    "focal": {
+      "x": 0.5,
+      "y": 0.45
+    },
+    "pos": "50% 45%",
+    "alt": "Desert mountains and a roof line seen from a home window in the area.",
+    "group": "page",
+    "aspect": "1122/492",
+    "use": [
+      "every on-screen shade: hero Light Ramp bars, shade preview pane and chips, Build Your Tint swatches"
+    ],
+    "note": "Studio-made master (2026-10-31, Chase: shades shown as a picture of the outside with tint bars, not white to black). The two upper-left panes of the 2026-07-26 desert-view job photo, cropped to the outdoor view (sky, the mountains, the roof line) and joined with the muntin between them cut out and a 16 px feathered seam. 1122 x 492 at the source resolution, so nothing is shown wider than about 1122 px at 1x. Used only as a CSS background behind the tint overlays. Original job photo untouched.",
+    "source": "photo-library/_edited-masters/residential/bc-residential-tint-grid-window-desert-view-2026-07-26-1-mountain-view-stitched.jpg",
+    "sig": "1561dfc6b0eb"
+  },
   "storefront-band": {
     "width": 1280,
     "height": 640,

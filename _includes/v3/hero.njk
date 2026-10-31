@@ -19,6 +19,14 @@
 {%- from "v3/media.njk" import picture -%}
 {%- from "v3/actions.njk" import action with context -%}
 
+{#- The Light Ramp's bars (Chase 2026-10-31: "the shades need to be a picture of the outside with the
+    tint being bars of varying level VLT because white to black doesnt get the point across"). One
+    outdoor view (images/v3/shade-view, CSS --view-lg) runs behind all seven bars: Clear, then 70 down
+    to 5, each a pure black film at its true-VLT alpha (--ramp-a-*), labelled with its number. -#}
+{% macro rampBars() -%}
+<i data-l="Clear" style="--pane-a: 0"></i>{% for v in [70, 50, 35, 20, 15, 5] %}<i data-l="{{ v }}%" style="--pane-a: var(--ramp-a-{{ v }})"></i>{% endfor %}
+{%- endmacro %}
+
 {% macro heroMedia(h, opts) -%}
 {%- set o = opts or {} -%}
 {%- set hh = h or {} -%}
@@ -43,7 +51,7 @@
 </figure>
 {%- else %}
 <figure class="v3-hero-media v3-hero-media--ramp" data-hero-mode="ramp">
-  <div class="v3-ramp{% if o.strip %} v3-ramp--strip{% endif %}" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="v3-ramp{% if o.strip %} v3-ramp--strip{% endif %}" aria-hidden="true">{{ rampBars() }}</div>
 {%- if hh.note %}
   <figcaption class="v3-hero-media__note">{{ hh.note | safe }}</figcaption>
 {%- endif %}
@@ -160,7 +168,7 @@
       {%- endif %}
       {% if o.proof %}{{ proof(o.proof) }}{% endif %}
       {%- if o.strip %}
-      <div class="ws5-hero__strip v3-ramp v3-ramp--strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="ws5-hero__strip v3-ramp v3-ramp--strip" aria-hidden="true">{{ rampBars() }}</div>
       {%- endif %}
     </div>
     {%- if hasMedia %}

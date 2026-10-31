@@ -1075,3 +1075,14 @@ html[data-bt-pinned] {
     animation: none;
   }
 }
+
+/* Shades over the real view (Chase 2026-10-31): each shade's glass is a slice of one outdoor picture
+   under its film, so a row reads as tint bars across one view (--i its column, --cols the scale's
+   columns, so the front row's slices sit where they sit on the other rows). */
+.bt-pane__glass {
+  background-color: var(--ink-2);
+  background-image: var(--view-lg);
+  background-size: calc(var(--cols, 7) * 100%) auto;
+  background-position: calc(var(--i, 0) / (var(--cols, 7) - 1) * 100%) 45%;
+  background-repeat: no-repeat;
+}
