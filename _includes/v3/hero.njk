@@ -18,6 +18,7 @@
     below it (HL1). -#}
 {%- from "v3/media.njk" import picture -%}
 {%- from "v3/actions.njk" import action with context -%}
+{%- from "v3/stars.njk" import stars -%}
 
 {#- The Light Ramp's bars (Chase 2026-10-31: "the shades need to be a picture of the outside with the
     tint being bars of varying level VLT because white to black doesnt get the point across"). One
@@ -94,8 +95,9 @@
       {%- endif %}
       {%- if hh.review %}
       {#- Proof earlier (fixes B 2026-10-29): one verbatim Google review straight after the router, same
-          markup as the "In their words." quote (no stars, no logo, no quote glyphs, no heading). -#}
+          markup as the "In their words." quote, with the reviewer's own Google stars (2026-10-31). -#}
       <figure class="ws5-quote ws5-quote--hero" data-review="{{ hh.review.id }}">
+        {{- stars(hh.review) }}
         <blockquote><p>{{ hh.review.text | safe }}</p></blockquote>
         <figcaption class="t-label fg-2"><a href="{{ (hh.review.url or reviews.listing_url) | safe }}" target="_blank" rel="noopener">{{ hh.review.author_display | safe }}{% if hh.review.month_year %}, {{ hh.review.month_year | safe }}{% endif %}, {{ pages.sections.words.attribution | safe }}</a></figcaption>
       </figure>

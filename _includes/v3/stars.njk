@@ -1,0 +1,12 @@
+{#- The star rating a reviewer gave on Google (Chase 2026-10-31: "add the star rating the person gave
+    us"). Prints ONLY when reviews.json carries stars AND stars_checked_on for that review; never a
+    guess, never the listing average. Used by the review quote (v3-service/blocks.njk quote) and the
+    homepage hero quote (v3/hero.njk). Styles: .ws5-stars in assets/v3/css/60-sections.css.
+    Import:  {% from "v3/stars.njk" import stars, starCount %} -#}
+{% macro starCount(r) -%}{{ r.stars if (r and r.stars and r.stars_checked_on and r.stars >= 1 and r.stars <= 5) else 0 }}{%- endmacro %}
+{% macro stars(r) -%}
+{%- set st = r.stars if (r and r.stars and r.stars_checked_on and r.stars >= 1 and r.stars <= 5) else 0 -%}
+{%- if st %}
+  <p class="ws5-stars" role="img" aria-label="{{ st }} out of 5 stars on Google">{% for i in range(0, 5) %}<svg class="ws5-star{% if i < st %} is-on{% endif %}" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z"/></svg>{% endfor %}</p>
+{%- endif %}
+{%- endmacro %}
