@@ -1,8 +1,11 @@
 {#- Which windows a price row covers (Chase 2026-10-31: "a visual for which windows are getting
-    tinted, small line drawing, simple but very intuitive"). A top-down car, nose to the right
-    (longer hood, mirrors and headlights say which end is the front); every glass panel is drawn,
-    and the panels in the job are filled solid. Decorative: the row label beside it says the same
-    thing in words, so the drawing is aria-hidden. Styles: assets/v3/css/55-price-row.css (.v3-win).
+    tinted, small line drawing, simple but very intuitive"; then: "needs to be at a side, front, back
+    viewing"). One plain sedan drawn three ways, left to right: SIDE (nose to the right, wheels),
+    FRONT (headlights and grille) and BACK (taillights and plate). Every glass panel is outlined and
+    the glass in the job is filled solid: front doors and rear doors in the side view, the windshield
+    top strip in the front view, the back glass in the back view, the sunroof on the side view's roof
+    (drawn only on the sunroof row). Decorative: the row label says the same thing in words, so the
+    drawing is aria-hidden. Styles: assets/v3/css/55-price-row.css (.v3-win).
 
     Import:  {% from "v3/windows.njk" import windows %}
     Use:     {{ windows("two_front_doors") }}   any pricing.json coverage key or panel key, or a
@@ -11,30 +14,49 @@
 {% macro windows(key) -%}
 {%- set k = (key | string).split(".") | last -%}
 {%- set map = {
-  "two_front_doors": ["fl", "fr"],
-  "front-doors": ["fl", "fr"],
-  "rear_doors_and_back_glass": ["rl", "rr", "back"],
-  "rear-doors": ["rl", "rr"],
+  "two_front_doors": ["fd"],
+  "front-doors": ["fd"],
+  "rear_doors_and_back_glass": ["rd", "back"],
+  "rear-doors": ["rd"],
   "back-glass": ["back"],
-  "full_vehicle": ["fl", "fr", "rl", "rr", "back"],
+  "full_vehicle": ["fd", "rd", "back"],
   "windshield-strip": ["strip"],
   "sunroof": ["sun"]
 } -%}
 {%- set on = map[k] -%}
 {%- if on -%}
-<svg class="v3-win" viewBox="0 0 80 44" width="80" height="44" aria-hidden="true" focusable="false">
-  <rect class="v3-win__body" x="2" y="3" width="76" height="38" rx="13"/>
-  <rect class="v3-win__body" x="46" y="0.5" width="5" height="2.5" rx="1"/>
-  <rect class="v3-win__body" x="46" y="41" width="5" height="2.5" rx="1"/>
-  <path class="v3-win__body" d="M75 10v4.5M75 29.5v4.5"/>
-  <path class="v3-win__g{% if 'fl' in on %} is-on{% endif %}" d="M36 5.5h12l3 5.5H36z"/>
-  <path class="v3-win__g{% if 'fr' in on %} is-on{% endif %}" d="M36 38.5h12l3-5.5H36z"/>
-  <path class="v3-win__g{% if 'rl' in on %} is-on{% endif %}" d="M24 5.5h10V11H21z"/>
-  <path class="v3-win__g{% if 'rr' in on %} is-on{% endif %}" d="M24 38.5h10V33H21z"/>
-  <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M11.5 13.5l7.5-2v21l-7.5-2z"/>
-  <path class="v3-win__g" d="M53 12l8-3v26l-8-3z"/>
-  <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M53 12l3.4-1.3v22.6L53 32z"/>
-  <rect class="v3-win__g{% if 'sun' in on %} is-on{% endif %}" x="30" y="16" width="13" height="12" rx="1.5"/>
+<svg class="v3-win" viewBox="0 2 152 24" width="152" height="24" aria-hidden="true" focusable="false">
+  <g class="v3-win__side">
+    <path class="v3-win__body" d="M3 20v-4.5q.5-2.5 5-3l9.5-.5 5-5.8q.9-1.2 2.5-1.2h12.5q1.9 0 3.3 1.4l5.7 5.6 6.5.8q4 .5 4 3.2V20h-6.5a4.6 4.6 0 0 0-9.2 0H19.7a4.6 4.6 0 0 0-9.2 0z"/>
+    <circle class="v3-win__body" cx="15.1" cy="20.5" r="3.4"/>
+    <circle class="v3-win__body" cx="45.9" cy="20.5" r="3.4"/>
+    <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M20.3 11.2l3.6-4.6q.4-.5 1.1-.5h6v5.1z"/>
+    <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M32.4 6.1h5q1.2 0 2 .8l4.2 4.3H32.4z"/>
+{%- if 'sun' in on %}
+    <path class="v3-win__g is-on" d="M24.5 5.1C26.5 2.2 36.5 2.2 38.5 5.1z"/>
+{%- endif %}
+  </g>
+  <g class="v3-win__front" transform="translate(66 0)">
+    <path class="v3-win__body" d="M4 22v-7q0-2.4 3-3l3.6-5.7q1-1.3 2.8-1.3h13.2q1.8 0 2.8 1.3L33 12q3 .6 3 3v7z"/>
+    <rect class="v3-win__body" x="5" y="22" width="5" height="3" rx="1"/>
+    <rect class="v3-win__body" x="30" y="22" width="5" height="3" rx="1"/>
+    <rect class="v3-win__body" x="2" y="10" width="3" height="2" rx=".6"/>
+    <rect class="v3-win__body" x="35" y="10" width="3" height="2" rx=".6"/>
+    <rect class="v3-win__body" x="6.5" y="15" width="5.5" height="2.4" rx="1"/>
+    <rect class="v3-win__body" x="28" y="15" width="5.5" height="2.4" rx="1"/>
+    <rect class="v3-win__body" x="14.5" y="15.5" width="11" height="3" rx="1"/>
+    <path class="v3-win__g" d="M11.2 11.3l2.1-4.7h13.4l2.1 4.7z"/>
+    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M12.5 8.4l.8-1.8h13.4l.8 1.8z"/>
+  </g>
+  <g class="v3-win__back" transform="translate(112 0)">
+    <path class="v3-win__body" d="M4 22v-7q0-2.4 3-3l3.6-5.7q1-1.3 2.8-1.3h13.2q1.8 0 2.8 1.3L33 12q3 .6 3 3v7z"/>
+    <rect class="v3-win__body" x="5" y="22" width="5" height="3" rx="1"/>
+    <rect class="v3-win__body" x="30" y="22" width="5" height="3" rx="1"/>
+    <rect class="v3-win__body" x="5.5" y="14.5" width="6" height="2.6" rx=".8"/>
+    <rect class="v3-win__body" x="28.5" y="14.5" width="6" height="2.6" rx=".8"/>
+    <rect class="v3-win__body" x="16" y="17" width="8" height="3.5" rx=".5"/>
+    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M11.6 11.3l2-4.5h12.8l2 4.5z"/>
+  </g>
 </svg>
 {%- endif -%}
 {%- endmacro %}

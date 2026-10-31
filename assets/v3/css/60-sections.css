@@ -711,3 +711,26 @@ html:not(.js) [data-js-only] { display: none !important; }
 @media (min-width: 1024px) {
   .ws5-chip::before { width: auto; height: 64px; }
 }
+
+/* Shade preview: the picture keeps one width on every shade (Chase 2026-10-31: "thoes images need to be
+   the same width across all the shades when you click on them not adjusting to the text that needs to go
+   in next to them"). The pane spans the box; the number and the legal line sit in a row under it, so a
+   longer line ("Rear doors and back glass only") can never narrow the picture. Measured before: 58 to
+   133 px at 360 wide and 66 to 103 px on /auto-tint at 1024, changing per shade. */
+.ws5-shade__view {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-12);
+  align-items: start;
+}
+.ws5-shade__read {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: var(--sp-16);
+}
+.ws5-shade__read .ws5-shade__legal { margin-top: 0; }
+.ws5-shade__num .t-numeral { font-size: 3.5rem; }
+@media (min-width: 1024px) {
+  .ws5-shade__num .t-numeral { font-size: 5rem; }
+}
