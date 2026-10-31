@@ -734,3 +734,42 @@ html:not(.js) [data-js-only] { display: none !important; }
 @media (min-width: 1024px) {
   .ws5-shade__num .t-numeral { font-size: 5rem; }
 }
+
+/* The shade demo on its own row (Chase 2026-10-31: "make them bigger, so you'll probably have to move the
+   VLT demo to a different spot"). The car price rows take the left column so the bigger window drawings
+   fit; the demo moves under them across the full width. From 1024px it lays out as the picture on the
+   left (7 of 12) and the number, the bars and the notes on the right; the view wrapper steps aside
+   (display: contents) so the picture and the read-out are grid cells of the demo itself. */
+@media (min-width: 1024px) {
+  .ws5-lane__side .ws5-shade,
+  .ws5-svc-prices__side .ws5-shade {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-rows: auto auto auto auto 1fr;
+    column-gap: var(--sp-32);
+    row-gap: var(--sp-16);
+    align-items: start;
+  }
+  .ws5-lane__side .ws5-shade > *,
+  .ws5-svc-prices__side .ws5-shade > * { margin-top: 0; }
+  .ws5-lane__side .ws5-shade__view,
+  .ws5-svc-prices__side .ws5-shade__view { display: contents; }
+  .ws5-lane__side .ws5-shade__pane,
+  .ws5-svc-prices__side .ws5-shade__pane { grid-column: 1; grid-row: 1 / span 5; height: 100%; min-height: 300px; }
+  .ws5-lane__side .ws5-shade > :not(.ws5-shade__view):not(.ws5-shade__glare),
+  .ws5-lane__side .ws5-shade__read,
+  .ws5-svc-prices__side .ws5-shade > :not(.ws5-shade__view):not(.ws5-shade__glare),
+  .ws5-svc-prices__side .ws5-shade__read { grid-column: 2; }
+}
+
+/* Which-windows drawings keep one size on every row (2026-10-31): the base svg max-width and the price
+   lists' min-width: 0 on the label let a wide price squeeze the drawing (124 px on one row, 174 on the
+   next at 390 wide). The label column now keeps the drawing's width; the price takes the rest. */
+.v3-prices .v3-prow--win .v3-prow__label { min-width: auto; }
+.v3-win { max-width: none; }
+/* the preview-only Draft price tag drops under the number in these rows, so the drawing and the price fit
+   side by side at 360 wide (the /prices table already does this) */
+.v3-prow--win .v3-price { white-space: normal; }
+.v3-prow--win .v3-price > .t-price,
+.v3-prow--win .v3-price__from { white-space: nowrap; }
+.v3-prow--win .v3-price__draft { display: block; width: max-content; margin: var(--sp-4) 0 0 auto; }

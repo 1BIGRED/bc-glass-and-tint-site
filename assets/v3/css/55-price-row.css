@@ -64,12 +64,13 @@
 
 /* ---------- Which windows (Chase 2026-10-31): side, front and back views before a car price row ----------
    _includes/v3/windows.njk. Every glass panel is outlined; the glass in the job is filled solid in the
-   text colour, so the drawing reads in both moods. Lines stay 1.25px at any size. Below 1024px the
-   drawing sits above the row's words (it is 152 units wide); from 1024px it sits beside them. */
+   text colour, so the drawing reads in both moods. Lines stay 1.25px at any size. Made bigger the same
+   day (Chase: "make them bigger"): the drawing always sits above the row's words, at up to 12.5rem on a
+   phone (52vw at most, the same on every row), 15rem from 640px and 18rem from 1024px. */
 .v3-win {
   display: block;
   flex: none;
-  width: 9.5rem;
+  width: min(12.5rem, 52vw);
   height: auto;
   fill: none;
   stroke: var(--fg-2);
@@ -92,14 +93,16 @@
   align-items: flex-start;
   gap: var(--sp-8);
 }
+.v3-prow--win .v3-win { width: min(12.5rem, 52vw); }
+/* one size on every row: the label column keeps room for the drawing instead of shrinking it */
+.v3-prow--win .v3-prow__label { min-width: auto; }
+@media (min-width: 640px) {
+  .v3-win,
+  .v3-prow--win .v3-win { width: 15rem; }
+}
 @media (min-width: 1024px) {
-  .v3-prow--win .v3-prow__label,
-  .pr-rowlabel {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--sp-16);
-  }
-  .v3-win { width: 10.5rem; }
+  .v3-win,
+  .v3-prow--win .v3-win { width: 18rem; }
 }
 /* Front and back cues (Chase 2026-10-31: "for car make it distinct which way is front"): the side
    mirror, headlights and taillights are solid secondary-colour marks, so they never read as lit glass. */

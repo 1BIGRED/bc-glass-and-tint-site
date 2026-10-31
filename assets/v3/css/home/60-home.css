@@ -326,3 +326,10 @@
 @media (min-width: 1024px) {
   .ws5-lane--mini .ws5-lane__copy { grid-column: 1 / span 7; }
 }
+
+/* 2026-10-31: the car prices take columns 1 to 8 (bigger window drawings); the shade demo moves to its own
+   full-width row under them, no longer sticky beside them (layout in 60-sections.css). */
+@media (min-width: 1024px) {
+  .ws5-lane--car .ws5-lane__copy { grid-column: 1 / span 8; }
+  .ws5-lane--car .ws5-lane__side { grid-column: 1 / -1; grid-row: 2; position: static; }
+}

@@ -212,3 +212,10 @@
 .v3-404__call { margin-top: var(--sp-32) !important; }
 .v3-404__call > * + * { margin-top: var(--sp-12); }
 @media (min-width: 1024px) { .v3-404 .ws5-hero__copy { grid-column: 1 / -1; } }
+
+/* 2026-10-31: with the shade demo, the price copy takes columns 1 to 8 (bigger window drawings) and the
+   demo moves to its own full-width row under it (layout in 60-sections.css). A photo stays at the side. */
+@media (min-width: 1024px) {
+  .ws5-svc-prices .ws5-lane__grid:has(.ws5-svc-prices__side .ws5-shade) .ws5-svc-prices__copy { grid-column: 1 / span 8; }
+  .ws5-svc-prices__side:has(.ws5-shade) { grid-column: 1 / -1; grid-row: 2; }
+}
