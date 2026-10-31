@@ -90,6 +90,7 @@ module.exports = {
       const joinOr = (l) => (l.length <= 1 ? l.join("") : l.slice(0, -1).join(", ") + " or " + l[l.length - 1]);
       const cols = groups.map((g) => ({
         id: g.id,
+        ids: g.ids,
         label: joinOr(g.labels.map((l, i) => (i === 0 || /^[A-Z]{2,}$/.test(l) ? l : l.toLowerCase()))),
         ci: g.ci
       }));

@@ -88,7 +88,7 @@
   <div class="ws5-classpane{% if loop.first %} is-on{% endif %}" data-class="{{ c.id }}">
     <dl class="v3-prices ws5-prices{% if bare %} ws5-prices--bare{% endif %}" aria-label="{{ c.label | safe }}">
 {%- for r in R %}
-      {{ priceRow(r.label, pricing | ws5at(r.ref, c.id), { fallback: S.price_fallback.auto, draft_label: S.draft_label, note: r.note, bare: bare, win: r.ref }) }}
+      {{ priceRow(r.label, pricing | ws5at(r.ref, c.id), { fallback: S.price_fallback.auto, draft_label: S.draft_label, note: r.note, bare: bare, win: r.ref, win_cls: c.id }) }}
 {%- endfor %}
     </dl>
     {%- if bare %}

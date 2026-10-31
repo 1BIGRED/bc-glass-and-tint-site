@@ -101,3 +101,18 @@
   }
   .v3-win { width: 10.5rem; }
 }
+/* Front and back cues (Chase 2026-10-31: "for car make it distinct which way is front"): the side
+   mirror, headlights and taillights are solid secondary-colour marks, so they never read as lit glass. */
+.v3-win__mark { fill: var(--fg-2); stroke: none; }
+/* The class outline (vehicle macro): a small side view above a price column's heading */
+.v3-veh {
+  display: inline-block;
+  width: 3.25rem;
+  height: auto;
+  fill: none;
+  stroke: var(--fg-2);
+  stroke-width: 1.25;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.v3-veh * { vector-effect: non-scaling-stroke; }

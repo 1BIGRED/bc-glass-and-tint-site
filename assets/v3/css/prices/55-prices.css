@@ -247,3 +247,10 @@
 /* Which windows (2026-10-31): rows carry the top-down car, so cells centre on it */
 .pr-table tbody th,
 .pr-table tbody td { vertical-align: middle; }
+/* Each price column names its vehicles with their side outlines over the heading (2026-10-31) */
+.pr-colveh {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-8);
+}

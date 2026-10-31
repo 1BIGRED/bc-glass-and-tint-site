@@ -43,8 +43,8 @@
 {% macro priceRow(label, entry, opts) -%}
 {%- set o = opts or {} -%}
 {%- set mode = o.mode or price_mode or "production" -%}
-{#- opts.win: a coverage or panel key (or a ref ending in one); prints the which-windows drawing (v3/windows.njk) before the label -#}
-{%- set wsvg = windows(o.win) if o.win else "" -%}
+{#- opts.win: a coverage or panel key (or a ref ending in one); prints the which-windows drawing (v3/windows.njk) before the label; opts.win_cls picks the vehicle (car, suv, pickup, van) -#}
+{%- set wsvg = windows(o.win, o.win_cls) if o.win else "" -%}
 <div class="v3-prow{% if wsvg %} v3-prow--win{% endif %}" data-price-block data-price-mode="{{ mode }}">
   <dt class="v3-prow__label t-body">{{ wsvg | safe }}{% if wsvg %}<span class="v3-prow__txt">{% endif %}{{ label | safe }}{% if o.note %}<span class="v3-prow__note t-label fg-2">{{ o.note | safe }}</span>{% endif %}{% if wsvg %}</span>{% endif %}</dt>
   <dd class="v3-prow__value{% if o.bare %} vh{% endif %}">{{ priceValue(entry, o) }}</dd>

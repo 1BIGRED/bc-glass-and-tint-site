@@ -14,7 +14,7 @@ bundles: ["prices"]
 {%- from "v3/actions.njk" import action with context -%}
 {%- import "v3-service/blocks.njk" as b with context -%}
 {%- from "v3/price.njk" import priceRow, priceValue with context -%}
-{%- from "v3/windows.njk" import windows -%}
+{%- from "v3/windows.njk" import windows, vehicle -%}
 {%- set pg = pages.prices -%}
 {%- set sc = pg.sections.car -%}
 {%- set sh = pg.sections.home -%}
@@ -42,10 +42,10 @@ bundles: ["prices"]
 {%- if pr_car.any_shown %}
       <table class="pr-table pr-table--grid" data-price-block>
         <caption class="vh">{{ sc.heading | safe }}</caption>
-        <thead><tr><th scope="col">{{ sc.column_label | safe }}</th>{% for c in pr_car.cols %}<th scope="col">{{ c.label | safe }}</th>{% endfor %}</tr></thead>
+        <thead><tr><th scope="col">{{ sc.column_label | safe }}</th>{% for c in pr_car.cols %}<th scope="col"><span class="pr-colveh" aria-hidden="true">{% for id in c.ids %}{{ vehicle(id) }}{% endfor %}</span>{{ c.label | safe }}</th>{% endfor %}</tr></thead>
         <tbody>
 {%- for r in pr_car.rows_by_col %}
-          <tr><th scope="row"><span class="pr-rowlabel">{{ windows(r.key) }}{{ r.label | safe }}</span></th>{% for q in r.cells %}<td>{{ cell(q, sc.fallback) }}</td>{% endfor %}</tr>
+          <tr><th scope="row"><span class="pr-rowlabel">{{ windows(r.key, pr_car.cols[0].id) }}{{ r.label | safe }}</span></th>{% for q in r.cells %}<td>{{ cell(q, sc.fallback) }}</td>{% endfor %}</tr>
 {%- endfor %}
         </tbody>
       </table>
@@ -66,7 +66,7 @@ bundles: ["prices"]
             <thead><tr><th scope="col">{{ sc.column_label | safe }}</th><th scope="col">{{ c.label | safe }}</th></tr></thead>
             <tbody>
 {%- for r in pr_car.rows_by_col %}
-              <tr><th scope="row"><span class="pr-rowlabel">{{ windows(r.key) }}{{ r.label | safe }}</span></th><td>{{ cell(r.cells[ci], sc.fallback) }}</td></tr>
+              <tr><th scope="row"><span class="pr-rowlabel">{{ windows(r.key, c.id) }}{{ r.label | safe }}</span></th><td>{{ cell(r.cells[ci], sc.fallback) }}</td></tr>
 {%- endfor %}
             </tbody>
           </table>

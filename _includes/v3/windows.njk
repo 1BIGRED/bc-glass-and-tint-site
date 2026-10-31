@@ -1,18 +1,102 @@
 {#- Which windows a price row covers (Chase 2026-10-31: "a visual for which windows are getting
-    tinted, small line drawing, simple but very intuitive"; then: "needs to be at a side, front, back
-    viewing"). One plain sedan drawn three ways, left to right: SIDE (nose to the right, wheels),
-    FRONT (headlights and grille) and BACK (taillights and plate). Every glass panel is outlined and
-    the glass in the job is filled solid: front doors and rear doors in the side view, the windshield
-    top strip in the front view, the back glass in the back view, the sunroof on the side view's roof
-    (drawn only on the sunroof row). Decorative: the row label says the same thing in words, so the
-    drawing is aria-hidden. Styles: assets/v3/css/55-price-row.css (.v3-win).
+    tinted, small line drawing, simple but very intuitive"; "needs to be at a side, front, back
+    viewing"; "use different cars for car suv pickup and van, also for car make it distinct which
+    way is front"). One vehicle per class (car = sedan, suv, pickup = crew cab, van = minivan),
+    drawn three ways left to right: SIDE, nose to the right (longer hood, a side mirror at the
+    windshield, a headlight at the nose, a taillight at the tail), FRONT (headlights and grille)
+    and BACK (taillights and plate). Every glass panel is outlined and the glass in the job is
+    filled solid: front doors and rear side glass (rear doors, plus the SUV's and van's rear quarter
+    windows) in the side view, the windshield top strip in the front view, the back glass (the
+    pickup's cab glass) in the back view, the sunroof on the side view's roof (sunroof row only).
+    Decorative: the row label says the same in words, so the drawing is aria-hidden.
+    Styles: assets/v3/css/55-price-row.css (.v3-win, .v3-veh).
 
-    Import:  {% from "v3/windows.njk" import windows %}
-    Use:     {{ windows("two_front_doors") }}   any pricing.json coverage key or panel key, or a
-             dotted ref ending in one ("auto_tint.coverage.full_vehicle"). An unknown key prints
-             nothing. -#}
-{% macro windows(key) -%}
+    Import:  {% from "v3/windows.njk" import windows, vehicle %}
+    Use:     {{ windows("two_front_doors", "suv") }}   any pricing.json coverage or panel key, or a
+             dotted ref ending in one; class car | suv | pickup | van (default car). Unknown key: nothing.
+             {{ vehicle("pickup") }}   the side outline alone, small, for a column heading. -#}
+
+{#- Side view, local 60 x 26 units, ground at y 24. on = list of lit glass ids. -#}
+{% macro _side(c, on) -%}
+{%- if c == "suv" %}
+    <path class="v3-win__body" d="M2.6 21V9.5q0-3.5 3.4-3.9l2-.2h28q1.8 0 3 1.2l5.6 5.8 9.9 1q3.1.4 3.1 3.4V21H51a4.5 4.5 0 0 0-9 0H19a4.5 4.5 0 0 0-9 0z"/>
+    <circle class="v3-win__body" cx="14.5" cy="21.5" r="3.3"/><circle class="v3-win__body" cx="46.5" cy="21.5" r="3.3"/>
+    <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M4.6 12.4V8q0-1.1 1.2-1.1h7.8v5.5z"/>
+    <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M15 6.9h10.6v5.5H15z"/>
+    <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M27 6.9h8.6q1.2 0 2 .8l4.4 4.7H27z"/>
+    <path class="v3-win__mark" d="M42 11.7l2.4-.5.3 1.5-2.4.2zM54.2 14.4h2.4q.7.2.7 1.1h-3.1zM2.8 8.6h1.3v3.4H2.8z"/>
+{%- if 'sun' in on %}<path class="v3-win__g is-on" d="M18 5.5c2-3 12-3 14 0z"/>{% endif %}
+{%- elif c == "pickup" %}
+    <path class="v3-win__body" d="M2.6 21v-9h18.6V8q0-2.4 2.4-2.4h11.8q1.8 0 3 1.2l5.6 5.6 10.4 1q3.2.4 3.2 3.4V21h-7.1a4.5 4.5 0 0 0-9 0h-24a4.5 4.5 0 0 0-9 0z"/>
+    <path class="v3-win__body" d="M4.4 12v1.6h15"/>
+    <circle class="v3-win__body" cx="13" cy="21.5" r="3.3"/><circle class="v3-win__body" cx="46" cy="21.5" r="3.3"/>
+    <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M22.6 12.4V8.2q0-1.2 1.2-1.2h6.6v5.4z"/>
+    <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M31.8 7h3.4q1.1 0 1.9.8l4.5 4.6h-9.8z"/>
+    <path class="v3-win__mark" d="M41.4 11.7l2.4-.5.3 1.5-2.4.2zM54.2 14.4h2.4q.7.2.7 1.1h-3.1zM2.8 12.4h1.3v3.4H2.8z"/>
+{%- if 'sun' in on %}<path class="v3-win__g is-on" d="M25 5.7c2-3 8-3 10 0z"/>{% endif %}
+{%- elif c == "van" %}
+    <path class="v3-win__body" d="M2.6 21V8.4q0-3.2 3.4-3.4h27q2.6 0 4.4 1.6l8 6.4 9.2 1q3 .4 3 3.2V21H51a4.5 4.5 0 0 0-9 0H18a4.5 4.5 0 0 0-9 0z"/>
+    <path class="v3-win__body" d="M15.2 16.2h12"/>
+    <circle class="v3-win__body" cx="13.5" cy="21.5" r="3.3"/><circle class="v3-win__body" cx="46.5" cy="21.5" r="3.3"/>
+    <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M4.6 12.6V7.8q0-1.2 1.2-1.2H14v6z"/>
+    <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M15.4 6.6H27v6H15.4z"/>
+    <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M28.4 6.6h5.2q1.4 0 2.5 1l6.3 5H28.4z"/>
+    <path class="v3-win__mark" d="M42.6 12.1l2.4-.5.3 1.5-2.4.2zM54.4 15.2h2.4q.7.2.7 1.1h-3.1zM2.8 8.4h1.3v3.6H2.8z"/>
+{%- if 'sun' in on %}<path class="v3-win__g is-on" d="M16 5.1c2-3 12-3 14 0z"/>{% endif %}
+{%- else %}
+    {#- Sedan: the cabin sits back, so the hood (about 16 units) is twice the trunk (about 8): with the
+        mirror at the windshield and the larger headlight, the nose reads as the front. -#}
+    <path class="v3-win__body" d="M3.6 21v-3.6q0-3 2.8-3.4l6-.6 5.6-5q1.1-1 2.9-1h9.7q1.7 0 3.1 1.1l6.7 4.5 13.6.9q3.4.4 3.4 3.5V21h-6.6a4.3 4.3 0 0 0-8.6 0H17.8a4.3 4.3 0 0 0-8.6 0z"/>
+    <circle class="v3-win__body" cx="13.5" cy="21.5" r="3.1"/><circle class="v3-win__body" cx="46.5" cy="21.5" r="3.1"/>
+    <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M16.4 13.3l3.2-3.9q.6-.6 1.4-.6h5.2v4.5z"/>
+    <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M27.6 8.8H31q1 0 1.9.7l5.5 3.8H27.6z"/>
+    <path class="v3-win__mark" d="M38.6 12.4l2.4-.5.3 1.5-2.4.2zM53.6 14.6h3q.8.3.8 1.4h-3.8zM4.2 14.6H6v1.8H4.2z"/>
+{%- if 'sun' in on %}<path class="v3-win__g is-on" d="M21.5 7.5c2-2.6 7-2.6 9 0z"/>{% endif %}
+{%- endif %}
+{%- endmacro %}
+
+{#- Front view, local 40 x 26 units. -#}
+{% macro _front(c, on) -%}
+{%- if c == "car" %}
+    <path class="v3-win__body" d="M4 21.5v-6.1q0-2.4 3-3l3.6-4q1-1 2.8-1h13.2q1.8 0 2.8 1l3.6 4q3 .6 3 3v6.1z"/>
+    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM1.8 11.2H5v2H1.8zM35 11.2h3.2v2H35z"/>
+    <path class="v3-win__mark" d="M6.5 15.2H12v2.2H6.5zM28 15.2h5.5v2.2H28z"/>
+    <path class="v3-win__body" d="M14.5 15.6h11v2.8h-11z"/>
+    <path class="v3-win__g" d="M11.2 12l2-3.3h13.6l2 3.3z"/>
+    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M12.3 10.2l.9-1.5h13.6l.9 1.5z"/>
+{%- else %}
+    <path class="v3-win__body" d="M4 21.5v-8.9q0-1.6 2-2l2.6-4.8q.8-1.2 2.4-1.2h18q1.6 0 2.4 1.2l2.6 4.8q2 .4 2 2v8.9z"/>
+    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM1.6 8.6h3v2.2h-3zM35.4 8.6h3v2.2h-3z"/>
+    <path class="v3-win__mark" d="M6 13.4h5.6v2.2H6zM28.4 13.4H34v2.2h-5.6z"/>
+    <path class="v3-win__body" d="M13.5 13.6h13{% if c == 'pickup' %}v4.6h-13z{% else %}v3.4h-13z{% endif %}"/>
+    <path class="v3-win__g" d="M9.8 10.2l1.8-4h16.8l1.8 4z"/>
+    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M10.9 7.8l.7-1.6h16.8l.7 1.6z"/>
+{%- endif %}
+{%- endmacro %}
+
+{#- Back view, local 40 x 26 units. -#}
+{% macro _back(c, on) -%}
+{%- if c == "car" %}
+    <path class="v3-win__body" d="M4 21.5v-6.1q0-2.4 3-3l3.6-4q1-1 2.8-1h13.2q1.8 0 2.8 1l3.6 4q3 .6 3 3v6.1z"/>
+    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM16 16.6h8v3.2h-8z"/>
+    <path class="v3-win__mark" d="M5.6 14.6h6v2.4h-6zM28.4 14.6h6v2.4h-6z"/>
+    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M11.6 12l2-3.1h12.8l2 3.1z"/>
+{%- elif c == "pickup" %}
+    <path class="v3-win__body" d="M10 12V7q0-2 2-2h16q2 0 2 2v5zM4 21.5V12h32v9.5z"/>
+    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM16 17.6h8v3h-8zM17.5 14h5v1.4h-5z"/>
+    <path class="v3-win__mark" d="M4.6 13h2v5h-2zM33.4 13h2v5h-2z"/>
+    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M12 10.6V7.2h16v3.4z"/>
+{%- else %}
+    <path class="v3-win__body" d="M4 21.5v-8.9q0-1.6 2-2l2.6-4.8q.8-1.2 2.4-1.2h18q1.6 0 2.4 1.2l2.6 4.8q2 .4 2 2v8.9z"/>
+    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM16 15.4h8v3.2h-8z"/>
+    <path class="v3-win__mark" d="M5 11.6h2.4v5H5zM32.6 11.6H35v5h-2.4z"/>
+    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M8.8 10.6l1.6-4.2h19.2l1.6 4.2z"/>
+{%- endif %}
+{%- endmacro %}
+
+{% macro windows(key, cls) -%}
 {%- set k = (key | string).split(".") | last -%}
+{%- set c = cls if cls in ["car", "suv", "pickup", "van"] else "car" -%}
 {%- set map = {
   "two_front_doors": ["fd"],
   "front-doors": ["fd"],
@@ -25,38 +109,19 @@
 } -%}
 {%- set on = map[k] -%}
 {%- if on -%}
-<svg class="v3-win" viewBox="0 2 152 24" width="152" height="24" aria-hidden="true" focusable="false">
-  <g class="v3-win__side">
-    <path class="v3-win__body" d="M3 20v-4.5q.5-2.5 5-3l9.5-.5 5-5.8q.9-1.2 2.5-1.2h12.5q1.9 0 3.3 1.4l5.7 5.6 6.5.8q4 .5 4 3.2V20h-6.5a4.6 4.6 0 0 0-9.2 0H19.7a4.6 4.6 0 0 0-9.2 0z"/>
-    <circle class="v3-win__body" cx="15.1" cy="20.5" r="3.4"/>
-    <circle class="v3-win__body" cx="45.9" cy="20.5" r="3.4"/>
-    <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M20.3 11.2l3.6-4.6q.4-.5 1.1-.5h6v5.1z"/>
-    <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M32.4 6.1h5q1.2 0 2 .8l4.2 4.3H32.4z"/>
-{%- if 'sun' in on %}
-    <path class="v3-win__g is-on" d="M24.5 5.1C26.5 2.2 36.5 2.2 38.5 5.1z"/>
-{%- endif %}
+<svg class="v3-win v3-win--{{ c }}" viewBox="0 1 152 24" width="152" height="24" aria-hidden="true" focusable="false">
+  <g class="v3-win__side">{{ _side(c, on) }}
   </g>
-  <g class="v3-win__front" transform="translate(66 0)">
-    <path class="v3-win__body" d="M4 22v-7q0-2.4 3-3l3.6-5.7q1-1.3 2.8-1.3h13.2q1.8 0 2.8 1.3L33 12q3 .6 3 3v7z"/>
-    <rect class="v3-win__body" x="5" y="22" width="5" height="3" rx="1"/>
-    <rect class="v3-win__body" x="30" y="22" width="5" height="3" rx="1"/>
-    <rect class="v3-win__body" x="2" y="10" width="3" height="2" rx=".6"/>
-    <rect class="v3-win__body" x="35" y="10" width="3" height="2" rx=".6"/>
-    <rect class="v3-win__body" x="6.5" y="15" width="5.5" height="2.4" rx="1"/>
-    <rect class="v3-win__body" x="28" y="15" width="5.5" height="2.4" rx="1"/>
-    <rect class="v3-win__body" x="14.5" y="15.5" width="11" height="3" rx="1"/>
-    <path class="v3-win__g" d="M11.2 11.3l2.1-4.7h13.4l2.1 4.7z"/>
-    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M12.5 8.4l.8-1.8h13.4l.8 1.8z"/>
+  <g class="v3-win__front" transform="translate(66 0)">{{ _front(c, on) }}
   </g>
-  <g class="v3-win__back" transform="translate(112 0)">
-    <path class="v3-win__body" d="M4 22v-7q0-2.4 3-3l3.6-5.7q1-1.3 2.8-1.3h13.2q1.8 0 2.8 1.3L33 12q3 .6 3 3v7z"/>
-    <rect class="v3-win__body" x="5" y="22" width="5" height="3" rx="1"/>
-    <rect class="v3-win__body" x="30" y="22" width="5" height="3" rx="1"/>
-    <rect class="v3-win__body" x="5.5" y="14.5" width="6" height="2.6" rx=".8"/>
-    <rect class="v3-win__body" x="28.5" y="14.5" width="6" height="2.6" rx=".8"/>
-    <rect class="v3-win__body" x="16" y="17" width="8" height="3.5" rx=".5"/>
-    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M11.6 11.3l2-4.5h12.8l2 4.5z"/>
+  <g class="v3-win__back" transform="translate(112 0)">{{ _back(c, on) }}
   </g>
 </svg>
 {%- endif -%}
+{%- endmacro %}
+
+{% macro vehicle(cls) -%}
+{%- set c = cls if cls in ["car", "suv", "pickup", "van"] else "car" -%}
+<svg class="v3-veh v3-veh--{{ c }}" viewBox="0 1 60 24" width="60" height="24" aria-hidden="true" focusable="false">{{ _side(c, []) }}
+</svg>
 {%- endmacro %}
