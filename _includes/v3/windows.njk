@@ -3,11 +3,11 @@
     viewing"; "use different cars for car suv pickup and van, also for car make it distinct which
     way is front"). One vehicle per class (car = sedan, suv, pickup = crew cab, van = minivan),
     drawn three ways left to right: SIDE, nose to the right (longer hood, a side mirror at the
-    windshield, a headlight at the nose, a taillight at the tail), FRONT (headlights and grille)
-    and BACK (taillights and plate). Every glass panel is outlined and the glass in the job is
+    windshield, a headlight at the nose, a taillight at the tail), FRONT 3/4 (Chase: "make the front and back of the cars 3/4 shots"; the nose, headlights
+    and grille, with the side going back) and REAR 3/4 (taillights and plate, the side going forward). Every glass panel is outlined and the glass in the job is
     filled solid: front doors and rear side glass (rear doors, plus the SUV's and van's rear quarter
-    windows) in the side view, the windshield top strip in the front view, the back glass (the
-    pickup's cab glass) in the back view, the sunroof on the side view's roof (sunroof row only).
+    windows) in the side view, the windshield top strip in the front 3/4, the back glass (the
+    pickup's cab glass) in the rear 3/4; the door glass also shows lit on the 3/4 views' near side, the sunroof on the side view's roof (sunroof row only).
     Decorative: the row label says the same in words, so the drawing is aria-hidden.
     Styles: assets/v3/css/55-price-row.css (.v3-win, .v3-veh).
 
@@ -16,8 +16,8 @@
              dotted ref ending in one; class car | suv | pickup | van (default car). Unknown key: nothing.
              {{ vehicle("pickup") }}   the side outline alone, small, for a column heading. -#}
 
-{#- Side view, local 60 x 26 units, ground at y 24. on = list of lit glass ids. -#}
-{% macro _side(c, on) -%}
+{#- Side view, local 60 x 26 units, ground at y 24. on = list of lit glass ids; quiet leaves the sunroof off (the 3/4 views reuse this squashed). -#}
+{% macro _side(c, on, quiet) -%}
 {%- if c == "suv" %}
     <path class="v3-win__body" d="M2.6 21V9.5q0-3.5 3.4-3.9l2-.2h28q1.8 0 3 1.2l5.6 5.8 9.9 1q3.1.4 3.1 3.4V21H51a4.5 4.5 0 0 0-9 0H19a4.5 4.5 0 0 0-9 0z"/>
     <circle class="v3-win__body" cx="14.5" cy="21.5" r="3.3"/><circle class="v3-win__body" cx="46.5" cy="21.5" r="3.3"/>
@@ -25,7 +25,7 @@
     <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M15 6.9h10.6v5.5H15z"/>
     <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M27 6.9h8.6q1.2 0 2 .8l4.4 4.7H27z"/>
     <path class="v3-win__mark" d="M42 11.7l2.4-.5.3 1.5-2.4.2zM54.2 14.4h2.4q.7.2.7 1.1h-3.1zM2.8 8.6h1.3v3.4H2.8z"/>
-{%- if 'sun' in on %}<path class="v3-win__g is-on" d="M18 5.5c2-3 12-3 14 0z"/>{% endif %}
+{%- if 'sun' in on and not quiet %}<path class="v3-win__g is-on" d="M18 5.5c2-3 12-3 14 0z"/>{% endif %}
 {%- elif c == "pickup" %}
     <path class="v3-win__body" d="M2.6 21v-9h18.6V8q0-2.4 2.4-2.4h11.8q1.8 0 3 1.2l5.6 5.6 10.4 1q3.2.4 3.2 3.4V21h-7.1a4.5 4.5 0 0 0-9 0h-24a4.5 4.5 0 0 0-9 0z"/>
     <path class="v3-win__body" d="M4.4 12v1.6h15"/>
@@ -33,7 +33,7 @@
     <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M22.6 12.4V8.2q0-1.2 1.2-1.2h6.6v5.4z"/>
     <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M31.8 7h3.4q1.1 0 1.9.8l4.5 4.6h-9.8z"/>
     <path class="v3-win__mark" d="M41.4 11.7l2.4-.5.3 1.5-2.4.2zM54.2 14.4h2.4q.7.2.7 1.1h-3.1zM2.8 12.4h1.3v3.4H2.8z"/>
-{%- if 'sun' in on %}<path class="v3-win__g is-on" d="M25 5.7c2-3 8-3 10 0z"/>{% endif %}
+{%- if 'sun' in on and not quiet %}<path class="v3-win__g is-on" d="M25 5.7c2-3 8-3 10 0z"/>{% endif %}
 {%- elif c == "van" %}
     <path class="v3-win__body" d="M2.6 21V8.4q0-3.2 3.4-3.4h27q2.6 0 4.4 1.6l8 6.4 9.2 1q3 .4 3 3.2V21H51a4.5 4.5 0 0 0-9 0H18a4.5 4.5 0 0 0-9 0z"/>
     <path class="v3-win__body" d="M15.2 16.2h12"/>
@@ -42,7 +42,7 @@
     <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M15.4 6.6H27v6H15.4z"/>
     <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M28.4 6.6h5.2q1.4 0 2.5 1l6.3 5H28.4z"/>
     <path class="v3-win__mark" d="M42.6 12.1l2.4-.5.3 1.5-2.4.2zM54.4 15.2h2.4q.7.2.7 1.1h-3.1zM2.8 8.4h1.3v3.6H2.8z"/>
-{%- if 'sun' in on %}<path class="v3-win__g is-on" d="M16 5.1c2-3 12-3 14 0z"/>{% endif %}
+{%- if 'sun' in on and not quiet %}<path class="v3-win__g is-on" d="M16 5.1c2-3 12-3 14 0z"/>{% endif %}
 {%- else %}
     {#- Sedan: the cabin sits back, so the hood (about 16 units) is twice the trunk (about 8): with the
         mirror at the windshield and the larger headlight, the nose reads as the front. -#}
@@ -51,46 +51,85 @@
     <path class="v3-win__g{% if 'rd' in on %} is-on{% endif %}" d="M16.4 13.3l3.2-3.9q.6-.6 1.4-.6h5.2v4.5z"/>
     <path class="v3-win__g{% if 'fd' in on %} is-on{% endif %}" d="M27.6 8.8H31q1 0 1.9.7l5.5 3.8H27.6z"/>
     <path class="v3-win__mark" d="M38.6 12.4l2.4-.5.3 1.5-2.4.2zM53.6 14.6h3q.8.3.8 1.4h-3.8zM4.2 14.6H6v1.8H4.2z"/>
-{%- if 'sun' in on %}<path class="v3-win__g is-on" d="M21.5 7.5c2-2.6 7-2.6 9 0z"/>{% endif %}
+{%- if 'sun' in on and not quiet %}<path class="v3-win__g is-on" d="M21.5 7.5c2-2.6 7-2.6 9 0z"/>{% endif %}
 {%- endif %}
 {%- endmacro %}
 
-{#- Front view, local 40 x 26 units. -#}
+{#- Front 3/4 view, local about 48 x 26 units: the side view squashed to 0.58 (nose right), the car's
+    width along (13, -2.6). Generated by scratchpad car-verify/gen-34.mjs from each vehicle's key points. -#}
 {% macro _front(c, on) -%}
-{%- if c == "car" %}
-    <path class="v3-win__body" d="M4 21.5v-6.1q0-2.4 3-3l3.6-4q1-1 2.8-1h13.2q1.8 0 2.8 1l3.6 4q3 .6 3 3v6.1z"/>
-    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM1.8 11.2H5v2H1.8zM35 11.2h3.2v2H35z"/>
-    <path class="v3-win__mark" d="M6.5 15.2H12v2.2H6.5zM28 15.2h5.5v2.2H28z"/>
-    <path class="v3-win__body" d="M14.5 15.6h11v2.8h-11z"/>
-    <path class="v3-win__g" d="M11.2 12l2-3.3h13.6l2 3.3z"/>
-    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M12.3 10.2l.9-1.5h13.6l.9 1.5z"/>
+{%- if c == "suv" %}
+    <g transform="scale(0.58 1)">{{ _side("suv", on, true) }}</g>
+    <path class="v3-win__body" d="M25.87 12.4L31.61 13.4L33.41 14.8L46.41 12.2L44.61 10.8L38.87 9.8z"/>
+    <path class="v3-win__body" d="M33.41 14.8L33.41 21L46.41 18.4L46.41 12.2z"/>
+    <path class="v3-win__body" d="M21.69 5.9L34.69 3.3L16.48 2.9L3.48 5.5"/>
+    <path class="v3-win__mark" d="M34.19 15.39L37.31 14.76L37.31 15.88L34.19 16.5zM42.51 13.72L45.63 13.1L45.63 14.22L42.51 14.84z"/>
+    <path class="v3-win__body" d="M38.09 14.73L41.73 14L41.73 15.74L38.09 16.47z"/>
+    <path class="v3-win__g" d="M21.69 5.9L25.87 12.4L38.87 9.8L34.69 3.3z"/>
+    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M21.69 5.9L22.94 7.85L35.94 5.25L34.69 3.3z"/>
+{%- elif c == "pickup" %}
+    <g transform="scale(0.58 1)">{{ _side("pickup", on, true) }}</g>
+    <path class="v3-win__body" d="M25.52 12.4L31.55 13.4L33.41 14.8L46.41 12.2L44.55 10.8L38.52 9.8z"/>
+    <path class="v3-win__body" d="M33.41 14.8L33.41 21L46.41 18.4L46.41 12.2z"/>
+    <path class="v3-win__body" d="M21.81 6.2L34.81 3.6L26.69 3L13.69 5.6"/>
+    <path class="v3-win__mark" d="M34.19 15.39L37.31 14.76L37.31 15.88L34.19 16.5zM42.51 13.72L45.63 13.1L45.63 14.22L42.51 14.84z"/>
+    <path class="v3-win__body" d="M38.09 14.73L41.73 14L41.73 15.74L38.09 16.47z"/>
+    <path class="v3-win__g" d="M21.81 6.2L25.52 12.4L38.52 9.8L34.81 3.6z"/>
+    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M21.81 6.2L22.92 8.06L35.92 5.46L34.81 3.6z"/>
+{%- elif c == "van" %}
+    <g transform="scale(0.58 1)">{{ _side("van", on, true) }}</g>
+    <path class="v3-win__body" d="M26.33 13L31.67 14L33.41 15.4L46.41 12.8L44.67 11.4L39.33 10.4z"/>
+    <path class="v3-win__body" d="M33.41 15.4L33.41 21L46.41 18.4L46.41 12.8z"/>
+    <path class="v3-win__body" d="M21.34 5.6L34.34 3L16.48 2.4L3.48 5"/>
+    <path class="v3-win__mark" d="M34.19 15.92L37.31 15.29L37.31 16.3L34.19 16.92zM42.51 14.25L45.63 13.63L45.63 14.64L42.51 15.26z"/>
+    <path class="v3-win__body" d="M38.09 15.25L41.73 14.52L41.73 16.09L38.09 16.82z"/>
+    <path class="v3-win__g" d="M21.34 5.6L26.33 13L39.33 10.4L34.34 3z"/>
+    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M21.34 5.6L22.84 7.82L35.84 5.22L34.34 3z"/>
 {%- else %}
-    <path class="v3-win__body" d="M4 21.5v-8.9q0-1.6 2-2l2.6-4.8q.8-1.2 2.4-1.2h18q1.6 0 2.4 1.2l2.6 4.8q2 .4 2 2v8.9z"/>
-    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM1.6 8.6h3v2.2h-3zM35.4 8.6h3v2.2h-3z"/>
-    <path class="v3-win__mark" d="M6 13.4h5.6v2.2H6zM28.4 13.4H34v2.2h-5.6z"/>
-    <path class="v3-win__body" d="M13.5 13.6h13{% if c == 'pickup' %}v4.6h-13z{% else %}v3.4h-13z{% endif %}"/>
-    <path class="v3-win__g" d="M9.8 10.2l1.8-4h16.8l1.8 4z"/>
-    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M10.9 7.8l.7-1.6h16.8l.7 1.6z"/>
+    <g transform="scale(0.58 1)">{{ _side("car", on, true) }}</g>
+    <path class="v3-win__body" d="M23.43 13L31.32 13.9L33.29 15.4L46.29 12.8L44.32 11.3L36.43 10.4z"/>
+    <path class="v3-win__body" d="M33.29 15.4L33.29 21L46.29 18.4L46.29 12.8z"/>
+    <path class="v3-win__body" d="M18.91 7.6L31.91 5L25.12 4.8L12.12 7.4"/>
+    <path class="v3-win__mark" d="M34.07 15.92L37.19 15.29L37.19 16.3L34.07 16.92zM42.39 14.25L45.51 13.63L45.51 14.64L42.39 15.26z"/>
+    <path class="v3-win__body" d="M37.97 15.25L41.61 14.52L41.61 16.09L37.97 16.82z"/>
+    <path class="v3-win__g" d="M18.91 7.6L23.43 13L36.43 10.4L31.91 5z"/>
+    <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M18.91 7.6L20.27 9.22L33.27 6.62L31.91 5z"/>
 {%- endif %}
 {%- endmacro %}
 
-{#- Back view, local 40 x 26 units. -#}
+{#- Rear 3/4 view, local about 48 x 26 units: the side view mirrored (tail right) and squashed to 0.58. -#}
 {% macro _back(c, on) -%}
-{%- if c == "car" %}
-    <path class="v3-win__body" d="M4 21.5v-6.1q0-2.4 3-3l3.6-4q1-1 2.8-1h13.2q1.8 0 2.8 1l3.6 4q3 .6 3 3v6.1z"/>
-    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM16 16.6h8v3.2h-8z"/>
-    <path class="v3-win__mark" d="M5.6 14.6h6v2.4h-6zM28.4 14.6h6v2.4h-6z"/>
-    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M11.6 12l2-3.1h12.8l2 3.1z"/>
+{%- if c == "suv" %}
+    <g transform="translate(34.8 0) scale(-0.58 1)">{{ _side("suv", on, true) }}</g>
+    <path class="v3-win__body" d="M33.29 6.2L33.29 21L46.29 18.4L46.29 3.6z"/>
+    <path class="v3-win__body" d="M13.11 5.9L26.11 3.3L46.29 3.6"/>
+    <path class="v3-win__mark" d="M33.81 12.89L35.37 12.58L35.37 16.42L33.81 16.74zM44.21 10.81L45.77 10.5L45.77 14.34L44.21 14.66z"/>
+    <path class="v3-win__body" d="M38.23 14.08L41.35 13.45L41.35 16.12L38.23 16.74z"/>
+    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M34.59 6.74L44.99 4.66L44.99 10.06L34.59 12.14z"/>
 {%- elif c == "pickup" %}
-    <path class="v3-win__body" d="M10 12V7q0-2 2-2h16q2 0 2 2v5zM4 21.5V12h32v9.5z"/>
-    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM16 17.6h8v3h-8zM17.5 14h5v1.4h-5z"/>
-    <path class="v3-win__mark" d="M4.6 13h2v5h-2zM33.4 13h2v5h-2z"/>
-    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M12 10.6V7.2h16v3.4z"/>
+    <g transform="translate(34.8 0) scale(-0.58 1)">{{ _side("pickup", on, true) }}</g>
+    <path class="v3-win__body" d="M22.5 6.4L22.5 12L35.5 9.4L35.5 3.8z"/>
+    <path class="v3-win__body" d="M12.99 6.2L25.99 3.6L35.5 3.8"/>
+    <path class="v3-win__body" d="M22.5 12L33.29 12L46.29 9.4L35.5 9.4z"/>
+    <path class="v3-win__body" d="M33.29 12L33.29 21L46.29 18.4L46.29 9.4z"/>
+    <path class="v3-win__mark" d="M33.68 12.82L34.98 12.56L34.98 16.16L33.68 16.42zM44.6 10.64L45.9 10.38L45.9 13.98L44.6 14.24z"/>
+    <path class="v3-win__body" d="M38.49 12.76L41.09 12.24L41.09 13.32L38.49 13.84z"/>
+    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M24.06 6.89L33.94 4.91L33.94 8.71L24.06 10.69z"/>
+{%- elif c == "van" %}
+    <g transform="translate(34.8 0) scale(-0.58 1)">{{ _side("van", on, true) }}</g>
+    <path class="v3-win__body" d="M33.29 6L33.29 21L46.29 18.4L46.29 3.4z"/>
+    <path class="v3-win__body" d="M13.46 5.6L26.46 3L46.29 3.4"/>
+    <path class="v3-win__mark" d="M33.81 13.1L35.37 12.78L35.37 16.68L33.81 17zM44.21 11.02L45.77 10.7L45.77 14.6L44.21 14.92z"/>
+    <path class="v3-win__body" d="M38.23 14.31L41.35 13.69L41.35 16.39L38.23 17.01z"/>
+    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M34.59 6.54L44.99 4.46L44.99 10.26L34.59 12.34z"/>
 {%- else %}
-    <path class="v3-win__body" d="M4 21.5v-8.9q0-1.6 2-2l2.6-4.8q.8-1.2 2.4-1.2h18q1.6 0 2.4 1.2l2.6 4.8q2 .4 2 2v8.9z"/>
-    <path class="v3-win__body" d="M5 21.5h5V24H5zM30 21.5h5V24h-5zM16 15.4h8v3.2h-8z"/>
-    <path class="v3-win__mark" d="M5 11.6h2.4v5H5zM32.6 11.6H35v5h-2.4z"/>
-    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M8.8 10.6l1.6-4.2h19.2l1.6 4.2z"/>
+    <g transform="translate(34.8 0) scale(-0.58 1)">{{ _side("car", on, true) }}</g>
+    <path class="v3-win__body" d="M27.61 13.4L31.09 14L32.71 15.4L45.71 12.8L44.09 11.4L40.61 10.8z"/>
+    <path class="v3-win__body" d="M32.71 15.4L32.71 21L45.71 18.4L45.71 12.8z"/>
+    <path class="v3-win__body" d="M15.89 7.6L28.89 5L36.66 5.3"/>
+    <path class="v3-win__mark" d="M33.36 15.83L36.22 15.26L36.22 16.38L33.36 16.95zM42.2 14.06L45.06 13.49L45.06 14.61L42.2 15.18z"/>
+    <path class="v3-win__body" d="M37.65 16.65L40.77 16.03L40.77 17.6L37.65 18.22z"/>
+    <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M23.66 7.9L27.61 13.4L40.61 10.8L36.66 5.3z"/>
 {%- endif %}
 {%- endmacro %}
 
@@ -109,12 +148,12 @@
 } -%}
 {%- set on = map[k] -%}
 {%- if on -%}
-<svg class="v3-win v3-win--{{ c }}" viewBox="0 1 152 24" width="152" height="24" aria-hidden="true" focusable="false">
+<svg class="v3-win v3-win--{{ c }}" viewBox="0 1 168 24" width="168" height="24" aria-hidden="true" focusable="false">
   <g class="v3-win__side">{{ _side(c, on) }}
   </g>
   <g class="v3-win__front" transform="translate(66 0)">{{ _front(c, on) }}
   </g>
-  <g class="v3-win__back" transform="translate(112 0)">{{ _back(c, on) }}
+  <g class="v3-win__back" transform="translate(120 0)">{{ _back(c, on) }}
   </g>
 </svg>
 {%- endif -%}
