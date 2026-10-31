@@ -39,7 +39,7 @@
       "no_prices_note": "The shop confirms your exact price on the call, for your vehicle and the windows you pick.",
       "arithmetic_intro": "Full sides and back is the front doors plus the rear doors and back glass.",
       "arithmetic_class": "{class}: {front} plus {rear} is {full}.",
-      "footnote": "Full sides and back covers the side and back glass. The windshield top strip and the sunroof are their own lines. Front doors darker than Nevada's line are not offered. NRS 484D.440.",
+      "footnote": "Full sides and back covers the side and back glass. The windshield top strip and the sunroof are their own lines. Front doors darker than 35 percent and full windshield film are darker than Nevada allows for driving; they are for a medical exemption or show use. NRS 484D.440.",
       "moves_heading": "What moves the price",
       "moves": ["The size and shape of your vehicle", "How much glass you cover", "Old film to remove"],
       "builder_link": "Build your tint and see the price",

@@ -1,7 +1,8 @@
 // node tests\pricing.test.js   (WS4 acceptance, engineering 6). No test framework.
 // With today's data: production shows 0 prices; preview shows drafts tagged; legal_hold never
 // shows; fullVsParts is null unless all three pass and sum; a draft preset is absent in production;
-// no front-door shade below 35 in any builder data.
+// front doors offer every shade with the Nevada note on the darker ones (Chase 2026-10-31); the full
+// windshield is its own window, priced through the gate.
 "use strict";
 const P = require("../lib/pricing");
 const core = require("../assets/v3/js/builder/00-price-core.js");
@@ -47,7 +48,8 @@ ok(prevShown.every(([, e]) => e.status === "draft" || e.status === "confirmed"),
 
 // 3. legal_hold never shows, in either mode, whatever its status.
 ok(!P.priceFor(pricing.auto_tint.full_windshield_film, "production").show, "full windshield film hidden in production");
-ok(!P.priceFor(pricing.auto_tint.full_windshield_film, "preview").show, "full windshield film hidden in preview");
+// Chase 2026-10-31: the full windshield is offered (legal note on the page); it is a draft, so preview only.
+ok(P.priceFor(pricing.auto_tint.full_windshield_film, "preview").show && P.priceFor(pricing.auto_tint.full_windshield_film, "preview").draft, "full windshield film shows in preview, tagged draft");
 const held = { status: "confirmed", publish: true, amount: 200, display: "$200", legal_hold: true };
 ok(!P.priceFor(held, "production").show && !P.priceFor(held, "preview").show, "a confirmed, published legal_hold entry still never shows");
 const pub = { status: "confirmed", publish: true, amount: 80, display: "$80" };
@@ -107,19 +109,29 @@ ok(!P.quoteFor(pricing, "car", ["rear-doors"], "preview").show, "rear doors alon
 ok(!P.quoteFor(pricing, "van", ["front-doors"], "preview").show, "van has no prices, so no total");
 ok(P.displayOf({ amount: 150, range: [150, 250] }) === "Typically $150 to $250", "range display");
 
-// 8. Shades and the builder data, both modes: no front shade below 35, no draft leak in production.
-ok(P.shadesFor(pricing, "front").every((s) => s.vlt >= 35), "shadesFor front >= 35 (example shades)");
+// 8. Shades and the builder data, both modes. Chase 2026-10-31: front doors offer every shade, and the
+// legal line (front_min) is the note's threshold, never a block. No draft leak in production.
+ok(P.shadesFor(pricing, "front").map((s) => s.vlt).join() === P.shadesFor(pricing, "rear").map((s) => s.vlt).join(), "shadesFor front offers every example shade (same list as the rear)");
 const stocked = clone(pricing); stocked.shades_installed = [5, 15, 20, 35, 50];
-ok(P.shadesFor(stocked, "front").map((s) => s.vlt).join() === "50,35", "shadesFor front with a stocked list keeps only 50 and 35");
+ok(P.shadesFor(stocked, "front").map((s) => s.vlt).join() === "50,35,20,15,5", "shadesFor front with a stocked list keeps every stocked shade");
 ok(P.shadesFor(stocked, "rear").every((s) => s.confirmed), "stocked shades are confirmed");
 const low = clone(pricing); low.front_min_vlt = 20;
-ok(P.shadesFor(low, "front").every((s) => s.vlt >= 35), "front_min_vlt in data can never lower the legal line");
+ok(P.frontMin(low) === 35 && P.frontMin(pricing) === 35, "front_min_vlt in data can never lower the legal line (the note's threshold)");
+ok(P.shadesFor(pricing, "windshield").map((s) => s.vlt).join() === "70,50,45", "full windshield shades 70, 50, 45 (windshield_shades)");
+const qws = P.quoteFor(pricing, "car", ["front-doors", "rear-doors", "back-glass", "windshield"], "preview");
+ok(qws.show && qws.display === "From $550" && qws.draft, "preview full car plus full windshield adds the two lines: " + qws.display);
+ok(!P.quoteFor(pricing, "car", ["windshield"], "production").show, "full windshield has no price in production (draft)");
 
 ["production", "preview"].forEach((mode) => {
   [pricing, stocked].forEach((pr, i) => {
     const cfg = builderConfig(pr, pg, mode);
     const label = mode + (i ? " stocked" : " example");
-    ok(cfg.shades.front.length > 0 && cfg.shades.front.every((s) => s.v >= 35), label + ": builder front shades all >= 35");
+    ok(cfg.shades.front.map((s) => s.v).join() === cfg.shades.rear.map((s) => s.v).join(), label + ": builder front offers every shade the rear offers");
+    const fw = cfg.windows.find((w) => w.id === "front");
+    ok(cfg.front_min === 35 && /Darker than Nevada allows on front doors/.test(fw.dark), label + ": front row carries the Nevada note, line at 35");
+    ok(cfg.windows.some((w) => w.id === "windshield") && cfg.shades.windshield.map((s) => s.v).join() === "70,50,45", label + ": full windshield row with 70, 50, 45");
+    const ws = cfg.pricing.auto_tint.full_windshield_film;
+    ok(ws && (mode === "production" ? CLASSES.every((c) => !ws[c]) : CLASSES.every((c) => ws[c] && ws[c].status === "draft")), label + ": full windshield priced only in preview (draft)");
     ok(cfg.presets.every((p) => p.set.front === undefined || p.set.front === "x" || p.set.front >= 35), label + ": presets never set a front below 35");
     const json = JSON.stringify(cfg);
     if (mode === "production") {
@@ -129,7 +141,6 @@ ok(P.shadesFor(low, "front").every((s) => s.vlt >= 35), "front_min_vlt in data c
       ok(json.indexOf("Draft price") < 0, label + ': 0 "Draft price" text in builder data');
     }
     ok(!/\b(save|saving|bundle|deal)\b/i.test(json), label + ": no save, bundle or deal words in builder data");
-    ok(json.indexOf("full_windshield") < 0, label + ": full windshield film absent from builder data");
     ok(!i ? cfg.shades.rear.every((s) => !s.num && !/\d/.test(s.name)) : cfg.shades.rear.every((s) => s.num && /%$/.test(s.name)), label + ": shade numbers only when confirmed");
   });
 });

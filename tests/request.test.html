@@ -207,7 +207,7 @@
     check(lead && lead.params.has_build === true, "generate_lead says has_build true and carries no build text", JSON.stringify(lead && lead.params));
     check(new URLSearchParams(calls[0].init.body).get("subject").slice(-10) === "BC-S3520T" || /BC-S3520T$/.test(new URLSearchParams(calls[0].init.body).get("subject")), "subject ends with the build code", new URLSearchParams(calls[0].init.body).get("subject"));
     drop(f);
-    var bad = ["<scr" + "ipt>alert(1)<\/scr" + "ipt>", "BC-S1520T", "hello", "BC-", "%E0%A4%A", "BC-ZZ99", "x".repeat(300)];
+    var bad = ["<scr" + "ipt>alert(1)<\/scr" + "ipt>", "BC-S0420T", "hello", "BC-", "%E0%A4%A", "BC-ZZ99", "x".repeat(300)];
     for (var i = 0; i < bad.length; i++) {
       wipe();
       var g = await load("/book?b=" + encodeURIComponent(bad[i]).replace("%25E0", "%E0") + "&s=zzz"), gw = g.contentWindow;
@@ -232,7 +232,9 @@
     check(d && d.summary === "Car. Front doors, medium shade. Rear doors and back glass, shade to pick.", "an unset shade (XX) decodes", d && d.summary);
     d = R.decodeBuild("BC-P352015TH");
     check(d && /Rear doors, dark shade\. Back glass, darker shade\./.test(d.summary) && /Windshield top strip\./.test(d.summary) && /Also ask about headlight restoration\./.test(d.summary), "three shades plus T and H", d && d.summary);
-    check(R.decodeBuild("BC-S1520T") === null, "a front shade below 35 is not a code (law guard)");
+    // Chase 2026-10-31: front doors go down to 5, with the Nevada note; a front shade below 5 is still not a code.
+    check(R.decodeBuild("BC-S1520T") !== null, "a front shade of 15 is a code (offered with the Nevada note)");
+    check(R.decodeBuild("BC-S0420T") === null, "a front shade below 5 is not a code");
     check(R.decodeBuild(" BC-S3520T ").code === "BC-S3520T", "surrounding spaces trimmed");
     check(R.decodeBuild("bc-s3520t") && R.decodeBuild("bc-s3520t").summary.indexOf("SUV.") === 0, "lower case accepted");
     check(R.decodeBuild("C-35-15-15-0") === null || true, "(old v2 code shape is outside the /book fallback: not asserted)");

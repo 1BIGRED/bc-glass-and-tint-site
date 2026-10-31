@@ -271,6 +271,54 @@
     stroke-width: 1.5;
   }
 }
+/* each body part carries the outline painted UNDER its own fill at twice the weight (paint-order),
+   so only the outer half shows: 1.75px (1.5px on phones) on the silhouette and wherever one part
+   passes in front of another */
+.bt-bodyline {
+  stroke: var(--text);
+  stroke-opacity: 0.85;
+  stroke-width: 3.5;
+  paint-order: stroke;
+}
+@media (max-width: 639px) {
+  .bt-bodyline {
+    stroke-width: 3;
+  }
+}
+/* 3/4 views: a faint lift on the top surfaces and a faint shade on the end facing the viewer (one
+   light from above); token colors at low opacity, no gloss */
+.bt-lit {
+  fill: var(--text);
+  fill-opacity: 0.035;
+}
+.bt-shade {
+  fill: var(--ink-0);
+  fill-opacity: 0.32;
+}
+/* wheels: the well behind the tire, the rim face, its five plain spokes */
+.bt-well,
+.bt-bed {
+  fill: var(--ink-0);
+}
+.bt-rim {
+  fill: var(--ink-0);
+  stroke: var(--text-2);
+  stroke-width: 1;
+}
+.bt-spoke {
+  fill: var(--ink-2);
+  stroke: var(--text-2);
+  stroke-width: 1;
+}
+/* the pickup bed's inner walls seen through its opening */
+.bt-bedwall {
+  fill: var(--ink-1);
+  fill-rule: nonzero;
+}
+/* blacked-out pillar between the door glasses, the pickup's running board */
+.bt-trimfill {
+  fill: var(--ink-0);
+}
 /* phone detail level: under a 480px stage, no handles, lamp inner lines or rim inner rings */
 @media (max-width: 511px) {
   .bt-d2 {
@@ -288,8 +336,24 @@
   cursor: default;
   pointer-events: none;
 }
-.bt-glass-fixed {
+.bt-win.is-off .bt-win__hit,
+.bt-win.is-off .bt-strip__hit {
   pointer-events: none;
+}
+/* the windshield top strip: film on the windshield (inside its clip), with its own tap area, edge
+   and ring above it; gone while the full windshield has film (it covers the strip) */
+.bt-strip__hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: fill;
+}
+.bt-strip.is-off {
+  display: none;
+}
+/* the far side of the cabin above the belt, with the far windows cut out */
+.bt-cab__gh {
+  fill: var(--ink-1);
+  fill-rule: evenodd;
 }
 .bt-win__base {
   fill: var(--ink-2);

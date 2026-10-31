@@ -6,14 +6,17 @@
    Markup contract (build-your-tint.njk):
      [data-bt]                 the section; [data-bt-config] JSON inside it
      input[name=bt-v]          vehicle radios          input[name=bt-preset]  preset radios
-     input[name=bt-w-<win>]    shade radios per window (value 0 = no film; front never below 35)
+     input[name=bt-w-<win>]    shade radios per window (value 0 = no film): front, rear, back and
+                               windshield (the full windshield, Chase 2026-10-31). Front doors offer
+                               every shade; darker than cfg.front_min adds the Nevada note.
      input[name=bt-ask]        "Also ask about" toggles (never change the total)
      [data-bt-total] [data-bt-draft] [data-bt-code] [data-bt-summary] [data-bt-parts] [data-bt-fvp]
      [data-bt-addons] [data-bt-addon-list] [data-bt-ask-dyn] [data-bt-legal]
      [data-bt-primary] (the WS2 action macro) [data-bt-resume] [data-bt-live]
      [data-bt-svg] the drawn vehicle (05-CAR-GRAPHIC-SPEC.md): g[data-body][data-view][data-bb],
        [data-win] and [data-addon] panels, [data-tint] near-pane and [data-far] far-pane film
-     [data-bt-view] Side / Front / Rear buttons   [data-bt-seefront] "See it from the front"
+     [data-bt-view] Side / Front 3/4 / Rear 3/4 buttons (ids side, front, rear)
+     [data-bt-seefront] "See it from the front"
 
    Hand-off: <html data-bc-build="BC-..."> and a "bc:build" event { code, service, summary, url } on document, on every change.
    The action system (WS2, 30-actions.js) links its Request a time to /book?s=car&b=<code> (WS3)
@@ -31,11 +34,11 @@
   try { cfg = JSON.parse(cfgEl.textContent); } catch (e) { return; }
 
   var BP = window.BCPrice, BB = window.BCBuild;
-  var WINS = ["front", "rear", "back"];
+  var WINS = ["front", "rear", "back", "windshield"];
   var STORE = "bc_build_v1", MODEL = "bc_build_model_v1";
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var state = { v: null, front: 0, rear: 0, back: 0, addons: [], preset: null, current: null };
+  var state = { v: null, front: 0, rear: 0, back: 0, windshield: 0, addons: [], preset: null, current: null };
   var started = false, completed = false;
 
   function $(sel) { return root.querySelector(sel); }
@@ -96,13 +99,30 @@
   // One <g data-body data-view> per vehicle per view; the one for the picked vehicle (car until one
   // is picked) and the current view shows. Each window carries two film layers, both true black at
   // alpha 1 - VLT^(1/2.2) (the shade's a): [data-tint=w] the near pane (over the cabin and the
-  // outside light) and [data-far=w] the far pane the outside light also crosses (spec 5.3: Side the
-  // same window on the other side, Front the back glass, Rear none). The view changes only when the
-  // visitor presses Side, Front or Rear.
+  // outside light) and [data-far=w] the far pane the outside light also crosses (spec 5.3: a side
+  // window looks out through the same window on the other side; the windshield out through the
+  // back glass; the back glass out through the windshield). The view changes only when the visitor
+  // presses Side, Front 3/4 or Rear 3/4.
   var view = "side";
   var shownKey = "";
+  // the gold ring (2px gold on a 4px ink-0 keyline, spec 6.1) is added to a window the first time it
+  // is picked, as two copies of its edge path (keeps the page's markup small)
+  function ensureRing(g) {
+    if (g.querySelector(".bt-win__ring")) return;
+    var e = g.querySelector(".bt-win__edge");
+    if (!e) return;
+    ["bt-win__key", "bt-win__ring"].forEach(function (c) {
+      var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      p.setAttribute("class", c);
+      p.setAttribute("d", e.getAttribute("d"));
+      g.appendChild(p);
+    });
+  }
   function alphaOf(w, s) { var sh = typeof s === "number" && s > 0 ? shadeOf(w, s) : null; return sh ? sh.a : 0; }
-  function stripOn() { return state.addons.indexOf("top-strip") > -1; }
+  // A filmed full windshield covers the top strip (the strip is dropped from the build and its
+  // add-on is switched off), so the strip is never drawn or priced on top of it.
+  function wsFilmed() { return state.windshield !== 0 && state.windshield != null; }
+  function stripOn() { return state.addons.indexOf("top-strip") > -1 && !wsFilmed(); }
   function addonAvailable(id) {
     return addonsFor(state.v || "car").some(function (a) { return a.id === id; });
   }
@@ -145,6 +165,7 @@
       var s = state[w], a = String(alphaOf(w, s));
       Array.prototype.forEach.call(svg.querySelectorAll('[data-win="' + w + '"]'), function (g) {
         g.classList.toggle("is-unset", s === "x");
+        if (state.current === w) ensureRing(g);
         g.classList.toggle("is-current", state.current === w);
       });
       Array.prototype.forEach.call(svg.querySelectorAll('[data-tint="' + w + '"],[data-far="' + w + '"]'), function (t) {
@@ -155,7 +176,8 @@
     Array.prototype.forEach.call(svg.querySelectorAll('[data-tint="top-strip"]'), function (t) { t.style.fillOpacity = stripA; });
     Array.prototype.forEach.call(svg.querySelectorAll("[data-addon]"), function (g) {
       var id = g.getAttribute("data-addon");
-      g.classList.toggle("is-off", !addonAvailable(id));
+      g.classList.toggle("is-off", !addonAvailable(id) || (id === "top-strip" && wsFilmed()));
+      if (state.current === id) ensureRing(g);
       g.classList.toggle("is-current", state.current === id);
     });
     // view buttons and the "See it from the front" link (shown when the strip is picked)
@@ -191,7 +213,7 @@
 
   function code() {
     if (!state.v) return null;
-    return BB.encode({ v: state.v, front: state.front, rear: state.rear, back: state.back, addons: state.addons });
+    return BB.encode({ v: state.v, front: state.front, rear: state.rear, back: state.back, windshield: state.windshield, addons: state.addons });
   }
 
   // ---------- painting the result ----------
@@ -233,7 +255,15 @@
       ask.forEach(function (a) { dyn.appendChild(checkRow(a, false)); });
     }
     show("[data-bt-addons]", priced.length > 0);
-    $$('input[name="bt-addon"]').forEach(function (i) { i.checked = state.addons.indexOf(i.value) > -1; });
+    var covered = wsFilmed();
+    $$('input[name="bt-addon"]').forEach(function (i) {
+      i.checked = state.addons.indexOf(i.value) > -1;
+      if (i.value !== "top-strip") return;
+      i.disabled = covered;
+      var lab = i.closest("label");
+      var note = lab && lab.querySelector("[data-bt-covered]");
+      if (note) note.hidden = !covered;
+    });
   }
   function checkRow(a, priced) {
     var label = document.createElement("label");
@@ -261,6 +291,14 @@
       tag.textContent = cfg.text.draft_tag;
       t.appendChild(document.createTextNode(" "));
       t.appendChild(tag);
+    }
+    if (a.id === "top-strip" && cfg.text.strip_covered) {
+      var cov = document.createElement("span");
+      cov.className = "bt-check__cov fg-2";
+      cov.setAttribute("data-bt-covered", "");
+      cov.hidden = true;
+      cov.textContent = " " + cfg.text.strip_covered;
+      t.appendChild(cov);
     }
     label.appendChild(input);
     label.appendChild(box);
@@ -337,8 +375,14 @@
       var li = document.createElement("li");
       li.textContent = win.label + ": " + win.legal;
       ul.appendChild(li);
+      // Chase 2026-10-31: a front shade darker than the line is offered, with this plain note
+      if (win.dark && typeof state[w] === "number" && state[w] < cfg.front_min) {
+        var dk = document.createElement("li");
+        dk.textContent = win.label + ": " + win.dark;
+        ul.appendChild(dk);
+      }
     });
-    if (state.addons.indexOf("top-strip") > -1 && cfg.text.strip_legal) {
+    if (stripOn() && cfg.text.strip_legal) {
       var st = document.createElement("li");
       st.textContent = cfg.text.strip_legal;
       ul.appendChild(st);
@@ -481,10 +525,11 @@
     var b = BB.decode(c);
     if (!b) return false;
     // A shade the builder does not offer for that window (for example an old link) becomes
-    // "pick a shade"; the front doors can never be set below the legal line (decode refuses it).
+    // "pick a shade" (a window the page has no row for stays at no film).
     state.v = b.v;
     WINS.forEach(function (w) {
-      var s = b[w];
+      var s = b[w] == null ? 0 : b[w];
+      if (!windowOf(w)) s = 0;
       state[w] = typeof s === "number" && s > 0 && !shadeOf(w, s) ? "x" : s;
     });
     var allowed = addonsFor(b.v).map(function (a) { return a.id; }).concat(cfg.also_ask.map(function (a) { return a.id; }));
@@ -522,6 +567,10 @@
       var w = t.name.slice(5);
       state[w] = Number(t.value) || 0;
       state.current = w;
+      // a filmed full windshield covers the top strip: drop the strip so it is not priced twice
+      if (w === "windshield" && state[w] !== 0 && state.addons.indexOf("top-strip") > -1) {
+        state.addons = state.addons.filter(function (id) { return id !== "top-strip"; });
+      }
       if (state.preset) {
         var p = byId(cfg.presets, state.preset);
         if (!p || !presetMatches(p)) state.preset = null;
@@ -552,8 +601,8 @@
 
   // Tap a window on the stage: select it and move to its row (pointer convenience; the rows are the
   // real, keyboard-reachable controls, so the drawing stays aria-hidden).
-  // The windshield top strip (data-addon) goes to its add-on checkbox the same way; the windshield
-  // below the strip is not selectable (it never takes film).
+  // The windshield top strip (data-addon) goes to its add-on checkbox the same way; the full
+  // windshield is a window like the others (data-win="windshield").
   var svgEl = $("[data-bt-svg]");
   if (svgEl) svgEl.addEventListener("click", function (e) {
     var g = e.target && e.target.closest ? e.target.closest("[data-win],[data-addon]") : null;
@@ -578,7 +627,8 @@
     paint({ quiet: true });
   });
 
-  // Side, Front, Rear: native buttons (keyboard and screen readers), aria-pressed on the current one.
+  // Side, Front 3/4, Rear 3/4: native buttons (keyboard and screen readers), aria-pressed on the
+  // current one.
   $$("[data-bt-view]").forEach(function (b) {
     b.addEventListener("click", function () { setView(b.getAttribute("data-bt-view")); });
   });

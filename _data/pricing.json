@@ -9,11 +9,11 @@
     "A confirmed price can stay private: leave publish false and the public site keeps saying \"Call for a quote\".",
     "Unknown means amount, display, confirmed_by and confirmed_on are null. Never type a guess, a competitor's number, or a number for a vehicle the quote history does not cover. Never enter 0 to mean unknown.",
     "Draft prices are the LOWEST figure in the quote history for that vehicle class, shown as a \"From\" price. They came from pricing-reference.md, which the owner has not signed off. Each draft entry names its source and the rows behind it in basis.",
-    "legal_hold true means the entry must never render anywhere, public or preview, whatever its status. full_windshield_film carries it until Chase rules: on a plain reading NRS 484D.440 allows windshield tint on the top strip only.",
+    "legal_hold true means the entry must never render anywhere, public or preview, whatever its status. No entry carries it today: Chase ruled 2026-10-31 that the full windshield is offered (shades 70, 50 and 45, windshield_shades) with a legal note, since NRS 484D.440 allows windshield tint only above the AS-1 line for driving.",
     "Auto tint packages follow the quote history: \"Front doors\" (Front/Sides in the worksheet), \"Rear doors and back glass\" (Rear/Sides) and \"Full vehicle\" (side and back glass; the worksheet's full vehicle is front plus rear on every row and does NOT include the windshield or sunroof). The windshield top strip and the sunroof are separate lines.",
     "The Build Your Tint tool prices a build only when the windows picked can be covered exactly by packages and separate lines that are allowed to show. If any window cannot be priced, it shows \"Call for a quote\" instead of a partial total.",
     "film_tiers and shades_installed are empty until the owner names the film lines and lists the shades the shop stocks. Until shades_installed has values, the tool shows example_shades with the label \"Example shades; the shop confirms what it stocks\".",
-    "Front door shades darker than 35 percent never get a price on the site. Nevada law, NRS 484D.440.",
+    "Front door shades darker than 35 percent are offered and priced like any other shade (Chase, 2026-10-31), each with the legal note that it is darker than Nevada allows on front doors for driving and is for a medical exemption or show use. front_min_vlt is that legal line, used for the note, not a block.",
     "shades_installed holds plain numbers. A number in that list counts as owner-confirmed, so the site prints it as a percentage. While the list is empty the site shows the example shades as an unnumbered light-to-dark scale.",
     "reviewed_on is the date the owner last reviewed these prices (YYYY-MM-DD). The prices page prints \"Prices reviewed\" with it; while it is null that line does not print.",
     "presets are the Build Your Tint starting points. They follow the same gate as a price: the public site shows a preset only when status is \"confirmed\" AND publish is true; preview builds also show drafts, tagged. A preset names panels from auto_tint.panels with a shade, or null for a shade the owner has not named yet (the window is picked with no shade chosen). A front-door shade below 35 makes the whole preset invalid and it never shows.",
@@ -24,6 +24,8 @@
   ],
   "reviewed_on": null,
   "front_min_vlt": 35,
+  "windshield_shades": [70, 50, 45],
+  "windshield_shades_source": "Chase 2026-10-31: \"we do windshields up to 45%\". The darkest full-windshield film the shop installs is 45.",
   "front_min_vlt_source": "NRS 484D.440: front side windows not less than 35 percent light transmission, with a 7 percent tolerance, film plus glass, nonreflective (area-profile.md legal.nevada_tint_law, verified 2026-07-14). This is the law, not a stocked shade.",
   "presets": [
     {
@@ -223,8 +225,7 @@
       "display": "From $200",
       "source": "pricing-reference.md (quote history, unsigned)",
       "basis": "Windshield column, lowest figure: Model Y, Bronco, Bronco Sport, Sierra 1500, Traverse, RX 350, F-150, Outback, Accord $200 (Corvette, Colorado, Sierra 2500-4500, F-250 to F-450 $250)",
-      "legal_hold": true,
-      "legal_note": "NEVER RENDER, not even in preview, until Chase rules. On a plain reading NRS 484D.440 allows windshield tint only on the top strip; no listed exception covers film over the full windshield (R5 section 4.3, overhaul brief section 9 item 2).",
+      "legal_note": "Chase ruled 2026-10-31 (\"we do windshields up to 45%\"): offered with the note that Nevada allows windshield tint only above the AS-1 line for driving, so full windshield film is for a medical exemption or show use. Status stays draft until the owner signs the price.",
       "confirmed_by": null, "confirmed_on": null, "publish": false
     }
   }

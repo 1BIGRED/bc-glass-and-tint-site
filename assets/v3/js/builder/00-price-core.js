@@ -56,9 +56,16 @@
   }
 
   // The pieces quoteFor can use: every coverage package and every single line, each with its gate.
+  // The full windshield (auto_tint.full_windshield_film, Chase 2026-10-31) is the panel key
+  // "windshield": one entry for every class, or a per-class entry when the file carries one.
   function pieces(pricing, classId, mode) {
     var at = (pricing && pricing.auto_tint) || {};
     var out = [];
+    var fw = at.full_windshield_film;
+    if (fw && typeof fw === "object") {
+      var fe = fw[classId] && typeof fw[classId] === "object" ? fw[classId] : (fw.status ? fw : null);
+      out.push({ id: "full_windshield_film", keys: ["windshield"], label: fw.label, entry: fe });
+    }
     Object.keys(at.coverage || {}).forEach(function (k) {
       var c = at.coverage[k];
       out.push({ id: k, keys: (c.panels || []).slice(), label: c.label, entry: c[classId] });

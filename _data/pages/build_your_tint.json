@@ -47,20 +47,24 @@
     "unset": "Pick a shade",
     "lighter": "Lighter",
     "darker": "Darker",
-    "words": { "70": "Lightest shade", "50": "Light shade", "35": "Medium shade", "20": "Dark shade", "15": "Darker shade", "5": "Darkest shade" },
+    "words": { "70": "Lightest shade", "50": "Light shade", "45": "Light to medium shade", "35": "Medium shade", "20": "Dark shade", "15": "Darker shade", "5": "Darkest shade" },
     "word_fallback": "Shade",
     "panels": {
-      "front": { "label": "Front doors", "key": "front-doors", "legal": "Front doors stop at Nevada's line: at least 35 percent of light, with a 7 percent tolerance, nonreflective. NRS 484D.440." },
+      "front": { "label": "Front doors", "key": "front-doors", "legal": "Front doors stop at Nevada's line: at least 35 percent of light, with a 7 percent tolerance, nonreflective. NRS 484D.440.", "dark": "Darker than Nevada allows on front doors for driving (35 percent, NRS 484D.440). For a medical exemption or show use." },
       "rear": { "label": "Rear doors", "key": "rear-doors", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." },
-      "back": { "label": "Back glass", "key": "back-glass", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." }
+      "back": { "label": "Back glass", "key": "back-glass", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." },
+      "windshield": { "label": "Full windshield", "key": "windshield", "legal": "Nevada allows windshield tint only above the AS-1 line for driving. Full windshield film is for a medical exemption or show use." }
     },
+    "dark_rule": "Front-door shades darker than 35 show the dark line on the row, in the result's rules list and in the summary (Chase 2026-10-31). The full windshield covers the top strip, so the strip add-on is switched off while the full windshield has film.",
+    "strip_label": "Windshield top strip",
+    "strip_covered": "Covered by the full windshield film.",
     "strip_legal": "Windshield film: the top strip only, never red or amber. NRS 484D.440."
   },
   "stage": {
     "caption": "Illustration, not a photo of your vehicle.",
     "note": "Shades on screen match each film's VLT as closely as a screen can. Your screen and your factory glass change the real look. Ask to see the film on your glass at the shop.",
     "views_label": "View",
-    "views": { "side": "Side", "front": "Front", "rear": "Rear" },
+    "views": { "side": "Side", "front": "Front 3/4", "rear": "Rear 3/4" },
     "see_front": "See it from the front"
   },
   "result": {
@@ -77,7 +81,7 @@
     "code_empty": "None yet",
     "code_hint": "It sums up your vehicle and every window you picked, in one line.",
     "parts_label": "What the total covers",
-    "part_labels": { "two_front_doors": "Front doors", "rear_doors_and_back_glass": "Rear doors and back glass", "full_vehicle": "Full sides and back", "windshield-strip": "Windshield top strip", "sunroof": "Sunroof" },
+    "part_labels": { "two_front_doors": "Front doors", "rear_doors_and_back_glass": "Rear doors and back glass", "full_vehicle": "Full sides and back", "windshield-strip": "Windshield top strip", "full_windshield_film": "Full windshield", "sunroof": "Sunroof" },
     "fronts_vs_full": "Rear doors and back glass for {article} add {rear}. Full sides and back is {full}.",
     "upgrade_heading": "Want the whole {vehicle}?",
     "upgrade_benefit": "Shades the back seat too, at the same shade as your front doors.",

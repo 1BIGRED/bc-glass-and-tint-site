@@ -15,15 +15,18 @@
    Format: BC-<class letter><two or three shade tokens><add-on letters>. Class C Car, S SUV, P Pickup,
    V Van. Tokens are two characters: "00" no film, "05" to "99" the shade, "xx" film with the shade
    not picked. Two tokens = front doors, then rear doors and back glass together (BC-S3520T); three =
-   front, rear, back. Letters T top strip, R sunroof, W ask about windshield ceramic coating, H ask
-   about headlight restoration. A front shade below 35 is not a legal build and is not a code.
+   front, rear, back. Then F and a token for the full windshield when it has film (BC-C3535F70).
+   Letters T top strip, R sunroof, W ask about windshield ceramic coating, H ask about headlight
+   restoration. A front shade below 35 is a real code (Chase 2026-10-31, medical exemption or show
+   use); the summary then carries the Nevada note.
    Shade words, not percentages, in the summary: the numbers print only for shades the owner has
    confirmed, which this page cannot know. The raw code stays in the details box and in
    build_code, so the shop still reads the exact numbers. */
 (function () {
   "use strict";
   var CLASSES = { C: "Car", S: "SUV", P: "Pickup", V: "Van" };
-  var SHADE_WORDS = { 70: "lightest shade", 50: "light shade", 35: "medium shade", 20: "dark shade", 15: "darker shade", 5: "darkest shade" };
+  var FRONT_DARK = "Darker than Nevada allows on front doors for driving (35 percent, NRS 484D.440). For a medical exemption or show use.";
+  var SHADE_WORDS = { 70: "lightest shade", 50: "light shade", 45: "light to medium shade", 35: "medium shade", 20: "dark shade", 15: "darker shade", 5: "darkest shade" };
   var ADDON_WORDS = { T: "Windshield top strip", R: "Sunroof" };
   var ASK_WORDS = { W: "windshield ceramic coating", H: "headlight restoration" };
 
@@ -43,7 +46,7 @@
       var b = lib.decode(code);
       return b ? { code: code, summary: lib.summary(b) || null } : null;
     }
-    var m = /^BC-([CSPV])((?:\d\d|xx){2,3})([TRWH]{0,4})$/i.exec(code);
+    var m = /^BC-([CSPV])((?:\d\d|xx){2,3})(?:F(\d\d|xx))?([TRWH]{0,4})$/i.exec(code);
     /* the older v2 shape (BC-C-35-15-15-0: class, front, rear, back, strip) is a real code but is not
        decoded here; anything else that is not the documented format is not a code */
     if (!m) return /^BC-[CSPV]-\d{1,2}-\d{1,2}-\d{1,2}(?:-\d{1,2})?$/i.test(code) ? { code: code, summary: null } : null;
@@ -51,17 +54,23 @@
     for (i = 0; i < toks.length; i++) {
       if (toks[i] === "XX" || toks[i] === "00") continue;
       n = parseInt(toks[i], 10);
-      if (n < 5 || (i === 0 && n < 35)) return null;
+      if (n < 5) return null;
     }
+    var ws = m[3] ? m[3].toUpperCase() : "";
+    if (ws === "00" || (ws && ws !== "XX" && parseInt(ws, 10) < 5)) return null;
     var out = [CLASSES[m[1].toUpperCase()] + "."];
-    if (toks[0] !== "00") out.push("Front doors, " + shadeText(toks[0]) + ".");
+    if (toks[0] !== "00") {
+      out.push("Front doors, " + shadeText(toks[0]) + ".");
+      if (toks[0] !== "XX" && parseInt(toks[0], 10) < 35) out.push(FRONT_DARK);
+    }
     if (toks.length === 2 || toks[1] === toks[2]) {
       if (toks[1] !== "00") out.push("Rear doors and back glass, " + shadeText(toks[1]) + ".");
     } else {
       if (toks[1] !== "00") out.push("Rear doors, " + shadeText(toks[1]) + ".");
       if (toks[2] !== "00") out.push("Back glass, " + shadeText(toks[2]) + ".");
     }
-    var letters = m[3].toUpperCase(), asks = [];
+    if (ws) out.push("Full windshield, " + shadeText(ws) + ".");
+    var letters = m[4].toUpperCase(), asks = [];
     for (i = 0; i < letters.length; i++) {
       if (ADDON_WORDS[letters.charAt(i)]) out.push(ADDON_WORDS[letters.charAt(i)] + ".");
       else if (ASK_WORDS[letters.charAt(i)]) asks.push(ASK_WORDS[letters.charAt(i)]);
@@ -72,7 +81,7 @@
 
   /* Peak R2 (psychology N4): the price the builder showed for this build, from the page's gated
      table (#bc-build-prices, built by lib/eleventy-book-prices.js with the builder's own solver).
-     Key: class letter, then 1/0 for film on front doors, rear doors, back glass, then the priced
+     Key: class letter, then 1/0 for film on front doors, rear doors, back glass, full windshield, then the priced
      add-on letters T and R in code order. A build whose shape is not in the table (a piece without a
      shown price, a production build today, the older v2 code shape) gets the plain line instead,
      never a number the builder did not show. */
@@ -83,12 +92,12 @@
       try { priceTable = el ? JSON.parse(el.textContent) : null; } catch (eP) { priceTable = null; }
     }
     if (!priceTable) return null;
-    var m = /^BC-([CSPV])((?:\d\d|xx){2,3})([TRWH]{0,4})$/i.exec(String(code || ""));
+    var m = /^BC-([CSPV])((?:\d\d|xx){2,3})(?:F(\d\d|xx))?([TRWH]{0,4})$/i.exec(String(code || ""));
     if (!m) return null;
     var toks = m[2].toUpperCase().match(/\d\d|XX/g);
     var back = toks.length === 3 ? toks[2] : toks[1];
     var key = m[1].toUpperCase() + (toks[0] !== "00" ? "1" : "0") + (toks[1] !== "00" ? "1" : "0") + (back !== "00" ? "1" : "0") +
-      m[3].toUpperCase().replace(/[^TR]/g, "");
+      (m[3] && m[3] !== "00" ? "1" : "0") + m[4].toUpperCase().replace(/[^TR]/g, "");
     return Object.prototype.hasOwnProperty.call(priceTable, key) ? priceTable[key] : null;
   }
   function showPrice(form, code) {
