@@ -243,3 +243,7 @@
 }
 .pr-sec__body > .ws5-buildlink { margin-top: var(--sp-24); }
 .pr-sec__body > .ws5-buildlink + .pr-acts { margin-top: var(--sp-12); }
+
+/* Which windows (2026-10-31): rows carry the top-down car, so cells centre on it */
+.pr-table tbody th,
+.pr-table tbody td { vertical-align: middle; }

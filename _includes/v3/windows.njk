@@ -1,0 +1,40 @@
+{#- Which windows a price row covers (Chase 2026-10-31: "a visual for which windows are getting
+    tinted, small line drawing, simple but very intuitive"). A top-down car, nose to the right
+    (longer hood, mirrors and headlights say which end is the front); every glass panel is drawn,
+    and the panels in the job are filled solid. Decorative: the row label beside it says the same
+    thing in words, so the drawing is aria-hidden. Styles: assets/v3/css/55-price-row.css (.v3-win).
+
+    Import:  {% from "v3/windows.njk" import windows %}
+    Use:     {{ windows("two_front_doors") }}   any pricing.json coverage key or panel key, or a
+             dotted ref ending in one ("auto_tint.coverage.full_vehicle"). An unknown key prints
+             nothing. -#}
+{% macro windows(key) -%}
+{%- set k = (key | string).split(".") | last -%}
+{%- set map = {
+  "two_front_doors": ["fl", "fr"],
+  "front-doors": ["fl", "fr"],
+  "rear_doors_and_back_glass": ["rl", "rr", "back"],
+  "rear-doors": ["rl", "rr"],
+  "back-glass": ["back"],
+  "full_vehicle": ["fl", "fr", "rl", "rr", "back"],
+  "windshield-strip": ["strip"],
+  "sunroof": ["sun"]
+} -%}
+{%- set on = map[k] -%}
+{%- if on -%}
+<svg class="v3-win" viewBox="0 0 80 44" width="80" height="44" aria-hidden="true" focusable="false">
+  <rect class="v3-win__body" x="2" y="3" width="76" height="38" rx="13"/>
+  <rect class="v3-win__body" x="46" y="0.5" width="5" height="2.5" rx="1"/>
+  <rect class="v3-win__body" x="46" y="41" width="5" height="2.5" rx="1"/>
+  <path class="v3-win__body" d="M75 10v4.5M75 29.5v4.5"/>
+  <path class="v3-win__g{% if 'fl' in on %} is-on{% endif %}" d="M36 5.5h12l3 5.5H36z"/>
+  <path class="v3-win__g{% if 'fr' in on %} is-on{% endif %}" d="M36 38.5h12l3-5.5H36z"/>
+  <path class="v3-win__g{% if 'rl' in on %} is-on{% endif %}" d="M24 5.5h10V11H21z"/>
+  <path class="v3-win__g{% if 'rr' in on %} is-on{% endif %}" d="M24 38.5h10V33H21z"/>
+  <path class="v3-win__g{% if 'back' in on %} is-on{% endif %}" d="M11.5 13.5l7.5-2v21l-7.5-2z"/>
+  <path class="v3-win__g" d="M53 12l8-3v26l-8-3z"/>
+  <path class="v3-win__g{% if 'strip' in on %} is-on{% endif %}" d="M53 12l3.4-1.3v22.6L53 32z"/>
+  <rect class="v3-win__g{% if 'sun' in on %} is-on{% endif %}" x="30" y="16" width="13" height="12" rx="1.5"/>
+</svg>
+{%- endif -%}
+{%- endmacro %}

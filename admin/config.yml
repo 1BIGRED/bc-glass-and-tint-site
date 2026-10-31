@@ -1330,6 +1330,7 @@ collections:
                     fields:
                       - { label: "Title", name: title, widget: string }
                       - { label: "Text", name: text, widget: text }
+                      - { label: "Drawing", name: art, widget: select, required: false, options: [roller, cellular, roman, motorized], hint: "Technical. The line drawing shown with this style. Ask the studio before changing." }
               - label: "Gets"
                 name: gets
                 widget: object

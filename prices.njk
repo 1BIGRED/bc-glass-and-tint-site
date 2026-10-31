@@ -14,6 +14,7 @@ bundles: ["prices"]
 {%- from "v3/actions.njk" import action with context -%}
 {%- import "v3-service/blocks.njk" as b with context -%}
 {%- from "v3/price.njk" import priceRow, priceValue with context -%}
+{%- from "v3/windows.njk" import windows -%}
 {%- set pg = pages.prices -%}
 {%- set sc = pg.sections.car -%}
 {%- set sh = pg.sections.home -%}
@@ -44,7 +45,7 @@ bundles: ["prices"]
         <thead><tr><th scope="col">{{ sc.column_label | safe }}</th>{% for c in pr_car.cols %}<th scope="col">{{ c.label | safe }}</th>{% endfor %}</tr></thead>
         <tbody>
 {%- for r in pr_car.rows_by_col %}
-          <tr><th scope="row">{{ r.label | safe }}</th>{% for q in r.cells %}<td>{{ cell(q, sc.fallback) }}</td>{% endfor %}</tr>
+          <tr><th scope="row"><span class="pr-rowlabel">{{ windows(r.key) }}{{ r.label | safe }}</span></th>{% for q in r.cells %}<td>{{ cell(q, sc.fallback) }}</td>{% endfor %}</tr>
 {%- endfor %}
         </tbody>
       </table>
@@ -65,7 +66,7 @@ bundles: ["prices"]
             <thead><tr><th scope="col">{{ sc.column_label | safe }}</th><th scope="col">{{ c.label | safe }}</th></tr></thead>
             <tbody>
 {%- for r in pr_car.rows_by_col %}
-              <tr><th scope="row">{{ r.label | safe }}</th><td>{{ cell(r.cells[ci], sc.fallback) }}</td></tr>
+              <tr><th scope="row"><span class="pr-rowlabel">{{ windows(r.key) }}{{ r.label | safe }}</span></th><td>{{ cell(r.cells[ci], sc.fallback) }}</td></tr>
 {%- endfor %}
             </tbody>
           </table>
@@ -83,7 +84,7 @@ bundles: ["prices"]
 {%- else %}
       <dl class="v3-prices">
 {%- for r in pr_car.rows %}
-        <div class="v3-prow" data-price-block><dt class="v3-prow__label t-body">{{ r.label | safe }}</dt><dd class="v3-prow__value"><span class="v3-price__fallback fg-2">{{ sc.fallback | safe }}</span></dd></div>
+        <div class="v3-prow v3-prow--win" data-price-block><dt class="v3-prow__label t-body">{{ windows(r.key) }}{{ r.label | safe }}</dt><dd class="v3-prow__value"><span class="v3-price__fallback fg-2">{{ sc.fallback | safe }}</span></dd></div>
 {%- endfor %}
       </dl>
       <p class="t-body fg-2 measure">{{ sc.no_prices_note | safe }}</p>

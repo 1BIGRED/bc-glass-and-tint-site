@@ -61,3 +61,35 @@
   white-space: nowrap;
   vertical-align: middle;
 }
+
+/* ---------- Which windows (Chase 2026-10-31): the top-down car before a car price row ----------
+   _includes/v3/windows.njk. Every glass panel is outlined; the panels in the job are filled solid
+   in the text colour, so the drawing reads in both moods. Lines stay 1.25px at any size. No roof outline: the windows alone draw the cabin, so the filled ones read at a glance. */
+.v3-win {
+  display: block;
+  flex: none;
+  width: 5.5rem;
+  height: auto;
+  fill: none;
+  stroke: var(--fg-2);
+  stroke-width: 1.25;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.v3-win * { vector-effect: non-scaling-stroke; }
+.v3-win__g { stroke-width: 1; stroke-opacity: 0.8; }
+.v3-win__g.is-on {
+  fill: var(--fg);
+  stroke: var(--fg);
+  stroke-opacity: 1;
+}
+.v3-prow--win { align-items: center; }
+.v3-prow--win .v3-prow__label,
+.pr-rowlabel {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-12);
+}
+@media (min-width: 560px) {
+  .v3-win { width: 6rem; }
+}

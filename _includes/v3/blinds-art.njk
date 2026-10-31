@@ -1,0 +1,45 @@
+{#- Blind and shade styles as line drawings (Chase 2026-10-31: "blinds needs some graphic for the
+    different types too instead of just stating"). One window, the same frame each time, with the
+    style hung in it, so the four read as a set: roller (flat panel on a tube), cellular (stacked
+    honeycomb cells), Roman (flat fabric gathering into soft folds), motorized (a roller with no
+    cord and a remote). Lines use the text colours, so the drawings read in both moods. Decorative:
+    the style's heading names it, so each drawing is aria-hidden. Styles: .ws5-art in
+    assets/v3/css/60-sections.css. Data: blinds.json blocks[].items[].art.
+
+    Import:  {% from "v3/blinds-art.njk" import blindArt %}
+    Use:     {{ blindArt("cellular") }}   roller | cellular | roman | motorized; anything else prints nothing. -#}
+{% macro blindArt(kind) -%}
+{%- if kind in ["roller", "cellular", "roman", "motorized"] -%}
+<svg class="ws5-art ws5-art--{{ kind }}" viewBox="0 0 120 100" width="120" height="100" aria-hidden="true" focusable="false">
+  <rect class="ws5-art__frame" x="12" y="8" width="96" height="84" rx="2"/>
+  <path class="ws5-art__frame" d="M8 96h104"/>
+{%- if kind == "roller" or kind == "motorized" %}
+  <path class="ws5-art__glass" d="M60 60v32M16 76h88"/>
+  <rect class="ws5-art__fab" x="18" y="14" width="84" height="44"/>
+  <rect class="ws5-art__rail" x="14" y="9" width="92" height="7" rx="3.5"/>
+  <rect class="ws5-art__bar" x="17" y="57" width="86" height="3.5" rx="1.75"/>
+{%- if kind == "roller" %}
+  <path class="ws5-art__cord" d="M60 60.5v7"/>
+  <circle class="ws5-art__cord" cx="60" cy="70" r="2.5"/>
+{%- else %}
+  <rect class="ws5-art__remote" x="82" y="68" width="14" height="22" rx="3"/>
+  <circle class="ws5-art__btn" cx="89" cy="75" r="2"/>
+  <circle class="ws5-art__btn" cx="89" cy="82.5" r="2"/>
+  <path class="ws5-art__cord" d="M84 65a7 7 0 0 1 10 0M81 62.5a11 11 0 0 1 16 0"/>
+{%- endif %}
+{%- elif kind == "cellular" %}
+  <path class="ws5-art__glass" d="M60 64v28M16 78h88"/>
+  <path class="ws5-art__fab" d="M18 16h84v46H18z"/>
+  <path class="ws5-art__line" d="M18 23.5h84M18 31h84M18 38.5h84M18 46h84M18 53.5h84"/>
+  <path class="ws5-art__line" d="M18 16l-2.5 3.75L18 23.5l-2.5 3.75L18 31l-2.5 3.75L18 38.5l-2.5 3.75L18 46l-2.5 3.75L18 53.5l-2.5 4.25L18 62M102 16l2.5 3.75L102 23.5l2.5 3.75L102 31l2.5 3.75L102 38.5l2.5 3.75L102 46l2.5 3.75L102 53.5l2.5 4.25L102 62"/>
+  <rect class="ws5-art__rail" x="14" y="9" width="92" height="7" rx="1.5"/>
+  <rect class="ws5-art__bar" x="15" y="61" width="90" height="3.5" rx="1"/>
+{%- elif kind == "roman" %}
+  <path class="ws5-art__glass" d="M60 66v26M16 80h88"/>
+  <path class="ws5-art__fab" d="M18 16h84v24c0 6-84 6-84 0zM18 40c0 6 84 6 84 0v8c0 6-84 6-84 0zM18 48c0 6 84 6 84 0v8c0 7-84 7-84 0z"/>
+  <path class="ws5-art__line" d="M18 40c0 6 84 6 84 0M18 48c0 6 84 6 84 0"/>
+  <rect class="ws5-art__rail" x="14" y="9" width="92" height="7" rx="1.5"/>
+{%- endif %}
+</svg>
+{%- endif -%}
+{%- endmacro %}

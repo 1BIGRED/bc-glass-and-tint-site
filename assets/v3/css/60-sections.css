@@ -616,3 +616,66 @@ html:not(.js) [data-js-only] { display: none !important; }
    the VLT. The overlay was ink-0 (11, 11, 12), which added light back and read 5 as about 7 percent. The
    pane and chip rules above use black; this repeats it for the ramp (base rule in 10-base.css, part A). */
 .v3-ramp > * { background-image: linear-gradient(rgba(0, 0, 0, var(--pane-a, 0)), rgba(0, 0, 0, var(--pane-a, 0))); }
+
+/* ---------- Reviews stand out (Chase 2026-10-31: "the reviews need to stick out more too add the
+   star rating the person gave us"). Supersedes V-a "no glyphs" for the star row only. The rule
+   brightens to the text colour, the words step up a size, the name reads in the text colour.
+   Stars are warm white, not gold: gold stays the call's colour (art direction, tokens line 25). */
+.ws5-quote {
+  border-left: 2px solid var(--fg);
+}
+.ws5-quote blockquote p {
+  font-size: 1.125rem;
+  line-height: 1.45;
+}
+.ws5-quote figcaption a {
+  color: var(--fg);
+  font-weight: 600;
+}
+.ws5-stars {
+  display: flex;
+  gap: 2px;
+  margin: 0 0 var(--sp-12);
+  line-height: 0;
+}
+.ws5-star {
+  display: block;
+  fill: none;
+  stroke: var(--fg-2);
+  stroke-width: 1.25;
+  stroke-linejoin: round;
+}
+.ws5-star.is-on {
+  fill: var(--fg);
+  stroke: var(--fg);
+}
+@media (min-width: 1024px) {
+  .ws5-quote blockquote p { font-size: 1.375rem; }
+  .ws5-star { width: 20px; height: 20px; }
+}
+
+/* ---------- Blind and shade style drawings (Chase 2026-10-31), _includes/v3/blinds-art.njk ---------- */
+.ws5-art {
+  display: block;
+  width: 7.5rem;
+  height: auto;
+  margin-bottom: var(--sp-16);
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.ws5-art * { vector-effect: non-scaling-stroke; }
+.ws5-art__frame { stroke: var(--fg-2); }
+.ws5-art__glass { stroke: var(--fg-2); stroke-opacity: 0.5; stroke-width: 1; }
+.ws5-art__fab { fill: var(--fg); fill-opacity: 0.12; }
+.ws5-art__line { stroke-width: 1; }
+.ws5-art__rail,
+.ws5-art__bar { fill: var(--fg); }
+.ws5-art__remote { fill: var(--bg); }
+.ws5-art__btn { fill: var(--fg); stroke: none; }
+.ws5-list__i--art > .ws5-art + * { margin-top: 0; }
+@media (min-width: 1024px) {
+  .ws5-art { width: 8.5rem; }
+}

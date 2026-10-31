@@ -69,10 +69,10 @@ module.exports = {
       const classes = list(sec.class_order).map((id) => byId[id]).filter(Boolean);
       const rows = [];
       list(sec.rows).forEach((r) => {
-        if (a.coverage && a.coverage[r.key]) rows.push({ label: r.label, cells: classes.map((c) => priceParts(a.coverage[r.key][c.id], MODE)) });
+        if (a.coverage && a.coverage[r.key]) rows.push({ key: r.key, label: r.label, cells: classes.map((c) => priceParts(a.coverage[r.key][c.id], MODE)) });
       });
       list(sec.lines).forEach((r) => {
-        if (a.panels && a.panels[r.key]) rows.push({ label: r.label, cells: classes.map((c) => priceParts(a.panels[r.key][c.id], MODE)) });
+        if (a.panels && a.panels[r.key]) rows.push({ key: r.key, label: r.label, cells: classes.map((c) => priceParts(a.panels[r.key][c.id], MODE)) });
       });
       const anyShown = rows.some((r) => r.cells.some((c) => c.show));
       const fvp = classes.map((c) => ({ label: c.label, f: P.fullVsParts(pr, c.id, MODE) })).filter((x) => x.f);
@@ -93,7 +93,7 @@ module.exports = {
         label: joinOr(g.labels.map((l, i) => (i === 0 || /^[A-Z]{2,}$/.test(l) ? l : l.toLowerCase()))),
         ci: g.ci
       }));
-      const rowsByCol = rows.map((r) => ({ label: r.label, cells: cols.map((c) => r.cells[c.ci]) }));
+      const rowsByCol = rows.map((r) => ({ key: r.key, label: r.label, cells: cols.map((c) => r.cells[c.ci]) }));
       const fvpCols = cols.map((c) => ({ label: c.label, f: P.fullVsParts(pr, c.id, MODE) })).filter((x) => x.f);
       return { classes, rows, any_shown: anyShown, fvp: fvpCols, cols, rows_by_col: rowsByCol, merged: cols.length < classes.length };
     },

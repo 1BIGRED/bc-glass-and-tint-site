@@ -15,6 +15,7 @@
 {%- from "v3/price.njk" import priceRow with context -%}
 {%- from "v3/media.njk" import picture -%}
 {%- from "v3/request.njk" import requestForm with context -%}
+{%- from "v3/blinds-art.njk" import blindArt -%}
 
 {#- Eyebrow plus H2 (one heading system, art direction T2). -#}
 {% macro head(eyebrow, title, id, opts) -%}
@@ -43,7 +44,13 @@
 {#- One verbatim Google review (art direction V-a, V-b). No stars, no logo, no quote glyphs. -#}
 {% macro quote(r, opts) -%}
 {%- set o = opts or {} -%}
-<figure class="ws5-quote{% if o.cls %} {{ o.cls }}{% endif %}" data-review="{{ r.id }}">
+{#- Stars (Chase 2026-10-31): the rating this person gave on Google, ONLY when reviews.json carries
+    stars AND stars_checked_on for this review; never a guess, never the listing average. -#}
+{%- set st = r.stars if (r.stars and r.stars_checked_on and r.stars >= 1 and r.stars <= 5) else 0 -%}
+<figure class="ws5-quote{% if st %} ws5-quote--stars{% endif %}{% if o.cls %} {{ o.cls }}{% endif %}" data-review="{{ r.id }}">
+{%- if st %}
+  <p class="ws5-stars" role="img" aria-label="{{ st }} out of 5 stars on Google">{% for i in range(0, 5) %}<svg class="ws5-star{% if i < st %} is-on{% endif %}" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" focusable="false"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z"/></svg>{% endfor %}</p>
+{%- endif %}
   <blockquote><p>{{ r.text | safe }}</p></blockquote>
   <figcaption class="t-label fg-2"><a href="{{ (r.url or reviews.listing_url) | safe }}" target="_blank" rel="noopener">{{ r.author_display | safe }}{% if r.month_year %}, {{ r.month_year | safe }}{% endif %}, {{ pages.sections.words.attribution | safe }}</a></figcaption>
 </figure>
@@ -84,7 +91,7 @@
   <div class="ws5-classpane{% if loop.first %} is-on{% endif %}" data-class="{{ c.id }}">
     <dl class="v3-prices ws5-prices{% if bare %} ws5-prices--bare{% endif %}" aria-label="{{ c.label | safe }}">
 {%- for r in R %}
-      {{ priceRow(r.label, pricing | ws5at(r.ref, c.id), { fallback: S.price_fallback.auto, draft_label: S.draft_label, note: r.note, bare: bare }) }}
+      {{ priceRow(r.label, pricing | ws5at(r.ref, c.id), { fallback: S.price_fallback.auto, draft_label: S.draft_label, note: r.note, bare: bare, win: r.ref }) }}
 {%- endfor %}
     </dl>
     {%- if bare %}
@@ -421,7 +428,7 @@
 {%- if bk.type == "list" or bk.type == "steps" %}
     <ul class="ws5-list list-plain{% if bk.type == 'steps' %} ws5-list--steps{% endif %}">
 {%- for it in bk.items %}
-      <li class="ws5-list__i">{% if bk.type == 'steps' %}<span class="ws5-steps__n" aria-hidden="true">{{ loop.index }}</span>{% endif %}<h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ it.text | safe }}</p>{% if it.href %}<a href="{{ it.href }}">{{ it.link | safe }}</a>{% endif %}</li>
+      <li class="ws5-list__i{% if it.art %} ws5-list__i--art{% endif %}">{{ blindArt(it.art) if it.art }}{% if bk.type == 'steps' %}<span class="ws5-steps__n" aria-hidden="true">{{ loop.index }}</span>{% endif %}<h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ it.text | safe }}</p>{% if it.href %}<a href="{{ it.href }}">{{ it.link | safe }}</a>{% endif %}</li>
 {%- endfor %}
     </ul>
 {%- elif bk.type == "prose" %}

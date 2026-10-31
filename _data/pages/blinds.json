@@ -31,10 +31,10 @@
         "heading": "Find the right shade.",
         "lede": "Every room handles light differently. We help you pick the shade that fits the room, then build it to fit your windows.",
         "items": [
-          { "title": "Roller shades", "text": "A smooth fabric panel that rolls away for the full view and drops for privacy. A tighter weave blocks more glare; a more open weave keeps your view." },
-          { "title": "Cellular shades", "text": "Honeycomb cells hold a layer of air at the glass, which helps insulate a room against summer heat and winter cold." },
-          { "title": "Roman shades", "text": "Soft fabric that gathers into folds as it lifts, for a warm, finished look in bedrooms and living rooms." },
-          { "title": "Motorized", "text": "Available on any of the above. No cords, and tall or hard to reach windows go on a remote or a schedule." }
+          { "title": "Roller shades", "art": "roller", "text": "A smooth fabric panel that rolls away for the full view and drops for privacy. A tighter weave blocks more glare; a more open weave keeps your view." },
+          { "title": "Cellular shades", "art": "cellular", "text": "Honeycomb cells hold a layer of air at the glass, which helps insulate a room against summer heat and winter cold." },
+          { "title": "Roman shades", "art": "roman", "text": "Soft fabric that gathers into folds as it lifts, for a warm, finished look in bedrooms and living rooms." },
+          { "title": "Motorized", "art": "motorized", "text": "Available on any of the above. No cords, and tall or hard to reach windows go on a remote or a schedule." }
         ]
       }
     ],
