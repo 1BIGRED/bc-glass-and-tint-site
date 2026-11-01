@@ -50,6 +50,6 @@ body_class: page-home
 
 {{ b.alsoDone({ id: "services", links_only: true }) }}
 
-{{ b.faq(H.faq.items, { uid: "faq", ground: "bg-ink-1" }) }}
+{{ b.faq(H.faq.items | faqFor(anyPublishedPrice), { uid: "faq", ground: "bg-ink-1" }) }}
 
 {{ b.talk({ id: "quote", source: "Homepage", uid: "talk" }) }}

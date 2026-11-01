@@ -42,6 +42,9 @@
     { "id": "owner-name", "row": "area-profile banned_claims (OWNER_RULE)", "pattern": "\\bJustin\\b", "message": "The owner and staff stay nameless on the site (family-owned is fine, named is not)." },
     { "id": "draft-price-tag", "row": "blueprint 6.1", "modes": ["production"], "pattern": "\\bDraft price\\b", "message": "A production build must never print a draft price." },
     { "id": "draft-status-data", "row": "blueprint 6.1", "scope": "raw", "modes": ["production"], "pattern": "\"status\"\\s*:\\s*\"draft\"|&quot;status&quot;\\s*:\\s*&quot;draft&quot;", "flags": "", "message": "A production build must never carry draft price data." },
-    { "id": "google-brand-hex", "row": "PB12.3", "scope": "raw", "files": ["html", "css"], "modes": ["production"], "pattern": "#4285f4|#ea4335|#fbbc05|#fbbc04|#34a853", "message": "No Google brand colors on the site (platform mark rules)." }
+    { "id": "google-brand-hex", "row": "PB12.3", "scope": "raw", "files": ["html", "css"], "modes": ["production"], "pattern": "#4285f4|#ea4335|#fbbc05|#fbbc04|#34a853", "message": "No Google brand colors on the site (platform mark rules)." },
+    { "id": "as-1-line", "row": "area-profile legal.nevada_tint_law NOT_in_the_statute (peak pass 2026-10-31)", "pattern": "\\bAS-?1\\b", "message": "The AS-1 line is not in NRS 484D.440. Write: film only as a strip across the very top of the windshield, never red or amber (NRS 484D.440)." },
+    { "id": "medical-floor", "row": "area-profile legal.nevada_tint_law NOT_in_the_statute (peak pass 2026-10-31)", "pattern": "\\bmedical\\b[^.<>]{0,60}\\b20\\s*(?:%|percent)|\\b20\\s*(?:%|percent)[^.<>]{0,60}\\bmedical\\b", "message": "No medical-exemption VLT floor: the statute leaves exemptions to the Director by regulation." },
+    { "id": "tint-fine", "row": "area-profile legal.nevada_tint_law NOT_in_the_statute (peak pass 2026-10-31)", "pattern": "\\bfix-it ticket\\b|\\$\\s?\\d{2,3}\\s*(?:to|-)\\s*\\$?\\s?\\d{2,3}\\b[^.<>]{0,40}\\b(?:fine|ticket)\\b", "message": "No Nevada tint fine amounts (vendor-sourced, unverified)." }
   ]
 }

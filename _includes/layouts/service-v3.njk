@@ -48,11 +48,12 @@ layout: layouts/v3.njk
 <section class="ws5-svc-prices section {{ alt1 }}" aria-labelledby="pr-h" id="{{ P.id or 'prices' }}">
   <div class="wrap grid ws5-lane__grid">
     <div class="ws5-svc-prices__copy">
-      {{ b.head(P.eyebrow, P.h2, "pr-h", { lede: P.lede }) }}
+      {#- Price-list switch (peak pass 2026-10-31): h2_no_price and lede_no_price print while no auto tint price can show (anyAutoPrice); "All prices" links read sections.car.all_prices_plain while no price shows anywhere (anyPublishedPrice). -#}
+      {{ b.head(P.eyebrow, (P.h2_no_price if (P.h2_no_price and not anyPrice) else P.h2), "pr-h", { lede: (P.lede_no_price if (P.lede_no_price and not anyPrice) else P.lede) }) }}
       {%- if P.car %}{{ b.carPrices("pr") }}{% else %}{{ b.prices(P.rows, P.fallback) }}{% endif %}
       {%- if P.moves %}<p class="t-label fg-2 measure">{{ P.moves | safe }}</p>{% endif %}
       {%- if P.after %}<p class="t-body measure ws5-svc-prices__after">{{ P.after | safe }}</p>{% endif %}
-      <p class="t-body ws5-svc-prices__links">{% for l in P.links %}{% if not l.build %}<a href="{{ l.href }}">{{ l.label | safe }}</a>{% if not loop.last %} <span class="fg-2" aria-hidden="true">&middot;</span> {% endif %}{% endif %}{% endfor %}</p>
+      <p class="t-body ws5-svc-prices__links">{% for l in P.links %}{% if not l.build %}<a href="{{ l.href }}">{{ (pages.sections.car.all_prices_plain if (l.href == "/prices" and pages.sections.car.all_prices_plain and not anyPublishedPrice) else l.label) | safe }}</a>{% if not loop.last %} <span class="fg-2" aria-hidden="true">&middot;</span> {% endif %}{% endif %}{% endfor %}</p>
       <div class="ws5-actrow">
         {%- for l in P.links %}{% if l.build %}<a class="ws5-btn" href="{{ l.href }}" data-build-link>{{ (P.build_price if anyPrice else P.build_plain) | safe }}</a>{% endif %}{% endfor %}
         {{ action({ slot: "price", service: sv }) }}
@@ -119,7 +120,7 @@ layout: layouts/v3.njk
     {{ b.head(V.while.eyebrow, V.while.h2, "wh-h") }}
     <ul class="ws5-list list-plain">
 {%- for it in V.while.items %}
-      <li class="ws5-list__i"><h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ it.text | safe }}</p>{% if it.href %}<a href="{{ it.href }}">{{ it.link | safe }}</a>{% endif %}</li>
+      <li class="ws5-list__i"><h3 class="t-h3">{{ it.title | safe }}</h3><p class="fg-2">{{ (it.text_no_price if (it.text_no_price and not anyPrice) else it.text) | safe }}</p>{% if it.href %}<a href="{{ it.href }}">{{ it.link | safe }}</a>{% endif %}</li>
 {%- endfor %}
     </ul>
   </div>

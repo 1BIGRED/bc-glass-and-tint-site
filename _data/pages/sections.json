@@ -47,6 +47,7 @@
     "build_link_plain": "Build your tint and see it on screen",
     "build_href": "/build-your-tint",
     "all_prices": "All prices",
+    "all_prices_plain": "How pricing works",
     "all_prices_href": "/prices",
     "review": "g-kristie-bergman"
   },
@@ -183,6 +184,7 @@
       { "label": "Prices", "href": "/prices" },
       { "label": "Gallery", "href": "/gallery" }
     ],
+    "main_prices_plain": "How pricing works",
     "more_heading": "More",
     "more": [
       { "label": "Build your tint", "href": "/build-your-tint" },

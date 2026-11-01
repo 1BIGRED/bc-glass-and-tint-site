@@ -25,10 +25,11 @@ bundles: ["prices"]
 
 <section class="pr-top" aria-labelledby="pr-h">
   <div class="wrap stack-16">
-    <nav class="pr-crumb t-label fg-2" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">{{ pg.hero.crumb | safe }}</span></nav>
+    <nav class="pr-crumb t-label fg-2" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">{{ (pg.hero.crumb_no_price if (pg.hero.crumb_no_price and not anyPublishedPrice) else pg.hero.crumb) | safe }}</span></nav>
     {#- Peak pass R2 (visual R1 item 14): no eyebrow here; the breadcrumb and the H1 already say Prices. -#}
-    <h1 id="pr-h">{{ pg.hero.heading | safe }}</h1>
-    <p class="t-lead measure">{% if pr_any %}{{ pg.hero.intro | safe }}{% else %}{{ pg.hero.intro_without_prices | safe }}{% endif %}</p>
+    {#- Price-list switch (peak pass 2026-10-31, technical FA5): while no price can show anywhere on the site (anyPublishedPrice, lib/pricing.js) the page is relabelled, never hidden: "How pricing works." and an honest lede. The menu, footer, title, meta and breadcrumb follow the same switch. -#}
+    <h1 id="pr-h">{% if anyPublishedPrice %}{{ pg.hero.heading | safe }}{% else %}{{ pg.hero.heading_no_price | safe }}{% endif %}</h1>
+    <p class="t-lead measure">{% if not anyPublishedPrice %}{{ pg.hero.intro_no_price | safe }}{% elif pr_any %}{{ pg.hero.intro | safe }}{% else %}{{ pg.hero.intro_without_prices | safe }}{% endif %}</p>
   </div>
 </section>
 
@@ -36,7 +37,7 @@ bundles: ["prices"]
   <div class="wrap pr-sec__in">
     <div class="pr-sec__head stack-16">
       <h2 id="pr-car-h">{{ sc.heading | safe }}</h2>
-      <p class="t-body fg-2 measure">{{ sc.lede | safe }}</p>
+      <p class="t-body fg-2 measure">{% if anyPublishedPrice %}{{ sc.lede | safe }}{% else %}{{ sc.lede_no_price | safe }}{% endif %}</p>
     </div>
     <div class="pr-sec__body stack-24">
 {%- if pr_car.any_shown %}
@@ -177,7 +178,7 @@ bundles: ["prices"]
 <section class="pr-sec pr-sec--faq bg-band" aria-labelledby="pr-faq-h">
   <div class="wrap pr-sec__in">
     <div class="pr-sec__head">
-      <h2 id="pr-faq-h">{{ pg.faq.heading | safe }}</h2>
+      <h2 id="pr-faq-h">{% if anyPublishedPrice %}{{ pg.faq.heading | safe }}{% else %}{{ pg.faq.heading_no_price | safe }}{% endif %}</h2>
     </div>
     <div class="pr-sec__body">
       <div class="pr-faq">

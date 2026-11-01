@@ -201,6 +201,7 @@
           { "label": "Prices", "href": "/prices" },
           { "label": "Gallery", "href": "/gallery" }
         ],
+        "nav_prices_plain": "How pricing works",
         "drawer_extra": [
           { "label": "Build your tint", "href": "/build-your-tint" },
           { "label": "Reviews", "href": "/reviews" },

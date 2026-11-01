@@ -41,7 +41,7 @@ body_class: page-qa
       <div class="ws5-qa-group" id="{{ g.id }}" data-qa-group>
         <h2>{{ g.heading | safe }}</h2>
         <div class="ws5-acc">
-{%- for it in g.items %}
+{%- for it in g.items | faqFor(anyPublishedPrice) %}
           <details class="ws5-acc__i" data-qa-item>
             <summary><span>{{ it.question | safe }}</span><i aria-hidden="true"></i></summary>
             <div class="ws5-acc__a">{{ it.answer | safe }}</div>

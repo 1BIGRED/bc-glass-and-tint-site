@@ -2,14 +2,20 @@
   "meta": {
     "title": "Window Tint and Glass Prices, Boulder City NV | BC Glass &amp; Tint",
     "description": "Window tint and glass prices at BC Glass &amp; Tint in Boulder City: starting prices by vehicle, what moves a price, and your exact price before booking.",
-    "image_alt": "Price list from BC Glass and Tint, Boulder City, NV"
+    "image_alt": "Price list from BC Glass and Tint, Boulder City, NV",
+    "title_no_price": "How Tint and Glass Pricing Works, Boulder City NV | BC Glass &amp; Tint",
+    "description_no_price": "How pricing works at BC Glass &amp; Tint in Boulder City: what moves the price of window tint and glass work, and your exact price confirmed before anything is booked.",
+    "image_alt_no_price": "How pricing works at BC Glass and Tint, Boulder City, NV"
   },
   "hero": {
     "crumb": "Prices",
+    "crumb_no_price": "How pricing works",
     "eyebrow": "PRICES",
     "heading": "Prices.",
+    "heading_no_price": "How pricing works.",
     "intro": "Real starting prices. The exact price is confirmed before anything is booked.",
-    "intro_without_prices": "Where the shop has posted a price, you see it here. Everything else is confirmed with you before anything is booked."
+    "intro_without_prices": "Where the shop has posted a price, you see it here. Everything else is confirmed with you before anything is booked.",
+    "intro_no_price": "The shop confirms your exact price on the call, before anything is booked. Here is what moves the price for each kind of job."
   },
   "schema": {
     "date_modified": "2026-10-29",
@@ -23,6 +29,7 @@
       "id": "car-tint",
       "heading": "Car tint",
       "lede": "Starting prices by vehicle and by how much glass you cover.",
+      "lede_no_price": "Your price depends on your vehicle and how much glass you cover.",
       "column_label": "Coverage",
       "switch_label": "Vehicle",
       "class_order": ["car", "suv", "pickup", "van"],
@@ -76,6 +83,7 @@
   },
   "faq": {
     "heading": "How pricing works",
+    "heading_no_price": "Questions about pricing",
     "items": [
       {
         "question": "Is the price on this page what I will pay?",

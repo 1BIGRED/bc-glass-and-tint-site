@@ -11,7 +11,7 @@
 //               offer catalog, WebSite, WebPage.
 const S = require("./lib/schema");
 const { fill } = require("./lib/filters");
-const { priceFor, priceMode } = require("./lib/pricing");
+const { priceFor, priceMode, anyPublishedPrice, faqFor } = require("./lib/pricing");
 const W5 = require("./lib/eleventy-ws5").helpers;
 const MODE = priceMode(process.env);
 
@@ -72,7 +72,8 @@ module.exports = {
       const oc = pg.schema.offer_catalog;
       const items = oc.items.map((it) => ({ name: it.name, url: S.ORIGIN + it.path, id: S.ORIGIN + it.path + "#" + (it.id_suffix || "service") }));
       return S.graph([
-        S.faqPageNode(pg.v3.faq.items, { slug: data.slug }),
+        // same items the page prints: answer_no_price replaces answer while no price can show (lib/pricing.js faqFor)
+        S.faqPageNode(faqFor(pg.v3.faq.items, anyPublishedPrice(data.pricing, MODE)), { slug: data.slug }),
         S.businessNode(data.site, { offerCatalog: S.offerCatalog({ name: oc.name, area_served: oc.area_served, items }) }),
         S.websiteNode(data.site),
         S.webpageNode({ slug: data.slug, name: S.plain(fill(pg.meta.title)), dateModified: pg.schema.date_modified })

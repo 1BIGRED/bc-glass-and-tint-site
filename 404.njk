@@ -13,7 +13,7 @@ hero:
   mode: ramp
 bundles: ["home", "service"]
 routes:
-  - { id: car, label: "My car", href: "/auto-tint", micro: "Car window tint, prices and the tint builder." }
+  - { id: car, label: "My car", href: "/auto-tint", micro: "Car window tint, prices and the tint builder.", micro_no_price: "Car window tint and the tint builder." }
   - { id: home, label: "My home or office", href: "/home-tint", micro: "Window film and blinds. Free in-home measure." }
   - { id: windshield, label: "My windshield", href: "/chip-repair", micro: "Chip repair at the shop. Most chips fixed the same day." }
 ---
@@ -31,14 +31,14 @@ routes:
 {%- for t in routes %}
         <a class="ws5-route" href="{{ t.href }}">
           <span class="ws5-route__t">{{ t.label }}</span>
-          <span class="ws5-route__m">{{ t.micro }}</span>
+          <span class="ws5-route__m">{{ (t.micro_no_price if (t.micro_no_price and not anyPublishedPrice) else t.micro) }}</span>
           <svg class="ws5-route__chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
 {%- endfor %}
       </nav>
       <ul class="ws5-links list-plain v3-404__more">
         <li><a href="/">Home</a></li>
-        <li><a href="/prices">Prices</a></li>
+        <li><a href="/prices">{{ "Prices" if anyPublishedPrice else pages.sections.footer.main_prices_plain }}</a></li>
         <li><a href="/build-your-tint">Build your tint</a></li>
         <li><a href="/gallery">Gallery</a></li>
       </ul>

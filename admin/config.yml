@@ -499,7 +499,7 @@ collections:
                 name: full_windshield_film
                 widget: object
                 collapsed: true
-                hint: "Offered in Build Your Tint at 70, 50 and 45 percent with a legal note: Nevada allows windshield tint only above the AS-1 line for driving, so full windshield film is for a medical exemption or show use. Like every price, it shows on the live site only when the owner has confirmed it. The live-site switch for this line is studio only."
+                hint: "Offered in Build Your Tint at 70, 50 and 45 percent with a legal note: Nevada allows film on the windshield only as a strip across the very top, so full windshield film is for a medical exemption or show use. Like every price, it shows on the live site only when the owner has confirmed it. The live-site switch for this line is studio only."
                 fields:
                   - { label: "Name of this line", name: label, widget: string, hint: "Technical name. Ask the studio before changing." }
                   - label: "Status"
@@ -1049,6 +1049,7 @@ collections:
                         fields:
                           - { label: "Label", name: label, widget: string }
                           - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+                      - { label: "Prices menu link when no price shows", name: nav_prices_plain, widget: string, hint: "Printed instead of the Prices menu link, in the top menu and the mobile menu, while no price can show anywhere on the site." }
                       - label: "Drawer extra"
                         name: drawer_extra
                         widget: list
@@ -1184,6 +1185,7 @@ collections:
                     fields:
                       - { label: "Question", name: question, widget: string }
                       - { label: "Answer", name: answer, widget: text, hint: "Keep any HTML codes, such as &amp; and tags, exactly as they are." }
+                      - { label: "Answer when no price shows", name: answer_no_price, widget: text, required: false, hint: "Optional. Printed in the visible answer and in Google's FAQ data instead of the Answer while no price can show anywhere on the site. Keep any HTML codes exactly as they are." }
           - { label: "Note (studio only)", name: _note, widget: hidden }
 
   # ================================================================
@@ -1259,6 +1261,7 @@ collections:
                 fields:
                   - { label: "Small line above the heading", name: eyebrow, widget: string }
                   - { label: "Section heading", name: h2, widget: string }
+                  - { label: "Section heading when no auto tint price shows", name: h2_no_price, widget: string, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
                   - { label: "Lead paragraph", name: lede, widget: string }
                   - { label: "Car", name: car, widget: boolean, required: false, hint: "Technical switch. Ask the studio before changing." }
                   - label: "Car price rows"
@@ -1330,6 +1333,7 @@ collections:
                     fields:
                       - { label: "Title", name: title, widget: string }
                       - { label: "Text", name: text, widget: string }
+                      - { label: "Text when no auto tint price shows", name: text_no_price, widget: string, required: false, hint: "Optional. Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
                       - { label: "Link text", name: link, widget: string, required: false }
                       - { label: "Link address", name: href, widget: string, required: false, hint: "Technical. Ask the studio before changing." }
               - label: "Questions and answers"
@@ -3076,6 +3080,7 @@ collections:
                     fields:
                       - { label: "Question", name: question, widget: string, hint: "Keep any HTML codes, such as &amp; and tags, exactly as they are." }
                       - { label: "Answer", name: answer, widget: text, hint: "Keep any HTML codes, such as &amp; and tags, exactly as they are." }
+                      - { label: "Answer when no price shows", name: answer_no_price, widget: text, required: false, hint: "Optional. Printed in the visible answer and in Google's FAQ data instead of the Answer while no price can show anywhere on the site. Keep any HTML codes exactly as they are." }
           - { label: "Note (studio only)", name: _note, widget: hidden }
 
       - name: reviews
@@ -3129,15 +3134,21 @@ collections:
               - { label: "Title", name: title, widget: string, hint: "Keep the &amp; entity as it is." }
               - { label: "Description", name: description, widget: text }
               - { label: "Photo description (for screen readers)", name: image_alt, widget: string }
+              - { label: "Title when no price shows", name: title_no_price, widget: string, hint: "Keep the &amp; entity as it is. Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
+              - { label: "Description when no price shows", name: description_no_price, widget: text, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
+              - { label: "Photo description when no price shows (for screen readers)", name: image_alt_no_price, widget: string, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
           - label: "Top of page (hero)"
             name: hero
             widget: object
             fields:
               - { label: "Breadcrumb current page name", name: crumb, widget: string }
+              - { label: "Breadcrumb current page name when no price shows", name: crumb_no_price, widget: string, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
               - { label: "Small line above the heading", name: eyebrow, widget: string }
               - { label: "Heading", name: heading, widget: string }
+              - { label: "Heading when no price shows", name: heading_no_price, widget: string, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
               - { label: "Intro paragraph (when prices show)", name: intro, widget: text }
               - { label: "Intro paragraph (when no prices show)", name: intro_without_prices, widget: text }
+              - { label: "Intro paragraph (when no price shows anywhere on the site)", name: intro_no_price, widget: text, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
           - { label: "Tag on a draft price", name: draft_tag, widget: string, hint: "Appears only on review copies of the site, never on the live site." }
           - label: "Sections"
             name: sections
@@ -3181,6 +3192,7 @@ collections:
                   - { label: "Id", name: id, widget: string, hint: "Technical. Ask the studio before changing." }
                   - { label: "Heading", name: heading, widget: string }
                   - { label: "Lead paragraph", name: lede, widget: string }
+                  - { label: "Lead paragraph when no price shows", name: lede_no_price, widget: string, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
                   - { label: "Column label", name: column_label, widget: string }
                   - { label: "Switch label", name: switch_label, widget: string }
                   - label: "Class order"
@@ -3249,6 +3261,7 @@ collections:
             hint: "Questions and answers here also feed Google's FAQ data automatically, so edit them only here."
             fields:
               - { label: "Heading", name: heading, widget: string }
+              - { label: "Heading when no price shows", name: heading_no_price, widget: string, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
               - label: "Questions and answers"
                 name: items
                 widget: list
@@ -3359,6 +3372,7 @@ collections:
             fields:
               - { label: "Heading", name: heading, widget: string }
               - { label: "Intro", name: intro, widget: text }
+              - { label: "Intro paragraph when no price shows", name: intro_no_price, widget: text, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
               - label: "Table column headings"
                 name: columns
                 widget: list
@@ -3366,6 +3380,7 @@ collections:
                 summary: "{{fields.value}}"
                 field: { label: "Column heading", name: value, widget: string }
               - { label: "Prices link", name: prices_link, widget: string }
+              - { label: "Prices link when no price shows", name: prices_link_no_price, widget: string, hint: "Printed instead of the normal wording while no price can show anywhere on the site. Never type a dollar amount here." }
           - { label: "Legal footer", name: legal_footer, widget: text, hint: "Keep the Nevada law reference, NRS 484D.440, and the not legal advice wording." }
           - label: "Stage"
             name: stage
@@ -3602,6 +3617,7 @@ collections:
               - { label: "Build link plain", name: build_link_plain, widget: string }
               - { label: "Build href", name: build_href, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "All prices", name: all_prices, widget: string }
+              - { label: "All prices, when no price shows", name: all_prices_plain, widget: string, hint: "Printed on service pages instead of All prices while no price can show anywhere on the site." }
               - { label: "All prices href", name: all_prices_href, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Review id (studio only)", name: review, widget: string, hint: "Technical. Ask the studio before changing." }
           - label: "Shade"
@@ -3769,6 +3785,7 @@ collections:
                 fields:
                   - { label: "Label", name: label, widget: string }
                   - { label: "Link address", name: href, widget: string, hint: "Technical. Ask the studio before changing." }
+              - { label: "Prices link when no price shows", name: main_prices_plain, widget: string, hint: "Printed instead of the Prices footer link while no price can show anywhere on the site." }
               - { label: "More heading", name: more_heading, widget: string }
               - label: "More"
                 name: more

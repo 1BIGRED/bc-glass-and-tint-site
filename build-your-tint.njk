@@ -203,7 +203,7 @@ bundles: ["builder"]
   <noscript>
     <div class="wrap bt-nojs stack-24">
       <h2 class="t-h3">{{ pg.noscript.heading | safe }}</h2>
-      <p class="t-body">{{ pg.noscript.intro | safe }}</p>
+      <p class="t-body">{% if bt_has_price %}{{ pg.noscript.intro | safe }}{% else %}{{ pg.noscript.intro_no_price | safe }}{% endif %}</p>
       <table class="bt-table">
         <thead><tr><th scope="col">{{ pg.noscript.columns[0] | safe }}</th><th scope="col">{{ pg.noscript.columns[1] | safe }}</th></tr></thead>
         <tbody>
@@ -212,7 +212,7 @@ bundles: ["builder"]
 {%- endfor %}
         </tbody>
       </table>
-      <p class="t-body"><a href="/prices">{{ pg.noscript.prices_link | safe }}</a></p>
+      <p class="t-body"><a href="/prices">{% if bt_has_price %}{{ pg.noscript.prices_link | safe }}{% else %}{{ pg.noscript.prices_link_no_price | safe }}{% endif %}</a></p>
       <div class="bt-acts">{{ action({ slot: "builder", service: "car" }) }}</div>
       <p class="t-label fg-2">{{ pg.legal_footer | safe }}</p>
     </div>

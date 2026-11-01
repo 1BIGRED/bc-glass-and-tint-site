@@ -30,14 +30,14 @@
       ]
     },
     "router": [
-      { "id": "car", "label": "My car", "href": "#car", "price_ref": "auto_tint.coverage.two_front_doors", "price_tpl": "Ceramic tint. Front doors from ${amount}.", "fallback": "Ceramic tint. See prices and shades." },
+      { "id": "car", "label": "My car", "href": "#car", "price_ref": "auto_tint.coverage.two_front_doors", "price_tpl": "Ceramic tint. Front doors from ${amount}.", "fallback": "Ceramic tint. See the shades on screen." },
       { "id": "home", "label": "My home or office", "href": "#home", "micro": "Window film and blinds. Free in-home measure." },
       { "id": "windshield", "label": "My windshield", "href": "#windshield", "price_ref": "services.chip_repair_first", "price_tpl": "Chip repair, ${amount} first chip.", "fallback": "Most chips fixed the same day." }
     ],
     "words_ids": ["g-db-realty"],
     "faq": {
       "items": [
-        { "question": "How much does window tint cost?", "answer": "It depends on the vehicle or the rooms, which windows, and whether old film has to come off first. See the <a href=\"/prices\">price guide</a>, or <a href=\"/build-your-tint\">build your tint</a> to see the options on your type of vehicle. We confirm your exact price before anything is booked." },
+        { "question": "How much does window tint cost?", "answer": "It depends on the vehicle or the rooms, which windows, and whether old film has to come off first. See the <a href=\"/prices\">price guide</a>, or <a href=\"/build-your-tint\">build your tint</a> to see the options on your type of vehicle. We confirm your exact price before anything is booked.", "answer_no_price": "It depends on the vehicle or the rooms, which windows, and whether old film has to come off first. See <a href=\"/prices\">how pricing works</a>, or <a href=\"/build-your-tint\">build your tint</a> to see the options on your type of vehicle. We confirm your exact price before anything is booked." },
         { "question": "Is window tint legal in Nevada?", "answer": "Yes, within limits. Film on your front side windows has to let through not less than 35 percent of light, with a 7 percent tolerance, counting the glass and the film together, and it has to be nonreflective. The windshield can only carry a strip across the very top, and that strip cannot be red or amber. Your back side windows and rear window can be tinted as long as the vehicle has outside mirrors on both sides that show at least 200 feet behind you. Source: Nevada Revised Statutes 484D.440." },
         { "question": "How long does it take?", "answer": "Most vehicles are done the same day. Most chips are repaired the same day too." },
         { "question": "Is there a warranty?", "answer": "Yes. Lifetime manufacturer warranty on the window film." },

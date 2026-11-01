@@ -37,8 +37,12 @@
 {%- set noindex = noindex or robots_noindex -%}
 {%- set fr = frame[slug] or {} -%}
 {%- set m = (pages[page_key].meta if (page_key and pages[page_key] and pages[page_key].meta) else {}) -%}
-{%- set metaTitle = m.title or meta_title or site.name_html -%}
-{%- set metaDesc = m.description or meta_description or "" -%}
+{#- Price-list switch (peak pass 2026-10-31, technical FA5): a page may carry title_no_price,
+    description_no_price and image_alt_no_price beside the originals; they print while no price can
+    show anywhere on the site (anyPublishedPrice, lib/pricing.js). Only /prices uses them. -#}
+{%- set metaTitle = (m.title_no_price if (m.title_no_price and not anyPublishedPrice) else m.title) or meta_title or site.name_html -%}
+{%- set metaDesc = (m.description_no_price if (m.description_no_price and not anyPublishedPrice) else m.description) or meta_description or "" -%}
+{%- set metaAlt = m.image_alt_no_price if (m.image_alt_no_price and not anyPublishedPrice) else m.image_alt -%}
 {#- canonical path: the same function the sitemap uses (lib/filters.js canonicalPath), so the two cannot disagree -#}
 {%- set url = site.origin + (page.url | canonicalPath) -%}
 {%- set heroMode = "photo" if (hero and hero.mode == "photo" and hero.image) else ("storefront" if (hero and hero.mode == "storefront" and hero.image) else "ramp") -%}
@@ -54,7 +58,7 @@
 {%- set ogImg = ogShare.path if useShare else og_image -%}
 {%- set ogW = ogShare.width if useShare else og_image_width -%}
 {%- set ogH = ogShare.height if useShare else og_image_height -%}
-{%- set ogAlt = ogShare.alt if useShare else m.image_alt -%}
+{%- set ogAlt = ogShare.alt if useShare else metaAlt -%}
 <!DOCTYPE html>
 <html lang="en" data-price-mode="{{ price_mode }}">
 <head>

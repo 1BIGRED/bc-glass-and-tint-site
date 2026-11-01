@@ -53,7 +53,7 @@
       "front": { "label": "Front doors", "key": "front-doors", "legal": "Nevada's line for front doors: at least 35 percent of light, with a 7 percent tolerance, nonreflective. NRS 484D.440.", "dark": "Darker than Nevada allows on front doors for driving (35 percent, NRS 484D.440). For a medical exemption or show use." },
       "rear": { "label": "Rear doors", "key": "rear-doors", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." },
       "back": { "label": "Back glass", "key": "back-glass", "legal": "No darkness limit when both outside mirrors show at least 200 feet behind you. NRS 484D.440." },
-      "windshield": { "label": "Full windshield", "key": "windshield", "legal": "Nevada allows windshield tint only above the AS-1 line for driving. NRS 484D.440.", "dark": "Darker than Nevada allows on the windshield for driving (tint only above the AS-1 line, NRS 484D.440). For a medical exemption or show use." }
+      "windshield": { "label": "Full windshield", "key": "windshield", "legal": "Nevada allows film on the windshield only as a strip across the very top, never red or amber. NRS 484D.440.", "dark": "Darker than Nevada allows on the windshield for driving (film only as a strip across the very top, NRS 484D.440). For a medical exemption or show use." }
     },
     "dark_rule": "Front-door shades darker than 35 show the dark line on the row, in the result's rules list and in the summary (Chase 2026-10-31). The full windshield covers the top strip, so the strip add-on is switched off while the full windshield has film.",
     "strip_label": "Windshield top strip",
@@ -117,8 +117,10 @@
   "noscript": {
     "heading": "What Nevada allows on each window",
     "intro": "This tool needs JavaScript to draw your build. Here are the rules it shows, and the full price list is one tap away.",
+    "intro_no_price": "This tool needs JavaScript to draw your build. Here are the rules it shows, and how pricing works is one tap away.",
     "columns": ["Window", "What Nevada allows"],
-    "prices_link": "See the price list"
+    "prices_link": "See the price list",
+    "prices_link_no_price": "How pricing works"
   },
   "legal_footer": "Illustration only. Rules can change; check the current statute. This is not legal advice. NRS 484D.440."
 }

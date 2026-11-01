@@ -9,7 +9,7 @@
     "A confirmed price can stay private: leave publish false and the public site keeps saying \"Call for a quote\".",
     "Unknown means amount, display, confirmed_by and confirmed_on are null. Never type a guess, a competitor's number, or a number for a vehicle the quote history does not cover. Never enter 0 to mean unknown.",
     "Draft prices are the LOWEST figure in the quote history for that vehicle class, shown as a \"From\" price. They came from pricing-reference.md, which the owner has not signed off. Each draft entry names its source and the rows behind it in basis.",
-    "legal_hold true means the entry must never render anywhere, public or preview, whatever its status. No entry carries it today: Chase ruled 2026-10-31 that the full windshield is offered (shades 70, 50 and 45, windshield_shades) with a legal note, since NRS 484D.440 allows windshield tint only above the AS-1 line for driving.",
+    "legal_hold true means the entry must never render anywhere, public or preview, whatever its status. No entry carries it today: Chase ruled 2026-10-31 that the full windshield is offered (shades 70, 50 and 45, windshield_shades) with a legal note, since NRS 484D.440 allows film on the windshield only as a strip across the topmost portion (never the AS-1 line: area-profile says it is not in the statute).",
     "Auto tint packages follow the quote history: \"Front doors\" (Front/Sides in the worksheet), \"Rear doors and back glass\" (Rear/Sides) and \"Full vehicle\" (side and back glass; the worksheet's full vehicle is front plus rear on every row and does NOT include the windshield or sunroof). The windshield top strip and the sunroof are separate lines.",
     "The Build Your Tint tool prices a build only when the windows picked can be covered exactly by packages and separate lines that are allowed to show. If any window cannot be priced, it shows \"Call for a quote\" instead of a partial total.",
     "film_tiers and shades_installed are empty until the owner names the film lines and lists the shades the shop stocks. Until shades_installed has values, the tool shows example_shades with the label \"Example shades; the shop confirms what it stocks\".",
@@ -225,7 +225,7 @@
       "display": "From $200",
       "source": "pricing-reference.md (quote history, unsigned)",
       "basis": "Windshield column, lowest figure: Model Y, Bronco, Bronco Sport, Sierra 1500, Traverse, RX 350, F-150, Outback, Accord $200 (Corvette, Colorado, Sierra 2500-4500, F-250 to F-450 $250)",
-      "legal_note": "Chase ruled 2026-10-31 (\"we do windshields up to 45%\"): offered with the note that Nevada allows windshield tint only above the AS-1 line for driving, so full windshield film is for a medical exemption or show use. Status stays draft until the owner signs the price.",
+      "legal_note": "Chase ruled 2026-10-31 (\"we do windshields up to 45%\"): offered with the note that Nevada allows film on the windshield only as a strip across the very top, so full windshield film is for a medical exemption or show use. Status stays draft until the owner signs the price.",
       "confirmed_by": null, "confirmed_on": null, "publish": false
     }
   }

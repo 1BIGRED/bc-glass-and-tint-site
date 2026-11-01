@@ -21,7 +21,7 @@
       <p>{{ site.address.display | safe }}<br>{{ pages.sections.talk.hours | safe }}<br><a class="tnum" href="tel:{{ site.phone.tel | safe }}">{{ site.phone.display_call | safe }}</a></p>
     </div>
     <nav class="ws5-footer__nav" aria-label="{{ F.nav_label | safe }}">
-      <ul class="list-plain">{% for l in F.main %}<li><a href="{{ l.href }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
+      <ul class="list-plain">{% for l in F.main %}<li><a href="{{ l.href }}">{{ (F.main_prices_plain if (l.href == "/prices" and F.main_prices_plain and not anyPublishedPrice) else l.label) | safe }}</a></li>{% endfor %}</ul>
       <ul class="list-plain">{% for l in F.more %}<li><a href="{{ l.href }}">{{ l.label | safe }}</a></li>{% endfor %}</ul>
       <div>
         <p class="t-eyebrow">{{ F.areas_heading | safe }}</p>

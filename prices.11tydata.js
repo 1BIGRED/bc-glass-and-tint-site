@@ -122,6 +122,11 @@ module.exports = {
       const pg = data.pages.prices;
       const pr = data.pricing || {};
       const url = S.pageUrl(data.slug);
+      // Breadcrumb and WebPage names follow the same price-list switch as the visible page (the
+      // _no_price wording prints while no price can show anywhere: lib/pricing.js anyPublishedPrice).
+      const anyPub = P.anyPublishedPrice(pr, MODE);
+      const crumb = anyPub ? pg.hero.crumb : (pg.hero.crumb_no_price || pg.hero.crumb);
+      const title = anyPub ? pg.meta.title : (pg.meta.title_no_price || pg.meta.title);
       // Offers only for prices the PUBLIC site shows (status confirmed AND publish true). This page
       // prints the same production numbers, so visible prices and markup match (blueprint 6.1).
       const offers = [];
@@ -154,12 +159,12 @@ module.exports = {
         offers
       } : null;
       return S.graph([
-        S.breadcrumbNode({ slug: data.slug, name: S.plain(fill(pg.hero.crumb)) }),
+        S.breadcrumbNode({ slug: data.slug, name: S.plain(fill(crumb)) }),
         S.businessNode(data.site),
         service,
         S.faqPageNode(faqItems(data), { slug: data.slug }),
         S.websiteNode(data.site),
-        S.webpageNode({ slug: data.slug, name: S.plain(fill(pg.meta.title)), dateModified: pg.schema.date_modified })
+        S.webpageNode({ slug: data.slug, name: S.plain(fill(title)), dateModified: pg.schema.date_modified })
       ]);
     }
   }

@@ -22,6 +22,7 @@
     "prices": {
       "eyebrow": "Price",
       "h2": "Starting prices.",
+      "h2_no_price": "How your price is set.",
       "lede": "Pick your vehicle type. We confirm the exact price before anything is booked.",
       "car": true,
       "car_rows": [
@@ -69,7 +70,7 @@
       "h2": "Worth asking about.",
       "items": [
         { "title": "Windshield top strip", "text": "Cuts glare at the visor line. Nevada allows film on the top strip of the windshield only." },
-        { "title": "Sunroof", "text": "Ask when you book. It is priced separately from the side and back glass; its line is in the price list above." },
+        { "title": "Sunroof", "text": "Ask when you book. It is priced separately from the side and back glass; its line is in the price list above.", "text_no_price": "Ask when you book. It is priced separately from the side and back glass." },
         { "title": "Headlight restoration", "text": "Clearer, better-looking lenses.", "link": "Headlights and taillights", "href": "/headlight-taillight" }
       ]
     },

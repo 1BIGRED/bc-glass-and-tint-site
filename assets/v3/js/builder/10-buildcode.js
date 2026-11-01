@@ -59,7 +59,7 @@
     windshield: "Full windshield",
     front_dark: "Darker than Nevada allows on front doors for driving (35 percent, NRS 484D.440). For a medical exemption or show use.",
     // every full windshield shade carries this note (Chase 2026-10-31; peak 10-31 W3); the top strip never does
-    windshield_dark: "Darker than Nevada allows on the windshield for driving (tint only above the AS-1 line, NRS 484D.440). For a medical exemption or show use.",
+    windshield_dark: "Darker than Nevada allows on the windshield for driving (film only as a strip across the very top, NRS 484D.440). For a medical exemption or show use.",
     rear_back: "Rear doors and back glass",
     unset: "shade to pick",
     picked: "shade picked",

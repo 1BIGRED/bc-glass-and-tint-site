@@ -253,6 +253,13 @@ module.exports = function (eleventyConfig) {
   // (only owner-confirmed, published prices). priceFor/quoteFor apply that one rule everywhere.
   const pricingLib = require("./lib/pricing");
   eleventyConfig.addGlobalData("price_mode", pricingLib.priceMode(process.env));
+  // anyPublishedPrice (peak pass 2026-10-31, technical FA5): true when any service has a price the gate
+  // above would print in this build's mode (preview counts drafts). Every "price list" label on the site
+  // switches on it, so a build with no owner-signed price says "How pricing works" instead. Read from
+  // _data/pricing.json each build and passed through lib/pricing.js; the rule itself is not repeated here.
+  eleventyConfig.addGlobalData("anyPublishedPrice", () =>
+    pricingLib.anyPublishedPrice(JSON.parse(fs.readFileSync(path.join(__dirname, "_data", "pricing.json"), "utf8")), pricingLib.priceMode(process.env))
+  );
   // Context gating (WS1, engineering 3.5 and 3.6). `noindex` is true for BC_NOINDEX=1 (the staging
   // site) and for any Netlify CONTEXT that is set and is not "production" (deploy-preview,
   // branch-deploy, dev): such a build prints robots "noindex, nofollow", stubs GA4 and Clarity
@@ -268,6 +275,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("priceFor", (entry, mode) => pricingLib.priceFor(entry, mode));
   eleventyConfig.addFilter("quoteFor", (pricing, classId, panels, mode) => pricingLib.quoteFor(pricing, classId, panels, mode));
   eleventyConfig.addFilter("anyAutoPrice", (pricing, mode) => pricingLib.anyAutoPrice(pricing, mode));
+  eleventyConfig.addFilter("faqFor", (items, anyPub) => pricingLib.faqFor(items, anyPub));
 
   eleventyConfig.ignores.add("node_modules/**");
   eleventyConfig.ignores.add("_site/**");
