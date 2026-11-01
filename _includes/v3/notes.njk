@@ -1,0 +1,48 @@
+{#- Two quiet notes near the ask (peak pass 2026-10-31, psychology items 1 and 2). Import WITH CONTEXT:
+      {% import "v3/notes.njk" as n with context %}
+    Both read ONE shared data key each, so the words cannot drift between pages:
+      priceIncludes  pages.sections.car.includes   "What the price includes, and what is extra"
+      promise        pages.sections.promise        "If something is not right."
+    Plain text only: an eyebrow-size heading and body text in the muted ink. No gold, no button, no badge, no seal
+    (rule C2; the Call button stays the one loud thing). New wording is never typed in a template.
+
+    priceIncludes(opts)
+      price        true when a car tint price can print on the page (price mode); false prints covers_no_price.
+                   Pass: anyPrice (service pages, lanes), pr_has_auto (/prices), bt_has_price (builder).
+      skip_old_film  the old-film sentence is left out where the page prints "whether old tint has to come off
+                   first" in the line right beside the block (homepage lane, /auto-tint).
+      skip_confirm the "We confirm the exact price" sentence is left out where the same words already sit beside
+                   the block (/auto-tint lede, the builder's total note, /prices while no price shows).
+      tag          heading element, default h3 (sections have an h2 above).
+
+    promise(opts)
+      route_only   chip repair: the route sentence alone, no logo, remedy or warranty wording (a promise that a
+                   chip is repairable is banned, area-profile banned_claims).
+      skip_warranty  the film warranty line is left out where the same warranty is printed in the next line
+                   (the builder's request note).
+      tag          heading element, default h3; use "p" where no h2 precedes (the /book success panel).
+    The hours are the shop's own: {hours} in the key is filled from site.json hours.display (rqFill). -#}
+
+{% macro priceIncludes(opts) -%}
+{%- set o = opts or {} -%}
+{%- set I = pages.sections.car.includes -%}
+{%- set tag = o.tag or "h3" -%}
+{%- if I %}
+<div class="v3-note v3-note--incl{% if o.cls %} {{ o.cls }}{% endif %}" data-price-includes>
+  <{{ tag }} class="v3-note__h t-eyebrow">{{ I.heading | safe }}</{{ tag }}>
+  <p class="v3-note__p t-body fg-2 measure">{{ (I.covers if o.price else I.covers_no_price) | safe }} {{ I.own_line | safe }}{% if not o.skip_old_film %} {{ I.old_film | safe }}{% endif %}{% if not o.skip_confirm %} {{ I.confirm | safe }}{% endif %}</p>
+</div>
+{%- endif %}
+{%- endmacro %}
+
+{% macro promise(opts) -%}
+{%- set o = opts or {} -%}
+{%- set Pm = pages.sections.promise -%}
+{%- set tag = o.tag or "h3" -%}
+{%- if Pm %}
+<div class="v3-note v3-note--promise{% if o.cls %} {{ o.cls }}{% endif %}" data-promise{% if o.route_only %} data-promise-route{% endif %}>
+  <{{ tag }} class="v3-note__h t-eyebrow">{{ Pm.heading | safe }}</{{ tag }}>
+  <p class="v3-note__p t-body fg-2 measure">{% if o.route_only %}{{ Pm.route_only | rqFill(site) | safe }}{% else %}{{ Pm.logo | safe }} {{ Pm.route | rqFill(site) | safe }}{% if not o.skip_warranty %} {{ Pm.warranty | safe }}{% endif %}{% endif %}</p>
+</div>
+{%- endif %}
+{%- endmacro %}

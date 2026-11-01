@@ -15,6 +15,7 @@ bundles: ["builder"]
 ---
 {%- from "v3/actions.njk" import action with context -%}
 {%- from "v3/windows.njk" import vehicle -%}
+{%- import "v3/notes.njk" as n with context -%}
 {%- set pg = pages.build_your_tint -%}
 {%- set C = bt_config -%}
 {%- set steps = pg.steps.with_presets if C.presets.length else pg.steps.without_presets -%}
@@ -160,6 +161,8 @@ bundles: ["builder"]
           <p class="t-label fg-2">{{ pg.result.parts_label | safe }}</p>
           <dl class="bt-parts" data-bt-parts></dl>
         </div>
+        {#- Peak pass 2026-10-31 (psychology item 1): what the price includes and what is extra, under the list of what the total covers. Always printed (the list above only shows with a price). The "We confirm the exact price" sentence is left out: the total note right under the total says it. -#}
+        {{ n.priceIncludes({ price: bt_has_price, skip_confirm: true }) }}
         {#- Peak R1 (psychology 8): a fronts-only build gets a one-tap path to the whole vehicle. The
             button adds the rear doors and back glass at the front doors' shade (never preselected);
             the price line prints only when the fronts, rear and full prices all pass the gate and
@@ -193,6 +196,8 @@ bundles: ["builder"]
           <div class="bt-acts__primary" data-bt-primary>{{ action({ slot: "builder", service: "car", build: true }) }}</div>
         </div>
         <p class="t-label fg-2">{{ pg.result.request_note | safe }} {{ pg.result.warranty | safe }}</p>
+        {#- Peak pass 2026-10-31 (psychology item 2): the promise at the ask. The film warranty line is the one printed just above, so it is not repeated here. -#}
+        {{ n.promise({ skip_warranty: true }) }}
         <p class="vh" data-bt-live aria-live="polite" role="status"></p>
       </div>
     </div>

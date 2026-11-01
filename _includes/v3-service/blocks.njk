@@ -16,6 +16,7 @@
 {%- from "v3/media.njk" import picture -%}
 {%- from "v3/request.njk" import requestForm with context -%}
 {%- from "v3/blinds-art.njk" import blindArt -%}
+{%- import "v3/notes.njk" as n with context -%}
 {%- from "v3/stars.njk" import stars, starCount -%}
 
 {#- Eyebrow plus H2 (one heading system, art direction T2). -#}
@@ -273,6 +274,8 @@
       {{ carPrices(uid, [C.rows[0]], { no_arith: true }) }}
       {%- else %}
       {{ carPrices(uid) }}
+      {#- Peak pass 2026-10-31 (psychology item 1): what the price includes, on the full lane only. The moves line right below already names old tint, so the block leaves that sentence out. -#}
+      {{ n.priceIncludes({ price: anyPrice, skip_old_film: true }) }}
       {%- endif %}
       <p class="t-label fg-2 measure">{{ C.moves | safe }}</p>
       {#- Peak pass R2 (visual R1 item 15): one action row. The builder is a text link under the price

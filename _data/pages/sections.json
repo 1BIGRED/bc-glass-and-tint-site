@@ -43,6 +43,14 @@
     ],
     "arith": "Full sides and back is the front doors plus the rear doors and back glass: {front} plus {rear} is {full}.",
     "moves": "What moves the price: the size and shape of your glass, which windows, and whether old tint has to come off first.",
+    "includes": {
+      "heading": "What the price includes, and what is extra",
+      "covers": "Every car tint price is ceramic film, computer-cut for your glass, with a lifetime manufacturer warranty on the film.",
+      "covers_no_price": "All car tint is ceramic film, computer-cut for your glass, with a lifetime manufacturer warranty on the film.",
+      "own_line": "Priced on their own line: the windshield top strip and the sunroof.",
+      "old_film": "Old film that has to come off first adds to the price.",
+      "confirm": "We confirm the exact price before anything is booked."
+    },
     "build_link_price": "Build your tint and see the price",
     "build_link_plain": "Build your tint and see it on screen",
     "build_href": "/build-your-tint",
@@ -50,6 +58,14 @@
     "all_prices_plain": "How pricing works",
     "all_prices_href": "/prices",
     "review": "g-kristie-bergman"
+  },
+
+  "promise": {
+    "heading": "If something is not right.",
+    "logo": "Satisfaction guaranteed is written across our logo.",
+    "route": "If something about your install is not right, call or stop by the shop, {hours}.",
+    "warranty": "The window film carries a lifetime manufacturer warranty on the film.",
+    "route_only": "Call or stop by the shop, {hours}."
   },
 
   "shade": {

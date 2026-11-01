@@ -3613,6 +3613,17 @@ collections:
                   - { label: "Note", name: note, widget: string, required: false }
               - { label: "Arith", name: arith, widget: text, hint: "Words in braces, such as {google_count}, are filled in automatically. Leave them exactly as they are." }
               - { label: "Moves", name: moves, widget: text }
+              - label: "What the price includes"
+                name: includes
+                widget: object
+                hint: "The short block under every car price: the homepage car section, the Prices page, Build Your Tint and the car tint page. One set of words, so the pages cannot disagree."
+                fields:
+                  - { label: "Heading", name: heading, widget: string }
+                  - { label: "What every price covers", name: covers, widget: text, hint: "Printed when a car price shows. Only say what is true of every car tint job." }
+                  - { label: "What every car tint covers, when no price shows", name: covers_no_price, widget: text, hint: "Printed instead of the line above while no car price is posted on the site." }
+                  - { label: "What is priced on its own line", name: own_line, widget: string }
+                  - { label: "Old film", name: old_film, widget: string }
+                  - { label: "Exact price confirmed", name: confirm, widget: string }
               - { label: "Build link price", name: build_link_price, widget: string }
               - { label: "Build link plain", name: build_link_plain, widget: string }
               - { label: "Build href", name: build_href, widget: string, hint: "Technical. Ask the studio before changing." }
@@ -3620,6 +3631,16 @@ collections:
               - { label: "All prices, when no price shows", name: all_prices_plain, widget: string, hint: "Printed on service pages instead of All prices while no price can show anywhere on the site." }
               - { label: "All prices href", name: all_prices_href, widget: string, hint: "Technical. Ask the studio before changing." }
               - { label: "Review id (studio only)", name: review, widget: string, hint: "Technical. Ask the studio before changing." }
+          - label: "If something is not right"
+            name: promise
+            widget: object
+            hint: "The short promise next to the booking buttons on Prices, Build Your Tint, the car and home tint pages and after a request is sent. The chip repair pages use only the last line, and it must never promise a repair or a fix. Write {hours} where the hours go; they are filled in from Business Info & Review Counts."
+            fields:
+              - { label: "Heading", name: heading, widget: string }
+              - { label: "Logo line", name: logo, widget: string }
+              - { label: "How to reach the shop", name: route, widget: string, hint: "Keep {hours} exactly as it is." }
+              - { label: "Film warranty line", name: warranty, widget: string }
+              - { label: "How to reach the shop (chip repair pages)", name: route_only, widget: string, hint: "Keep {hours} exactly as it is. No promise about repairs here." }
           - label: "Shade"
             name: shade
             widget: object

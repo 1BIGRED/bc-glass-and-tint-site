@@ -94,3 +94,34 @@ Run both before every deploy. Neither one changes a file.
 Anything a customer or the office can read (page wording, CMS labels and hints, this file) has no
 em dashes, no en dashes, no double hyphens and no emojis. Windshield replacement is subcontracted:
 never write that the shop does that labor.
+
+## Images referenced from outside the site (do not remove)
+
+Checked 2026-10-31 against the client folders 12 Reports and Handoffs, 07 Social Posts and Ad Art,
+08 Signage and Print, 16 Paid Ads and 11 Audits and SEO. One line per file: name, who links it.
+
+### Linked by a live deliverable
+
+- images/hero.jpg : the owner-approved past-customer thank-you emails (Google Apps Script
+  Past-Customer-Emails.gs, line 6, https://bcglassandtint.com/images/hero.jpg). Removing it breaks
+  those emails.
+- logo-hero.png (site root, not in images/) : the same emails (same script, line 7,
+  https://bcglassandtint.com/logo-hero.png). Listed here so nobody moves it.
+
+### Named only in dated audit and implementation records (no live link found), kept out of caution
+
+These are the pre-v3 site's page and share images as recorded in the July 2026 reach-program logs
+(11 Audits and SEO). Nothing found in the five folders hotlinks them today. Safe to remove later
+once the owner confirms no old post, ad or citation points at them.
+
+- images/auto-tint-f150-rear.jpg and .webp : reach-program implementation logs and audits.
+- images/blinds.jpg : reach-program fix design and implementation log.
+- images/ceramic.jpg : reach-program fix design and implementation log.
+- images/chip-repair.jpg and .webp : reach-program logs; the Paid Ads creative shortlist mentions the jpg and its webp twin.
+- images/clearbra.jpg : reach-program fix design and implementation log.
+- images/commercial.jpg : reach-program fix design and implementation log.
+- images/hero.webp : reach-program audit, holiday-2026 image judging notes (twin of hero.jpg).
+- images/residential-before-after-patio.jpg and .webp : reach-program logs and audits.
+- images/windshield.jpg : reach-program fix design and implementation log.
+
+This list lived in images/ until 2026-10-31; it moved here because everything in images/ is copied to the public site.

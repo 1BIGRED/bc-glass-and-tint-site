@@ -15,6 +15,7 @@ bundles: ["prices"]
 {%- import "v3-service/blocks.njk" as b with context -%}
 {%- from "v3/price.njk" import priceRow, priceValue with context -%}
 {%- from "v3/windows.njk" import windows, vehicle -%}
+{%- import "v3/notes.njk" as n with context -%}
 {%- set pg = pages.prices -%}
 {%- set sc = pg.sections.car -%}
 {%- set sh = pg.sections.home -%}
@@ -91,6 +92,8 @@ bundles: ["prices"]
       </dl>
       <p class="t-body fg-2 measure">{{ sc.no_prices_note | safe }}</p>
 {%- endif %}
+      {#- Peak pass 2026-10-31 (psychology item 1): the BUILD NOW block under the table. It carries the top strip and sunroof sentence the footnote used to carry, so the footnote no longer repeats it. With no price in the table the "We confirm the exact price" sentence is left out: no_prices_note above already says it. -#}
+      {{ n.priceIncludes({ price: pr_car.any_shown, skip_confirm: not pr_car.any_shown }) }}
       <p class="t-label fg-2 measure">{{ sc.footnote | safe }}</p>
       <div class="pr-moves">
         <h3 class="t-label pr-moves__h">{{ sc.moves_heading | safe }}</h3>
@@ -105,6 +108,7 @@ bundles: ["prices"]
       <div class="pr-acts">
         {{ action({ slot: "price", service: "car" }) }}
       </div>
+      {{ n.promise() }}
 {%- if pr_reviewed %}
       <p class="t-label fg-2">{{ pr_reviewed }}</p>
 {%- endif %}
@@ -137,6 +141,7 @@ bundles: ["prices"]
         </ul>
       </div>
       <div class="pr-acts">{{ action({ slot: "price", service: "home" }) }}</div>
+      {{ n.promise() }}
 {%- if pr_reviewed %}
       <p class="t-label fg-2">{{ pr_reviewed }}</p>
 {%- endif %}
@@ -168,6 +173,7 @@ bundles: ["prices"]
         </ul>
       </div>
       <div class="pr-acts">{{ action({ slot: "price", service: "chip" }) }}</div>
+      {{ n.promise({ route_only: true }) }}
 {%- if pr_reviewed %}
       <p class="t-label fg-2">{{ pr_reviewed }}</p>
 {%- endif %}

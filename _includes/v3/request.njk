@@ -32,6 +32,7 @@
       [data-rq-build-note]               shown when a valid ?b= code was applied
     Success wording, hours and phone are all printed here; the script only unhides and fills.
     No-JS: the form posts natively to /book/sent/ (a real page); Netlify records the submission. -#}
+{%- import "v3/notes.njk" as n with context -%}
 {% macro requestForm(opts) -%}
 {%- set o = opts or {} -%}
 {%- set id = o.id or "rq" -%}
@@ -144,5 +145,9 @@
   </dl>
   <p class="rq-ref-note t-label" data-rq-ref-note hidden>{{ sx.ref_note | safe }}</p>
   <p class="t-body">{{ sx.talk | rqFill(site) | safe }}</p>
+  {#- Peak pass 2026-10-31 (psychology item 2): the promise, from the one shared key, on the /book success panel only (opts.promise, passed by book.njk). The same form sits in the contact block of every page, chip repair and windshield included, and those pages must carry no remedy or warranty wording; the panel there stays as it was. A paragraph heading: no h2 sits above this panel. -#}
+  {%- if o.promise %}
+  {{ n.promise({ tag: "p" }) }}
+  {%- endif %}
 </div>
 {%- endmacro %}

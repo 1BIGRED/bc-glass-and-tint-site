@@ -796,3 +796,13 @@ html:not(.js) [data-js-only] { display: none !important; }
 .v3-prow--win .v3-price > .t-price,
 .v3-prow--win .v3-price__from { white-space: nowrap; }
 .v3-prow--win .v3-price__draft { display: block; width: max-content; margin: var(--sp-4) 0 0 auto; }
+
+/* ---------- Quiet notes near the ask (peak pass 2026-10-31): "What the price includes, and what is extra" and
+   "If something is not right." An eyebrow-size heading and muted body text. No gold, no button, no badge
+   (rule C2); the Call button stays the one loud thing. Markup: _includes/v3/notes.njk. ---------- */
+.v3-note { margin-top: var(--sp-16); }
+.v3-note__h { margin: 0 0 var(--sp-4); }
+.v3-note__p { margin: 0; }
+.v3-note--promise { margin-top: var(--sp-24); }
+.v3-note + .v3-note { margin-top: var(--sp-24); }
+.v3-note + .t-label { margin-top: var(--sp-16); }
